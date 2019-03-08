@@ -1,0 +1,71 @@
+<div [@routerTransition]>
+        <button mat-raised-button (click)="loadData()">Refresh</button>
+
+        <mat-accordion>
+                <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                        More...
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                        Select The Time Range
+                                </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                                        <mat-button-toggle value="bold">Today</mat-button-toggle>
+                                        <mat-button-toggle value="italic">Last Week</mat-button-toggle>
+                                        <mat-button-toggle value="underline">Last Month</mat-button-toggle>
+                                        <mat-button-toggle value="underline">All</mat-button-toggle>
+
+                                </mat-button-toggle-group>
+                        </div>
+                        <div class="row">
+                                From
+                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                        max="100000"></mat-slider>
+                        </div>
+                        <div class="row">
+                                Until
+                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                        max="100000"></mat-slider>
+                        </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                        More...
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                        Select on criterias
+                                </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                                Speed
+                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                        max="100000"></mat-slider>
+
+                        </div>
+                        <div class="row">
+                                Heel Angle
+                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                        max="100000"></mat-slider>
+                        </div>
+                </mat-expansion-panel>
+        </mat-accordion>
+        <div *ngIf="isloading"> loading .... </div>
+        <div *ngIf="!isloading">
+                <div class="virtual-scroll">
+                        <cdk-virtual-scroll-viewport  itemSize="5" class="example-viewport">
+                                <div *cdkVirtualFor="let group of records.groups" class="example-item">
+                                        ID: {{group[0].GroupID}} <br/> 
+                                        Baro: {{group[0].nmea_d_baro_d}}
+                                        <div *ngFor="let record of group" class="example-item">
+                                                <div *ngIf="record.filename_i_file">
+                                                        <img class="preview" src="assets/images/{{record.filename_i_file}}"></div>
+                                                </div>
+                                </div>
+                        </cdk-virtual-scroll-viewport>
+                </div>
+        </div>
+</div>

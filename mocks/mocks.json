@@ -1,0 +1,4042 @@
+{
+  "RecapProgressStatus": {
+    "RecapProgressStatus": -1
+  },
+  "search": {
+    "groups": [
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880586.mp4",
+          "id": "Cam111478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880586.mp4",
+          "id": "Cam121478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880586.mp4",
+          "id": "Cam131478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880586.mp3",
+          "id": "Ambiance1478880586",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "14.7",
+          "nmea_d_groundspeed_d": "14.7",
+          "nmea_d_heel_d": "9.0",
+          "nmea_d_rwa_d": "230.54",
+          "nmea_d_rws_d": "17.7",
+          "nmea_d_trim_d": "-8.4",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "14.70",
+          "nmea_s_bgt": "228.63",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.80",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "230.54",
+          "nmea_s_rws": "17.70",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        }
+      ],
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880586.mp4",
+          "id": "Cam111478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880586.mp4",
+          "id": "Cam121478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880586.mp4",
+          "id": "Cam131478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880586.mp3",
+          "id": "Ambiance1478880586",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "14.7",
+          "nmea_d_groundspeed_d": "14.7",
+          "nmea_d_heel_d": "9.0",
+          "nmea_d_rwa_d": "230.54",
+          "nmea_d_rws_d": "17.7",
+          "nmea_d_trim_d": "-8.4",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "14.70",
+          "nmea_s_bgt": "228.63",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.80",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "230.54",
+          "nmea_s_rws": "17.70",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        }
+      ],
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880586.mp4",
+          "id": "Cam111478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880586.mp4",
+          "id": "Cam121478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880586.mp4",
+          "id": "Cam131478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880586.mp3",
+          "id": "Ambiance1478880586",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "14.7",
+          "nmea_d_groundspeed_d": "14.7",
+          "nmea_d_heel_d": "9.0",
+          "nmea_d_rwa_d": "230.54",
+          "nmea_d_rws_d": "17.7",
+          "nmea_d_trim_d": "-8.4",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "14.70",
+          "nmea_s_bgt": "228.63",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.80",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "230.54",
+          "nmea_s_rws": "17.70",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        }
+      ],
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880586.mp4",
+          "id": "Cam111478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880586.mp4",
+          "id": "Cam121478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880586.mp4",
+          "id": "Cam131478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880586.mp3",
+          "id": "Ambiance1478880586",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "14.7",
+          "nmea_d_groundspeed_d": "14.7",
+          "nmea_d_heel_d": "9.0",
+          "nmea_d_rwa_d": "230.54",
+          "nmea_d_rws_d": "17.7",
+          "nmea_d_trim_d": "-8.4",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "14.70",
+          "nmea_s_bgt": "228.63",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.80",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "230.54",
+          "nmea_s_rws": "17.70",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        }
+      ],
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880586.mp4",
+          "id": "Cam111478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880586.mp4",
+          "id": "Cam121478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880586.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880586.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880586.mp4",
+          "id": "Cam131478880586",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "15.82",
+          "nmea_d_groundspeed_d": "15.82",
+          "nmea_d_heel_d": "7.0",
+          "nmea_d_rwa_d": "285.01",
+          "nmea_d_rws_d": "14.19",
+          "nmea_d_trim_d": "-6.2",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "15.82",
+          "nmea_s_bgt": "224.36",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "11.90",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "285.01",
+          "nmea_s_rws": "14.19",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880586",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880586",
+          "end_time": "2016-11-11T16:10:46Z",
+          "end_time_data": "1478880646",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880586.mp3",
+          "id": "Ambiance1478880586",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "14.7",
+          "nmea_d_groundspeed_d": "14.7",
+          "nmea_d_heel_d": "9.0",
+          "nmea_d_rwa_d": "230.54",
+          "nmea_d_rws_d": "17.7",
+          "nmea_d_trim_d": "-8.4",
+          "nmea_d_twa_d": "212.29",
+          "nmea_d_tws_d": "23.9",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "14.70",
+          "nmea_s_bgt": "228.63",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.80",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "230.54",
+          "nmea_s_rws": "17.70",
+          "nmea_s_tcd": "7567.12",
+          "nmea_s_twa_d": "212.29",
+          "nmea_s_tws_d": "23.9",
+          "start_time": "2016-11-11T16:09:46Z",
+          "start_time_data": "1478880586",
+          "type": "autorecord"
+        }
+      ],
+      [
+        {
+          "Channel": "Cam11",
+          "Duration": "60",
+          "GroupID": "1478880527",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam111478880527",
+          "end_time": "2016-11-11T16:09:47Z",
+          "end_time_data": "1478880587",
+          "filename_i_file": "snapshots/streamrecords/Cam111478880527.png",
+          "filename_m_file": "vault/streamrecords/Cam111478880527.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam111478880527.mp4",
+          "id": "Cam111478880527",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "10.27",
+          "nmea_d_groundspeed_d": "10.27",
+          "nmea_d_heel_d": "6.0",
+          "nmea_d_rwa_d": "226.93",
+          "nmea_d_rws_d": "17.12",
+          "nmea_d_trim_d": "-3.6",
+          "nmea_d_twa_d": "211.24",
+          "nmea_d_tws_d": "23.96",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "10.27",
+          "nmea_s_bgt": "231.61",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.50",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "226.93",
+          "nmea_s_rws": "17.12",
+          "nmea_s_tcd": "7566.96",
+          "nmea_s_twa_d": "211.24",
+          "nmea_s_tws_d": "23.96",
+          "start_time": "2016-11-11T16:08:47Z",
+          "start_time_data": "1478880527",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam12",
+          "Duration": "60",
+          "GroupID": "1478880527",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam121478880527",
+          "end_time": "2016-11-11T16:09:47Z",
+          "end_time_data": "1478880587",
+          "filename_i_file": "snapshots/streamrecords/Cam121478880527.png",
+          "filename_m_file": "vault/streamrecords/Cam121478880527.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam121478880527.mp4",
+          "id": "Cam121478880527",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "10.27",
+          "nmea_d_groundspeed_d": "10.27",
+          "nmea_d_heel_d": "6.0",
+          "nmea_d_rwa_d": "226.93",
+          "nmea_d_rws_d": "17.12",
+          "nmea_d_trim_d": "-3.6",
+          "nmea_d_twa_d": "211.24",
+          "nmea_d_tws_d": "23.96",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "10.27",
+          "nmea_s_bgt": "231.61",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.50",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "226.93",
+          "nmea_s_rws": "17.12",
+          "nmea_s_tcd": "7566.96",
+          "nmea_s_twa_d": "211.24",
+          "nmea_s_tws_d": "23.96",
+          "start_time": "2016-11-11T16:08:47Z",
+          "start_time_data": "1478880527",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Cam13",
+          "Duration": "60",
+          "GroupID": "1478880527",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Cam131478880527",
+          "end_time": "2016-11-11T16:09:47Z",
+          "end_time_data": "1478880587",
+          "filename_i_file": "snapshots/streamrecords/Cam131478880527.png",
+          "filename_m_file": "vault/streamrecords/Cam131478880527.mp4",
+          "filename_p_file": "proxy/streamrecords/Cam131478880527.mp4",
+          "id": "Cam131478880527",
+          "mime": "video/mp4",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "10.27",
+          "nmea_d_groundspeed_d": "10.27",
+          "nmea_d_heel_d": "6.0",
+          "nmea_d_rwa_d": "226.93",
+          "nmea_d_rws_d": "17.12",
+          "nmea_d_trim_d": "-3.6",
+          "nmea_d_twa_d": "211.24",
+          "nmea_d_tws_d": "23.96",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "10.27",
+          "nmea_s_bgt": "231.61",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.50",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "226.93",
+          "nmea_s_rws": "17.12",
+          "nmea_s_tcd": "7566.96",
+          "nmea_s_twa_d": "211.24",
+          "nmea_s_tws_d": "23.96",
+          "start_time": "2016-11-11T16:08:47Z",
+          "start_time_data": "1478880527",
+          "type": "autorecord"
+        },
+        {
+          "Channel": "Ambiance",
+          "Duration": "60",
+          "GroupID": "1478880527",
+          "History": "archived",
+          "Project": "Testing Session",
+          "State": "archived",
+          "Title": "Ambiance1478880527",
+          "end_time": "2016-11-11T16:09:47Z",
+          "end_time_data": "1478880587",
+          "filename_m_file": "vault/streamrecords/Ambiance1478880527.mp3",
+          "id": "Ambiance1478880527",
+          "mime": "audio/mpeg",
+          "nmea_d_baro_d": "1.03",
+          "nmea_d_bgs_d": "10.63",
+          "nmea_d_groundspeed_d": "10.63",
+          "nmea_d_heel_d": "4.0",
+          "nmea_d_rwa_d": "227.41",
+          "nmea_d_rws_d": "17.17",
+          "nmea_d_trim_d": "-3.9",
+          "nmea_d_twa_d": "211.24",
+          "nmea_d_tws_d": "23.96",
+          "nmea_loc_boatspatialpos": "27.8845,21.2154",
+          "nmea_s_bgs": "10.63",
+          "nmea_s_bgt": "230.87",
+          "nmea_s_bla": "N27.8845",
+          "nmea_s_blo": "W21.2154",
+          "nmea_s_boatpos": "27.8845,-21.2154",
+          "nmea_s_bss": "10.50",
+          "nmea_s_dsr": "0.00",
+          "nmea_s_rwa": "227.41",
+          "nmea_s_rws": "17.17",
+          "nmea_s_tcd": "7566.96",
+          "nmea_s_twa_d": "211.24",
+          "nmea_s_tws_d": "23.96",
+          "start_time": "2016-11-11T16:08:47Z",
+          "start_time_data": "1478880527",
+          "type": "autorecord"
+        }
+      ]
+    ],
+    "docCount": 8,
+    "groupCount": 2
+  },
+  "data": [
+    {
+      "id": "bgs_d",
+      "value": "5.32"
+    },
+    {
+      "id": "bgt_d",
+      "value": "152.00"
+    },
+    {
+      "id": "bla",
+      "value": "N43.09.56.820"
+    },
+    {
+      "id": "blo",
+      "value": "E005.05.00.000"
+    },
+    {
+      "id": "bss_d",
+      "value": "5.32"
+    },
+    {
+      "id": "bst_d",
+      "value": "152.00"
+    },
+    {
+      "id": "dsr_d",
+      "value": "0.05"
+    },
+    {
+      "id": "gpsDate",
+      "value": "60219.00"
+    },
+    {
+      "id": "gpsTime",
+      "value": "143321.00"
+    },
+    {
+      "id": "rwa_d",
+      "value": "209.30"
+    },
+    {
+      "id": "rws_d",
+      "value": "10.10"
+    },
+    {
+      "id": "tcd_d",
+      "value": "0.10"
+    },
+    {
+      "id": "twa_d",
+      "value": "199.30"
+    },
+    {
+      "id": "tws_d",
+      "value": "14.97"
+    }
+  ],
+  "parameters": [
+    {
+      "displayGroup": "Automatic Update",
+      "bundleName": "com.pro.verto.update",
+      "props": {
+        "advanced": [
+          {
+            "name": "RESTART_COMMAND_LINE",
+            "value": "reboot",
+            "group": "Automatic Update",
+            "subGroup": "advanced",
+            "displayName": "Action after update",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LOCAL_REPOSITORY_LOC",
+            "value": "./updaterepository/repository.zip",
+            "group": "Automatic Update",
+            "subGroup": "advanced",
+            "displayName": "Path to a local binaries repository contained in a zipped file",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "REPOSITORY_LOC",
+            "value": "http://p2.bepeho.com/oceanrecorder/oceanrecorder-1.3.65-SNAPSHOT/",
+            "group": "Automatic Update",
+            "subGroup": "advanced",
+            "displayName": "Remote binaries repository",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Data On Video",
+      "bundleName": "com.pro.etl.extract.nmea",
+      "props": {
+        "general": [
+          {
+            "name": "NMEA_TEMP_DATA",
+            "value": "./data/bdov",
+            "group": "Data On Video",
+            "subGroup": "general",
+            "displayName": "Boat data on video working folder",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "NMEA_DEFAULT_MESSAGE",
+            "value": "Powered by {*}Bepeho",
+            "group": "Data On Video",
+            "subGroup": "general",
+            "displayName": "Default Message",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "DataBase",
+      "bundleName": "com.pro.etl.load.lucene",
+      "props": {
+        "advanced": [
+          {
+            "name": "LUCENE_FILE_PATH",
+            "value": "./data/pro.lucene",
+            "group": "DataBase",
+            "subGroup": "advanced",
+            "displayName": "DataBase Folder (Restart Required)",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "FTP Transfer",
+      "bundleName": "com.pro.Ftptransfercontroler",
+      "props": {
+        "advanced": [
+          {
+            "name": "COMPRESSION_CMDLINE",
+            "value": " -i %1$s -vcodec libx264 -crf 23 %2$s",
+            "group": "FTP Transfer",
+            "subGroup": "advanced",
+            "displayName": "Compression Parameter Before Upload",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MAX_TRANSFERS_ATTEMPTS",
+            "value": "10",
+            "group": "FTP Transfer",
+            "subGroup": "advanced",
+            "displayName": "Give up the file transfer after this number of attempts",
+            "type": "int"
+          },
+          {
+            "name": "OUTPUT_EXTENTION",
+            "value": ".mp4",
+            "group": "FTP Transfer",
+            "subGroup": "advanced",
+            "displayName": "Output video file extention",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "SLEEP_TIME_DURING_TWO_FILE_TRANSFER_ATTEMPTS",
+            "value": "10",
+            "group": "FTP Transfer",
+            "subGroup": "advanced",
+            "displayName": "Wait for this number of seconds before a new transfer attempt",
+            "type": "int"
+          }
+        ],
+        "general": [
+          {
+            "name": "PORT",
+            "value": "21",
+            "group": "FTP Transfer",
+            "subGroup": "general",
+            "displayName": "Ftp Port",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "SERVER",
+            "value": "ftp.bepeho.com",
+            "group": "FTP Transfer",
+            "subGroup": "general",
+            "displayName": "Ftp Server",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LOGIN_USER",
+            "value": "",
+            "group": "FTP Transfer",
+            "subGroup": "general",
+            "displayName": "Ftp User Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LOGIN_PASS",
+            "value": "",
+            "group": "FTP Transfer",
+            "subGroup": "general",
+            "displayName": "Ftp User Password",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "SATELLITE_COST",
+            "value": "",
+            "group": "FTP Transfer",
+            "subGroup": "general",
+            "displayName": "Price of a Minute of satellite data transfer",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "File Cleaner",
+      "bundleName": "com.pro.etl.cleaner",
+      "props": {
+        "advanced": [
+          {
+            "name": "CLEANUP_FREQ",
+            "value": "0 0/1 * 1/1 * ? *",
+            "group": "File Cleaner",
+            "subGroup": "advanced",
+            "displayName": "Cron Syntax Period",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "TYPE",
+            "value": "autorecord",
+            "group": "File Cleaner",
+            "subGroup": "advanced",
+            "displayName": "Delete Items Recorded As ",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STATE",
+            "value": "recorded",
+            "group": "File Cleaner",
+            "subGroup": "advanced",
+            "displayName": "Delete Records With The State",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LIMIT_AGE_MINUTES",
+            "value": "10",
+            "group": "File Cleaner",
+            "subGroup": "advanced",
+            "displayName": "Maximum Age Of A File (mn)",
+            "type": "java.lang.String"
+          }
+        ],
+        "general": [
+          {
+            "name": "FILE_SYSTEM_MIN_SPACE_LEFT_PERCENTAGE",
+            "value": "10",
+            "group": "File Cleaner",
+            "subGroup": "general",
+            "displayName": "Start Cleanup When The Volume Left Space Is Under This Percentage (%)",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "HTTP Server",
+      "bundleName": "com.pro.servlets",
+      "props": {
+        "advanced": [
+          {
+            "name": "DEFAULT_PAGE",
+            "value": "/dashboard.html",
+            "group": "HTTP Server",
+            "subGroup": "advanced",
+            "displayName": "Default Home Page",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "REDIRECT_TARGET",
+            "value": "http://localhost:8094",
+            "group": "HTTP Server",
+            "subGroup": "advanced",
+            "displayName": "Microphone Server",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Importer",
+      "bundleName": "com.pro.etl.extract.watchfolder",
+      "props": {
+        "advanced": [
+          {
+            "name": "FILEMSG",
+            "value": "./conf/oceanwatchfolder_newfile_pattern.xml",
+            "group": "Importer",
+            "subGroup": "advanced",
+            "displayName": "Configuration File",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "EXTENTIONS",
+            "value": "MP4,MTS,MOV,VTT",
+            "group": "Importer",
+            "subGroup": "advanced",
+            "displayName": "File extentions to import",
+            "type": "java.lang.String"
+          }
+        ],
+        "general": [
+          {
+            "name": "WATCHFOLDERPATH",
+            "value": "./media/watchfolder",
+            "group": "Importer",
+            "subGroup": "general",
+            "displayName": "Import folder",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "REMOVE_AFTER_DETECTION",
+            "value": "true",
+            "group": "Importer",
+            "subGroup": "general",
+            "displayName": "Remove files after the import",
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "License",
+      "bundleName": "com.pro.etl.license",
+      "props": {
+        "advanced": [
+          {
+            "name": "ORDER_YOUR_LICENSE_MESSAGE",
+            "value": "This computer does not match the installed license Unique ID. Please request your own license to support@bepeho.com with this information: machine-id=%s",
+            "group": "License",
+            "subGroup": "advanced",
+            "displayName": "Incorrect Licence File Message",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LICENSE_KEY_FILE",
+            "value": "./license/license.lic",
+            "group": "License",
+            "subGroup": "advanced",
+            "displayName": "License File",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "NO_LICENSE_MESSAGE",
+            "value": "No license file found. Please request your license to support@bepeho.com with this information: machine-id=%s",
+            "group": "License",
+            "subGroup": "advanced",
+            "displayName": "No Licence File Message",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "NMEA Acquisition Ports",
+      "bundleName": "com.pro.serial",
+      "props": {
+        "advanced": [
+          {
+            "name": "STARTUP_SERIAL",
+            "value": "true",
+            "group": "NMEA Acquisition Ports",
+            "subGroup": "advanced",
+            "displayName": "Should Use Serial NMEA Input?",
+            "type": "boolean"
+          },
+          {
+            "name": "STARTUP_COMM_CONF_STR",
+            "value": "",
+            "group": "Acqusition Ports",
+            "subGroup": "advanced",
+            "displayName": "Startup port configuration. Leave blanck for an automatic scan.",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "NMEA Data Management",
+      "bundleName": "com.capcode.nmea_udp_gateway.osgi.datamanager",
+      "props": {
+        "advanced": [
+          {
+            "name": "DATA_TTL",
+            "value": "250",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Computed Data Refresh Period (ms)",
+            "type": "long"
+          },
+          {
+            "name": "GPSSYNCDELAY",
+            "value": "60000",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Delay Before First GPS synchronization (ms)",
+            "type": "long"
+          },
+          {
+            "name": "DELAY",
+            "value": "1000",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Delay Before First Refresh (ms)",
+            "type": "long"
+          },
+          {
+            "name": "SYNCHRONISEGPSTIME",
+            "value": "true",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "GPS Synchronization of the computer",
+            "type": "boolean"
+          },
+          {
+            "name": "STOPONINVALIDGPSTIME",
+            "value": "false",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "GPS Synchronization. If the GPS time is invalid, stops all processes. If set to no, the system continues in degraded time",
+            "type": "boolean"
+          },
+          {
+            "name": "CACHE_MAX_TIME_LIFE",
+            "value": "900000",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Max Age For Cache (ms)",
+            "type": "long"
+          },
+          {
+            "name": "MAX_AGE_FOR_DATA",
+            "value": "120000",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Maximum Age Of A Data (ms)",
+            "type": "long"
+          },
+          {
+            "name": "GPSSYNCCMD",
+            "value": "-s %s",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Synchronization Command of The Computer Time With GPS Time",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "GPSSYNCFREQUENCY",
+            "value": "60000",
+            "group": "NMEA Data Management",
+            "subGroup": "advanced",
+            "displayName": "Synchronization Frequency Of The Computer Time With GPS Time(ms)",
+            "type": "long"
+          }
+        ],
+        "general": [
+          {
+            "name": "DATAMAPPER",
+            "value": "./conf/dataMap.xml",
+            "group": "NMEA Data Management",
+            "subGroup": "general",
+            "displayName": "File To NMEA Data Mapping",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "IS_MULTICAST",
+            "value": "false",
+            "group": "NMEA Data Management",
+            "subGroup": "general",
+            "displayName": "Is Multicast ?",
+            "type": "boolean"
+          },
+          {
+            "name": "ADDRESS",
+            "value": "127.0.0.1",
+            "group": "NMEA Data Management",
+            "subGroup": "general",
+            "displayName": "Receiving IP Adress",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "UDP_PORT_IN",
+            "value": "8084",
+            "group": "NMEA Data Management",
+            "subGroup": "general",
+            "displayName": "Receiving Port Number",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Polar",
+      "bundleName": "com.pro.etl.polar",
+      "props": {
+        "general": [
+          {
+            "name": "LASTPOLAR",
+            "value": "./conf/polars/default.bpo",
+            "group": "Polar",
+            "subGroup": "general",
+            "displayName": "Path to the polar File",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "DORECORD",
+            "value": "false",
+            "group": "Polar",
+            "subGroup": "general",
+            "displayName": "Record the polar",
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "QuickEdit",
+      "bundleName": "com.pro.storageControler",
+      "props": {
+        "advanced": [
+          {
+            "name": "PATTERN_TRANSCODE_MASTER",
+            "value": "%s -ss %d -i %s -t %d -c:v libx264 -pix_fmt yuv420p -preset veryfast -b:v 5000k -minrate 4000k -maxrate 7000k -bufsize:v 2.8M -tune zerolatency -profile:v baseline -c:a mp3 %s",
+            "group": "QuickEdit",
+            "subGroup": "advanced",
+            "displayName": "Video Final Transcoding Operation",
+            "type": "java.lang.String"
+          }
+        ],
+        "general": [
+          {
+            "name": "LOCAL_FOLDER",
+            "value": "./media/dropzone",
+            "group": "Storage",
+            "subGroup": "general",
+            "displayName": "Export Videos In This Folder",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Recording",
+      "bundleName": "com.pro.kito.parameterControler",
+      "props": {
+        "Camera 1": [
+          {
+            "name": "CAM0_DISPLAYNAME",
+            "value": "Cam1",
+            "group": "Recording",
+            "subGroup": "Camera 1",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM0_PREVIEW_URL",
+            "value": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
+            "group": "Recording",
+            "subGroup": "Camera 1",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM0_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 1",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM0",
+            "value": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
+            "group": "Recording",
+            "subGroup": "Camera 1",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Camera 2": [
+          {
+            "name": "CAM1_DISPLAYNAME",
+            "value": "Cam2",
+            "group": "Recording",
+            "subGroup": "Camera 2",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM1_PREVIEW_URL",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 2",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM1_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 2",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM1",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 2",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Camera 3": [
+          {
+            "name": "CAM2_DISPLAYNAME",
+            "value": "Cam3",
+            "group": "Recording",
+            "subGroup": "Camera 3",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM2_PREVIEW_URL",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 3",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM2_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 3",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM2",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 3",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Camera 4": [
+          {
+            "name": "CAM3_DISPLAYNAME",
+            "value": "Cam4",
+            "group": "Recording",
+            "subGroup": "Camera 4",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM3_PREVIEW_URL",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 4",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM3_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 4",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM3",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 4",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Camera 5": [
+          {
+            "name": "CAM4_DISPLAYNAME",
+            "value": "Cam5",
+            "group": "Recording",
+            "subGroup": "Camera 5",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM4_PREVIEW_URL",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 5",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM4_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 5",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM4",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 5",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Camera 6": [
+          {
+            "name": "CAM5_DISPLAYNAME",
+            "value": "Cam6",
+            "group": "Recording",
+            "subGroup": "Camera 6",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM5_PREVIEW_URL",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 6",
+            "displayName": "Preview URL",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM5_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Camera 6",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM5",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Camera 6",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Microphone 1": [
+          {
+            "name": "MIC0_DISPLAYNAME",
+            "value": "outside",
+            "group": "Recording",
+            "subGroup": "Microphone 1",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MIC0_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Microphone 1",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "MIC0",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Microphone 1",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "Microphone 2": [
+          {
+            "name": "MIC1_DISPLAYNAME",
+            "value": "inside",
+            "group": "Recording",
+            "subGroup": "Microphone 2",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MIC1_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "Microphone 2",
+            "displayName": "Record ?",
+            "type": "boolean"
+          },
+          {
+            "name": "MIC1",
+            "value": "",
+            "group": "Recording",
+            "subGroup": "Microphone 2",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "WebCam 1": [
+          {
+            "name": "WEBCAM0_DISPLAYNAME",
+            "value": "IntegratedCam1",
+            "group": "Recording",
+            "subGroup": "WebCam 1",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "WEBCAM0_RECORD",
+            "value": "true",
+            "group": "Recording",
+            "subGroup": "WebCam 1",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "WEBCAM0",
+            "value": "autodetect",
+            "group": "Recording",
+            "subGroup": "WebCam 1",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "WebCam 2": [
+          {
+            "name": "WEBCAM1_DISPLAYNAME",
+            "value": "IntegratedCam2",
+            "group": "Recording",
+            "subGroup": "WebCam 2",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "WEBCAM1_RECORD",
+            "value": "true",
+            "group": "Recording",
+            "subGroup": "WebCam 2",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "WEBCAM1",
+            "value": "autodetect",
+            "group": "Recording",
+            "subGroup": "WebCam 2",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "WebMic 1": [
+          {
+            "name": "WEBMIC0_DISPLAYNAME",
+            "value": "IntegratedMic1",
+            "group": "Recording",
+            "subGroup": "WebMic 1",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "WEBMIC0_RECORD",
+            "value": "true",
+            "group": "Recording",
+            "subGroup": "WebMic 1",
+            "displayName": "Record ? ",
+            "type": "boolean"
+          },
+          {
+            "name": "WEBMIC0",
+            "value": "autodetect",
+            "group": "Recording",
+            "subGroup": "WebMic 1",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "WebMic 2": [
+          {
+            "name": "WEBMIC1_DISPLAYNAME",
+            "value": "IntegratedMic2",
+            "group": "Recording",
+            "subGroup": "WebMic 2",
+            "displayName": "Name",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "WEBMIC1_RECORD",
+            "value": "false",
+            "group": "Recording",
+            "subGroup": "WebMic 2",
+            "displayName": "Record ?",
+            "type": "boolean"
+          },
+          {
+            "name": "WEBMIC1",
+            "value": "autodetect",
+            "group": "Recording",
+            "subGroup": "WebMic 2",
+            "displayName": "Recording Parameters",
+            "type": "java.lang.String"
+          }
+        ],
+        "advanced": [
+          {
+            "name": "INTEGRATED_DEVICE_DETECT_CMDLINE_PARAMETER",
+            "value": "%s -list_devices true -f dshow -i dummy",
+            "group": "Recording",
+            "subGroup": "advanced",
+            "displayName": "FFMPEG Command Line Parameter To Detect Integrated Devices",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "FFMPEG",
+            "value": "./3rd/ffmpeg/ffmpeg -y -rtbufsize 1500M -threads 4 -nostats ",
+            "group": "Recording",
+            "subGroup": "advanced",
+            "displayName": "FFMPEG Path And Global Parameters",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MEDIAPLEXER_COMUTATION_DELAY",
+            "value": "5000",
+            "group": "Recording",
+            "subGroup": "advanced",
+            "displayName": "Mediaplexer commutation delay",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "INTEGRATED_DEVICE_RECORDING_PREFIX",
+            "value": "-f dshow -i %1$s=\"%2$s\"",
+            "group": "Recording",
+            "subGroup": "advanced",
+            "displayName": "Prefix For Integrated Devices",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STORAGE_ROOT_PATH",
+            "value": "./media/master_records/oceanrecorder",
+            "group": "Recording",
+            "subGroup": "advanced",
+            "displayName": "Storage Root Path (Restart Required)",
+            "type": "java.lang.String"
+          }
+        ],
+        "general": [
+          {
+            "name": "RECORD_SESSION_NAME",
+            "value": "Testing Session",
+            "group": "Recording",
+            "subGroup": "general",
+            "displayName": "Recording Session Name",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Scheduler",
+      "bundleName": "com.pro.etl.load.quartz",
+      "props": {
+        "advanced": [
+          {
+            "name": "THREADCOUNT",
+            "value": "16",
+            "group": "Scheduler",
+            "subGroup": "advanced",
+            "displayName": "Scheduler Maximum Parallel Threads ",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Service Monitor",
+      "bundleName": "com.pro.etl.servicemonitor",
+      "props": {
+        "advanced": [
+          {
+            "name": "IS_INITIALIZED",
+            "value": "true",
+            "group": "Service Monitor",
+            "subGroup": "advanced",
+            "displayName": "Was the system correctly initialized during first startup ? Set to false to re-init settings with file parameters",
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Stream Record",
+      "bundleName": "com.pro.kito.streamrecordcontroler2",
+      "props": {
+        "advanced": [
+          {
+            "name": "MIC_JOB1",
+            "value": "%1$s -t %3$s %2$s -c:a mp3 %4$s/vault/streamrecords/_NAME__KEY_.mp3",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Audio Recording Job 1",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MIC_JOB2",
+            "value": "",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Audio Recording Job 2",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "SUNSET_PERIOD_CHECKER_SECONDS",
+            "value": "60",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should Check The Sunset every (s)",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MANUAL_PAUSE_AUDIO",
+            "value": "true",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should Pause Audio Recording ?",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MANUAL_PAUSE_VIDEO",
+            "value": "true",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should Pause Video Recording ?",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MARGIN_MINUTES",
+            "value": "10",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should Start Before The Sunset (mn)",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "AUTOMATIC_MODE",
+            "value": "true",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should be in automatic mode ?",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "NIGHT_MODE",
+            "value": "false",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Should be in night mode ?",
+            "type": "boolean"
+          },
+          {
+            "name": "CAM_JOB1",
+            "value": "%1$s -t %3$s %2$s -vcodec h264_qsv -b:v 4000k -an -r 25 %4$s/proxy/streamrecords/_NAME__KEY_.mp4",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Video Recording Job 1",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "CAM_JOB2",
+            "value": "%1$s -ss 00:00:05.000 -i %2$s/proxy/streamrecords/_NAME__KEY_.mp4  -s 320x180  -f image2 -vframes 1 %2$s/snapshots/streamrecords/_NAME__KEY_.jpeg",
+            "group": "Stream Record",
+            "subGroup": "advanced",
+            "displayName": "Automatic Records Video Recording Job 2",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "NULL_AUDIO",
+            "value": "-f lavfi -i anullsrc",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Audio Null Parameter",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MAPPING_AUDIO_VIDEO",
+            "value": "-map 0:%1$s:0 -map 1:%2$s:0",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Audio Video Mapping",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STREAM_COMMAND_3",
+            "value": "",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters FB",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "LIVE_OUTPUT_PATH",
+            "value": "%1$s  -metadata title=\"Mediaman-Assistant{*}\" -r 25 -t %5$s -s 1280x720 -strict -2 %3$s/vault/live/%4$d.mp4",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Live Record",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "MAPPING_VIDEO_AUDIO_DELAY",
+            "value": "-itsoffset 3",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Offset Audio/Video",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STREAM_COMMAND_1",
+            "value": "",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Stream 1",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STREAM_COMMAND_2",
+            "value": "",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Stream 2",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "NULL_VIDEO",
+            "value": "-f lavfi -i nullsrc=s=256x256:d=5",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters Video Null Parameter",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "STREAM_PLAY",
+            "value": "%1$s  -loglevel error -rtbufsize 1500M -thread_queue_size 512  %3$s  -t %2$s  -vf drawtext='fontfile=./3rd/ffmpeg/font.ttf:textfile=./data/bdov/nmea.txt:reload=1:fontcolor=white:fontsize=48:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w):y=(h-text_h)' -vcodec h264_qsv -pix_fmt yuv420p -preset medium -r 12 -g 24 -b:v 100k  -acodec libmp3lame -ar 44100 -b:a 712000 -f flv rtmp://a.rtmp.youtube.com/live2/6423-pkgv-yj73-80hv",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Live Parameters YouTube",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "RECORD_TIME_LIMIT_SECONDS",
+            "value": "3600",
+            "group": "MediaPlexer",
+            "subGroup": "advanced",
+            "displayName": "Mediaplexer Should Automatically Stop After (seconds)",
+            "type": "java.lang.String"
+          }
+        ],
+        "general": [
+          {
+            "name": "SLICE_DURATION",
+            "value": "60",
+            "group": "Automatic Video Recording",
+            "subGroup": "general",
+            "displayName": "Automatic Records Sequence duration (s)",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "FREQ",
+            "value": "62",
+            "group": "Automatic Video Recording",
+            "subGroup": "general",
+            "displayName": "Automatic Records Sequence frequency (s)",
+            "type": "java.lang.String"
+          },
+          {
+            "name": "OFFSET",
+            "value": "13500",
+            "group": "Automatic Video Recording",
+            "subGroup": "general",
+            "displayName": "Video recording startup time (ms)",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    },
+    {
+      "displayGroup": "Transformation",
+      "bundleName": "com.pro.etl.transform.xml",
+      "props": {
+        "advanced": [
+          {
+            "name": "XSL_PATH",
+            "value": "./conf/media-man_assistant.xsl",
+            "group": "Transformation",
+            "subGroup": "advanced",
+            "displayName": "XML transformation file path",
+            "type": "java.lang.String"
+          }
+        ]
+      }
+    }
+  ],
+  "cams": [
+    {
+      "id": "CAM0",
+      "address": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
+      "name": "Cam1",
+      "prop": "%s",
+      "shouldRecord": false,
+      "type": "CAM",
+      "camPreviewUrl": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
+      "active": false,
+      "enabled": true
+    }
+  ],
+  "controls": {
+    "control": [
+      {
+        "name": "autorecordAudio",
+        "state": true
+      },
+      {
+        "name": "nightModeRecord",
+        "state": false
+      },
+      {
+        "name": "autorecordVideo",
+        "state": true
+      },
+      {
+        "name": "autoprocess",
+        "state": true
+      }
+    ]
+  },
+  "processStates": {
+    "ProgressStatus": [
+      {
+        "name": "Data Service",
+        "progress": 100,
+        "state": 1,
+        "lastMsg": "02/06/2019 14:50:50 GMT/OK"
+      },
+      {
+        "name": "Automatic Cleaner",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "02/06/2019 14:21:21 GMT/OK"
+      },
+      {
+        "name": "Data Transformer",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "OK"
+      },
+      {
+        "name": "Task Service",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "OK"
+      },
+      {
+        "name": "Job Manager",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "02/06/2019 14:50:00 GMT/OK"
+      },
+      {
+        "name": "License Manager",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "02/06/2019 14:21:21 GMT/OK: Your licence is valid with this machine id :77b32666-9dc3-3f07-9173-9dea84777e97"
+      },
+      {
+        "name": "Database Service",
+        "progress": 0,
+        "state": 1,
+        "lastMsg": "OK"
+      }
+    ]
+  },
+  "versions": {
+    "application": "Bepeho {*}  mediaman-assistant\n\rVersion: 1.5.71.qualifier",
+    "environmentlibs": "/usr/lib/jvm/java-8-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-8-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-8-oracle/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-8-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-8-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-8-oracle/jre/classes",
+    "versions": [
+      {
+        "name": "org.eclipse.osgi",
+        "version": "3.12.100.v20180210-1608",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.simpleconfigurator",
+        "version": "1.2.1.v20180131-1435",
+        "state": "32"
+      },
+      {
+        "name": "ch.qos.logback.classic",
+        "version": "1.1.2.v20160208-0839",
+        "state": "4"
+      },
+      {
+        "name": "ch.qos.logback.core",
+        "version": "1.1.2.v20160208-0839",
+        "state": "4"
+      },
+      {
+        "name": "ch.qos.logback.slf4j",
+        "version": "1.1.2.v20160301-0943",
+        "state": "4"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-annotations",
+        "version": "2.6.2.v20161117-2150",
+        "state": "4"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-core",
+        "version": "2.6.2.v20161117-2150",
+        "state": "4"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-databind",
+        "version": "2.6.2.v20161117-2150",
+        "state": "4"
+      },
+      {
+        "name": "com.ibm.icu",
+        "version": "58.2.0.v20170418-1837",
+        "state": "8"
+      },
+      {
+        "name": "javax.annotation",
+        "version": "1.2.0.v201602091430",
+        "state": "4"
+      },
+      {
+        "name": "javax.inject",
+        "version": "1.0.0.v20091030",
+        "state": "4"
+      },
+      {
+        "name": "javax.servlet",
+        "version": "3.1.0.v201410161800",
+        "state": "4"
+      },
+      {
+        "name": "javax.wsdl",
+        "version": "1.6.2.v201012040545",
+        "state": "4"
+      },
+      {
+        "name": "javax.xml",
+        "version": "1.3.4.v201005080400",
+        "state": "4"
+      },
+      {
+        "name": "net.sourceforge.mx4j",
+        "version": "3.0.1.v20100427-1100",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.batik.css",
+        "version": "1.8.0.v20170214-1941",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.batik.util",
+        "version": "1.8.0.v20170214-1941",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.batik.util.gui",
+        "version": "1.8.0.v20170214-1941",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.codec",
+        "version": "1.9.0.v20170208-1614",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.httpclient",
+        "version": "3.1.0.v201012070820",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.io",
+        "version": "2.2.0.v201405211200",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.jxpath",
+        "version": "1.3.0.v200911051830",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.lang",
+        "version": "2.6.0.v201404270220",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.logging",
+        "version": "1.1.1.v201101211721",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.commons.net",
+        "version": "3.2.0.v201305141515",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.felix.gogo.command",
+        "version": "0.10.0.v201209301215",
+        "state": "32"
+      },
+      {
+        "name": "org.apache.felix.gogo.runtime",
+        "version": "0.10.0.v201209301036",
+        "state": "32"
+      },
+      {
+        "name": "org.apache.felix.gogo.shell",
+        "version": "0.10.0.v201212101605",
+        "state": "32"
+      },
+      {
+        "name": "org.apache.felix.scr",
+        "version": "2.0.10.v20170501-2007",
+        "state": "32"
+      },
+      {
+        "name": "org.apache.httpcomponents.httpclient",
+        "version": "4.5.2.v20170210-0925",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.httpcomponents.httpcore",
+        "version": "4.4.6.v20170210-0925",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.httpcomponents.httpcore.nio",
+        "version": "4.1.0.v201101201700",
+        "state": "4"
+      },
+      {
+        "name": "org.apache.log4j",
+        "version": "1.2.15.v201012070815",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.core.commands",
+        "version": "3.9.0.v20170530-1048",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.core.contenttype",
+        "version": "3.6.0.v20170207-1037",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.core.databinding",
+        "version": "1.6.100.v20170515-1119",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.databinding.beans",
+        "version": "1.4.0.v20170210-0856",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.core.databinding.observable",
+        "version": "1.6.100.v20170515-1119",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.core.databinding.property",
+        "version": "1.6.100.v20170515-1119",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.expressions",
+        "version": "3.6.0.v20170207-1037",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.filebuffers",
+        "version": "3.6.100.v20170203-1130",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.filesystem",
+        "version": "1.7.0.v20170406-1337",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.jobs",
+        "version": "3.9.3.v20180115-1757",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.core.net",
+        "version": "1.3.100.v20170516-0820",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.resources",
+        "version": "3.12.0.v20170417-1558",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.core.runtime",
+        "version": "3.13.0.v20170207-1030",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.core.variables",
+        "version": "3.4.0.v20170113-2056",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.core.commands",
+        "version": "0.12.100.v20170513-0428",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.core.contexts",
+        "version": "1.6.0.v20170322-1144",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.core.di",
+        "version": "1.6.100.v20170421-1418",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.e4.core.di.annotations",
+        "version": "1.6.0.v20170119-2002",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.core.di.extensions",
+        "version": "0.15.0.v20170228-1728",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.core.di.extensions.supplier",
+        "version": "0.15.0.v20170407-0928",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.e4.core.services",
+        "version": "2.1.0.v20170407-0928",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.emf.xpath",
+        "version": "0.2.0.v20160630-0728",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.ui.bindings",
+        "version": "0.12.1.v20170823-1632",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.css.core",
+        "version": "0.12.101.v20170712-1547",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.ui.css.swt",
+        "version": "0.13.1.v20170808-1940",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.css.swt.theme",
+        "version": "0.11.0.v20170312-2302",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.di",
+        "version": "1.2.100.v20170414-1137",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.dialogs",
+        "version": "1.1.100.v20170104-1425",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.ui.model.workbench",
+        "version": "2.0.1.v20170713-1800",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.e4.ui.services",
+        "version": "1.3.0.v20170307-2032",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.swt.gtk",
+        "version": "1.0.200.v20170513-0428",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.ui.widgets",
+        "version": "1.2.0.v20160630-0736",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.e4.ui.workbench",
+        "version": "1.5.1.v20170815-1446",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.e4.ui.workbench.addons.swt",
+        "version": "1.3.1.v20170319-1442",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.workbench.renderers.swt",
+        "version": "0.14.102.v20180117-1153",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.workbench.swt",
+        "version": "0.14.101.v20170710-1119",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.e4.ui.workbench3",
+        "version": "0.14.0.v20160630-0740",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.ecf",
+        "version": "3.8.0.v20170104-0657",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ecf.filetransfer",
+        "version": "5.0.0.v20160817-1024",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ecf.identity",
+        "version": "3.8.0.v20161203-2153",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ecf.provider.filetransfer",
+        "version": "3.2.300.v20161203-1840",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ecf.provider.filetransfer.httpclient4",
+        "version": "1.1.200.v20170314-0133",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ecf.provider.filetransfer.httpclient4.ssl",
+        "version": "1.1.0.v20160817-1024",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.ecf.provider.filetransfer.ssl",
+        "version": "1.0.0.v20160817-1024",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.ecf.ssl",
+        "version": "1.2.0.v20160817-1024",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.emf.common",
+        "version": "2.13.0.v20170609-0707",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.emf.ecore",
+        "version": "2.13.0.v20170609-0707",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.emf.ecore.change",
+        "version": "2.11.0.v20170609-0707",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.emf.ecore.xmi",
+        "version": "2.13.0.v20170609-0707",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.app",
+        "version": "1.3.400.v20150715-1528",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.bidi",
+        "version": "1.1.0.v20160728-1031",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.common",
+        "version": "3.9.0.v20170207-1454",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.concurrent",
+        "version": "1.1.0.v20130327-1442",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.console",
+        "version": "1.1.300.v20170512-2111",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.ds",
+        "version": "1.5.0.v20170307-1429",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.event",
+        "version": "1.4.0.v20170105-1446",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.frameworkadmin",
+        "version": "2.0.300.v20160504-1450",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.frameworkadmin.equinox",
+        "version": "1.0.800.v20170524-1345",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.http.jetty",
+        "version": "3.4.0.v20170503-2025",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.http.servlet",
+        "version": "1.4.0.v20170524-1452",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.launcher",
+        "version": "1.4.0.v20161219-1356",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.equinox.launcher.gtk.linux.x86_64",
+        "version": "1.1.551.v20171108-1834",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.artifact.repository",
+        "version": "1.1.650.v20170928-1405",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.console",
+        "version": "1.0.600.v20170511-1106",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.core",
+        "version": "2.4.101.v20170906-1259",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.director",
+        "version": "2.3.300.v20160504-1450",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.director.app",
+        "version": "1.0.500.v20160419-0834",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.directorywatcher",
+        "version": "1.1.100.v20150423-1455",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.engine",
+        "version": "2.5.0.v20170319-2002",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.extensionlocation",
+        "version": "1.2.300.v20160419-0834",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.garbagecollector",
+        "version": "1.0.300.v20160504-1450",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.jarprocessor",
+        "version": "1.0.500.v20160504-1450",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.metadata",
+        "version": "2.3.200.v20170511-1106",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.metadata.repository",
+        "version": "1.2.401.v20170906-1259",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.operations",
+        "version": "2.4.300.v20170511-1106",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.publisher",
+        "version": "1.4.200.v20170511-1216",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.publisher.eclipse",
+        "version": "1.2.201.v20170906-1259",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.reconciler.dropins",
+        "version": "1.1.400.v20160504-1450",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.repository",
+        "version": "2.3.301.v20170906-1259",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.repository.tools",
+        "version": "2.1.400.v20170511-1216",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.touchpoint.eclipse",
+        "version": "2.1.501.v20170906-1259",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.touchpoint.natives",
+        "version": "1.2.200.v20170511-1216",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.p2.transport.ecf",
+        "version": "1.1.300.v20161004-0244",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.preferences",
+        "version": "3.7.0.v20170126-2132",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.registry",
+        "version": "3.7.0.v20170222-1344",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.security",
+        "version": "1.2.300.v20170505-1235",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.equinox.security.linux.x86_64",
+        "version": "1.0.100.v20170504-1307",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.equinox.simpleconfigurator.manipulator",
+        "version": "2.0.300.v20170515-0721",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.equinox.util",
+        "version": "1.0.500.v20130404-1337",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.help",
+        "version": "3.8.1.v20170815-1448",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.jetty.continuation",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.http",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.io",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.security",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.server",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.servlet",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jetty.util",
+        "version": "9.4.8.v20171121",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jface",
+        "version": "3.13.2.v20171022-1656",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.jface.databinding",
+        "version": "1.8.100.v20170503-1507",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.osgi.compatibility.state",
+        "version": "1.1.0.v20170516-1513",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.osgi.services",
+        "version": "3.6.0.v20170228-1906",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.osgi.util",
+        "version": "3.4.0.v20170111-1608",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.swt",
+        "version": "3.106.3.v20180329-0507",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.swt.gtk.linux.x86_64",
+        "version": "3.106.3.v20180329-0507",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.text",
+        "version": "3.6.100.v20170203-0814",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.ui",
+        "version": "3.109.0.v20170411-1742",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.ui.forms",
+        "version": "3.7.101.v20170815-1446",
+        "state": "4"
+      },
+      {
+        "name": "org.eclipse.ui.net",
+        "version": "1.3.100.v20170516-0820",
+        "state": "8"
+      },
+      {
+        "name": "org.eclipse.ui.workbench",
+        "version": "3.110.1.v20170704-1208",
+        "state": "32"
+      },
+      {
+        "name": "org.eclipse.update.configurator",
+        "version": "3.3.400.v20160506-0750",
+        "state": "32"
+      },
+      {
+        "name": "org.hamcrest.core",
+        "version": "1.3.0.v201303031735",
+        "state": "8"
+      },
+      {
+        "name": "org.json",
+        "version": "1.0.0.v201011060100",
+        "state": "4"
+      },
+      {
+        "name": "org.junit",
+        "version": "4.12.0.v201504281640",
+        "state": "4"
+      },
+      {
+        "name": "org.sat4j.core",
+        "version": "2.3.5.v201308161310",
+        "state": "4"
+      },
+      {
+        "name": "org.sat4j.pb",
+        "version": "2.3.5.v201404071733",
+        "state": "4"
+      },
+      {
+        "name": "org.slf4j.api",
+        "version": "1.7.10.v20170224-1220",
+        "state": "4"
+      },
+      {
+        "name": "org.tukaani.xz",
+        "version": "1.5.0.v20170111-1717",
+        "state": "4"
+      },
+      {
+        "name": "org.w3c.css.sac",
+        "version": "1.3.1.v200903091627",
+        "state": "4"
+      },
+      {
+        "name": "org.w3c.dom.events",
+        "version": "3.0.0.draft20060413_v201105210656",
+        "state": "4"
+      },
+      {
+        "name": "org.w3c.dom.smil",
+        "version": "1.0.1.v200903091627",
+        "state": "4"
+      },
+      {
+        "name": "org.w3c.dom.svg",
+        "version": "1.1.0.v201011041433",
+        "state": "4"
+      },
+      {
+        "name": "com.capcode.nmea_udp_gateway.osgi.core",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.capcode.nmea_udp_gateway.osgi.datamanager",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.capcode.nmea_udp_gateway.osgi.datamanager.interface",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.capcode.plugin.polar.api",
+        "version": "1.5.71.qualifier",
+        "state": "4"
+      },
+      {
+        "name": "com.ext.evercam2",
+        "version": "1.5.71.qualifier",
+        "state": "8"
+      },
+      {
+        "name": "com.ext.fragment.rxtx.linux.x86_64",
+        "version": "1.5.71.qualifier",
+        "state": "4"
+      },
+      {
+        "name": "com.ext.lucene.queryparser",
+        "version": "1.5.71.qualifier",
+        "state": "4"
+      },
+      {
+        "name": "com.ext.quartz",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.saxon",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.serial",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.sunrise",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.Ftptransfercontroler",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.Ftptransfercontroler.api",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.agent",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.camscan",
+        "version": "1.5.71.qualifier",
+        "state": "8"
+      },
+      {
+        "name": "com.pro.etl.cleaner",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.event",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.extract.nmea",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.extract.watchfolder",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.license",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.load.lucene",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.load.quartz",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.load.search.api",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.main",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.polar",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.quartz.job.implementation",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.quartz.job.interface",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.servicemonitor",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.etl.transform.xml",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.kito.parameterControler",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.kito.streamrecordcontroler2",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.parameterControler.api",
+        "version": "1.5.71.qualifier",
+        "state": "4"
+      },
+      {
+        "name": "com.pro.scenario",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.serial",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.servlet.mediamanassistant",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.servlets",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.storageControler",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.pro.verto.update",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.lucene.analysers",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.lucene.core",
+        "version": "1.5.71.qualifier",
+        "state": "32"
+      },
+      {
+        "name": "com.ext.lucene.queries",
+        "version": "1.5.71.qualifier",
+        "state": "8"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-annotations",
+        "version": "2.9.2.v20180207-1730",
+        "state": "4"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-core",
+        "version": "2.9.2.v20180207-1730",
+        "state": "4"
+      },
+      {
+        "name": "com.fasterxml.jackson.core.jackson-databind",
+        "version": "2.9.2.v20180207-1730",
+        "state": "4"
+      }
+    ]
+  },
+  "taskTag": {
+    "tasks": [
+      {
+        "name": "Auto recording data NMEA",
+        "group": "Auto recording data",
+        "time": "425"
+      },
+      {
+        "name": "Cleaning records",
+        "group": "Cleaning",
+        "time": "2425"
+      }
+    ]
+  },
+  "storageUsage": {
+    "storageUsage": 53
+  },
+  "timeseries": {
+    "date": [
+      1549464720000,
+      1549464600000,
+      1549464540000,
+      1549464480000,
+      1549464420000,
+      1549464360000,
+      1549464300000,
+      1549464240000,
+      1549464180000,
+      1549464120000,
+      1549464060000,
+      1549464000000,
+      1549463940000,
+      1549463880000,
+      1549463820000,
+      1549463760000,
+      1549463700000,
+      1549463640000,
+      1549463580000
+    ],
+    "series": [
+      {
+        "name": "max_bgs_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "max_bgt_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "max_bss_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "max_bst_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "max_dsr_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "max_rwa_d",
+        "values": [
+          276.0,
+          274.0,
+          273.0,
+          271.0,
+          269.0,
+          274.0,
+          270.0,
+          272.0,
+          274.0,
+          206.0,
+          208.0,
+          212.0,
+          204.0,
+          204.0,
+          209.0,
+          207.0,
+          211.0,
+          208.0,
+          210.0
+        ]
+      },
+      {
+        "name": "max_rws_d",
+        "values": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ]
+      },
+      {
+        "name": "max_tcd_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "max_twa_d",
+        "values": [
+          246.0,
+          243.0,
+          244.0,
+          246.0,
+          246.0,
+          244.0,
+          246.0,
+          245.0,
+          243.0,
+          200.0,
+          196.0,
+          200.0,
+          197.0,
+          201.0,
+          201.0,
+          196.0,
+          198.0,
+          200.0,
+          198.0
+        ]
+      },
+      {
+        "name": "max_tws_d",
+        "values": [
+          10.0,
+          11.0,
+          11.0,
+          10.0,
+          10.0,
+          11.0,
+          10.0,
+          11.0,
+          11.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          15.0,
+          15.0,
+          14.0,
+          14.0,
+          15.0,
+          14.0
+        ]
+      },
+      {
+        "name": "med_bgs_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "med_bgt_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "med_bss_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "med_bst_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "med_dsr_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "med_rwa_d",
+        "values": [
+          276.0,
+          274.0,
+          273.0,
+          271.0,
+          269.0,
+          274.0,
+          270.0,
+          272.0,
+          274.0,
+          206.0,
+          208.0,
+          212.0,
+          204.0,
+          204.0,
+          209.0,
+          207.0,
+          211.0,
+          208.0,
+          210.0
+        ]
+      },
+      {
+        "name": "med_rws_d",
+        "values": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ]
+      },
+      {
+        "name": "med_tcd_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "med_twa_d",
+        "values": [
+          246.0,
+          243.0,
+          244.0,
+          246.0,
+          246.0,
+          244.0,
+          246.0,
+          245.0,
+          243.0,
+          200.0,
+          196.0,
+          200.0,
+          197.0,
+          201.0,
+          201.0,
+          196.0,
+          198.0,
+          200.0,
+          198.0
+        ]
+      },
+      {
+        "name": "med_tws_d",
+        "values": [
+          10.0,
+          11.0,
+          11.0,
+          10.0,
+          10.0,
+          11.0,
+          10.0,
+          11.0,
+          11.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          15.0,
+          15.0,
+          14.0,
+          14.0,
+          15.0,
+          14.0
+        ]
+      },
+      {
+        "name": "min_bgs_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "min_bgt_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "min_bss_d",
+        "values": [
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "name": "min_bst_d",
+        "values": [
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          87.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0,
+          152.0
+        ]
+      },
+      {
+        "name": "min_dsr_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "min_rwa_d",
+        "values": [
+          276.0,
+          274.0,
+          273.0,
+          271.0,
+          269.0,
+          274.0,
+          270.0,
+          272.0,
+          274.0,
+          206.0,
+          208.0,
+          212.0,
+          204.0,
+          204.0,
+          209.0,
+          207.0,
+          211.0,
+          208.0,
+          210.0
+        ]
+      },
+      {
+        "name": "min_rws_d",
+        "values": [
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0,
+          10.0
+        ]
+      },
+      {
+        "name": "min_tcd_d",
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "min_twa_d",
+        "values": [
+          246.0,
+          243.0,
+          244.0,
+          246.0,
+          246.0,
+          244.0,
+          246.0,
+          245.0,
+          243.0,
+          200.0,
+          196.0,
+          200.0,
+          197.0,
+          201.0,
+          201.0,
+          196.0,
+          198.0,
+          200.0,
+          198.0
+        ]
+      },
+      {
+        "name": "min_tws_d",
+        "values": [
+          10.0,
+          11.0,
+          11.0,
+          10.0,
+          10.0,
+          11.0,
+          10.0,
+          11.0,
+          11.0,
+          14.0,
+          14.0,
+          14.0,
+          14.0,
+          15.0,
+          15.0,
+          14.0,
+          14.0,
+          15.0,
+          14.0
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <img src="assets/images/MMA.png" width="150px"  />
+            <h1>Bepeho Video System</h1>
+           
+             <form role="form" #f="ngForm" (ngSubmit)="onLoggedin(f)">
+                    <div class="form-content">
+                    <input name="name" ngModel required #name="ngModel"  class="form-control input-underline input-lg" id="name" placeholder="{{ 'Name' | translate }}">
+                    <input type="password" name="pass" ngModel required #pass="ngModel"  class="form-control input-underline input-lg" id="name" placeholder="{{ 'Password' | translate }}">
+                </div>
+               
+                <button  class="btn rounded-btn">{{ 'Log in' | translate }}</button>               
+            </form> 
+        </div>
+    </div>
+</div>

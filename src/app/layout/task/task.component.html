@@ -1,0 +1,23 @@
+<div *ngIf="isloading"> loading .... </div>
+<div *ngIf="!isloading">
+  <h1>{{product}}</h1>
+  <ul class="task">
+    <li *ngFor="let task of tasks">
+      <div class="row">
+        <div class="col card mb-3">
+          {{task.group}} 
+        </div>
+        <div class="col card mb-3">
+            {{task.name}}
+        </div>
+        <div class="col card mb-3">
+            <span class="badge"><countdown [config]=getConfig(task)></countdown></span>
+            <!-- <span class="badge"><countdown [config]="{ template: '$!h!:$!m!:$!s!',leftTime: 30}"></countdown></span> -->
+          
+        </div>
+      </div>
+    </li>
+  </ul>
+  <h5>{{environment}}</h5>
+
+</div>

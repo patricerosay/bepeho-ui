@@ -1,0 +1,21 @@
+.virtual-scroll .example-viewport {
+    height: 600px;
+    width: 100%;
+    border: 1px solid black;
+  }
+  
+  .virtual-scroll .example-viewport .cdk-virtual-scroll-content-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .virtual-scroll .example-item {
+    width: 320px;
+    height: 100%;
+    // writing-mode: vertical-lr;
+  }
+  .preview {
+    height: 100%;
+    width: 100%;
+    background-color: powderblue;
+  }

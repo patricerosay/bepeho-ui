@@ -1,0 +1,131 @@
+<div>
+    <button mat-raised-button (click)="loadData()">Refresh</button>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    More...
+                </mat-panel-title>
+                <mat-panel-description>
+                    Select the data you want to analyse
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary"> Scale</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="med" class="aggregate">Median</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="max" class="aggregate">Maximum</mat-checkbox>
+                    </div>
+
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary">Precision</span>
+                    </h4>
+                    <mat-radio-group vertical name="fontStyle" aria-label="Font Style">
+                        <div class="row">
+                            <mat-radio-button id="minute" class="precision" value="bold">Minute</mat-radio-button>
+                        </div>
+                        <div class="row">
+                            <mat-radio-button id="second" class="precision" value="italic">Second</mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary">Events</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="anomaly_score_d" class="event" value="italic">Direction</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="anomaly_dynamic_score_d" class="event" value="italic">Dynamic</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary">Surface</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="bss_d" class="data">Speed</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="bst_d" class="data">Angle</mat-checkbox>
+                    </div>
+
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary">Ground</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="bgs_d" checked="True" class="data">Speed</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="bgt_d" checked="True" class="data">Angle</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary">Relative Wind</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="rws_d" checked="True" class="data">Speed</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="rwa_d" checked="True" class="data">Angle</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary"> True Wind</span>
+                    </h4>
+
+                    <div class="row">
+                        <mat-checkbox id="tws_d" class="data">Speed</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="twa_d" class="data">Angle</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary"> Dynamic</span>
+                    </h4>
+                    <div class="row">
+                        <mat-checkbox id="xac_d" class="data">X</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="yac_d" class="data">Y</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="zac_d" class="data">Z</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <h4>
+                        <span class="label label-primary"> Balance</span>
+                    </h4>
+
+                    <div class="row">
+                        <mat-checkbox id="hee_d" class="data">Heel</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="trm_d" class="data">Trim</mat-checkbox>
+                    </div>
+                    <div class="row">
+                        <mat-checkbox id="mgh_d" class="data">Mag</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <plotly-plot [data]="data" [layout]="layout" [revision]="0" [debug]="debug" [useResizeHandler]="useResizeHandler"></plotly-plot>
+</div>

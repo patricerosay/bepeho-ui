@@ -1,0 +1,23 @@
+<button mat-raised-button (click)="onUpdate()">Update</button>
+
+<div *ngIf="isloading"> loading .... </div>
+<div *ngIf="!isloading">
+  <ul class="versions">
+    <li *ngFor="let version of versions">
+      <div class="row">
+        <div class="col card mb-3">
+          {{version.name}} 
+        </div>
+        <div class="col card mb-3">
+            {{version.version}}
+        </div>
+        <div class="col card mb-3">
+          <span class="badge">{{version.state}} </span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <h1>Technical Environment</h1>
+  <h5>{{environment}}</h5>
+
+</div>
