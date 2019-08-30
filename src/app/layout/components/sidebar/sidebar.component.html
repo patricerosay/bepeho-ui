@@ -8,19 +8,20 @@
             <i class="fa fa-fw fa-map-marker"></i>&nbsp;
             <span>{{ 'Map' | translate }}</span>
         </a>
-        <a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <!--<a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-map-marker"></i>&nbsp;
             <span>{{ 'Video Records' | translate }}</span>
-        </a>
+        </a>-->
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-television"></i>&nbsp;
             <span>{{ 'Mosaic' | translate }}</span>
         </a>
+        <!--
        <a [routerLink]="['/linear-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
             <span>{{ 'Analysis' | translate }}</span>
         </a>
-       
+       -->
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
                 <i class="fa fa-plus"></i>&nbsp;
@@ -67,7 +68,7 @@
                 </ul>
             </li>
         </div>
-        
+
 
         <div class="header-fields">
             <a (click)="rltAndLtr()" class="list-group-item">

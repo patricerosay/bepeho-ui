@@ -14,18 +14,18 @@ export class DashboardComponent implements OnInit {
     constructor() {
         this.sliders.push(
             {
-                imagePath: 'assets/images/Cam111478880527.png',
+                imagePath: 'assets/images/snapshots/streamrecords/Cam111478880527.png',
                 label: 'Direction Change.',
                 text:
                     '10 minutes ago.'
             },
             {
-                imagePath: 'assets/images/Cam121478880527.png',
+                imagePath: 'assets/images/snapshots/streamrecords/Cam121478880527.png',
                 label: 'Speed below target.',
                 text: '4 hours ago.'
             },
             {
-                imagePath: 'assets/images/Cam131478880586.png',
+                imagePath: 'assets/images/snapshots/streamrecords/Cam131478880586.png',
                 label: 'Sudden heel angle',
                 text:
                     'Yesterday.'

@@ -21,9 +21,9 @@ export class MapComponent implements OnInit {
     public traces = L.layerGroup();
     public loves = L.layerGroup();
     public linePoints = [];
-   
+
     iconLove = L.icon({
-        iconUrl: '/assets/images/love-icon.png',    
+        iconUrl: '/assets/images/love-icon.png',
         shadowSize:   [50, 64],
         iconAnchor:   [25, 80],
         shadowAnchor: [4, 62],
@@ -31,7 +31,7 @@ export class MapComponent implements OnInit {
         });
 
     iconDetect = L.icon({
-        iconUrl: '/assets/images/detection-icon.png',    
+        iconUrl: '/assets/images/detection-icon.png',
         shadowSize:   [50, 64],
         iconAnchor:   [25, 80],
         shadowAnchor: [4, 62],
@@ -48,7 +48,7 @@ export class MapComponent implements OnInit {
         }).addTo(this.control);
         this.loadData();
     }
-  
+
 
     public getLatLon(o: any) {
         let res = new L.LatLng(0.0, 0.0);
@@ -84,14 +84,18 @@ export class MapComponent implements OnInit {
             if (group[g].mime == 'video/mp4') {
                 var video = {
                     id: group[g].id,
-                    src: "/media/" + group[g].filename_p_file,
-                    img: "/media/" + group[g].filename_i_file
+                    //src: "/media/" + group[g].filename_p_file,
+                    ////#endregionimg: "/media/" + group[g].filename_i_file
+                     src:  group[g].filename_p_file,
+                    img:  group[g].filename_i_file
                 };
                 segment.videos.push(video);
             } else {
                 var audio = {
                     id: group[g].id,
-                    src: "/media/" + group[g].filename_m_file
+                    //src: "/media/" + group[g].filename_m_file
+                    src:  group[g].filename_m_file
+
                 }
                 segment.audios.push(audio);
             }
@@ -127,12 +131,12 @@ export class MapComponent implements OnInit {
                 if (payload.segments && payload.segments[0]["videos"])
                     imgUrl = payload.segments[0]["videos"][0].img;
 
-                
+
                 var markerUrl = '/qv.html?' + JSON.stringify(payload);
 
                 if (firstSegment["d_anomaly_score_d"] !== undefined) {
                     autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/></a> Event Detected at ' + autodetectionReport
-                   
+
                 }
 
                 L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.detections);
@@ -141,7 +145,7 @@ export class MapComponent implements OnInit {
 
                 if (firstSegment['State'] == 'archived') {
                     autodetectionReport = '<i class=\"glyphicon glyphicon-heart \"></i> Sequence kept at ' + autodetectionReport;
-                   
+
                     L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.traces);
                     L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.loves);
 
@@ -165,7 +169,7 @@ export class MapComponent implements OnInit {
                 center = self.getLatLon(groups[groups.length - 1][0]);
 
             }
-            
+
             self.control.setView(center, 8);
             // self.control.panTo(center);
             L.polyline(self.linePoints, { color: 'red' }).addTo(self.control);
