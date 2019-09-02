@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { ChartsModule as Ng2Charts } from 'ng2-charts';
 
-import { MapRoutingModule } from './map-routing.module';
-import { MapComponent } from './map.component';
+import { MosaicRoutingModule } from './mosaic-routing.module';
+import { MosaicComponent } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -45,7 +45,7 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, MapRoutingModule, PageHeaderModule,
+    imports: [CommonModule, MosaicRoutingModule, PageHeaderModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,
@@ -83,8 +83,8 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,],
-    declarations: [MapComponent],
-    entryComponents: [MapComponent]
+    declarations: [MosaicComponent],
+    entryComponents: [MosaicComponent]
 
 })
-export class MapModule {}
+export class MosaicModule {}
