@@ -14,14 +14,13 @@ import { HttpHeaders } from '@angular/common/http';
 
 export class ConfigurationComponent implements OnInit {
 
-    // configurations: Configuration[];
     general: Configuration[];
     advanced: Configuration[];
     isLoading=false;
     constructor(public http: HttpClient) { }
     private url = '/recorder/parameters';
 
-   
+
     save()
     {
         var configurations=this.advanced;
@@ -43,14 +42,14 @@ export class ConfigurationComponent implements OnInit {
                 configurations.push(this.general[i]);
             }
 
-        }   
+        }
         const httpOptions = {
             headers: new HttpHeaders({
               'Content-Type':  'application/json',
               'Authorization': 'my-auth-token'
             })
-          };        
-        
+          };
+
         this.http.post<Configuration[]>(this.url+'&verb=store' + '&', JSON.stringify(configurations), httpOptions);
         // console.log(JSON.stringify(configurations));
      }

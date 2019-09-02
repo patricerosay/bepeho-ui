@@ -1,3 +1,14 @@
-<p>
-  mosaic works!
-</p>
+<div *ngIf="isloading"> loading .... </div>
+<div *ngIf="!isloading">
+
+	<mat-tab-group *ngFor="let cam of cameras">
+		<mat-tab label={ {cam.name}}>
+
+			<img class="img-rounded" width="90%" src= "{{cam.camPreviewUrl}}" onerror="/assets/images/mire.jpg"> </img> ';
+      <a class="btn btn-primary" href="{{cam.address}}" role="button"><span class="glyphicon glyphicon-edit"></span></a>;
+      <a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span class="glyphicon glyphicon-resize-full"></span></a>;
+
+
+		</mat-tab>
+	</mat-tab-group>
+</div>
