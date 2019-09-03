@@ -40,7 +40,6 @@ export class MapComponent implements OnInit {
     constructor(public http: HttpClient) { }
 
     ngOnInit() {
-        // Déclaration de la carte avec les coordonnées du centre et le niveau de zoom.
         this.control = L.map('map');//.setView([50.6311634, 3.0599573], 12);
 
         L.tileLayer(this.mbUrl, {
@@ -132,26 +131,28 @@ export class MapComponent implements OnInit {
                     imgUrl = payload.segments[0]["videos"][0].img;
 
 
-                var markerUrl = '/qv.html?' + JSON.stringify(payload);
+                var markerUrl = '/qview?' + encodeURIComponent(JSON.stringify(payload));
 
                 if (firstSegment["d_anomaly_score_d"] !== undefined) {
                     autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/></a> Event Detected at ' + autodetectionReport
 
                 }
+                autodetectionReport=autodetectionReport+"<button class=\"btn btn-sm btn-outline-primary\" (click)=\"open()\">QView</button>"
 
-                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.detections);
-                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.traces);
+                autodetectionReport= autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>';
+                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth:320}).addTo(self.detections);
+                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth:320}).addTo(self.traces);
 
 
                 if (firstSegment['State'] == 'archived') {
                     autodetectionReport = '<i class=\"glyphicon glyphicon-heart \"></i> Sequence kept at ' + autodetectionReport;
 
-                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.traces);
-                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.loves);
+                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth:320}).addTo(self.traces);
+                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth:320}).addTo(self.loves);
 
                 }
                 else {
-                    L.marker(latLon).bindPopup(autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>').addTo(self.traces);
+                    L.marker(latLon).bindPopup(autodetectionReport, {minWidth:320}).addTo(self.traces);
                 }
             });
 
@@ -167,7 +168,6 @@ export class MapComponent implements OnInit {
 
             if (groups.length) {
                 center = self.getLatLon(groups[groups.length - 1][0]);
-
             }
 
             self.control.setView(center, 8);
