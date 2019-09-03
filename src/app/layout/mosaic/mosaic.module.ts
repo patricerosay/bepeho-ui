@@ -6,6 +6,7 @@ import { MosaicRoutingModule } from './mosaic-routing.module';
 import { MosaicComponent } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
     MatAutocompleteModule,
@@ -42,7 +43,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule,
+    MatTreeModule
 } from '@angular/material';
 @NgModule({
     imports: [CommonModule, MosaicRoutingModule, PageHeaderModule,
@@ -82,7 +83,8 @@ import {
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        MatCheckboxModule,],
+        MatCheckboxModule,
+        NgbCarouselModule],
     declarations: [MosaicComponent],
     entryComponents: [MosaicComponent]
 

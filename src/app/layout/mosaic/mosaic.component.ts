@@ -17,6 +17,7 @@ export class MosaicComponent implements OnInit {
     cameras: Camera[];
 ngOnInit() {
         var self = this;
+
         this.http.get(this.url)
             .subscribe(
                 data => {
@@ -24,6 +25,7 @@ ngOnInit() {
                    self.isLoading=false;
                 },
             );
+
     }
 
 }

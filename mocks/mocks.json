@@ -2142,7 +2142,7 @@
           },
           {
             "name": "STREAM_PLAY",
-            "value": "%1$s  -loglevel error -rtbufsize 1500M -thread_queue_size 512  %3$s  -t %2$s  -vf drawtext='fontfile=./3rd/ffmpeg/font.ttf:textfile=./data/bdov/nmea.txt:reload=1:fontcolor=white:fontsize=48:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w):y=(h-text_h)' -vcodec h264_qsv -pix_fmt yuv420p -preset medium -r 12 -g 24 -b:v 100k  -acodec libmp3lame -ar 44100 -b:a 712000 -f flv rtmp://a.rtmp.youtube.com/live2/6423-pkgv-yj73-80hv",
+            "value": "",
             "group": "MediaPlexer",
             "subGroup": "advanced",
             "displayName": "Live Parameters YouTube",
@@ -2207,6 +2207,17 @@
       "id": "CAM0",
       "address": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
       "name": "Cam1",
+      "prop": "%s",
+      "shouldRecord": false,
+      "type": "CAM",
+      "camPreviewUrl": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
+      "active": false,
+      "enabled": true
+    },
+    {
+      "id": "CAM1",
+      "address": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
+      "name": "Cam2",
       "prop": "%s",
       "shouldRecord": false,
       "type": "CAM",

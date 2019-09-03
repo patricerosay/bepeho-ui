@@ -11,5 +11,5 @@ npm run start:dev
 
 
 ## dev with details
-npm run start:mockers
+npm run start:mockers 
 npm start

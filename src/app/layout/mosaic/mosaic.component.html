@@ -1,14 +1,27 @@
 <div *ngIf="isloading"> loading .... </div>
 <div *ngIf="!isloading">
 
-	<mat-tab-group *ngFor="let cam of cameras">
-		<mat-tab label={ {cam.name}}>
+<ngb-carousel>
+    <ng-template ngbSlide *ngFor="let cam of cameras">
+        <img class="img-fluid mx-auto d-block" [src]="cam.camPreviewUrl" onerror="this.src='assets/images/mire.jpg'" alt="Cameras" height="100%">
+        <div class="carousel-caption">
+            <h3>{{cam.name}}</h3>
+            <p>{{slider.text}}</p>
+        </div>
+    </ng-template>
+</ngb-carousel>
+<!--
+  <mat-tab-group >
+  <div  *ngFor="let cam of cameras">
+  <mat-tab label= {{cam.name}}>
 
-			<img class="img-rounded" width="90%" src= "{{cam.camPreviewUrl}}" onerror="/assets/images/mire.jpg"> </img> ';
-      <a class="btn btn-primary" href="{{cam.address}}" role="button"><span class="glyphicon glyphicon-edit"></span></a>;
-      <a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span class="glyphicon glyphicon-resize-full"></span></a>;
+    	<img class="img-rounded" width="90%" src="{{cam.camPreviewUrl}}" onerror="this.src='assets/images/mire.jpg'">
+			<a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span  [bgClass]="'warning'" [icon]="'fa-tasks'" ></span></a>
+			<a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span class="glyphicon glyphicon-resize-full"></span></a>'
 
+  </mat-tab>
 
-		</mat-tab>
-	</mat-tab-group>
-</div>
+  </div>
+</mat-tab-group>
+  -->
+

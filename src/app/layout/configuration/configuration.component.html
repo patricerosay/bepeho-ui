@@ -2,59 +2,57 @@
 <div *ngIf="!isloading">
 
 	<button mat-raised-button (click)="save()">Save</button>
-                <mat-tab-group>
+  <mat-tab-group>
+    <mat-tab label="General">
+        <mat-accordion>
+                <mat-expansion-panel *ngFor="let configuration of general">
+                        <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                        {{configuration.displayGroup}}
+                                </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div id="general" class="configuration-container "
+                                *ngFor="let property of configuration.props.general">
+                                {{property.displayName}}
+                                <div [ngSwitch]="property.type">
 
-                <mat-tab label="General">
-                        <mat-accordion>
-                                <mat-expansion-panel *ngFor="let configuration of general">
-                                        <mat-expansion-panel-header>
-                                                <mat-panel-title>
-                                                        {{configuration.displayGroup}}
-                                                </mat-panel-title>
-                                        </mat-expansion-panel-header>
-                                        <div id="general" class="configuration-container "
-                                                *ngFor="let property of configuration.props.general">
-                                                {{property.displayName}}
-                                                <div [ngSwitch]="property.type">
+                                      <mat-form-field>
+                                              <input [(ngModel)]="property.value" id="{{property.name}}" matInput
+                                                      value="{{property.value}}">
+                                      </mat-form-field>
 
-                                                      <mat-form-field>
-                                                              <input [(ngModel)]="property.value" id="{{property.name}}" matInput
-                                                                      value="{{property.value}}">
-                                                      </mat-form-field>
+                                </div>
+                        </div>
 
-                                                </div>
+                </mat-expansion-panel>
+        </mat-accordion>
+    </mat-tab>
+    <mat-tab label="Advanced">
+        <mat-accordion>
+                <mat-expansion-panel *ngFor="let configuration of advanced">
+                        <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                        {{configuration.displayGroup}}
+                                </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="configuration-container "
+                                *ngFor="let property of configuration.props.advanced">
+                                {{property.displayName}}
+                                <div [ngSwitch]="property.type">
+                                        <div *ngSwitchCase="'boolean'">
+                                                <mat-slide-toggle id="{{property.name}}"
+                                                        checked="{{property.value}}">
+                                                </mat-slide-toggle>
                                         </div>
-
-                                </mat-expansion-panel>
-                        </mat-accordion>
-                </mat-tab>
-                <mat-tab label="Advanced">
-                        <mat-accordion>
-                                <mat-expansion-panel *ngFor="let configuration of advanced">
-                                        <mat-expansion-panel-header>
-                                                <mat-panel-title>
-                                                        {{configuration.displayGroup}}
-                                                </mat-panel-title>
-                                        </mat-expansion-panel-header>
-                                        <div class="configuration-container "
-                                                *ngFor="let property of configuration.props.advanced">
-                                                {{property.displayName}}
-                                                <div [ngSwitch]="property.type">
-                                                        <div *ngSwitchCase="'boolean'">
-                                                                <mat-slide-toggle id="{{property.name}}"
-                                                                        checked="{{property.value}}">
-                                                                </mat-slide-toggle>
-                                                        </div>
-                                                        <div *ngSwitchCase="'java.lang.String'">
-                                                                <mat-form-field>
-                                                                        <input  [(ngModel)]="property.value" id="{{property.name}}" matInput
-                                                                                value="{{property.value}}">
-                                                                </mat-form-field>
-                                                        </div>
-                                                </div>
+                                        <div *ngSwitchCase="'java.lang.String'">
+                                                <mat-form-field>
+                                                        <input  [(ngModel)]="property.value" id="{{property.name}}" matInput
+                                                                value="{{property.value}}">
+                                                </mat-form-field>
                                         </div>
-                                </mat-expansion-panel>
-                        </mat-accordion>
-                </mat-tab>
-        </mat-tab-group>
-</div>
+                                </div>
+                        </div>
+                </mat-expansion-panel>
+        </mat-accordion>
+    </mat-tab>
+  </mat-tab-group>
