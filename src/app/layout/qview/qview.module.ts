@@ -4,8 +4,8 @@ import { QviewRoutingModule } from './qview-routing.module';
 import { QviewComponent } from './qview.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {VgCoreModule} from videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -82,7 +82,7 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        NgbCarouselModule],
+        VgCoreModule,VgControlsModule],
     declarations: [QviewComponent],
     entryComponents: [QviewComponent]
 

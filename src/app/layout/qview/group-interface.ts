@@ -1,4 +1,4 @@
-export interface Camera {
+export interface Group {
    id: string;
    address: string;
   name: string;

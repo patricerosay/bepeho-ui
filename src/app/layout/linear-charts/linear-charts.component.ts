@@ -33,11 +33,11 @@ export class LinearChartsComponent implements OnInit {
         data: ['bgs_d', 'bgt_d', 'rws_d', 'rwa_d']
     }
     searchParams = {
-        "start": 0,
-        "type": "timeserie"
-        , "count": 100000
-        , "start_time": [0, 360]
-        , "aggregation": "minute_ts"
+        'start': 0,
+        'type': 'timeserie'
+        , 'count': 100000
+        , 'start_time': [0, 360]
+        , 'aggregation': 'minute_ts'
     };
     ngOnInit() {
         this.loadData();
@@ -107,7 +107,7 @@ export class LinearChartsComponent implements OnInit {
     makeColor(value) {
         function intToHex(i) {
             var hex = parseInt(i).toString(16);
-            return (hex.length < 2) ? "0" + hex : hex;
+            return (hex.length < 2) ? '0' + hex : hex;
         }
         // value must be between [0, 510]
         value = Math.min(Math.max(0, value), 1) * 510;
@@ -125,7 +125,7 @@ export class LinearChartsComponent implements OnInit {
             redValue = Math.round(redValue);
         }
 
-        return "#" + intToHex(redValue) + intToHex(greenValue) + "00";
+        return '#' + intToHex(redValue) + intToHex(greenValue) + '00';
     }
     getDataFromName(series, name) {
         for (var i = 0; i < series.length; i++) {
@@ -154,15 +154,15 @@ export class LinearChartsComponent implements OnInit {
 
         self.data = [];
         const o: Line[] = data as Line[];
-        const dates = o["date"];
-        const series = o["series"];
+        const dates = o['date'];
+        const series = o['series'];
 
         self.param.data.forEach(function (dt) {
             self.param.aggregation.forEach(function (prec) {
                 let trace = {
                     x: [],
                     y: [],
-                    mode: "lines",
+                    mode: 'lines',
                     name: prec + '_' + dt
                 };
                 self.data.push(trace);
@@ -203,7 +203,7 @@ export class LinearChartsComponent implements OnInit {
 
             }
         };
-        this.layout.title = dates.length + " records where found";
+        this.layout.title = dates.length + ' records where found';
         // });
     }
 

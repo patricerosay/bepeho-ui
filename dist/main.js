@@ -122,7 +122,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-// import { PlotlyViaWindowModule } from 'angular-plotly.js';
 var routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [_shared__WEBPACK_IMPORTED_MODULE_2__["AuthGuard"]] },
     { path: 'login', loadChildren: './login/login.module#LoginModule' },

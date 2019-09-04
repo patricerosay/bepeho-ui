@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule as Ng2Charts } from 'ng2-charts';
 
 import { MapRoutingModule } from './map-routing.module';
 import { MapComponent } from './map.component';
