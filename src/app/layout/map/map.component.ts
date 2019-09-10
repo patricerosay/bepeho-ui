@@ -10,6 +10,7 @@ import * as L from 'leaflet';
 })
 
 export class MapComponent implements OnInit {
+    private mediaroot = '/media/';
     public data: any[] = [];
     public control: L.Map;
     public mbUrl = ('Mediaman-Assistant' === document.title)
@@ -125,33 +126,31 @@ export class MapComponent implements OnInit {
                     segments: self.computePayload(group)
                 };
                 let imgUrl;
-                if (payload.segments && payload.segments[0]['videos']) {
-                    imgUrl = payload.segments[0]['videos'][0].img;
-                }
+                if (payload.segments && payload.segments[0]['videos'] &&  0 < payload.segments[0]['videos'].length) {
+                    imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
 
-                const markerUrl = '/qview?data=' + btoa(JSON.stringify(payload));
+                    const markerUrl = '/qview?data=' + btoa(JSON.stringify(payload));
 
-                if (firstSegment['d_anomaly_score_d'] !== undefined) {
-                    autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/></a> Event Detected at '
-                    + autodetectionReport;
+                    if (firstSegment['d_anomaly_score_d'] !== undefined) {
+                        autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/>'
+                        + '</a> Event Detected at '
+                        + autodetectionReport;
 
-                }
-                autodetectionReport = autodetectionReport
-                + '<button class=\"btn btn-sm btn-outline-primary\" (click)=\"open()\">QView</button>';
-
-                autodetectionReport = autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>';
-                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.detections);
-                L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
+                    }
+                    autodetectionReport = autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>';
+                    L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.detections);
+                    L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
 
 
-                if (firstSegment['State'] === 'archived') {
-                    autodetectionReport = '<i class=\"glyphicon glyphicon-heart \"></i> Sequence kept at ' + autodetectionReport;
+                    if (firstSegment['State'] === 'archived') {
+                        autodetectionReport = '<i class=\"glyphicon glyphicon-heart \"></i> Sequence kept at ' + autodetectionReport;
 
-                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
-                    L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.loves);
+                        L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
+                        L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.loves);
 
-                } else {
-                    L.marker(latLon).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
+                    } else {
+                        L.marker(latLon).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
+                    }
                 }
             });
 

@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:dev": "npm run start:proxy | npm run start:mockers",
+    "start:proxy8080": "ng serve --proxy-config ./mocks/proxy-8080.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
     "start:mockers": "json-server --port 4000 --watch ./mocks/mocks.json --routes ./mocks/routes.json"
   },
@@ -19,6 +20,7 @@
     "@angular-devkit/build-angular": "^0.803.2",
     "@angular/animations": "^8.2.4",
     "@angular/cdk": "^7.3.1",
+    "@angular/cli": "^8.3.2",
     "@angular/common": "8.2.4",
     "@angular/compiler": "8.2.4",
     "@angular/core": "^8.2.4",
@@ -50,7 +52,6 @@
     "plotly.js": ">1.34.0"
   },
   "devDependencies": {
-    "@angular/cli": "8.3.2",
     "@angular/compiler-cli": "8.2.4",
     "@angular/language-service": "8.2.4",
     "@types/core-js": "^2.5.2",

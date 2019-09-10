@@ -1,5 +1,5 @@
-<div *ngIf="isloading"> loading .... </div>
-<div *ngIf="!isloading">
+<div *ngIf="isLoading"> loading .... </div>
+<div *ngIf="!isLoading">
 
 <ngb-carousel>
     <ng-template ngbSlide *ngFor="let cam of cameras">
@@ -9,18 +9,5 @@
         </div>
     </ng-template>
 </ngb-carousel>
-<!--
-  <mat-tab-group >
-  <div  *ngFor="let cam of cameras">
-  <mat-tab label= {{cam.name}}>
 
-    	<img class="img-rounded" width="90%" src="{{cam.camPreviewUrl}}" onerror="this.src='assets/images/mire.jpg'">
-			<a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span  [bgClass]="'warning'" [icon]="'fa-tasks'" ></span></a>
-			<a class="btn btn-primary" href="{{cam.camPreviewUrl}}" role="button"><span class="glyphicon glyphicon-resize-full"></span></a>'
-
-  </mat-tab>
-
-  </div>
-</mat-tab-group>
-  -->
 

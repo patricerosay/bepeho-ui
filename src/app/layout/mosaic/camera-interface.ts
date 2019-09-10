@@ -1,11 +1,11 @@
 export interface Camera {
-   id: string;
-   address: string;
+  id: string;
+  address: string;
   name: string;
   prop: string;
   shouldRecord: string;
   type: string;
   camPreviewUrl: string;
-  active:boolean;
+  active: boolean;
   enabled: boolean;
 }
