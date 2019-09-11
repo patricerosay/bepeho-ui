@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { QviewParameters, Segment, Audio, Video } from './segment-interface';
+import { IQviewParameters, ISegment, IAudio, IVideo } from './segment-interface';
+import { VgAPI, VgMedia } from '../../../../node_modules/videogular2/compiled/core';
+
 // import { Source } from 'webpack-sources';
 
 @Component({
@@ -16,10 +18,15 @@ import { QviewParameters, Segment, Audio, Video } from './segment-interface';
 
 export class QviewComponent implements OnInit {
     json: string;
-    segments: Segment[];
+    // segments: ISegment[];
     route: ActivatedRoute;
     isLoading = true;
-    first: Segment;
+    currentIndex = 0;
+    segment: ISegment;
+    api: VgAPI;
+
+    currentItem: IVideo;
+
     constructor(public http: HttpClient, private curroute: ActivatedRoute) {
         this.route = curroute;
     }
@@ -27,11 +34,36 @@ export class QviewComponent implements OnInit {
     ngOnInit() {
 
         this.json = atob(this.route.snapshot.queryParamMap.get('data'));
-        const qvparams = JSON.parse(this.json) as QviewParameters;
-        this.first = qvparams.segments[0];
+        this.segment = JSON.parse(this.json).segments[0] as ISegment;
+        this.currentItem = this.segment.videos[ this.currentIndex ];
         this.isLoading = false;
+
+    }
+    onPlayerReady(api: VgAPI) {
+        this.api = api;
+
+        this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+        this.api.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
     }
 
+    nextVideo() {
+        this.currentIndex++;
+
+        if (this.currentIndex === this.segment.videos.length) {
+            this.currentIndex = 0;
+        }
+
+        this.currentItem = this.segment.videos[ this.currentIndex ];
+    }
+
+    playVideo() {
+        this.api.play();
+    }
+
+    onClickPlaylistItem(item: IVideo, index: number) {
+        this.currentIndex = index;
+        this.currentItem = item;
+    }
 }
 
 

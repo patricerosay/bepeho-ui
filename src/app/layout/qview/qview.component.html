@@ -1,13 +1,8 @@
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
 
-  <vg-player>
-
-
-    <vg-scrub-bar>
-      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-      <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-    </vg-scrub-bar>
+  <vg-player (onPlayerReady)="onPlayerReady($event)">
+    <vg-buffering></vg-buffering>
 
     <vg-controls>
       <vg-play-pause></vg-play-pause>
@@ -15,21 +10,34 @@
 
       <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
-      <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+      <vg-scrub-bar>
+        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+      </vg-scrub-bar>
 
-      <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
       <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
 
-      <vg-track-selector></vg-track-selector>
       <vg-mute></vg-mute>
       <vg-volume></vg-volume>
 
       <vg-fullscreen></vg-fullscreen>
     </vg-controls>
-      <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
-      <source src="media/{{first.videos[0].src}}" type="video/mp4">
 
+    <video #media [vgMedia]="media" src="media/{{currentItem.src}}" id="singleVideo" preload="auto" crossorigin>
     </video>
-    
   </vg-player>
+
+  <mat-button-toggle-group #group="matButtonToggleGroup">
+    <mat-grid-list cols="4" rowHeight="2:1">
+
+      <div class="camera" *ngFor="let item of this.segment.videos; let $index = index">
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" (click)="onClickPlaylistItem(item, $index)"
+            [class.selected]="item === currentItem">{{ item.channel }}</button>
+        </mat-grid-tile>
+      </div>
+    </mat-grid-list>
+  </mat-button-toggle-group>
+
+
 </div>

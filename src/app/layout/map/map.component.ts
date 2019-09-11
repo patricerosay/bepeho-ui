@@ -87,6 +87,7 @@ export class MapComponent implements OnInit {
             if (group[g].mime === 'video/mp4') {
                 const video = {
                     id: group[g].id,
+                    channel: group[g].Channel,
                     src:  group[g].filename_p_file,
                     img:  group[g].filename_i_file
                 };
@@ -94,8 +95,8 @@ export class MapComponent implements OnInit {
             } else {
                 const audio = {
                     id: group[g].id,
+                    channel: group[g].Channel,
                     src:  group[g].filename_m_file
-
                 };
                 segment.audios.push(audio);
             }

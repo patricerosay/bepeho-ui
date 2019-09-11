@@ -6,6 +6,8 @@ import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import {VgCoreModule} from 'node_modules/videogular2/compiled/core';
 import {VgControlsModule} from 'node_modules/videogular2/compiled/controls';
+import { VgBufferingModule } from 'node_modules/videogular2/compiled/buffering';
+
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -83,7 +85,8 @@ import {
         MatTreeModule,
         MatCheckboxModule,
         VgCoreModule,
-        VgControlsModule],
+        VgControlsModule,
+        VgBufferingModule],
     declarations: [QviewComponent],
     entryComponents: [QviewComponent]
 

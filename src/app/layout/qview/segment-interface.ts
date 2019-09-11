@@ -1,20 +1,22 @@
-export interface Video {
+export interface IVideo {
    id: string;
+   channel: string;
    src: string;
    img: string;
 }
 
-export interface Audio {
+export interface IAudio {
    id: string;
+   channel: string;
    src: string;
 }
 
-export interface Segment {
+export interface ISegment {
    id: string;
-   videos: Video[];
-   audios: Audio[];
+   videos: IVideo[];
+   audios: IAudio[];
 }
 
-export interface QviewParameters {
-   segments: Segment[];
+export interface IQviewParameters {
+   segments: ISegment[];
 }
