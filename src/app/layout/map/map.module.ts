@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MapRoutingModule } from './map-routing.module';
 import { MapComponent } from './map.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-
+import { QviewModule } from '../../shared/modules/qview/qview.module';
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -81,9 +82,11 @@ import {
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        MatCheckboxModule,],
+        MatCheckboxModule,
+        NgbModule,
+        QviewModule],
     declarations: [MapComponent],
-    entryComponents: [MapComponent]
+    entryComponents: []
 
 })
 export class MapModule {}

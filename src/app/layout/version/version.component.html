@@ -1,7 +1,8 @@
-<button mat-raised-button (click)="onUpdate()">Update</button>
+<button mat-raised-button (click)="onUpdate()">Find a new version and update
+</button>
 
-<div *ngIf="isloading"> loading .... </div>
-<div *ngIf="!isloading">
+<div *ngIf="isLoading"> loading .... </div>
+<div *ngIf="!isLoading">
   <ul class="versions">
     <li *ngFor="let version of versions">
       <div class="row">

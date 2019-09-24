@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ITask } from '../../../shared/interfaces/task-interface';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-header',
@@ -10,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService, public router: Router, public http: HttpClient) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
@@ -28,9 +30,37 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+
+    private url = '/recorder/processStates';
+    private urlStatus = '/recorder/recapProcessStates ';
+    isLoading = true;
+    tasks: ITask[];
+    taskInError = 0;
+    status = 0;
+    ngOnInit()  {
         this.pushRightClass = 'push-right';
+        const self = this;
+        this.http.get(this.urlStatus)
+        .subscribe(
+            data => {
+                self.status = data['RecapProgressStatus'] as number;
+            },
+        );
+        this.http.get(this.url)
+            .subscribe(
+                data => {
+                    self.tasks = data['ProgressStatus'] as ITask[];
+                    self.tasks.forEach(element => {
+                        if (1 !== element.state ) {
+                            self.taskInError = self.taskInError + 1;
+                        }
+                    });
+                    self.isLoading = false;
+                },
+            );
     }
+
+
 
     isToggled(): boolean {
         const dom: Element = document.querySelector('body');

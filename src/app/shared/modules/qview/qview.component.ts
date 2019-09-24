@@ -1,22 +1,22 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { IQviewParameters, ISegment, IAudio, IVideo } from './segment-interface';
-import { VgAPI, VgMedia } from '../../../../node_modules/videogular2/compiled/core';
-
-// import { Source } from 'webpack-sources';
+import { VgAPI, VgMedia } from 'videogular2/compiled/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ISegment, IVideo } from './segment-interface';
 
 @Component({
     selector: 'app-qview',
     templateUrl: './qview.component.html',
     styleUrls: ['./qview.component.scss',
-    '../../../../node_modules/videogular2/fonts/videogular.css',
+    '../../../../../node_modules/videogular2/fonts/videogular.css',
 ]
 })
 
 
 
 export class QviewComponent implements OnInit {
+    headerMessage:  string;
     json: string;
     // segments: ISegment[];
     route: ActivatedRoute;
@@ -24,19 +24,23 @@ export class QviewComponent implements OnInit {
     currentIndex = 0;
     segment: ISegment;
     api: VgAPI;
-
+    titles: string;
+    data: any[];
     currentItem: IVideo;
 
-    constructor(public http: HttpClient, private curroute: ActivatedRoute) {
+    constructor(public http: HttpClient, private curroute: ActivatedRoute, public activeModal: NgbActiveModal) {
         this.route = curroute;
     }
 
     ngOnInit() {
 
-        this.json = atob(this.route.snapshot.queryParamMap.get('data'));
+        if (!this.json) {
+            return;
+        }
         this.segment = JSON.parse(this.json).segments[0] as ISegment;
         this.currentItem = this.segment.videos[ this.currentIndex ];
         this.isLoading = false;
+        this.headerMessage = 'Viewing ' + this.data['start_time'];
 
     }
     onPlayerReady(api: VgAPI) {
@@ -63,6 +67,26 @@ export class QviewComponent implements OnInit {
     onClickPlaylistItem(item: IVideo, index: number) {
         this.currentIndex = index;
         this.currentItem = item;
+    }
+    onBuildClip() {
+
+    }
+    onExportSegment() {
+
+        this.http.post<any>('recorder', 'action=FileSystem&verb=get&prm=' + this.data['GroupID'],
+            {
+                headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            } }).subscribe(
+            (res) => {
+                console.log(res);
+                this.headerMessage = 'Success';
+
+            },
+            (err) => {
+                console.log(err);
+                this.headerMessage = err.message;
+            });
     }
 }
 

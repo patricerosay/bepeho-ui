@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { HttpClient } from '@angular/common/http';
+import { IStats } from './stat-interface';
 
 @Component({
     selector: 'app-dashboard',
@@ -7,49 +9,45 @@ import { routerTransition } from '../../router.animations';
     styleUrls: ['./dashboard.component.scss'],
     animations: [routerTransition()]
 })
+
 export class DashboardComponent implements OnInit {
-    public alerts: Array<any> = [];
-    public sliders: Array<any> = [];
 
-    constructor() {
-        this.sliders.push(
-            {
-                imagePath: 'assets/images/snapshots/streamrecords/Cam111478880527.png',
-                label: 'Direction Change.',
-                text:
-                    '10 minutes ago.'
-            },
-            {
-                imagePath: 'assets/images/snapshots/streamrecords/Cam121478880527.png',
-                label: 'Speed below target.',
-                text: '4 hours ago.'
-            },
-            {
-                imagePath: 'assets/images/snapshots/streamrecords/Cam131478880586.png',
-                label: 'Sudden heel angle',
-                text:
-                    'Yesterday.'
-            }
-        );
+    public doughnutChartType: string;
+    // Doughnut
+    public doughnutChartLabels: string[] = [
+        'Used',
+        'Left',
+        'Reserved'
+    ];
+    public doughnutChartData: number[] = [350, 450, 100];
+    private url = '/recorder/stats';
+    isLoading = true;
+    stats: IStats;
+    constructor(public http: HttpClient) {
+        this.doughnutChartType = 'doughnut';
 
-        this.alerts.push(
-            {
-                id: 1,
-                type: 'success',
-                message: `The clip was successfully created`
-            },
-            {
-                id: 2,
-                type: 'warning',
-                message: `There was a probleme while sending the clip on the server. Will re-try in 42 minutes`
-            }
-        );
+    }
+    // events
+    public chartClicked(e: any): void {
+        // console.log(e);
     }
 
-    ngOnInit() {}
+    public chartHovered(e: any): void {
+        // console.log(e);
+    }
 
-    public closeAlert(alert: any) {
-        const index: number = this.alerts.indexOf(alert);
-        this.alerts.splice(index, 1);
+
+    ngOnInit() {
+
+        const self = this;
+
+        this.http.get(this.url)
+            .subscribe(
+                data => {
+                    self.stats = data as IStats;
+                    self.isLoading = false;
+                },
+            );
+
     }
 }

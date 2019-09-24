@@ -7,6 +7,7 @@ import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CountdownModule } from 'ngx-countdown';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
     MatAutocompleteModule,
@@ -85,7 +86,8 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule,
+        NgbAlertModule],
     declarations: [TaskComponent],
     entryComponents: [TaskComponent]
 

@@ -12,7 +12,7 @@ export class MosaicComponent implements OnInit {
 
     constructor(public http: HttpClient) { }
     private url = '/recorder/cams';
-    isLoading = false;
+    isLoading = true;
     cameras: Camera[];
     ngOnInit() {
         const self = this;

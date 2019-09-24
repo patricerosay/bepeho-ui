@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { Task } from './task-interface';
+import { ITask } from '../../shared/interfaces/task-interface';
 import { HttpClient } from '@angular/common/http';
+import { element } from 'protractor';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -12,23 +13,33 @@ import { HttpClient } from '@angular/common/http';
 
 export class TaskComponent implements OnInit {
 
-  tasks: Task[];
+  isLoading = true;
+  tasks: ITask[];
   product: string;
   environment: string;
   constructor(public http: HttpClient) {
 
   }
-  getConfig(task: Task) {
-    return { template: '$!h!:$!m!:$!s!',leftTime: task.time};
-  }
+
   ngOnInit() {
-    var self = this;
-    this.http.get('/recorder/taskTag')
+    const self = this;
+    this.http.get('/recorder/processStates')
       .subscribe(
         data => {
-          self.tasks = data['tasks'];
+          self.tasks = data['ProgressStatus'] as ITask[];
+          self.tasks.forEach(task => {
+            if (task.state === 1) {
+              task.showAs = 'success';
+            } else if (task.state === 2) {
+              task.showAs = 'danger';
+            }  else {
+              task.showAs = 'warning';
+            }
+          });
         },
       );
+      this.isLoading = false;
+
       // this.countdown.resume();
   }
 

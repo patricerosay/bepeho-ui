@@ -1,4 +1,5 @@
 <div [@routerTransition]>
+        <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
         <button mat-raised-button (click)="loadData()">Refresh</button>
 
         <mat-accordion>
@@ -22,12 +23,13 @@
                         </div>
                         <div class="row">
                                 From
-                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
+                                <mat-slider thumbLabel  tickInterval="1000" min="1"
                                         max="100000"></mat-slider>
                         </div>
                         <div class="row">
                                 Until
-                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                <mat-slider thumbLabel  tickInterval="1000" min="1"
                                         max="100000"></mat-slider>
                         </div>
                 </mat-expansion-panel>
@@ -42,13 +44,13 @@
                         </mat-expansion-panel-header>
                         <div class="row">
                                 Speed
-                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                <mat-slider thumbLabel tickInterval="1000" min="1"
                                         max="100000"></mat-slider>
 
                         </div>
                         <div class="row">
                                 Heel Angle
-                                <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                                <mat-slider thumbLabel  tickInterval="1000" min="1"
                                         max="100000"></mat-slider>
                         </div>
                 </mat-expansion-panel>

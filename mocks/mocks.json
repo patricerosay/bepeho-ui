@@ -1,5 +1,5 @@
 {
-  "RecapProgressStatus": {
+  "recapProcessStates": {
     "RecapProgressStatus": -1
   },
   "search": {
@@ -2281,7 +2281,7 @@
       {
         "name": "License Manager",
         "progress": 0,
-        "state": 1,
+        "state": 2,
         "lastMsg": "02/06/2019 14:21:21 GMT/OK: Your licence is valid with this machine id :77b32666-9dc3-3f07-9173-9dea84777e97"
       },
       {
@@ -3288,7 +3288,7 @@
       }
     ]
   },
-  "taskTag": {
+  "task": {
     "tasks": [
       {
         "name": "Auto recording data NMEA",

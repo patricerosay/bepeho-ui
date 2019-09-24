@@ -1,23 +1,26 @@
-<div *ngIf="isloading"> loading .... </div>
-<div *ngIf="!isloading">
-  <h1>{{product}}</h1>
-  <ul class="task">
+<div *ngIf="isLoading"> loading .... </div>
+<div *ngIf="!isLoading">
+  <!-- <h1>{{product}}</h1> -->
+  <ngb-alert [type]="task.showAs"  [dismissible]="false" *ngFor="let task of tasks"><b>{{task.name }}</b> <br/> <i>{{task.lastMsg }}</i>
+    </ngb-alert>
+    <hr />
+
+  <!-- <ul class="task">
     <li *ngFor="let task of tasks">
       <div class="row">
         <div class="col card mb-3">
-          {{task.group}} 
+          {{task.name}} 
         </div>
         <div class="col card mb-3">
-            {{task.name}}
+            {{task.lastMsg}}
         </div>
         <div class="col card mb-3">
-            <span class="badge"><countdown [config]=getConfig(task)></countdown></span>
-            <!-- <span class="badge"><countdown [config]="{ template: '$!h!:$!m!:$!s!',leftTime: 30}"></countdown></span> -->
+            <span class="badge"><countdown [config]=task.progress></countdown></span>
           
         </div>
       </div>
     </li>
   </ul>
-  <h5>{{environment}}</h5>
+  <h5>{{environment}}</h5> -->
 
 </div>

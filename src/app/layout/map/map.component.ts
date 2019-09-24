@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { routerTransition } from '../../router.animations';
 import * as L from 'leaflet';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { QviewComponent } from '../../shared/modules/qview/qview.component';
+
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
@@ -17,27 +20,35 @@ export class MapComponent implements OnInit {
         ? 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png' :
         'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
-    public detections = L.layerGroup();
     public traces = L.layerGroup();
-    public loves = L.layerGroup();
     public linePoints = [];
+
+    workloadMap = {};
 
     iconLove = L.icon({
         iconUrl: '/assets/images/love-icon.png',
-        shadowSize:   [50, 64],
-        iconAnchor:   [25, 80],
+        shadowSize: [50, 64],
+        iconAnchor: [25, 80],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
-        });
+        popupAnchor: [-3, -76]
+    });
 
     iconDetect = L.icon({
         iconUrl: '/assets/images/detection-icon.png',
-        shadowSize:   [50, 64],
-        iconAnchor:   [25, 80],
+        shadowSize: [50, 64],
+        iconAnchor: [25, 80],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
-        });
-    constructor(public http: HttpClient) { }
+        popupAnchor: [-3, -76]
+    });
+    constructor(public http: HttpClient, private modalService: NgbModal) {
+        // console.log('modaleService');
+    }
+
+    // public onClickOnTrace() {
+    //     this
+    //     const modalRef = this.modalService.open(QviewComponent);
+    //     modalRef.componentInstance.title = 'QuickEdit';
+    // }
 
     ngOnInit() {
         this.control = L.map('map');
@@ -47,7 +58,14 @@ export class MapComponent implements OnInit {
         }).addTo(this.control);
         this.loadData();
     }
+    formatLabel(value: number | null) {
+        if (!value) {
+            return 0;
+        }
+        console.log(value);
 
+        return value;
+    }
 
     public getLatLon(o: any) {
         const res = new L.LatLng(0.0, 0.0);
@@ -88,15 +106,15 @@ export class MapComponent implements OnInit {
                 const video = {
                     id: group[g].id,
                     channel: group[g].Channel,
-                    src:  group[g].filename_p_file,
-                    img:  group[g].filename_i_file
+                    src: group[g].filename_p_file,
+                    img: group[g].filename_i_file
                 };
                 segment.videos.push(video);
             } else {
                 const audio = {
                     id: group[g].id,
                     channel: group[g].Channel,
-                    src:  group[g].filename_m_file
+                    src: group[g].filename_m_file
                 };
                 segment.audios.push(audio);
             }
@@ -105,7 +123,10 @@ export class MapComponent implements OnInit {
         return segments;
 
     }
-
+    // public  pop() {
+    //     const modalRef = this.modalService.open(NgbdModalContent);
+    //     modalRef.componentInstance.title = 'QuickEdit';
+    // }
     public loadData() {
         const self = this;
         this.http.get('/recorder/search').toPromise().then(data => {
@@ -127,39 +148,43 @@ export class MapComponent implements OnInit {
                     segments: self.computePayload(group)
                 };
                 let imgUrl;
-                if (payload.segments && payload.segments[0]['videos'] &&  0 < payload.segments[0]['videos'].length) {
+                if (payload.segments && payload.segments[0]['videos'] && 0 < payload.segments[0]['videos'].length) {
                     imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
 
                     const markerUrl = '/qview?data=' + btoa(JSON.stringify(payload));
 
                     if (firstSegment['d_anomaly_score_d'] !== undefined) {
                         autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/>'
-                        + '</a> Event Detected at '
-                        + autodetectionReport;
+                            + '</a> Event Detected at '
+                            + autodetectionReport;
 
                     }
-                    autodetectionReport = autodetectionReport + '<a href="' + markerUrl + '"><img src="' + imgUrl + '"/></a>';
-                    L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.detections);
-                    L.marker(latLon, { icon: self.iconDetect }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
+
+                    autodetectionReport = autodetectionReport + '<img onclick="onClickOnTrace()" src="'
+                        + imgUrl + '"/></a>';
 
 
-                    if (firstSegment['State'] === 'archived') {
-                        autodetectionReport = '<i class=\"glyphicon glyphicon-heart \"></i> Sequence kept at ' + autodetectionReport;
+                    const marker = new L.Marker(latLon,
+                        {
+                            icon: self.iconDetect,
+                            title: firstSegment.end_time,
+                            payload: JSON.stringify(payload),
+                            data: firstSegment
+                        }
+                    ).addTo(self.traces);
+                    marker.on('click', function (e) {
 
-                        L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
-                        L.marker(latLon, { icon: self.iconLove }).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.loves);
+                        const modalRef = who.modalService.open(QviewComponent,
+                             { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
+                        modalRef.componentInstance.json = e.target.options.payload;
+                        modalRef.componentInstance.data = e.target.options.data;
 
-                    } else {
-                        L.marker(latLon).bindPopup(autodetectionReport, {minWidth: 320}).addTo(self.traces);
-                    }
+                    });
                 }
             });
 
             if (this.control && this.control !== undefined) {
-                this.control.removeLayer(this.detections);
                 this.control.removeLayer(this.traces);
-                this.control.removeLayer(this.loves);
-                this.control.removeLayer(this.loves);
             }
 
 
@@ -174,10 +199,13 @@ export class MapComponent implements OnInit {
             L.polyline(self.linePoints, { color: 'red' }).addTo(self.control);
 
             L.control.layers({
-                'Events': self.detections,
-                'Loves': self.loves,
                 'Traces': self.traces
             }).addTo(self.control);
         });
+        self.control.setZoom(5);
+        self.control.addLayer(self.traces);
+        const who = self;
+
     }
+
 }
