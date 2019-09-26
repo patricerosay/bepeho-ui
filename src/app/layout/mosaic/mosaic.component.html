@@ -1,13 +1,11 @@
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
-
-<ngb-carousel>
-    <ng-template ngbSlide *ngFor="let cam of cameras">
-        <img class="img-fluid mx-auto d-block" [src]="cam.camPreviewUrl" onerror="this.src='assets/images/mire.jpg'" alt="Cameras" height="100%">
-        <div class="carousel-caption">
-            <h3>{{cam.name}}</h3>
-        </div>
-    </ng-template>
-</ngb-carousel>
-
-
+        <mat-tab-group >
+            <div *ngFor="let cam of cameras">
+                <mat-tab label="{{cam.name}}"> <img class="camera" width="90%" src="http://cam.camPreviewUrl"
+                    onerror="this.src='assets/images/mire.jpg'">
+                 </mat-tab>
+                </div>
+        </mat-tab-group>
+   
+</div>

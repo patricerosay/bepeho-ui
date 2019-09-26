@@ -1,23 +1,14 @@
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  outline: black;
-  background-size: 100%, 100%;
-  border-radius: 50%;
-  border: 1px solid black;
-  background-image: none;
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
 }
 
-.carousel-control-next-icon:after
-{
-  content: '>';
-  font-size: 55px;
-  color: red;
-}
 
-.carousel-control-prev-icon:after {
-  content: '<';
-  font-size: 55px;
-  color: red;
+
+@media (min-width: 992px)  {
+	.camera {
+		width: 640px;
+		height: 480px;
+	}
 }

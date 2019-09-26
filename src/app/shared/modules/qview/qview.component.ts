@@ -40,7 +40,7 @@ export class QviewComponent implements OnInit {
         this.segment = JSON.parse(this.json).segments[0] as ISegment;
         this.currentItem = this.segment.videos[ this.currentIndex ];
         this.isLoading = false;
-        this.headerMessage = 'Viewing ' + this.data['start_time'];
+        this.headerMessage = 'Recorded ' + this.data['start_time'];
 
     }
     onPlayerReady(api: VgAPI) {

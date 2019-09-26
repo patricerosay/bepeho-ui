@@ -4,6 +4,11 @@ import { routerTransition } from '../../router.animations';
 import * as L from 'leaflet';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QviewComponent } from '../../shared/modules/qview/qview.component';
+import { ISearchParams } from '../../shared/interfaces/search.interface';
+export interface MyMarkerOptions extends L.MarkerOptions {
+    data: any;
+    jsonPayload: string;
+}
 
 @Component({
     selector: 'app-map',
@@ -11,6 +16,7 @@ import { QviewComponent } from '../../shared/modules/qview/qview.component';
     styleUrls: ['./map.component.scss'],
     animations: [routerTransition()]
 })
+
 
 export class MapComponent implements OnInit {
     private mediaroot = '/media/';
@@ -22,6 +28,7 @@ export class MapComponent implements OnInit {
 
     public traces = L.layerGroup();
     public linePoints = [];
+    searchPrms: ISearchParams = new ISearchParams();
 
     workloadMap = {};
 
@@ -41,14 +48,8 @@ export class MapComponent implements OnInit {
         popupAnchor: [-3, -76]
     });
     constructor(public http: HttpClient, private modalService: NgbModal) {
-        // console.log('modaleService');
     }
 
-    // public onClickOnTrace() {
-    //     this
-    //     const modalRef = this.modalService.open(QviewComponent);
-    //     modalRef.componentInstance.title = 'QuickEdit';
-    // }
 
     ngOnInit() {
         this.control = L.map('map');
@@ -56,7 +57,14 @@ export class MapComponent implements OnInit {
         L.tileLayer(this.mbUrl, {
             attribution: 'Map'
         }).addTo(this.control);
+
+        this.searchPrms.type = 'autorecord';
+
         this.loadData();
+
+        L.control.layers({
+            'Traces': this.traces
+        }).addTo(this.control);
     }
     formatLabel(value: number | null) {
         if (!value) {
@@ -123,13 +131,40 @@ export class MapComponent implements OnInit {
         return segments;
 
     }
-    // public  pop() {
-    //     const modalRef = this.modalService.open(NgbdModalContent);
-    //     modalRef.componentInstance.title = 'QuickEdit';
-    // }
+
+    serialize(obj: any) {
+        const params: URLSearchParams = new URLSearchParams();
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const element = obj[key];
+
+                params.set(key, element);
+            }
+        }
+
+        return params;
+    }
+    public Reset() {
+        this.searchPrms = new ISearchParams;
+        this.searchPrms.type = 'autorecord';
+        this.loadData();
+
+    }
+    public onSearchOnLastMinutes(from: string, to: string) {
+        this.searchPrms.start_time = [from, to];
+        this.loadData();
+    }
+    public onSearchOnHeelAngle(event) {
+        this.searchPrms.nmea_d_heel_d = event.value;
+        this.loadData();
+    }
+
     public loadData() {
         const self = this;
-        this.http.get('/recorder/search').toPromise().then(data => {
+        this.traces.clearLayers();
+        this.linePoints = [];
+        const params: URLSearchParams = this.serialize(this.searchPrms);
+        this.http.get('/recorder/search?' + params).toPromise().then(data => {
             if (!self.data) {
 
                 // this.layout.title = " No records where found";
@@ -163,20 +198,22 @@ export class MapComponent implements OnInit {
                     autodetectionReport = autodetectionReport + '<img onclick="onClickOnTrace()" src="'
                         + imgUrl + '"/></a>';
 
-
-                    const marker = new L.Marker(latLon,
-                        {
-                            icon: self.iconDetect,
-                            title: firstSegment.end_time,
-                            payload: JSON.stringify(payload),
-                            data: firstSegment
-                        }
+                    const jsonPayload = JSON.stringify(payload);
+                    const markerOptions: MyMarkerOptions = {
+                        data: firstSegment,
+                        jsonPayload: jsonPayload,
+                        icon: self.iconDetect,
+                        title: firstSegment.end_time
+                    };
+                    const marker = new L.Marker(latLon, markerOptions
                     ).addTo(self.traces);
+                    // marker.options.payload = jsonPayload;
+                    // marker.options.data= firstSegment;
                     marker.on('click', function (e) {
 
                         const modalRef = who.modalService.open(QviewComponent,
-                             { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true});
-                        modalRef.componentInstance.json = e.target.options.payload;
+                            { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
+                        modalRef.componentInstance.json = e.target.options.jsonPayload;
                         modalRef.componentInstance.data = e.target.options.data;
 
                     });
@@ -198,9 +235,7 @@ export class MapComponent implements OnInit {
             // self.control.panTo(center);
             L.polyline(self.linePoints, { color: 'red' }).addTo(self.control);
 
-            L.control.layers({
-                'Traces': self.traces
-            }).addTo(self.control);
+
         });
         self.control.setZoom(5);
         self.control.addLayer(self.traces);

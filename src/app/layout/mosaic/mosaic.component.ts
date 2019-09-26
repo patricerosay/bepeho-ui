@@ -13,14 +13,20 @@ export class MosaicComponent implements OnInit {
     constructor(public http: HttpClient) { }
     private url = '/recorder/cams';
     isLoading = true;
-    cameras: Camera[];
+    cameras: Array<Camera> = new Array<Camera>();
     ngOnInit() {
         const self = this;
-
+        // const self.cameras = new Camera[];
         this.http.get(this.url)
             .subscribe(
                 data => {
-                    self.cameras = data as Camera[];
+                    // self.cameras
+                    const tempCams = data as Camera[];
+                    tempCams.forEach( function (cam) {
+                        if (cam.camPreviewUrl) {
+                            self.cameras.push(cam);
+                        }
+                    });
                     self.isLoading = false;
                 },
             );

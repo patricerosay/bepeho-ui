@@ -1,6 +1,7 @@
 <div [@routerTransition]>
         <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
         <button mat-raised-button (click)="loadData()">Refresh</button>
+        <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
 
         <mat-accordion>
                 <mat-expansion-panel>
@@ -14,24 +15,21 @@
                         </mat-expansion-panel-header>
                         <div class="row">
                                 <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                                        <mat-button-toggle value="bold">Today</mat-button-toggle>
-                                        <mat-button-toggle value="italic">Last Week</mat-button-toggle>
-                                        <mat-button-toggle value="underline">Last Month</mat-button-toggle>
-                                        <mat-button-toggle value="underline">All</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*6)" value="bold">Last 6 Hours</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24)" value="bold">Last 24 Hours</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24*7)" value="italic">Last 7 Days</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24*7)" value="italic">Last 30 Days </mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 2419200)" value="italic">All</mat-button-toggle>
 
                                 </mat-button-toggle-group>
                         </div>
                         <div class="row">
-                                From
+                                Number of results
                                 <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
-                                <mat-slider thumbLabel  tickInterval="1000" min="1"
+                                <mat-slider thumbLabel  tickInterval="10" min="1"
                                         max="100000"></mat-slider>
                         </div>
-                        <div class="row">
-                                Until
-                                <mat-slider thumbLabel  tickInterval="1000" min="1"
-                                        max="100000"></mat-slider>
-                        </div>
+                        
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -43,15 +41,15 @@
                                 </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div class="row">
-                                Speed
-                                <mat-slider thumbLabel tickInterval="1000" min="1"
-                                        max="100000"></mat-slider>
+                                Speed (knts)
+                                <mat-slider thumbLabel tickInterval="1" min="0"
+                                        max="40"></mat-slider>
 
                         </div>
                         <div class="row">
-                                Heel Angle
-                                <mat-slider thumbLabel  tickInterval="1000" min="1"
-                                        max="100000"></mat-slider>
+                                Heel Angle (deg)
+                                <mat-slider (input)="onSearchOnHeelAngle($event)"  thumbLabel  tickInterval="10" min="-90"
+                                        max="90"></mat-slider>
                         </div>
                 </mat-expansion-panel>
         </mat-accordion>
