@@ -38,8 +38,11 @@
 
       </vg-controls>
 
-      <video #media [vgMedia]="media" src="media/{{currentItem.src}}" id="singleVideo" preload="auto" crossorigin>
+     <video #media [vgMedia]="media" src="media/{{currentItem.src}}" id="singleVideo" preload="auto" crossorigin>
+      <track kind="subtitles" label="Data" src="media/subtitles/{{data['GroupID']}}.vtt" srclang="en" default>
+
       </video>
+      
     </vg-player>
 
   </div>
