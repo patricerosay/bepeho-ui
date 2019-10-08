@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule as Ng2Charts } from 'ng2-charts';
-import { ClipModule } from '../../shared';
+import { ModalBuildComponent } from './modal.build.component';
 
-import { VideoRecordsRoutingModule } from './video-records-routing.module';
-import { VideoRecordsComponent } from './video-records.component';
-import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkStepperModule} from '@angular/cdk/stepper';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
+import {VgCoreModule} from 'node_modules/videogular2/compiled/core';
+import {VgControlsModule} from 'node_modules/videogular2/compiled/controls';
+import { VgBufferingModule } from 'node_modules/videogular2/compiled/buffering';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -49,8 +45,11 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, VideoRecordsRoutingModule, PageHeaderModule,
+    imports: [CommonModule,
         HttpClientModule,
+        VgCoreModule,
+        VgControlsModule,
+        VgBufferingModule,
         MatAutocompleteModule,
         MatBadgeModule,
         MatBottomSheetModule,
@@ -87,13 +86,10 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        CdkStepperModule,
-        CdkTableModule,
-        CdkTreeModule,
-        ScrollingModule,
-        ClipModule],
-    declarations: [VideoRecordsComponent],
-    entryComponents: [VideoRecordsComponent]
+        NgbModule ],
+    declarations: [ModalBuildComponent],
+    entryComponents: [ModalBuildComponent],
+    exports: [ModalBuildComponent]
 
 })
-export class VideoRecordsModule {}
+export class ModalBuildModule {}

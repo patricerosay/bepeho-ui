@@ -6,7 +6,7 @@
 @import "responsive";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~leaflet/dist/leaflet.css";
-
+@import "../../node_modules/videogular2/fonts/videogular.css";
 @media print {
     .breadcrumb {
         display: none !important;

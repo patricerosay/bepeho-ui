@@ -44,6 +44,7 @@
     "ngx-countdown": "^3.2.0",
     "plotly.js": "^1.44.3",
     "rxjs": "6.5.3",
+    "videogular-themes-default": "^1.4.4",
     "videogular2": "^7.0.1",
     "yarn": "1.12.1",
     "zone.js": "0.9.1"

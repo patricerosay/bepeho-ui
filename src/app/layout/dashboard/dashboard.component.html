@@ -3,28 +3,21 @@
     <div [@routerTransition]>
 
         <div class="row">
-            <div class="col-xl-3 col-lg-6">
-                <app-stat [bgClass]="'success'" [icon]="'fa-check'" [count]="stats.documentCount" [label]="'Clips'">
-                </app-stat>
-            </div>
-            <!-- <div class="col-xl-3 col-lg-6">
-                <app-stat [bgClass]="'success'" [icon]="'fa-tasks'" [count]="stats.totalrecorderTime" [label]="'Minutes of recording'">
-                </app-stat>
-            </div>
-            <div class="col-xl-3 col-lg-6">
-                <app-stat [bgClass]="'success'" [icon]="'fa-hdd-o'" [count]="stats.remainingVideoTime" [label]="'Minutes of storage left'">
-                </app-stat>
-            </div> -->
+           
             <div class="col-xl-3 col-lg-6">
                 <app-stat [bgClass]="'warning'" [icon]="'fa-bolt'" [count]="13" [label]="'Events to analyse'" [gotoUrl]="'map'"></app-stat>
             </div>
+            <div class="col-xl-3 col-lg-6">
+                    <app-stat [bgClass]="'success'" [icon]="'fa-film'" [count]="stats.documentCount" [label]="'Clips'" [gotoUrl]="'video-records'">
+                    </app-stat>
+                </div>
         </div>
         <div class="row">
-                <div class="col-xl-3 col-lg-6">
+                <div class="col-xl-3 col-lg-6 mat-elevation-z8">
                         <div class="card-header">
                         Storage
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" >
                         </canvas>
                     </div>

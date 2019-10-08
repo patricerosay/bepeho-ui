@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { QviewRoutingModule } from './qview-routing.module';
-import { QviewComponent } from './qview.component';
+import { QviewComponent, NgbdModal2Content } from './qview.component';
 import { HttpClientModule } from '@angular/common/http';
 import {VgCoreModule} from 'node_modules/videogular2/compiled/core';
 import {VgControlsModule} from 'node_modules/videogular2/compiled/controls';
 import { VgBufferingModule } from 'node_modules/videogular2/compiled/buffering';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 import {
+    MatFormFieldModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -46,7 +48,9 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule,
+    imports: [
+        MatFormFieldModule,
+        CommonModule,
         HttpClientModule,
         VgCoreModule,
         VgControlsModule,
@@ -87,10 +91,10 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        NgbModule],
-    declarations: [QviewComponent],
-    entryComponents: [QviewComponent],
-    exports: [QviewComponent]
+        NgbModule, FormsModule],
+    declarations: [QviewComponent,  NgbdModal2Content],
+    entryComponents: [QviewComponent, NgbdModal2Content],
+    exports: [QviewComponent, NgbdModal2Content]
 
 })
 export class QviewModule {}

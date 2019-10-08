@@ -23,7 +23,7 @@ const routes: Routes = [
             { path: 'version', loadChildren: './version/version.module#VersionModule' },
             { path: 'task', loadChildren: './task/task.module#TaskModule' },
             { path: 'configuration', loadChildren: './configuration/configuration.module#ConfigurationModule' },
-//            { path: 'video-records', loadChildren: './video-records/video-records.module#VideoRecordsModule' },
+           { path: 'video-records', loadChildren: './video-records/video-records.module#VideoRecordsModule' },
             // { path: 'qview', loadChildren: './qview/qview.module#QviewModule' },
 
             // { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' }

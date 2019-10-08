@@ -8,43 +8,50 @@
 <div *ngIf="!isLoading">
   <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
     <div class="container-fluid">
+       
       <ul class=" nav navbar-nav  flex-nowrap ml-auto">
+        
+       
         <li> <button mat-raised-button (click)="onBuildClip()">Build Smart Clip</button></li>
         <li><button mat-raised-button (click)="onExportSegment()">Export to shared folder</button></li>
 
       </ul>
     </div>
   </nav>
+  <div class="videogular-container-audio">
+      <vg-player (onPlayerReady)="onAudioPlayerReady($event)" onUpdateState="onUpdateState($state)">   
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+    
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+    
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+    
+          </vg-controls>
+    
+          <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="media/{{currentAudio.src}}" id="singleAudio" preload="auto" crossorigin>
+          </audio>
+    
+        </vg-player>
+  </div>
   <div class="videogular-container">
-    <vg-player (onPlayerReady)="onPlayerReady($event)">
+    <vg-player (onPlayerReady)="onVideoPlayerReady($event)">
       <vg-buffering></vg-buffering>
 
       <vg-controls>
-        <vg-play-pause></vg-play-pause>
-        <vg-playback-button></vg-playback-button>
-
-        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-
-        <vg-scrub-bar>
-          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-        </vg-scrub-bar>
-
-        <vg-fullscreen></vg-fullscreen>
         <div *ngFor="let item of this.segment.videos; let $index = index">
           <button mat-raised-button color="primary" (click)="onClickPlaylistItem(item, $index)"
-            [class.selected]="item === currentItem">{{ item.channel }}</button>
+            [class.selected]="item === currentVideo">{{ item.channel }}</button>
         </div>
-
       </vg-controls>
-
-     <video #media [vgMedia]="media" src="media/{{currentItem.src}}" id="singleVideo" preload="auto" crossorigin>
-      <track kind="subtitles" label="Data" src="media/subtitles/{{data['GroupID']}}.vtt" srclang="en" default>
-
+      <video #mediaV [vgMedia]="mediaV" src="media/{{currentVideo.src}}" id="singleVideo" preload="auto" crossorigin>
+        <track kind="subtitles" label="Data" src="media/subtitles/{{data['GroupID']}}.vtt" srclang="en" default>
       </video>
-      
     </vg-player>
-
   </div>
 
 </div>

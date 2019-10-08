@@ -1,0 +1,21 @@
+<div class="videogular-container">
+    <vg-player >
+        <vg-buffering></vg-buffering>
+        <vg-controls>
+                <vg-play-pause></vg-play-pause>
+                <vg-playback-button></vg-playback-button>
+        
+                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+        
+                <vg-scrub-bar>
+                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                  <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                </vg-scrub-bar>
+                <vg-fullscreen></vg-fullscreen>
+
+              </vg-controls>
+        <video #media [vgMedia]="media" [src]="src" id="{{id}}" [poster]="img" >
+            <track kind="subtitles" label="Data" src="{{subtitle}}" srclang="en" default>
+        </video>
+    </vg-player>
+</div>

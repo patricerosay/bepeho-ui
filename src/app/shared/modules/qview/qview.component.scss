@@ -4,9 +4,16 @@ html, body {
 	overflow: hidden;
 }
 
-.videogular-container {
+.videogular-container{
 	width: 100%;
-	height: 320px;
+	height: 740px;
+	margin: auto;
+	overflow: hidden;
+}
+
+.videogular-container-audio {
+	width: 100%;
+	height: 50px;
 	margin: auto;
 	overflow: hidden;
 }
@@ -19,8 +26,8 @@ html, body {
 		height: 418px;
 	}
 
-	.videogular-container.audio {
-		width: 940px;
+	.videogular-container-audio {
+		width: 740px;
 		height: 50px;
 	}
 }
@@ -31,7 +38,8 @@ html, body {
 		height: 409.5px;
 	}
 
-	.videogular-container.audio {
+	.videogular-container-audio {
+		
 		width: 728px;
 		height: 50px;
 	}
@@ -67,3 +75,4 @@ videogular div.my-button a:visited {
 	color: white;
 	text-decoration: none;
 }
+
