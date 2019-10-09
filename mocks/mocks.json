@@ -1581,7 +1581,7 @@
         ],
         "Camera 2": [
           {
-            "name": "CAM1_DISPLAYNAME",
+            "name": "CAM2_DISPLAYNAME",
             "value": "Cam2",
             "group": "Recording",
             "subGroup": "Camera 2",
@@ -1589,15 +1589,15 @@
             "type": "java.lang.String"
           },
           {
-            "name": "CAM1_PREVIEW_URL",
-            "value": "",
+            "name": "CAM2_PREVIEW_URL",
+            "value": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
             "group": "Recording",
             "subGroup": "Camera 2",
             "displayName": "Preview URL",
             "type": "java.lang.String"
           },
           {
-            "name": "CAM1_RECORD",
+            "name": "CAM2_RECORD",
             "value": "false",
             "group": "Recording",
             "subGroup": "Camera 2",
@@ -1605,7 +1605,7 @@
             "type": "boolean"
           },
           {
-            "name": "CAM1",
+            "name": "CAM2",
             "value": "",
             "group": "Recording",
             "subGroup": "Camera 2",
@@ -1624,7 +1624,7 @@
           },
           {
             "name": "CAM2_PREVIEW_URL",
-            "value": "",
+            "value": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
             "group": "Recording",
             "subGroup": "Camera 3",
             "displayName": "Preview URL",
@@ -2218,6 +2218,17 @@
       "id": "CAM1",
       "address": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
       "name": "Cam2",
+      "prop": "%s",
+      "shouldRecord": false,
+      "type": "CAM",
+      "camPreviewUrl": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
+      "active": false,
+      "enabled": true
+    },
+    {
+      "id": "CAM2",
+      "address": "-rtsp_transport tcp -i rtsp://admin:admin@192.168.0.10:554",
+      "name": "Cam3",
       "prop": "%s",
       "shouldRecord": false,
       "type": "CAM",
