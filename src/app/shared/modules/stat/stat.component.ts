@@ -13,6 +13,7 @@ export class StatComponent implements OnInit {
     @Input() label: string;
     @Input() data: number;
     @Input() gotoUrl: string;
+    @Input() viewName: string;
     @Output() event: EventEmitter<any> = new EventEmitter();
 
     constructor(private router: Router) {}
