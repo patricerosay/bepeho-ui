@@ -3,6 +3,8 @@
 ## installation
 npm install .
 
+npm install videogular2
+npm i @angular/forms
 npm install -g json-server
 
 

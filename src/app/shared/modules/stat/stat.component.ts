@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-stat',
@@ -14,7 +15,10 @@ export class StatComponent implements OnInit {
     @Input() gotoUrl: string;
     @Output() event: EventEmitter<any> = new EventEmitter();
 
-    constructor() {}
+    constructor(private router: Router) {}
 
     ngOnInit() {}
+    public gotoPage(){
+      this.router.navigateByUrl(this.gotoUrl);
+    }
 }

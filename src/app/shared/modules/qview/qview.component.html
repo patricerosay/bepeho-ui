@@ -8,10 +8,10 @@
 <div *ngIf="!isLoading">
   <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
     <div class="container-fluid">
-       
+
       <ul class=" nav navbar-nav  flex-nowrap ml-auto">
-        
-       
+
+
         <li> <button mat-raised-button (click)="onBuildClip()">Build Smart Clip</button></li>
         <li><button mat-raised-button (click)="onExportSegment()">Export to shared folder</button></li>
 
@@ -19,23 +19,23 @@
     </div>
   </nav>
   <div class="videogular-container-audio">
-      <vg-player (onPlayerReady)="onAudioPlayerReady($event)" onUpdateState="onUpdateState($state)">   
+      <vg-player (onPlayerReady)="onAudioPlayerReady($event)" onUpdateState="onUpdateState($state)">
           <vg-controls>
             <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
-    
+
             <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-    
+
             <vg-scrub-bar>
               <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
               <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
             </vg-scrub-bar>
-    
+
           </vg-controls>
-    
+
           <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="media/{{currentAudio.src}}" id="singleAudio" preload="auto" crossorigin>
           </audio>
-    
+
         </vg-player>
   </div>
   <div class="videogular-container">

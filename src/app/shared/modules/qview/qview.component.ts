@@ -10,37 +10,38 @@ import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from 'src/app/layout/bs-component/components';
+//import { ModalComponent } from 'mocks/-attic/bs-component/components';
+import { FormControl, Validators } from '@angular/forms';
 
 export interface Video {
-    position: number;
-    duration: number;
-    id: string;
-    segment: string;
+  position: number;
+  duration: number;
+  id: string;
+  segment: string;
 }
 
 export interface Audio {
-    position: number;
-    segment: string;
-    duration: number;
-    id: string;
-    url: string;
+  position: number;
+  segment: string;
+  duration: number;
+  id: string;
+  url: string;
 }
 
 export interface Clip {
-    beginEnd: number[];
-    archive: boolean;
-    clipName: string;
-    clipDuration: number;
-    videos: Video[];
-    audios: Audio[];
+  beginEnd: number[];
+  archive: boolean;
+  clipName: string;
+  clipDuration: number;
+  videos: Video[];
+  audios: Audio[];
 }
 export interface Food {
-    value: string;
-    viewValue: string;
+  value: string;
+  viewValue: string;
 }
 @Component({
-    template: `
+  template: `
       <div class="modal-header" >
         <h4 class="modal-title">Clip Building Parameters</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -48,10 +49,12 @@ export interface Food {
         </button>
       </div>
       <div class="modal-body">
-            <div class="example-container">
-                <mat-form-field hintLabel="Clip name (Max 30 characters)">
-                    <input matInput #input [(ngModel)]="newClipName" maxlength="30" placeholder="{{newClipName}}">
-                    <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+            <div class="nav navbar-nav  flex-nowrap ml-auto">
+                <mat-form-field hintLabel="Min 5 and max 30 characters">
+                    <input matInput matNativeControl required #input [(ngModel)]="newClipName" maxlength="30" placeholder="Enter new clip name">
+                    <mat-hint align="end">{{input.value?.length || 1}}/30</mat-hint>
+                    <mat-error *ngIf="invalidClipNameError">{{invalidClipNameError}}</mat-error>
+
                 </mat-form-field>
                 <br/>
                 <mat-form-field>
@@ -73,208 +76,222 @@ export interface Food {
 
 
 export class NgbdModal2Content {
+  newClipName = 'clip '+ formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
+  // newClipName = new FormControl('' , [Validators.required, Validators.min(5), Validators.max(30)]);
 
-    newClipName: string;
-    style: number;
+  // newClipName: string;
+  style: number;
+  invalidClipNameError:string = null;
 
-    constructor(public activeModal: NgbActiveModal) {
-        this.newClipName = 'newclip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
+  constructor(public activeModal: NgbActiveModal) {
+    // this.newClipName = 'newclip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
 
+  }
+  public onClose() {
+    if(this.newClipName.length >= 5){
+      this.activeModal.close(this.newClipName + '|' + this.style);
     }
-    public onClose() {
-        this.activeModal.close(this.newClipName + '|' + this.style);
+    else
+    {
+      this.invalidClipNameError ="Invalid parameters"
     }
+  }
+  // getErrorMessage() {
+  //   return this.newClipName.hasError('required') ? 'You must enter a value' :
+  //     this.newClipName.hasError('newClipName') ? 'Not a valid clip name' :
+  //       '';
+  // }
 }
 @Component({
-    selector: 'app-qview',
-    templateUrl: './qview.component.html',
-    styleUrls: ['./qview.component.scss',
-        '../../../../../node_modules/videogular2/fonts/videogular.css',
-    ]
+  selector: 'app-qview',
+  templateUrl: './qview.component.html',
+  styleUrls: ['./qview.component.scss',
+    '../../../../../node_modules/videogular2/fonts/videogular.css',
+  ]
 })
 
 
 
 export class QviewComponent implements OnInit {
-    headerMessage: string;
-    json: string;
-    // segments: ISegment[];
-    route: ActivatedRoute;
-    isLoading = true;
-    currentIndex = 0;
-    segment: ISegment;
-    videoApi: VgAPI;
-    audioApi: VgAPI;
-    titles: string;
-    data: any[];
-    currentVideo: IVideo;
-    currentAudio: IAudio;
-    currentTime = 0;
-    newClipNamePlaceHolder: string;
-    newClipName: string;
-    style: number;
-    constructor(public http: HttpClient, public activeModal: NgbActiveModal,
-        private _ngZone: NgZone,
-        public dialog: MatDialog,
-        private modalService: NgbModal) {
+  headerMessage: string;
+  json: string;
+  // segments: ISegment[];
+  route: ActivatedRoute;
+  isLoading = true;
+  currentIndex = 0;
+  segment: ISegment;
+  videoApi: VgAPI;
+  audioApi: VgAPI;
+  titles: string;
+  data: any[];
+  currentVideo: IVideo;
+  currentAudio: IAudio;
+  currentTime = 0;
+  newClipNamePlaceHolder: string;
+  newClipName: string;
+  style: number;
+  constructor(public http: HttpClient, public activeModal: NgbActiveModal,
+    private _ngZone: NgZone,
+    public dialog: MatDialog,
+    private modalService: NgbModal) {
 
+  }
+  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
+
+  ngOnInit() {
+
+    if (!this.json) {
+      return;
     }
-    @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
+    this.segment = JSON.parse(this.json).segments[0] as ISegment;
+    this.currentVideo = this.segment.videos[this.currentIndex];
+    this.currentAudio = this.segment.audios[0];
+    this.isLoading = false;
+    this.headerMessage = 'Recorded ' + this.data['start_time'];
 
-    ngOnInit() {
+  }
+  onVideoPlayerReady(api: VgAPI) {
+    this.videoApi = api;
 
-        if (!this.json) {
-            return;
+    this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+    this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
+
+  }
+  onPlayedAudio(event: any) {
+    this.videoApi.play();
+  }
+  onPausedAudio(event: any) {
+    this.videoApi.pause();
+  }
+  onUpdateAudioState(event: any) {
+    this.videoApi.play();
+  }
+  onSeeked(event: any) {
+    this.videoApi.seekTime(this.currentTime);
+  }
+  onEnded(event: any) {
+    this.videoApi.pause();
+  }
+  onRateChaged(event: any) {
+    console.log(event.type);
+    this.videoApi.playbackRate = this.audioApi.playbackRate;
+  }
+
+  onAudioPlayerReady(api: VgAPI) {
+    this.audioApi = api;
+    this.audioApi.subscriptions.play.subscribe(this.onPlayedAudio.bind(this));
+    this.audioApi.subscriptions.pause.subscribe(this.onPausedAudio.bind(this));
+    this.audioApi.subscriptions.ended.subscribe(this.onEnded.bind(this));
+    this.audioApi.subscriptions.error.subscribe(this.onEnded.bind(this));
+    this.audioApi.subscriptions.rateChange.subscribe(this.onRateChaged.bind(this));
+    this.audioApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
+    this.audioApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+    this.audioApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
+    this.audioApi.subscriptions.timeUpdate.subscribe(data => {
+      this.currentTime = data.srcElement.currentTime;
+    });
+  }
+  nextVideo() {
+    this.currentIndex++;
+
+    if (this.currentIndex === this.segment.videos.length) {
+      this.currentIndex = 0;
+    }
+
+    this.currentVideo = this.segment.videos[this.currentIndex];
+  }
+
+  playVideo() {
+    this.videoApi.seekTime(this.currentTime);
+    this.videoApi.play();
+    this.audioApi.seekTime(this.currentTime);
+    this.audioApi.play();
+  }
+
+  onClickPlaylistItem(item: IVideo, index: number) {
+    this.currentIndex = index;
+    this.currentVideo = item;
+  }
+
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this._ngZone.onStable.pipe(take(1))
+      .subscribe(() => this.autosize.resizeToFitContent(true));
+  }
+
+  // "{"beginEnd":[0,120],"archive":true,"clipName":"coolx1-8-10-2019_9-11","clipDuration":120,
+  // "videos":[{"position":0,"duration":40,"id":"Cam111478880586","segment":"1478880586"},
+  // {"position":1,"duration":40,"id":"Cam121478880586","segment":"1478880586"},
+  // {"position":2,"duration":40,"id":"Cam131478880586","segment":"1478880586"}],
+  // "audios":[{"position":0,"segment":"","duration":120,"id":"Ambiance1478880586",
+  // "url":"http://localhost:8080/media/vault/streamrecords/Ambiance1478880586.mp3"}]}"
+  onBuildClip() {
+    const self = this;
+    this.modalService.open(NgbdModal2Content, { centered: true }).result.then((result) => {
+      if ('' !== result) {
+        [self.newClipName, self.style] = result.split('|');
+
+        const clipDuration = self.data['Duration'];
+        const slashDuration = clipDuration / (self.segment.videos.length * this.style);
+        const buildOrder: Clip = {
+          beginEnd: [0, clipDuration],
+          archive: true,
+          clipName: self.newClipName,
+          clipDuration: clipDuration,
+          videos: [],
+          audios: [{
+            position: 0, segment: '', duration: clipDuration, id: self.segment.audios[0].id,
+            url: self.segment.audios[0].src
+          }]
+        };
+
+        let inc = 0;
+        for (let style = 0; style < self.style; style++) {
+          self.segment.videos.forEach(video => {
+            buildOrder.videos.push({ position: inc, duration: slashDuration, id: video.id, segment: self.data['GroupID'] });
+            inc = inc + 1;
+          });
         }
-        this.segment = JSON.parse(this.json).segments[0] as ISegment;
-        this.currentVideo = this.segment.videos[this.currentIndex];
-        this.currentAudio = this.segment.audios[0];
-        this.isLoading = false;
-        this.headerMessage = 'Recorded ' + this.data['start_time'];
-
-    }
-    onVideoPlayerReady(api: VgAPI) {
-        this.videoApi = api;
-
-        this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-        this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-
-    }
-    onPlayedAudio(event: any) {
-        this.videoApi.play();
-    }
-    onPausedAudio(event: any) {
-        this.videoApi.pause();
-    }
-    onUpdateAudioState (event: any) {
-        this.videoApi.play();
-    }
-    onSeeked (event: any) {
-        this.videoApi.seekTime(this.currentTime);
-    }
-    onEnded (event: any) {
-        this.videoApi.pause();
-    }
-    onRateChaged (event: any) {
-        console.log(event.type);
-        this.videoApi.playbackRate = this.audioApi.playbackRate;
-    }
-
-    onAudioPlayerReady(api: VgAPI) {
-        this.audioApi = api;
-        this.audioApi.subscriptions.play.subscribe(this.onPlayedAudio.bind(this));
-        this.audioApi.subscriptions.pause.subscribe(this.onPausedAudio.bind(this));
-        this.audioApi.subscriptions.ended.subscribe(this.onEnded.bind(this));
-        this.audioApi.subscriptions.error.subscribe(this.onEnded.bind(this));
-        this.audioApi.subscriptions.rateChange.subscribe(this.onRateChaged.bind(this));
-        this.audioApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
-        this.audioApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-        this.audioApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-        this.audioApi.subscriptions.timeUpdate.subscribe(data => {
-            this.currentTime = data.srcElement.currentTime;
-        });
-    }
-    nextVideo() {
-        this.currentIndex++;
-
-        if (this.currentIndex === this.segment.videos.length) {
-            this.currentIndex = 0;
-        }
-
-        this.currentVideo = this.segment.videos[this.currentIndex];
-    }
-
-    playVideo() {
-        this.videoApi.seekTime(this.currentTime);
-        this.videoApi.play();
-        this.audioApi.seekTime(this.currentTime);
-        this.audioApi.play();
-    }
-
-    onClickPlaylistItem(item: IVideo, index: number) {
-        this.currentIndex = index;
-        this.currentVideo = item;
-    }
-    
-    triggerResize() {
-        // Wait for changes to be applied, then trigger textarea resize.
-        this._ngZone.onStable.pipe(take(1))
-            .subscribe(() => this.autosize.resizeToFitContent(true));
-    }
-
-    // "{"beginEnd":[0,120],"archive":true,"clipName":"coolx1-8-10-2019_9-11","clipDuration":120,
-    // "videos":[{"position":0,"duration":40,"id":"Cam111478880586","segment":"1478880586"},
-    // {"position":1,"duration":40,"id":"Cam121478880586","segment":"1478880586"},
-    // {"position":2,"duration":40,"id":"Cam131478880586","segment":"1478880586"}],
-    // "audios":[{"position":0,"segment":"","duration":120,"id":"Ambiance1478880586",
-    // "url":"http://localhost:8080/media/vault/streamrecords/Ambiance1478880586.mp3"}]}"
-    onBuildClip() {
-        const self = this;
-        this.modalService.open(NgbdModal2Content, { centered: true }).result.then((result) => {
-            if ('' !== result) {
-                [self.newClipName, self.style ]= result.split('|');
-
-                const clipDuration = self.data['Duration'];
-                const slashDuration = clipDuration / (self.segment.videos.length * this.style);
-                const buildOrder: Clip = {
-                    beginEnd: [0, clipDuration],
-                    archive: true,
-                    clipName: self.newClipName,
-                    clipDuration: clipDuration,
-                    videos: [],
-                    audios: [{
-                        position: 0, segment: '', duration: clipDuration, id: self.segment.audios[0].id,
-                        url: self.segment.audios[0].src
-                    }]
-                };
-
-                let inc = 0;
-                for (let style = 0; style < self.style; style++) {
-                    self.segment.videos.forEach(video => {
-                        buildOrder.videos.push({ position: inc, duration: slashDuration, id: video.id, segment: self.data['GroupID'] });
-                        inc = inc + 1;
-                    });
-                }
-                self.http.post<any>('recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
-                    {
-                        headers: {
-                            'content-type': 'application/x-www-form-urlencoded'
-                        }
-                    }).subscribe(
-                        (res) => {
-                            console.log(res);
-                            self.headerMessage = 'Success';
-
-                        },
-                        (err) => {
-                            console.log(err);
-                            self.headerMessage = err.message;
-                        });
+        self.http.post<any>('recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
+          {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
             }
-        }, (reason) => {
-            console.log('dismissed');
+          }).subscribe(
+            (res) => {
+              console.log(res);
+              self.headerMessage = 'Success';
+
+            },
+            (err) => {
+              console.log(err);
+              self.headerMessage = err.message;
+            });
+      }
+    }, (reason) => {
+      console.log('dismissed');
+    });
+
+
+  }
+  onExportSegment() {
+
+    this.http.post<any>('recorder', 'action=FileSystem&verb=get&prm=' + this.data['GroupID'],
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      }).subscribe(
+        (res) => {
+          console.log(res);
+          this.headerMessage = 'Success';
+
+        },
+        (err) => {
+          console.log(err);
+          this.headerMessage = err.message;
         });
-
-
-    }
-    onExportSegment() {
-
-        this.http.post<any>('recorder', 'action=FileSystem&verb=get&prm=' + this.data['GroupID'],
-            {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                }
-            }).subscribe(
-                (res) => {
-                    console.log(res);
-                    this.headerMessage = 'Success';
-
-                },
-                (err) => {
-                    console.log(err);
-                    this.headerMessage = err.message;
-                });
-    }
+  }
 
 }
 
