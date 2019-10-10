@@ -20,6 +20,7 @@ export interface MyMarkerOptions extends L.MarkerOptions {
 
 export class MapComponent implements OnInit {
   private mediaroot = '/media/';
+  private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
   public mbUrl = ('Mediaman-Assistant' === document.title)
@@ -60,7 +61,7 @@ export class MapComponent implements OnInit {
 
     this.searchPrms.type = 'autorecord';
 
-    this.loadData();
+    this.loadData(this);
 
     L.control.layers({}, {
       'Traces': this.traces
@@ -84,6 +85,15 @@ export class MapComponent implements OnInit {
       res.lat = a[0];
       res.lng = a[1];
     }
+    if (  0 === parseFloat(res.lat[0]) && 0 === parseFloat(res.lng[1])) {
+        const s2 = o['nmea_loc_boatspatialpos'];
+        if ( undefined !== s2 && '00.0000,00.0000' !== s2) {
+
+          const a = s2.split(',');
+          res.lat = a[0];
+          res.lng = a[1];
+            }
+      }
     return res;
   }
   public computePayload(group: any[]) {
@@ -148,25 +158,34 @@ export class MapComponent implements OnInit {
   public Reset() {
     this.searchPrms = new ISearchParams;
     this.searchPrms.type = 'autorecord';
-    this.loadData();
+    this.loadData(this);
 
   }
   public onSearchOnLastMinutes(from: string, to: string) {
     this.searchPrms.start_time = [from, to];
-    this.loadData();
+    this.loadData(this);
   }
   public onSearchOnHeelAngle(event) {
     this.searchPrms.nmea_d_heel_d = event.value;
-    this.loadData();
+    this.loadData(this);
   }
 
-  public loadData() {
-    const self = this;
-    this.traces.clearLayers();
+  public onSearchLimit(event) {
+    this.searchPrms.count = event.value;
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
+    const self: MapComponent = this;
+    this.searchTimer = setTimeout(this.loadData, 1000, self);
+  }
+  public loadData( _self: MapComponent) {
+    const self = _self;
+    self.traces.clearLayers();
 
     let linePoints = [];
-    const params: URLSearchParams = this.serialize(this.searchPrms);
-    this.http.get('/recorder/search?' + params).toPromise().then(data => {
+    const params: URLSearchParams = self.serialize(self.searchPrms);
+    self.http.get('/recorder/search?' + params).toPromise().then(data => {
       if (!self.data) {
 
         // this.layout.title = " No records where found";
@@ -177,7 +196,7 @@ export class MapComponent implements OnInit {
       const groups = self.data['groups'] as any[];
       groups.forEach(function(group) {
         const firstSegment = group[0];
-        let autodetectionReport = firstSegment.end_time;
+        // let autodetectionReport = firstSegment.end_time;
         const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
         linePoints.push(latLon);
 
@@ -188,17 +207,7 @@ export class MapComponent implements OnInit {
         if (payload.segments && payload.segments[0]['videos'] && 0 < payload.segments[0]['videos'].length) {
           imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
 
-          // const markerUrl = '/qview?data=' + btoa(JSON.stringify(payload));
 
-          // if (firstSegment['d_anomaly_score_d'] !== undefined) {
-          //     autodetectionReport = ' <img height="44" width="44" src="/assets/images/bepeho-favicon.png"/>'
-          //         + '</a> Event Detected at '
-          //         + autodetectionReport;
-
-          // }
-
-          // autodetectionReport = autodetectionReport + '<img onclick="onClickOnTrace()" src="'
-          //     + imgUrl + '"/></a>';
 
           const jsonPayload = JSON.stringify(payload);
           const markerOptions: MyMarkerOptions = {
@@ -222,15 +231,15 @@ export class MapComponent implements OnInit {
         }
       });
 
-      if (this.theMap && this.theMap !== undefined) {
-        this.theMap.removeLayer(this.traces);
+      if (self.theMap && self.theMap !== undefined) {
+        self.theMap.removeLayer(self.traces);
       }
 
 
 
       // self.control.panTo(center);
       L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
-      this.theMap.setZoom(5);
+      self.theMap.setZoom(5);
       let center = new L.LatLng(0.0, 0.0);
 
       if (groups.length) {
@@ -238,11 +247,13 @@ export class MapComponent implements OnInit {
       }
 
       self.theMap.setView(center, 8);
-      this.theMap.addLayer(this.traces);
+      self.theMap.addLayer(self.traces);
 
     });
 
     const who = self;
+
+    clearTimeout(self.searchTimer);
 
   }
 

@@ -10,7 +10,6 @@ import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-//import { ModalComponent } from 'mocks/-attic/bs-component/components';
 import { FormControl, Validators } from '@angular/forms';
 
 export interface Video {
@@ -36,9 +35,11 @@ export interface Clip {
   videos: Video[];
   audios: Audio[];
 }
-export interface Food {
-  value: string;
-  viewValue: string;
+export interface NMEA {
+  name: string;
+  date: string;
+  bgs:string;
+  bgd:string,
 }
 @Component({
   template: `
@@ -76,24 +77,22 @@ export interface Food {
 
 
 export class NgbdModal2Content {
-  newClipName = 'clip '+ formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
+  newClipName = 'clip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
   // newClipName = new FormControl('' , [Validators.required, Validators.min(5), Validators.max(30)]);
 
   // newClipName: string;
   style: number;
-  invalidClipNameError:string = null;
+  invalidClipNameError: string = null;
 
   constructor(public activeModal: NgbActiveModal) {
     // this.newClipName = 'newclip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
 
   }
   public onClose() {
-    if(this.newClipName.length >= 5){
+    if (this.newClipName.length >= 5) {
       this.activeModal.close(this.newClipName + '|' + this.style);
-    }
-    else
-    {
-      this.invalidClipNameError ="Invalid parameters"
+    } else {
+      this.invalidClipNameError = 'Invalid parameters';
     }
   }
   // getErrorMessage() {
@@ -114,6 +113,7 @@ export class NgbdModal2Content {
 
 export class QviewComponent implements OnInit {
   headerMessage: string;
+  errorMsg: string;
   json: string;
   // segments: ISegment[];
   route: ActivatedRoute;
@@ -130,6 +130,9 @@ export class QviewComponent implements OnInit {
   newClipNamePlaceHolder: string;
   newClipName: string;
   style: number;
+  nmea: NMEA [] ;
+  displayedColumns = ['bgs', 'bgd'];
+
   constructor(public http: HttpClient, public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
     public dialog: MatDialog,
@@ -146,8 +149,13 @@ export class QviewComponent implements OnInit {
     this.segment = JSON.parse(this.json).segments[0] as ISegment;
     this.currentVideo = this.segment.videos[this.currentIndex];
     this.currentAudio = this.segment.audios[0];
-    this.isLoading = false;
     this.headerMessage = 'Recorded ' + this.data['start_time'];
+    this.nmea = [
+        {date: formatDate(this.data['start_time'], 'MM/dd/yyyy hh:mm', 'en'),
+        name: this.data['GroupID'], 
+        bgs: this.data['nmea_d_bgs_d'],
+        bgd: this.data['nmea_d_bgt_d']}];
+    this.isLoading = false;
 
   }
   onVideoPlayerReady(api: VgAPI) {
@@ -260,12 +268,12 @@ export class QviewComponent implements OnInit {
           }).subscribe(
             (res) => {
               console.log(res);
-              self.headerMessage = 'Success';
+              self.errorMsg = 'Success';
 
             },
             (err) => {
               console.log(err);
-              self.headerMessage = err.message;
+              self.errorMsg = err.message;
             });
       }
     }, (reason) => {

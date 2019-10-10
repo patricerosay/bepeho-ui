@@ -23,7 +23,6 @@ export class VideoRecordsComponent implements AfterViewInit {
     isLoadingResults = true;
     isRateLimitReached = false;
     searchPrms: ISearchParams = new ISearchParams();
-
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 

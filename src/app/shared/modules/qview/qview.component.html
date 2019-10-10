@@ -1,14 +1,41 @@
 <div class="modal-header modal-xl">
-  <h4 class="modal-title">{{headerMessage}}</h4>
+  <mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+
+  <!-- <h4 class="modal-title">{{headerMessage}}</h4> -->
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
-  <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-    <div class="container-fluid">
+    <table mat-table [dataSource]="nmea" class="mat-elevation-z8">
 
+  
+        <!-- Position Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> RecordedTime </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="bgs">
+              <th mat-header-cell *matHeaderCellDef> Max Ground Speed </th>
+              <td mat-cell *matCellDef="let element"> {{element.bgs}} </td>
+            </ng-container>
+            <ng-container matColumnDef="bgd">
+                <th mat-header-cell *matHeaderCellDef> Max Ground Direction </th>
+                <td mat-cell *matCellDef="let element"> {{element.bgd}} </td>
+              </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+      
+    <div class="container-fluid">
+     
       <ul class=" nav navbar-nav  flex-nowrap ml-auto">
 
 
@@ -19,24 +46,25 @@
     </div>
   </nav>
   <div class="videogular-container-audio">
-      <vg-player (onPlayerReady)="onAudioPlayerReady($event)" onUpdateState="onUpdateState($state)">
-          <vg-controls>
-            <vg-play-pause></vg-play-pause>
-            <vg-playback-button></vg-playback-button>
+    <vg-player (onPlayerReady)="onAudioPlayerReady($event)" onUpdateState="onUpdateState($state)">
+      <vg-controls>
+        <vg-play-pause></vg-play-pause>
+        <vg-playback-button></vg-playback-button>
 
-            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
-            <vg-scrub-bar>
-              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-            </vg-scrub-bar>
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
 
-          </vg-controls>
+      </vg-controls>
 
-          <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="media/{{currentAudio.src}}" id="singleAudio" preload="auto" crossorigin>
-          </audio>
+      <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="media/{{currentAudio.src}}" id="singleAudio" preload="auto"
+        crossorigin>
+      </audio>
 
-        </vg-player>
+    </vg-player>
   </div>
   <div class="videogular-container">
     <vg-player (onPlayerReady)="onVideoPlayerReady($event)">

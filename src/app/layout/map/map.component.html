@@ -1,6 +1,6 @@
 <div [@routerTransition]>
         <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
-        <button mat-raised-button (click)="loadData()">Refresh</button>
+        <button mat-raised-button (click)="loadData(this)">Refresh</button>
         <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
 
         <mat-accordion>
@@ -23,12 +23,7 @@
 
                                 </mat-button-toggle-group>
                         </div>
-                        <div class="row">
-                                Number of results
-                                <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
-                                <mat-slider thumbLabel  tickInterval="10" min="1"
-                                        max="100000"></mat-slider>
-                        </div>
+                       
                         
                 </mat-expansion-panel>
                 <mat-expansion-panel>
@@ -40,6 +35,12 @@
                                         Select on criterias
                                 </mat-panel-description>
                         </mat-expansion-panel-header>
+                        <div class="row">
+                                Number of results
+                                <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
+                                <mat-slider (input)="onSearchLimit($event)" thumbLabel  tickInterval="10" min="1"
+                                        max="100000"></mat-slider>
+                        </div>
                         <div class="row">
                                 Speed (knts)
                                 <mat-slider thumbLabel tickInterval="1" min="0"
