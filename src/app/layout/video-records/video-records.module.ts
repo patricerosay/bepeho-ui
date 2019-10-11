@@ -11,6 +11,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -91,7 +93,8 @@ import {
         CdkTableModule,
         CdkTreeModule,
         ScrollingModule,
-        ClipModule],
+        ClipModule,
+        NgbAlertModule],
     declarations: [VideoRecordsComponent],
     entryComponents: [VideoRecordsComponent]
 

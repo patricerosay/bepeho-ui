@@ -4061,5 +4061,5 @@
       }
     ]
   },
-  "stats":{"storageUsage":79,"documentCount":4,"totalrecorderTime":8,"remainingVideoTime":1614,"storageLimit":90}
+  "stats":{"storageUsage":79,"documentCount":4,"clipCount":4, "eventCount":10, "totalrecorderTime":8,"remainingVideoTime":1614,"storageLimit":90}
 }

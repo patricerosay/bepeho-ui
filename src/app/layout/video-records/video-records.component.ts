@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ISearchParams } from '../../shared/interfaces/search.interface';
-
+import {saveAs as importedSaveAs} from "file-saver";
 /**
  * @title Table retrieving data through HTTP
  */
@@ -22,6 +22,7 @@ export class VideoRecordsComponent implements AfterViewInit {
     resultsLength = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
+    resultMessage:string;
     searchPrms: ISearchParams = new ISearchParams();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -42,7 +43,14 @@ export class VideoRecordsComponent implements AfterViewInit {
         const  rowUrl = 'media/subtitles/' + row['GroupID'] + '.vtt';
         return rowUrl;
     }
+    public downloadThisFile(url:string, msg: string) {
+        importedSaveAs(url, "video.mp4");
+        this.resultMessage=msg;
 
+    }
+    public uploadThisFile(url:string, msg: string) {
+        this.resultMessage=msg;
+    }
     ngAfterViewInit() {
         this.searchPrms.type = 'video_import';
 

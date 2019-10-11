@@ -4,4 +4,5 @@ export interface IStats {
     totalrecorderTime: number;
     remainingVideoTime: number;
     storageLimit: number;
+    clipCount:number,
 }

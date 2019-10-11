@@ -3,6 +3,7 @@
 		<mat-progress-spinner color="primary" mode="indeterminate">
 		</mat-progress-spinner>
 	</div>
+<ngb-alert *ngIf="resultMessage" type="success" (close)="resultMessage = null">{{ resultMessage }}</ngb-alert>
 
 	<div>
 
@@ -29,11 +30,11 @@
         <button mat-button [matMenuTriggerFor]="menu"> More >></button>
 
 					<mat-menu #menu="matMenu">
-          <button mat-menu-item >
+          <button mat-menu-item (click)="uploadThisFile(getUrl(row[0]), getID(row[0]) + ' was uploaded')">
               <i class="fa fa-upload"></i>
               <span> Upload the clip on FTP server</span>
             </button>
-						<button mat-menu-item>
+						<button mat-menu-item (click)="downloadThisFile(getUrl(row[0]), getID(row[0]) +' was downloaded')">
             <i class="fa fa-download"></i>
               <span> Download the clip </span>
             </button>
