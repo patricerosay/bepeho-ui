@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule as Ng2Charts } from 'ng2-charts';
-
 import { MosaicRoutingModule } from './mosaic-routing.module';
-import { MosaicComponent } from './mosaic.component';
+import { MosaicComponent, CameraPropertiesModal } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
     MatAutocompleteModule,
@@ -84,9 +81,12 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        NgbCarouselModule],
-    declarations: [MosaicComponent],
-    entryComponents: [MosaicComponent]
+        // NgbCarouselModule
+        ],
+    declarations: [MosaicComponent,CameraPropertiesModal],
+    entryComponents: [MosaicComponent,CameraPropertiesModal],
+        exports: [MosaicComponent, CameraPropertiesModal]
+
 
 })
 export class MosaicModule {}

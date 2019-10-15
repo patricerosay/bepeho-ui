@@ -2,5 +2,9 @@
     "/recorder/*": {
         "target": "http://localhost:4000",
         "secure": false
+    },
+    "/media/*": {
+        "target": "http://localhost:4000/assets/images/",
+        "secure": false
     }
 }

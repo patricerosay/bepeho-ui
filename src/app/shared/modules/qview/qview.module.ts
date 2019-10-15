@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { QviewRoutingModule } from './qview-routing.module';
-import { QviewComponent, NgbdModal2Content } from './qview.component';
+import { QviewComponent, BuildSmartClipModal } from './qview.component';
 import { HttpClientModule } from '@angular/common/http';
 import {VgCoreModule} from 'node_modules/videogular2/compiled/core';
 import {VgControlsModule} from 'node_modules/videogular2/compiled/controls';
@@ -92,9 +91,9 @@ import {
         MatTreeModule,
         MatCheckboxModule,
         NgbModule, FormsModule],
-    declarations: [QviewComponent,  NgbdModal2Content],
-    entryComponents: [QviewComponent, NgbdModal2Content],
-    exports: [QviewComponent, NgbdModal2Content]
+    declarations: [QviewComponent,  BuildSmartClipModal],
+    entryComponents: [QviewComponent, BuildSmartClipModal],
+    exports: [QviewComponent, BuildSmartClipModal]
 
 })
 export class QviewModule {}

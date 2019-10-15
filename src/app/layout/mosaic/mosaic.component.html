@@ -3,11 +3,11 @@
 	<mat-tab-group>
 		<div *ngFor="let cam of cameras">
 			<mat-tab label="{{cam.name}}">
-      <ul class=" nav navbar-nav  flex-nowrap ml-auto">
-        <li>
-  <button mat-raised-button color="primary">Configure</button>
-        </li>
-      </ul>
+				<ul class=" nav navbar-nav  flex-nowrap ml-auto">
+					<li>
+						<button mat-raised-button color="primary" (click)="openDialog()" >Configure</button>
+					</li>
+				</ul>
 				<img class="camera" src="http://cam.camPreviewUrl"
                     onerror="this.src='assets/images/mire.jpg'">
                  </mat-tab>
@@ -15,7 +15,7 @@
 		<mat-tab label="Mosaic">
 			<mat-grid-list cols="2" rowHeight="2:1">
 				<div *ngFor="let cam of cameras">
-					<mat-grid-tile >
+					<mat-grid-tile>
 						<img class="camera-mosaic" src="http://cam.camPreviewUrl"
                     onerror="this.src='assets/images/mire.jpg'">
                     </mat-grid-tile>

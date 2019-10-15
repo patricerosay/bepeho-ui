@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { VgAPI, VgEvents } from 'videogular2/compiled/core';
+import { VgAPI } from 'videogular2/compiled/core';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISegment, IVideo, IAudio } from './segment-interface';
@@ -10,7 +10,7 @@ import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+// import { FormControl, Validators } from '@angular/forms';
 
 export interface Video {
   position: number;
@@ -76,18 +76,16 @@ export interface NMEA {
 })
 
 
-export class NgbdModal2Content {
+export class BuildSmartClipModal {
   newClipName = 'clip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
-  // newClipName = new FormControl('' , [Validators.required, Validators.min(5), Validators.max(30)]);
 
-  // newClipName: string;
   style: number;
   invalidClipNameError: string = null;
 
   constructor(public activeModal: NgbActiveModal) {
-    // this.newClipName = 'newclip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
 
   }
+
   public onClose() {
     if (this.newClipName.length >= 5) {
       this.activeModal.close(this.newClipName + '|' + this.style);
@@ -95,11 +93,7 @@ export class NgbdModal2Content {
       this.invalidClipNameError = 'Invalid parameters';
     }
   }
-  // getErrorMessage() {
-  //   return this.newClipName.hasError('required') ? 'You must enter a value' :
-  //     this.newClipName.hasError('newClipName') ? 'Not a valid clip name' :
-  //       '';
-  // }
+
 }
 @Component({
   selector: 'app-qview',
@@ -133,7 +127,8 @@ export class QviewComponent implements OnInit {
   nmea: NMEA [] ;
   displayedColumns = ['bgs', 'bgd'];
 
-  constructor(public http: HttpClient, public activeModal: NgbActiveModal,
+  constructor(public http: HttpClient,
+    public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
     public dialog: MatDialog,
     private modalService: NgbModal) {
@@ -152,7 +147,7 @@ export class QviewComponent implements OnInit {
     this.headerMessage = 'Recorded ' + this.data['start_time'];
     this.nmea = [
         {date: formatDate(this.data['start_time'], 'MM/dd/yyyy hh:mm', 'en'),
-        name: this.data['GroupID'], 
+        name: this.data['GroupID'],
         bgs: this.data['nmea_d_bgs_d'],
         bgd: this.data['nmea_d_bgt_d']}];
     this.isLoading = false;
@@ -235,7 +230,7 @@ export class QviewComponent implements OnInit {
   // "url":"http://localhost:8080/media/vault/streamrecords/Ambiance1478880586.mp3"}]}"
   onBuildClip() {
     const self = this;
-    this.modalService.open(NgbdModal2Content, { centered: true }).result.then((result) => {
+    this.modalService.open(BuildSmartClipModal, { centered: true }).result.then((result) => {
       if ('' !== result) {
         [self.newClipName, self.style] = result.split('|');
 
@@ -277,7 +272,7 @@ export class QviewComponent implements OnInit {
             });
       }
     }, (reason) => {
-      console.log('dismissed');
+      console.log('dismissed'+reason);
     });
 
 
