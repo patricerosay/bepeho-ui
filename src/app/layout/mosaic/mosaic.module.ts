@@ -4,6 +4,7 @@ import { MosaicRoutingModule } from './mosaic-routing.module';
 import { MosaicComponent, CameraPropertiesModal } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import {
     MatAutocompleteModule,
@@ -81,6 +82,7 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
+        FormsModule
         // NgbCarouselModule
         ],
     declarations: [MosaicComponent,CameraPropertiesModal],

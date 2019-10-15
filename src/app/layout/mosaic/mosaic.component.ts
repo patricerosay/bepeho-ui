@@ -11,29 +11,97 @@ export interface DialogData {
   name: string;
 }
 
+// @Component({
+//   template: `
+// <h1 mat-dialog-title>Hi toto</h1>
+// <div mat-dialog-content>
+//   <p>What's your favorite animal? {{data.name }}</p>
+//   <mat-form-field>
+//     <input matInput >
+//   </mat-form-field>
+// </div>
+// <div mat-dialog-actions>
+//   <button mat-button (click)="onNoClick()">No Thanks</button>
+//   <button mat-button (click)="onNoClick()" cdkFocusInitial>Ok</button>
+// </div>
+//     `
+// })
 @Component({
   template: `
-<h1 mat-dialog-title>Hi toto</h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <input matInput >
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>Ok</button>
-</div>
+  <div class="container">
+    <h1>Change Parameters</h1>
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name"
+               required
+               [(ngModel)]="data.name" name="name"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Name is required
+        </div>
+
+        <label for="url">Preview URL</label>
+        <input type="text" class="form-control" id="url"
+               required
+               [(ngModel)]="data.camPreviewUrl" name="url"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          URL is required
+        </div>
+
+        <label for="address">Recording Address </label>
+        <input type="text" class="form-control" id="address"
+               required
+               [(ngModel)]="data.address" name="address"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Address is required
+        </div>
+
+      <mat-slide-toggle
+            class="example-margin"
+            color="accent"
+            [(ngModel)]="data.shouldRecord" name="shouldRecord"
+            [checked]="data.shouldRecord"
+            [disabled]="false">
+          Should Record
+        </mat-slide-toggle>
+        <mat-slide-toggle
+            class="example-margin"
+            color="accent"
+            [(ngModel)]="data.active" name="active"
+            [checked]="data.active"
+            [disabled]="false">
+          Active
+        </mat-slide-toggle>
+
+        <mat-slide-toggle
+            class="example-margin"
+            color="accent"
+            [(ngModel)]="data.enabled" name="enabled"
+            [checked]="data.enabled"
+            [disabled]="false">
+          Enabled
+        </mat-slide-toggle>
+      </div>
+      <button type="cancel" class="btn btn-success"> Cancel</button>
+
+      <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid"> Save</button>
+    </form>
+  </div>
     `
 })
-
 export class CameraPropertiesModal {
 
   constructor(
     public dialogRef: MatDialogRef<CameraPropertiesModal>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: Camera) {}
 
-  onNoClick(): void {
+    onSubmit(): void {
     this.dialogRef.close();
   }
 }
@@ -74,10 +142,10 @@ export class MosaicComponent implements OnInit {
 
     }
 
-    openDialog(): void {
+    openDialog(cam: Camera): void {
     const dialogRef = this.dialog.open(CameraPropertiesModal, {
-      width: '250px',
-      data: {name: 'tot', animal: 'tit'}
+      width: '100%',
+      data: cam
     });
 
     dialogRef.afterClosed().subscribe(result => {
