@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgZone, ViewChild } from '@angular/core';
@@ -11,29 +11,14 @@ export interface DialogData {
   name: string;
 }
 
-// @Component({
-//   template: `
-// <h1 mat-dialog-title>Hi toto</h1>
-// <div mat-dialog-content>
-//   <p>What's your favorite animal? {{data.name }}</p>
-//   <mat-form-field>
-//     <input matInput >
-//   </mat-form-field>
-// </div>
-// <div mat-dialog-actions>
-//   <button mat-button (click)="onNoClick()">No Thanks</button>
-//   <button mat-button (click)="onNoClick()" cdkFocusInitial>Ok</button>
-// </div>
-//     `
-// })
 @Component({
   template: `
   <div class="container">
-    <h1>Change Parameters</h1>
+    <h1>View Parameters</h1>
     <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name"
+        <input [disabled]="true" type="text" class="form-control" id="name"
                required
                [(ngModel)]="data.name" name="name"
                #name="ngModel">
@@ -43,7 +28,7 @@ export interface DialogData {
         </div>
 
         <label for="url">Preview URL</label>
-        <input type="text" class="form-control" id="url"
+        <input [disabled]="true" type="text" class="form-control" id="url"
                required
                [(ngModel)]="data.camPreviewUrl" name="url"
                #name="ngModel">
@@ -51,10 +36,11 @@ export interface DialogData {
              class="alert alert-danger">
           URL is required
         </div>
-
+        
         <label for="address">Recording Address </label>
-        <input type="text" class="form-control" id="address"
+        <input [disabled]="true"  type="text" class="form-control" id="address"
                required
+               
                [(ngModel)]="data.address" name="address"
                #name="ngModel">
         <div [hidden]="name.valid || name.pristine"
@@ -67,30 +53,22 @@ export interface DialogData {
             color="accent"
             [(ngModel)]="data.shouldRecord" name="shouldRecord"
             [checked]="data.shouldRecord"
-            [disabled]="false">
-          Should Record
+            [disabled]="true">
+          Record
         </mat-slide-toggle>
-        <mat-slide-toggle
-            class="example-margin"
-            color="accent"
-            [(ngModel)]="data.active" name="active"
-            [checked]="data.active"
-            [disabled]="false">
-          Active
-        </mat-slide-toggle>
-
+        <br/>
         <mat-slide-toggle
             class="example-margin"
             color="accent"
             [(ngModel)]="data.enabled" name="enabled"
             [checked]="data.enabled"
-            [disabled]="false">
-          Enabled
+            [disabled]="true">
+          Mosaic
         </mat-slide-toggle>
       </div>
-      <button type="cancel" class="btn btn-success"> Cancel</button>
+      <button type="cancel" class="btn btn-success"> Close</button>
 
-      <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid"> Save</button>
+     <!-- <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid"> Save</button>-->
     </form>
   </div>
     `
@@ -117,12 +95,15 @@ export class MosaicComponent implements OnInit {
   constructor(public http: HttpClient,
     // public activeModal: NgbActiveModal,
     // private _ngZone: NgZone,
-    public dialog: MatDialog)
-    {}
+    public dialog: MatDialog)    {}
 
     private url = '/recorder/cams';
     isLoading = true;
     cameras: Array<Camera> = new Array<Camera>();
+    mosaic: Array<Camera> = new Array<Camera>();
+    camera: string;
+    withData: boolean;
+
     ngOnInit() {
         const self = this;
         // const self.cameras = new Camera[];
@@ -132,10 +113,15 @@ export class MosaicComponent implements OnInit {
                     // self.cameras
                     const tempCams = data as Camera[];
                     tempCams.forEach( function (cam) {
-                        if (cam.camPreviewUrl) {
-                            self.cameras.push(cam);
+                      if ('CAM' === cam.type) {
+                      self.cameras.push(cam);
+                        if (cam.camPreviewUrl && cam.enabled) {
+                            self.mosaic.push(cam);
                         }
+                      }
                     });
+                    self.cameras.reverse();
+                    self.mosaic.reverse();
                     self.isLoading = false;
                 },
             );

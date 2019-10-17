@@ -6,7 +6,8 @@ import { ConfigurationRoutingModule } from './configuration-routing.module';
 import { ConfigurationComponent } from './configuration.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { PropertyModule } from '../../shared';
 
 import {
     MatAutocompleteModule,
@@ -44,7 +45,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-} from '@angular/material'; 
+} from '@angular/material';
 @NgModule({
     imports: [CommonModule, ConfigurationRoutingModule, PageHeaderModule,
         HttpClientModule,
@@ -83,9 +84,11 @@ import {
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        MatCheckboxModule,FormsModule],
+        MatCheckboxModule,
+        FormsModule,
+        PropertyModule],
     declarations: [ConfigurationComponent],
     entryComponents: [ConfigurationComponent]
 
 })
-export class ConfigurationModule {}
+export class ConfigurationModule { }

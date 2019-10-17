@@ -1,0 +1,31 @@
+<mat-accordion>
+	<mat-expansion-panel *ngFor="let name of getMapKey(properties)">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{name}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		
+		<div id="{{id}}" class="configuration-container " *ngFor="let property of getProperties (properties, name)">
+			{{property.displayName}} :
+			<div [ngSwitch]="property.type">
+				<div *ngSwitchCase="'boolean'">
+						<mat-slide-toggle 
+						[id] = "property.name"
+						[checked]="property.value === 'true' ? true : false"
+						(change)="setBooleanValue( property , $event )">
+					</mat-slide-toggle>
+					<!-- <mat-slide-toggle id="{{property.name}}" checked="{{property.value}}" [(ngModel)]="property.value">
+					</mat-slide-toggle> -->
+				</div>
+				<div *ngSwitchCase="'java.lang.String'">
+					<mat-form-field>
+						<input [(ngModel)]="property.value" id="{{property.name}}" matInput value="{{property.value}}">
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+
+	</mat-expansion-panel>
+
+</mat-accordion>

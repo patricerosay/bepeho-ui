@@ -5,6 +5,7 @@ import { MosaicComponent, CameraPropertiesModal } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
     MatAutocompleteModule,
@@ -82,11 +83,12 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        FormsModule
+        FormsModule,
+        NgbModule
         // NgbCarouselModule
         ],
-    declarations: [MosaicComponent,CameraPropertiesModal],
-    entryComponents: [MosaicComponent,CameraPropertiesModal],
+    declarations: [MosaicComponent, CameraPropertiesModal],
+    entryComponents: [MosaicComponent, CameraPropertiesModal],
         exports: [MosaicComponent, CameraPropertiesModal]
 
 

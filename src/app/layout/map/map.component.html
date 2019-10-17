@@ -15,11 +15,11 @@
                         </mat-expansion-panel-header>
                         <div class="row">
                                 <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*6)" value="bold">Last 6 Hours</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24)" value="bold">Last 24 Hours</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24*7)" value="italic">Last 7 Days</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 60*24*7)" value="italic">Last 30 Days </mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes(0, 2419200)" value="italic">All</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '360')" value="bold">Last 6 Hours</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '1440')" value="bold">Last 24 Hours</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '10080')" value="italic">Last 7 Days</mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '302400')" value="italic">Last 30 Days </mat-button-toggle>
+                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '2419200')" value="italic">All</mat-button-toggle>
 
                                 </mat-button-toggle-group>
                         </div>

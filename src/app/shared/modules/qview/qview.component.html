@@ -60,7 +60,7 @@
 
       </vg-controls>
 
-      <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="media/{{currentAudio.src}}" id="singleAudio" preload="auto"
+      <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="/media/{{currentAudio.src}}" id="singleAudio" preload="auto"
         crossorigin>
       </audio>
 
@@ -76,8 +76,8 @@
             [class.selected]="item === currentVideo">{{ item.channel }}</button>
         </div>
       </vg-controls>
-      <video #mediaV [vgMedia]="mediaV" src="media/{{currentVideo.src}}" id="singleVideo" preload="auto" crossorigin>
-        <track kind="subtitles" label="Data" src="media/subtitles/{{data['GroupID']}}.vtt" srclang="en" default>
+      <video #mediaV [vgMedia]="mediaV" src="/media/{{currentVideo.src}}" id="singleVideo" preload="auto" crossorigin>
+        <track kind="subtitles" label="Data" src="/media/subtitles/{{data['GroupID']}}.vtt" srclang="en" default>
       </video>
     </vg-player>
   </div>

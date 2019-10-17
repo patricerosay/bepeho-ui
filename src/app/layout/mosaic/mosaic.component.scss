@@ -5,9 +5,9 @@ html, body {
 }
 
 
- .camera-mosaic {
+ img.camera-mosaic {
  		// width: 640px;
- 		height: 100%;
+ 		width: 100%;
  	}
 
 @media (min-width: 992px)  {
@@ -22,4 +22,3 @@ html, body {
 		// height: 70px;
 	}
 }
-

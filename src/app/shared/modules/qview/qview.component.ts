@@ -38,8 +38,8 @@ export interface Clip {
 export interface NMEA {
   name: string;
   date: string;
-  bgs:string;
-  bgd:string,
+  bgs: string;
+  bgd: string;
 }
 @Component({
   template: `
@@ -60,7 +60,7 @@ export interface NMEA {
                 <br/>
                 <mat-form-field>
                     <mat-label>Clip Style</mat-label>
-                    <select matNativeControl required [(ngModel)]="style">
+                    <select [(value)]="style" matNativeControl required [(ngModel)]="style">
                         <option value="1">Cool</option>
                         <option value="2">Dynamic</option>
                         <option value="4">Nervous</option>
@@ -79,7 +79,7 @@ export interface NMEA {
 export class BuildSmartClipModal {
   newClipName = 'clip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
 
-  style: number;
+  style = 1;
   invalidClipNameError: string = null;
 
   constructor(public activeModal: NgbActiveModal) {
@@ -255,7 +255,7 @@ export class QviewComponent implements OnInit {
             inc = inc + 1;
           });
         }
-        self.http.post<any>('recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
+        self.http.post<any>('/recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
           {
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -272,14 +272,22 @@ export class QviewComponent implements OnInit {
             });
       }
     }, (reason) => {
-      console.log('dismissed'+reason);
+      console.log('dismissed' + reason);
     });
 
 
   }
   onExportSegment() {
+    let ids = [];
+    this.segment.audios.forEach(audio => {
+      ids.push (audio.id);
+    });
+    this.segment.videos.forEach(video => {
+      ids.push (video.id);
+    });
+    ids.push (this.data['GroupID']);
 
-    this.http.post<any>('recorder', 'action=FileSystem&verb=get&prm=' + this.data['GroupID'],
+    this.http.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
       {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'

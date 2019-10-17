@@ -34,7 +34,7 @@ export class MapComponent implements OnInit {
   workloadMap = {};
 
   iconLove = L.icon({
-    iconUrl: '/assets/images/love-icon.png',
+    iconUrl: 'assets/images/love-icon.png',
     shadowSize: [50, 64],
     iconAnchor: [25, 80],
     shadowAnchor: [4, 62],
@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
   });
 
   iconDetect = L.icon({
-    iconUrl: '/assets/images/detection-icon.png',
+    iconUrl: 'assets/images/detection-icon.png',
     shadowSize: [50, 64],
     iconAnchor: [25, 80],
     shadowAnchor: [4, 62],
