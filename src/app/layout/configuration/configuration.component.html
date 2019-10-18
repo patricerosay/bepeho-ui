@@ -1,26 +1,45 @@
-<div *ngIf="isLoading"> loading .... </div>
-<div *ngIf="!isLoading">
+<div *ngIf="isLoadingConf && isLoadingControls"> loading .... </div>
+<div *ngIf="!isLoadingConf && !isLoadingControls">
 
 
 	<mat-tab-group>
 		<mat-tab>
 			<ng-template mat-tab-label>
-				<i class="fa fa-heartbeat"></i>
+				<i class="fa fa-heartbeat"></i>&nbsp;
 				Run
 
 			</ng-template>
-			<mat-accordion>
+				<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+
 				<div class="configuration-container ">
 					Everything is Running
-					<mat-slide-toggle id="startstop" checked="true">
+					<mat-slide-toggle 
+						id = "autoprocess"
+						[checked]="controls.autoprocess"
+						(change)="setStartProcess( $event )">
 					</mat-slide-toggle>
 				</div>
-			</mat-accordion>
+				<div class="configuration-container ">
+						Record Microphones
+						<mat-slide-toggle 
+							id = "autorecordAudio"
+							[checked]="controls.autorecordAudio"
+							(change)="setRecordDevices('audio', $event )">
+						</mat-slide-toggle>
+					</div>
+					<div class="configuration-container ">
+							Record Cameras
+							<mat-slide-toggle 
+								id = "autorecordVideo"
+								[checked]="controls.autorecordVideo"
+								(change)="setRecordDevices('video', $event )">
+							</mat-slide-toggle>
+						</div>
 		</mat-tab>
 		<mat-tab>
 			<ng-template mat-tab-label>
-				<i class="fa fa-video-camera"></i>
-				<i class="fa fa-microphone"></i> Devices
+				<i class="fa fa-video-camera"></i>&nbsp;
+				<i class="fa fa-microphone"></i> &nbsp; Devices
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
@@ -35,7 +54,7 @@
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="cameras" [properties]="cameras"></app-property>
 							</mat-tab>
-              	<mat-tab>
+							<mat-tab>
 								<ng-template mat-tab-label>
 									<i class="fa fa-video-camera"></i>
 									Web Cameras
@@ -44,14 +63,10 @@
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="webCameras" [properties]="webCameras"></app-property>
 							</mat-tab>
-							<!-- <mat-tab label="Cameras">
-								<button mat-raised-button (click)="saveDevice(cameras)">Save</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="cameras" [properties]="cameras"></app-property>
-							</mat-tab> -->
-              <mat-tab>
+
+							<mat-tab>
 								<ng-template mat-tab-label>
-			        	<i class="fa fa-microphone"></i>
+									<i class="fa fa-microphone"></i>
 									Integrated Microphones
 								</ng-template>
 								<button mat-raised-button (click)="saveDevice(webMicrophones)">Save</button>
@@ -60,22 +75,10 @@
 								</app-property>
 							</mat-tab>
 
-							<!-- <mat-tab label="Integrated Microphones">
-								<button mat-raised-button (click)="saveDevice(microphones)">Save</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="microphones" [properties]="microphones">
-								</app-property>
-							</mat-tab> -->
-							<!-- <mat-tab label="Integrated Microphones">
-								<button mat-raised-button
-                                                        (click)="saveDevice(webMicrophones)">Save</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="webMicrophones" [properties]="webMicrophones">
-								</app-property>
-							</mat-tab> -->
-               <mat-tab>
+
+							<mat-tab>
 								<ng-template mat-tab-label>
-			        	<i class="fa fa-microphone"></i>
+									<i class="fa fa-microphone"></i>
 									IP Microphones
 								</ng-template>
 								<button mat-raised-button (click)="saveDevice(microphones)">Save</button>
@@ -84,13 +87,7 @@
 								</app-property>
 							</mat-tab>
 
-							<!-- <mat-tab label="IP Microphones">
-								<button mat-raised-button
-                                                        (click)="saveDevice(microphones)">Save</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="microphones" [properties]="microphones">
-								</app-property>
-							</mat-tab> -->
+
 
 						</div>
 					</mat-tab-group>
@@ -98,99 +95,85 @@
 			</mat-accordion>
 		</mat-tab>
 
-		<!-- <mat-tab label="Devices">
-			<mat-tab-group>
-				<div>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<i class="fa fa-user"></i>&nbsp;
+				General
 
-					<mat-tab label="Cameras">
-						<button mat-raised-button (click)="saveDevice(cameras)">Save</button>
-						<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-						<app-property [id]="cameras" [properties]="cameras"></app-property>
-					</mat-tab>
-					<mat-tab label="Integrated Microphones">
-						<button mat-raised-button
-                                                        (click)="saveDevice(microphones)">Save</button>
-						<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-						<app-property [id]="microphones" [properties]="microphones">
-						</app-property>
-					</mat-tab>
-					<mat-tab label="Integrated Microphones">
-						<button mat-raised-button
-                                                        (click)="saveDevice(webMicrophones)">Save</button>
-						<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-						<app-property [id]="webMicrophones" [properties]="webMicrophones">
-						</app-property>
-					</mat-tab>
-					<mat-tab label="IP Microphones">
-						<button mat-raised-button
-                                                        (click)="saveDevice(microphones)">Save</button>
-						<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-						<app-property [id]="microphones" [properties]="microphones">
-						</app-property>
-					</mat-tab>
+			</ng-template>
+			<mat-accordion>
+				<div class="configuration-container ">
+					<button mat-raised-button (click)="saveProperties(general)">Save</button>
+					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
+					<mat-accordion>
+						<mat-expansion-panel *ngFor="let configuration of general">
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									{{configuration.displayGroup}}
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<div id="general" class="configuration-container "
+								*ngFor="let property of configuration.props.general">
+								{{property.displayName}} :
+								<div [ngSwitch]="property.type">
+									<div *ngSwitchCase="'boolean'">
+										<mat-slide-toggle id="{{property.name}}" checked="{{property.value}}">
+										</mat-slide-toggle>
+									</div>
+									<div *ngSwitchCase="'java.lang.String'">
+										<mat-form-field>
+											<input [(ngModel)]="property.value" id="{{property.name}}" matInput
+												value="{{property.value}}">
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+
+						</mat-expansion-panel>
+					</mat-accordion>
 				</div>
-			</mat-tab-group>
-		</mat-tab> -->
-		<mat-tab label="General">
-			<button mat-raised-button (click)="saveProperties(general)">Save</button>
-			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-
-			<mat-accordion>
-				<mat-expansion-panel *ngFor="let configuration of general">
-					<mat-expansion-panel-header>
-						<mat-panel-title>
-							{{configuration.displayGroup}}
-						</mat-panel-title>
-					</mat-expansion-panel-header>
-					<div id="general" class="configuration-container "
-						*ngFor="let property of configuration.props.general">
-						{{property.displayName}} :
-						<div [ngSwitch]="property.type">
-							<div *ngSwitchCase="'boolean'">
-								<mat-slide-toggle id="{{property.name}}" checked="{{property.value}}">
-								</mat-slide-toggle>
-							</div>
-							<div *ngSwitchCase="'java.lang.String'">
-								<mat-form-field>
-									<input [(ngModel)]="property.value"
-                                                                                id="{{property.name}}" matInput
-                                                                                value="{{property.value}}">
-                                                                </mat-form-field>
-							</div>
-						</div>
-					</div>
-
-				</mat-expansion-panel>
 			</mat-accordion>
 		</mat-tab>
-		<mat-tab label="Advanced">
-			<button mat-raised-button (click)="saveProperties(advanced)">Save</button>
-			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<i class="fa fa-user-plus"></i>&nbsp;
+				Advanced
+
+			</ng-template>
 			<mat-accordion>
-				<mat-expansion-panel *ngFor="let configuration of advanced">
-					<mat-expansion-panel-header>
-						<mat-panel-title>
-							{{configuration.displayGroup}}
-						</mat-panel-title>
-					</mat-expansion-panel-header>
-					<div class="configuration-container " *ngFor="let property of configuration.props.advanced">
-						{{property.displayName}} :
-						<div [ngSwitch]="property.type">
-							<div *ngSwitchCase="'boolean'">
-								<mat-slide-toggle id="{{property.name}}" checked="{{property.value}}">
-								</mat-slide-toggle>
+				<div class="configuration-container ">
+					<button mat-raised-button (click)="saveProperties(advanced)">Save</button>
+					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+
+					<mat-accordion>
+						<mat-expansion-panel *ngFor="let configuration of advanced">
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									{{configuration.displayGroup}}
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<div id="advanced" class="configuration-container "
+								*ngFor="let property of configuration.props.advanced">
+								{{property.displayName}} :
+								<div [ngSwitch]="property.type">
+									<div *ngSwitchCase="'boolean'">
+										<mat-slide-toggle id="{{property.name}}" checked="{{property.value}}">
+										</mat-slide-toggle>
+									</div>
+									<div *ngSwitchCase="'java.lang.String'">
+										<mat-form-field>
+											<input [(ngModel)]="property.value" id="{{property.name}}" matInput
+												value="{{property.value}}">
+										</mat-form-field>
+									</div>
+								</div>
 							</div>
-							<div *ngSwitchCase="'java.lang.String'">
-								<mat-form-field>
-									<input [(ngModel)]="property.value"
-                                                                                id="{{property.name}}" matInput
-                                                                                value="{{property.value}}">
-                                                                </mat-form-field>
-							</div>
-						</div>
-					</div>
-				</mat-expansion-panel>
+
+						</mat-expansion-panel>
+					</mat-accordion>
+				</div>
 			</mat-accordion>
 		</mat-tab>
+
 	</mat-tab-group>

@@ -3,11 +3,14 @@
 ## installation
 npm install .
 
-npm install videogular2
-npm i @angular/forms
+
 npm install -g json-server
-
-
+npm install @fortawesome/fontawesome-free --save
+npm install videogular2 --save
+npm i @angular/forms --save
+npm add @fortawesome/fontawesome-svg-core
+npm add @fortawesome/free-solid-svg-icons
+npm add @fortawesome/angular-fontawesome
 ## dev
 npm run start:dev
 

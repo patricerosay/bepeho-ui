@@ -17,4 +17,11 @@ export class Configuration {
     props: Properties;
 
   }
+export class Controls {
+  autoprocess: boolean;
+  autorecordVideo: boolean;
+  nightModeRecord: boolean;
+  autorecordAudio: boolean;
+}
+
 

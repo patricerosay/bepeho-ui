@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { routerTransition } from '../../router.animations';
-import { Configuration, Property } from '../../shared/interfaces/configuration-interface';
-import { HttpHeaders } from '@angular/common/http';
+import { Configuration, Property, Controls } from '../../shared/interfaces/configuration-interface';
+// import { HttpHeaders } from '@angular/common/http';
 
 /** @title Configuration Pannel */
 @Component({
@@ -20,10 +20,17 @@ export class ConfigurationComponent implements OnInit {
     webCameras = new Map<string, Property[]>();
     webMicrophones = new Map<string, Property[]>();
     microphones = new Map<string, Property[]>();
-    isLoading = false;
+    isLoadingConf = true;
+    isLoadingControls = true;
     errorMsg: string;
+
+    controls = new Controls;
     constructor(public http: HttpClient) { }
     private url = '/recorder/parameters';
+
+    onStopProcesses() {
+        // postMessage('Process', '&verb=resume', location.reload());
+    }
 
     getMapKey(m: Map<string, Property[]>): string[] {
         return Array.from(m.keys());
@@ -32,11 +39,10 @@ export class ConfigurationComponent implements OnInit {
     getProperties(m: Map<string, Property[]>, key: string): Property[] {
         return m.get(key);
     }
-    saveDevice(device: Map<string, Property[]>)
-    {
+    saveDevice(device: Map<string, Property[]>) {
         const params: URLSearchParams = new URLSearchParams();
         device.forEach((conf: Property[], key: string) => {
-            if (null !== conf ) {
+            if (null !== conf) {
                 conf.forEach(prop => {
                     params.set(prop.name, prop.value);
                 });
@@ -91,9 +97,60 @@ export class ConfigurationComponent implements OnInit {
                 });
 
     }
+    setStartProcess(e) {
+        this.http.post<any>('/recorder', 'action=Process&verb=' + (e.checked ? 'resume' : 'pause'),
+            {
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                }
+            }).subscribe(
+                (res) => {
+                    console.log(res);
+                    this.errorMsg = 'Success';
 
+                },
+                (err) => {
+                    console.log(err);
+                    this.errorMsg = err.message;
+                });
+    }
+    setRecordDevices(prm: string, e) {
+        // console.log(prm);
+        this.http.post<any>('/recorder', 'action=Recorder&verb=' + ((e.checked ? 'resume' : 'pause') + ('&prm=' + prm)),
+            {
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                }
+            }).subscribe(
+                (res) => {
+                    this.errorMsg = 'Success';
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.errorMsg = err.message;
+                });
+    }
     ngOnInit() {
         const self = this;
+        this.http.get('/recorder/controls')
+            .subscribe(
+                data => {
+                    const t = data as { control: { name: string, state: boolean }[] };
+                    t.control.forEach(c => {
+                        if ('autoprocess' === c.name) {
+                            self.controls.autoprocess = c.state;
+                        } else if ('autorecordAudio' === c.name) {
+                            self.controls.autorecordAudio = c.state;
+                        } else if ('autorecordVideo' === c.name) {
+                            self.controls.autorecordVideo = c.state;
+                        } else if ('nightModeRecord' === c.name) {
+                            self.controls.nightModeRecord = c.state;
+                        }
+                    });
+                    self.isLoadingControls = false;
+                }
+            );
         this.http.get('/recorder/parameters')
             .subscribe(
                 data => {
@@ -147,7 +204,7 @@ export class ConfigurationComponent implements OnInit {
                         }
                     });
 
-                    self.isLoading = false;
+                    self.isLoadingConf = false;
                 },
             );
     }

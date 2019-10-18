@@ -12,7 +12,7 @@ export class PropertyComponent implements OnInit {
   @Input() properties: Map<string, Property[]>;
   @Input() id: string;
   @Input() label: string;
-  
+
   @Output() event: EventEmitter<any> = new EventEmitter();
 
   constructor(private router: Router) { }
@@ -25,7 +25,7 @@ export class PropertyComponent implements OnInit {
     return m.get(key);
   }
   setBooleanValue(prop: Property , e) {
-    if(e.checked){
+    if (e.checked) {
       prop.value = 'true';
    } else {
     prop.value = 'false';
