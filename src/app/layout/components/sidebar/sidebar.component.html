@@ -27,7 +27,7 @@
 					<li>
 						<a [routerLink]="['/configuration']" [routerLinkActive]="['router-link-active']"
 							class="list-group-item">
-							<i class="fa fa-fw fa-edit"></i>&nbsp;
+							<i class="fa fa-edit"></i>&nbsp;
 							<span>{{ 'Configuration' | translate }}</span>
 						</a>
 					</li>
@@ -46,7 +46,7 @@
 					<li>
 						<a [routerLink]="['/version']" [routerLinkActive]="['router-link-active']"
 							class="list-group-item">
-							<i class="fa fa-fw fa-edit"></i>&nbsp;
+							<i class="fa fa-code-fork"></i>&nbsp;
 							<span>{{ 'Version' | translate }}</span>
 						</a>
 					</li>
@@ -86,9 +86,7 @@
 			<a (click)="rltAndLtr()" class="list-group-item">
 				<span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
 			</a>
-			<a (click)="rltAndLtr()" class="list-group-item">
-				<span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
-			</a>
+
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('languages')">
 					<span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
