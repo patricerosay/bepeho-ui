@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgZone, ViewChild } from '@angular/core';
+import { interval } from 'rxjs';
+
 import {
   MatDialog,
   MatDialogRef,
@@ -9,11 +9,20 @@ import {
 } from '@angular/material/dialog';
 
 import { Camera } from './camera-interface';
-
-export interface DialogData {
-  animal: string;
-  name: string;
+import { DataSource } from '@angular/cdk/table';
+export interface PeriodicElement {
+  speed: string;
+  heading: string;
+  tws: string;
+  twd: string;
+  time: string;
+  blo: string;
+  bla: string;
 }
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla:'n/a', blo:'n/a' }
+];
 
 @Component({
   template: `
@@ -123,11 +132,13 @@ export class CameraPropertiesModal {
 export class MosaicComponent implements OnInit {
   constructor(
     public http: HttpClient,
-    // public activeModal: NgbActiveModal,
-    // private _ngZone: NgZone,
+
     public dialog: MatDialog
   ) {}
 
+  displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
+  dataSource:  PeriodicElement[] = ELEMENT_DATA;
+  dataSource2 = {};
   private url = '/recorder/cams';
   isLoading = true;
   cameras: Array<Camera> = new Array<Camera>();
@@ -138,10 +149,38 @@ export class MosaicComponent implements OnInit {
   withData: boolean;
   errorMsg: string;
 
+  getInstruments() {
+    const self = this;
+    self.http.get('recorder/data').subscribe(data => {
+      const instruments = data as { id: string; value: string }[];
+      instruments.forEach(function(ins) {
+        if ('bgs_d' === ins.id) {
+          self.dataSource[0].speed = ins.value;
+        } else if ('bgt_d' === ins.id) {
+          self.dataSource[0].heading = ins.value;
+        } else if ('twa_d' === ins.id) {
+          self.dataSource[0].twd = ins.value;
+        } else if ('tws_d' === ins.id) {
+          self.dataSource[0].tws = ins.value;
+        } else if ('gpsTime' === ins.id) {
+          self.dataSource[0].time = ins.value;
+        } else if ('blo' === ins.id) {
+          self.dataSource[0].blo = ins.value;
+        } else if ('bla' === ins.id) {
+          self.dataSource[0].bla = ins.value;
+        }
+
+      });
+    });
+  }
+
   ngOnInit() {
+    interval(10000 ).subscribe(x => {
+      this.getInstruments();
+    });
     const self = this;
     // const self.cameras = new Camera[];
-    this.http.get(this.url).subscribe(data => {
+    self.http.get(this.url).subscribe(data => {
       // self.cameras
       const tempCams = data as Camera[];
       tempCams.forEach(function(cam) {
