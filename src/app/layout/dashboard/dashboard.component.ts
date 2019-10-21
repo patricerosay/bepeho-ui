@@ -11,7 +11,7 @@ import { IStats } from './stat-interface';
 })
 
 export class DashboardComponent implements OnInit {
-
+    public error: string = null;
     public doughnutChartType: string;
     // Doughnut
     public doughnutChartLabels: string[] = [
@@ -47,7 +47,11 @@ export class DashboardComponent implements OnInit {
                     self.stats = data as IStats;
                     self.isLoading = false;
                 },
+                error => this.logError(error),
             );
 
+    }
+    logError(error: object): void {
+        this.error = 'error';
     }
 }

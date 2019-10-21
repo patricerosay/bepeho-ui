@@ -1,58 +1,86 @@
-<div [@routerTransition]>
-        <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
-        <button mat-raised-button (click)="loadData(this)">Refresh</button>
-        <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
+<div *ngIf="isLoading">loading ....</div>
+<div *ngIf="error">Error while connecting to server</div>
 
-        <mat-accordion>
-                <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                        More...
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                        Select The Time Range
-                                </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="row">
-                                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '360')" value="bold">Last 6 Hours</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '1440')" value="bold">Last 24 Hours</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '10080')" value="italic">Last 7 Days</mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '302400')" value="italic">Last 30 Days </mat-button-toggle>
-                                        <mat-button-toggle (click)="onSearchOnLastMinutes('0', '2419200')" value="italic">All</mat-button-toggle>
+  <div [@routerTransition]>
+    <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
+    <button mat-raised-button (click)="loadData(this)">Refresh</button>
+    <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
 
-                                </mat-button-toggle-group>
-                        </div>
-                       
-                        
-                </mat-expansion-panel>
-                <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                        More...
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                        Select on criterias
-                                </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="row">
-                                Number of results
-                                <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
-                                <mat-slider (input)="onSearchLimit($event)" thumbLabel  tickInterval="10" min="1"
-                                        max="100000"></mat-slider>
-                        </div>
-                        <div class="row">
-                                Speed (knts)
-                                <mat-slider thumbLabel tickInterval="1" min="0"
-                                        max="40"></mat-slider>
-
-                        </div>
-                        <div class="row">
-                                Heel Angle (deg)
-                                <mat-slider (input)="onSearchOnHeelAngle($event)"  thumbLabel  tickInterval="10" min="-90"
-                                        max="90"></mat-slider>
-                        </div>
-                </mat-expansion-panel>
-        </mat-accordion>
-        <div class="row" id="map"></div>
-</div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            More...
+          </mat-panel-title>
+          <mat-panel-description>
+            Select The Time Range
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle
+              (click)="onSearchOnLastMinutes('0', '360')"
+              value="bold"
+              >Last 6 Hours</mat-button-toggle
+            >
+            <mat-button-toggle
+              (click)="onSearchOnLastMinutes('0', '1440')"
+              value="bold"
+              >Last 24 Hours</mat-button-toggle
+            >
+            <mat-button-toggle
+              (click)="onSearchOnLastMinutes('0', '10080')"
+              value="italic"
+              >Last 7 Days</mat-button-toggle
+            >
+            <mat-button-toggle
+              (click)="onSearchOnLastMinutes('0', '302400')"
+              value="italic"
+              >Last 30 Days
+            </mat-button-toggle>
+            <mat-button-toggle
+              (click)="onSearchOnLastMinutes('0', '2419200')"
+              value="italic"
+              >All</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            More...
+          </mat-panel-title>
+          <mat-panel-description>
+            Select on criterias
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="row">
+          Number of results
+          <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
+          <mat-slider
+            (input)="onSearchLimit($event)"
+            thumbLabel
+            tickInterval="10"
+            min="1"
+            max="100000"
+          ></mat-slider>
+        </div>
+        <div class="row">
+          Speed (knts)
+          <mat-slider thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
+        </div>
+        <div class="row">
+          Heel Angle (deg)
+          <mat-slider
+            (input)="onSearchOnHeelAngle($event)"
+            thumbLabel
+            tickInterval="10"
+            min="-90"
+            max="90"
+          ></mat-slider>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="row" id="map"></div>
+  </div>

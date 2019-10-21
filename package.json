@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:dev": "npm run start:proxy | npm run start:mockers",
-    "start:proxy8080": "ng serve --proxy-config ./mocks/proxy-local-docker.json",
+    "start:proxy8080": "ng serve --proxy-config ./mocks/proxy-8080.conf.json",
     "start:proxy-local-docker": "ng serve --proxy-config ./mocks/proxy-local-docker.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
     "start:mockers": "json-server --port 4000 --watch ./mocks/mocks.json --routes ./mocks/routes.json"

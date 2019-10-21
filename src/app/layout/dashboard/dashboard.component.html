@@ -1,5 +1,7 @@
 <div *ngIf="isLoading"> loading .... </div>
-<div *ngIf="!isLoading">
+<div *ngIf="error"> Error while connecting to server </div>
+
+<div *ngIf="!isLoading && ! error">
     <div [@routerTransition]>
 
         <div class="row">

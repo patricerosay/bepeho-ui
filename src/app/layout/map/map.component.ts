@@ -16,23 +16,27 @@ export interface MyMarkerOptions extends L.MarkerOptions {
   styleUrls: ['./map.component.scss'],
   animations: [routerTransition()]
 })
-
-
 export class MapComponent implements OnInit {
+  public isLoading = true;
+  public error: object = null;
   private mediaroot = '/media/';
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
   public layers = {
-    'local': 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png',
-    'OpenStreetMap': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    Local: L.tileLayer(
+      'http://' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
+    ),
+    'Online OpenStreetMap': L.tileLayer(
+      'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    )
+    //   'OpenSeaMap': L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
+    //   {'attribution': 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'})
+    //
   };
-  public layer = 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png';
-  public traces = L.layerGroup();
-  // public linePoints = [];
-  searchPrms: ISearchParams = new ISearchParams();
 
-  workloadMap = {};
+  public traces = L.layerGroup();
+  searchPrms: ISearchParams = new ISearchParams();
 
   iconLove = L.icon({
     iconUrl: 'assets/images/love-icon.png',
@@ -49,28 +53,20 @@ export class MapComponent implements OnInit {
     shadowAnchor: [4, 62],
     popupAnchor: [-3, -76]
   });
-  constructor(public http: HttpClient, private modalService: NgbModal) {
-  }
-
+  constructor(public http: HttpClient, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.theMap = L.map('map');
-    //L.control.layers(this.layers,  {
-    //  collapsed: false
-    //}).addTo(this.theMap);
-
-    L.tileLayer(this.layer, {
-      attribution: 'Map'
-    }).addTo(this.theMap);
 
     this.searchPrms.type = 'autorecord';
 
     this.loadData(this);
 
-    L.control.layers({}, {
-      'Traces': this.traces
-    }).addTo(this.theMap);
-
+    L.control
+      .layers(this.layers, {
+        Traces: this.traces
+      })
+      .addTo(this.theMap);
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -89,15 +85,14 @@ export class MapComponent implements OnInit {
       res.lat = a[0];
       res.lng = a[1];
     }
-    if (  0 === parseFloat(res.lat[0]) && 0 === parseFloat(res.lng[1])) {
-        const s2 = o['nmea_loc_boatspatialpos'];
-        if ( undefined !== s2 && '00.0000,00.0000' !== s2) {
-
-          const a = s2.split(',');
-          res.lat = a[0];
-          res.lng = a[1];
-            }
+    if (0 === parseFloat(res.lat[0]) && 0 === parseFloat(res.lng[1])) {
+      const s2 = o['nmea_loc_boatspatialpos'];
+      if (undefined !== s2 && '00.0000,00.0000' !== s2) {
+        const a = s2.split(',');
+        res.lat = a[0];
+        res.lng = a[1];
       }
+    }
     return res;
   }
   public computePayload(group: any[]) {
@@ -144,7 +139,6 @@ export class MapComponent implements OnInit {
     }
     segments.push(segment);
     return segments;
-
   }
 
   serialize(obj: any) {
@@ -160,10 +154,9 @@ export class MapComponent implements OnInit {
     return params;
   }
   public Reset() {
-    this.searchPrms = new ISearchParams;
+    this.searchPrms = new ISearchParams();
     this.searchPrms.type = 'autorecord';
     this.loadData(this);
-
   }
   public onSearchOnLastMinutes(from: string, to: string) {
     this.searchPrms.start_time = [from, to];
@@ -183,82 +176,90 @@ export class MapComponent implements OnInit {
     const self: MapComponent = this;
     this.searchTimer = setTimeout(this.loadData, 1000, self);
   }
-  public loadData( _self: MapComponent) {
+  public loadData(_self: MapComponent) {
     const self = _self;
     self.traces.clearLayers();
 
-    let linePoints = [];
+    const linePoints = [];
     const params: URLSearchParams = self.serialize(self.searchPrms);
-    self.http.get('/recorder/search?' + params).toPromise().then(data => {
-      if (!self.data) {
+    self.http
+      .get('/recorder/search?' + params)
+      .toPromise()
+      .then(
+        data => {
+          if (self.data) {
+            self.data = data as any[];
+            const groups = self.data['groups'] as any[];
+            groups.forEach(function(group) {
+              const firstSegment = group[0];
+              // let autodetectionReport = firstSegment.end_time;
+              const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
+              linePoints.push(latLon);
 
-        // this.layout.title = " No records where found";
-        return;
-      }
+              const payload = {
+                segments: self.computePayload(group)
+              };
+              let imgUrl;
+              if (
+                payload.segments &&
+                payload.segments[0]['videos'] &&
+                0 < payload.segments[0]['videos'].length
+              ) {
+                imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
 
-      self.data = data as any[];
-      const groups = self.data['groups'] as any[];
-      groups.forEach(function(group) {
-        const firstSegment = group[0];
-        // let autodetectionReport = firstSegment.end_time;
-        const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
-        linePoints.push(latLon);
+                const jsonPayload = JSON.stringify(payload);
+                const markerOptions: MyMarkerOptions = {
+                  data: firstSegment,
+                  jsonPayload: jsonPayload,
+                  icon: self.iconDetect,
+                  title: firstSegment.end_time
+                };
+                const marker = new L.Marker(latLon, markerOptions).addTo(
+                  self.traces
+                );
+                // marker.options.payload = jsonPayload;
+                // marker.options.data= firstSegment;
+                marker.on('click', function(e) {
+                  const modalRef = who.modalService.open(QviewComponent, {
+                    size: 'lg',
+                    backdropClass: 'light-blue-backdrop',
+                    centered: true
+                  });
+                  modalRef.componentInstance.json =
+                    e.target.options.jsonPayload;
+                  modalRef.componentInstance.data = e.target.options.data;
+                });
+              }
+            });
 
-        const payload = {
-          segments: self.computePayload(group)
-        };
-        let imgUrl;
-        if (payload.segments && payload.segments[0]['videos'] && 0 < payload.segments[0]['videos'].length) {
-          imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
+            if (self.theMap && self.theMap !== undefined) {
+              self.theMap.removeLayer(self.traces);
+            }
 
+            // self.control.panTo(center);
+            L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
+            self.theMap.setZoom(5);
+            let center = new L.LatLng(0.0, 0.0);
 
+            if (groups.length) {
+              center = self.getLatLon(groups[groups.length - 1][0]);
+            }
 
-          const jsonPayload = JSON.stringify(payload);
-          const markerOptions: MyMarkerOptions = {
-            data: firstSegment,
-            jsonPayload: jsonPayload,
-            icon: self.iconDetect,
-            title: firstSegment.end_time
-          };
-          const marker = new L.Marker(latLon, markerOptions
-          ).addTo(self.traces);
-          // marker.options.payload = jsonPayload;
-          // marker.options.data= firstSegment;
-          marker.on('click', function(e) {
+            self.theMap.setView(center, 8);
+            self.theMap.addLayer(self.layers.Local);
+            self.theMap.addLayer(self.traces);
+          }
 
-            const modalRef = who.modalService.open(QviewComponent,
-              { size: 'lg', backdropClass: 'light-blue-backdrop', centered: true });
-            modalRef.componentInstance.json = e.target.options.jsonPayload;
-            modalRef.componentInstance.data = e.target.options.data;
-
-          });
-        }
-      });
-
-      if (self.theMap && self.theMap !== undefined) {
-        self.theMap.removeLayer(self.traces);
-      }
-
-
-
-      // self.control.panTo(center);
-      L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
-      self.theMap.setZoom(5);
-      let center = new L.LatLng(0.0, 0.0);
-
-      if (groups.length) {
-        center = self.getLatLon(groups[groups.length - 1][0]);
-      }
-
-      self.theMap.setView(center, 8);
-      self.theMap.addLayer(self.traces);
-
-    });
+          this.isLoading = false;
+        },
+        err => this.logError(err),
+        );
 
     const who = self;
 
     clearTimeout(self.searchTimer);
-
   }
-
+  logError(error: object): void {
+    this.error = error;
+  }
 }

@@ -153,6 +153,7 @@ export class ConfigurationComponent implements OnInit {
             );
         this.http.get('/recorder/parameters')
             .subscribe(
+                err => this.logError(err),
                 data => {
                     const configurations = data as Configuration[];
                     self.advanced = [];
@@ -209,4 +210,7 @@ export class ConfigurationComponent implements OnInit {
             );
     }
 
+    logError(error: object): void {
+        console.log(error);
+    }
 }
