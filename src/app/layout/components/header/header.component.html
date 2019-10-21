@@ -14,7 +14,7 @@
 				</a>
 				<div class="dropdown-menu-right" ngbDropdownMenu>
 
-					<a href="task" class="dropdown-item">
+					<a [routerLink]="['/task']" class="dropdown-item">
 						{{ 'See Errors  ' | translate }} <span class="badge badge-info"> {{taskInError}}</span>
 					</a>
 

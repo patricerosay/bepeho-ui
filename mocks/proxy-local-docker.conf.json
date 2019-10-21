@@ -1,0 +1,10 @@
+{
+    "/recorder/*": {
+        "target": "http://localhost",
+        "secure": false
+    },
+    "/media/*": {
+        "target": "http://localhost",
+        "secure": false
+    }
+}

@@ -23,10 +23,11 @@ export class MapComponent implements OnInit {
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
-  public mbUrl = ('Mediaman-Assistant' === document.title)
-    ? 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png' :
-    'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
-
+  public layers = {
+    'local': 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png',
+    'OpenStreetMap': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+  };
+  public layer = 'http://' + window.location.hostname + ':8088/tile/{z}/{x}/{y}.png';
   public traces = L.layerGroup();
   // public linePoints = [];
   searchPrms: ISearchParams = new ISearchParams();
@@ -54,8 +55,11 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.theMap = L.map('map');
+    //L.control.layers(this.layers,  {
+    //  collapsed: false
+    //}).addTo(this.theMap);
 
-    L.tileLayer(this.mbUrl, {
+    L.tileLayer(this.layer, {
       attribution: 'Map'
     }).addTo(this.theMap);
 

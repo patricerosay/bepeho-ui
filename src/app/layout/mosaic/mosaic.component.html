@@ -17,35 +17,51 @@
 		</mat-tab>
 		<mat-tab label="Mosaic">
 			<mat-button-toggle-group #group="matButtonToggleGroup">
-				<mat-button-toggle value="facebook" aria-label="Facebook">
+				<mat-button-toggle (click)= "onStream('STREAM_COMMAND_3')" value="Facebook" aria-label="Facebook">
 					<i class="fa fa-fw  fa-facebook-f"></i>
 					Facebook
 				</mat-button-toggle>
-				<mat-button-toggle value="youtube" aria-label="Text align center">
+				<mat-button-toggle (click)= "onStream('STREAM_PLAY')" value="Youtube" aria-label="Text align center">
 					<i class="fa fa-fw fa-youtube"></i>
 					Youtube
 				</mat-button-toggle>
-				<mat-button-toggle value="record" aria-label="Text align right">
+				<mat-button-toggle (click)= "onStream('LIVERECORD')" value="record" aria-label="Text align right">
 					<i class="fa fa-fw fa-film"></i>
 					Record
 				</mat-button-toggle>
-				<mat-button-toggle value="stop" aria-label="Text align right">
+				<mat-button-toggle (click)= "onStopStream()"value="stop" aria-label="Text align right">
 						<i class="fa fa-fw fa-stop"></i>
 						Stop
 				</mat-button-toggle>
 			</mat-button-toggle-group>
-			<mat-checkbox [(ngModel)]="withData">
-					Include Data in the stream
-			</mat-checkbox>
-			<ngb-alert [dismissible]="false" 
-				*ngIf="camera && group.value " class="example-selected-value">Livestreaming now  {{camera}} to {{group.value}}
+			
+			<div class="configuration-container ">
+				Include NMEA data in the stream
+				<mat-slide-toggle 
+					id = "datainstream"
+					[checked]="true"
+					(change)="onDataChanged( $event )">
+				</mat-slide-toggle>
+			</div>
+			<div class="configuration-container ">
+				Include audio in the stream
+				<mat-slide-toggle 
+					id = "microphone"
+					[checked]="true"
+					(change)="onMicChanged( $event )">
+				</mat-slide-toggle>
+			</div>
+			<ngb-alert  [dismissible]="false" 
+				*ngIf="camera && group.value " class="example-selected-value">Livestreaming now  {{camera.name}} to {{group.value}}
 			</ngb-alert>
+			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+
 			<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
 				[(ngModel)]="camera">
 				<mat-grid-list cols="2" rowHeight="2:1">
 					<div *ngFor="let cam of mosaic">
 						<mat-grid-tile>
-							<mat-radio-button class="example-radio-button"  [value]="cam.id">
+							<mat-radio-button class="example-radio-button"  [value]="cam">{{cam.name}}
 								<img class="camera-mosaic" src="{{cam.camPreviewUrl}}"
 									onerror="this.src='assets/images/mire.jpg'">
 							</mat-radio-button>
