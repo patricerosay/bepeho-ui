@@ -30,12 +30,11 @@ export class MapComponent implements OnInit {
     'Online OpenStreetMap': L.tileLayer(
       'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
     )
-    //   'OpenSeaMap': L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
-    //   {'attribution': 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'})
-    //
   };
 
   public traces = L.layerGroup();
+  public events = L.layerGroup();
+
   searchPrms: ISearchParams = new ISearchParams();
 
   iconLove = L.icon({
@@ -64,7 +63,8 @@ export class MapComponent implements OnInit {
 
     L.control
       .layers(this.layers, {
-        Traces: this.traces
+        Traces: this.traces,
+        Events: this.events
       })
       .addTo(this.theMap);
   }
@@ -166,6 +166,15 @@ export class MapComponent implements OnInit {
     this.searchPrms.nmea_d_heel_d = event.value;
     this.loadData(this);
   }
+ public onDetectionLevel(event) {
+    this.searchPrms.anomaly_score_d = event.value / 10;
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
+    const self: MapComponent = this;
+    this.searchTimer = setTimeout(this.loadData, 1000, self);
+  }
 
   public onSearchLimit(event) {
     this.searchPrms.count = event.value;
@@ -179,7 +188,7 @@ export class MapComponent implements OnInit {
   public loadData(_self: MapComponent) {
     const self = _self;
     self.traces.clearLayers();
-
+    self.events.clearLayers();
     const linePoints = [];
     const params: URLSearchParams = self.serialize(self.searchPrms);
     self.http
@@ -199,24 +208,38 @@ export class MapComponent implements OnInit {
               const payload = {
                 segments: self.computePayload(group)
               };
-              let imgUrl;
+              // let imgUrl;
               if (
                 payload.segments &&
                 payload.segments[0]['videos'] &&
                 0 < payload.segments[0]['videos'].length
               ) {
-                imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
+                // imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
 
                 const jsonPayload = JSON.stringify(payload);
-                const markerOptions: MyMarkerOptions = {
-                  data: firstSegment,
-                  jsonPayload: jsonPayload,
-                  icon: self.iconDetect,
-                  title: firstSegment.end_time
-                };
-                const marker = new L.Marker(latLon, markerOptions).addTo(
+                
+                let marker = null;
+                if(undefined !== firstSegment['anomaly_score_d']){
+                  const markerOptions: MyMarkerOptions = {
+                    data: firstSegment,
+                    jsonPayload: jsonPayload,
+                    icon: self.iconDetect,
+                    title: firstSegment.anomaly_score_d
+                  };
+                  marker = new L.Marker(latLon, markerOptions).addTo(
+                    self.events
+                  );
+                } else {
+                  const markerOptions: MyMarkerOptions = {
+                    data: firstSegment,
+                    jsonPayload: jsonPayload,
+                    icon: self.iconLove,
+                    title: firstSegment.end_time
+                  };
+                 marker = new L.Marker(latLon, markerOptions).addTo(
                   self.traces
                 );
+                }
                 // marker.options.payload = jsonPayload;
                 // marker.options.data= firstSegment;
                 marker.on('click', function(e) {
@@ -234,6 +257,8 @@ export class MapComponent implements OnInit {
 
             if (self.theMap && self.theMap !== undefined) {
               self.theMap.removeLayer(self.traces);
+              self.theMap.removeLayer(self.events);
+
             }
 
             // self.control.panTo(center);
@@ -248,6 +273,8 @@ export class MapComponent implements OnInit {
             self.theMap.setView(center, 8);
             self.theMap.addLayer(self.layers.Local);
             self.theMap.addLayer(self.traces);
+            self.theMap.addLayer(self.events);
+
           }
 
           this.isLoading = false;

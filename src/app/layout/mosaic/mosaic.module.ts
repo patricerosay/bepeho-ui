@@ -6,6 +6,7 @@ import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LazyLoadImageModule } from 'ng-lazyload-image'; 
 
 import {
     MatAutocompleteModule,
@@ -45,7 +46,7 @@ import {
     MatTreeModule
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, MosaicRoutingModule, PageHeaderModule,
+    imports: [CommonModule, MosaicRoutingModule, PageHeaderModule, LazyLoadImageModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,

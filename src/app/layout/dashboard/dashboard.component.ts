@@ -45,6 +45,10 @@ export class DashboardComponent implements OnInit {
             .subscribe(
                 data => {
                     self.stats = data as IStats;
+                    self.doughnutChartData[0]=self.stats.storageUsage;
+                    self.doughnutChartData[1]=self.stats.storageLimit-self.stats.storageUsage;
+                    self.doughnutChartData[2]=100-self.stats.storageLimit;
+
                     self.isLoading = false;
                 },
                 error => this.logError(error),

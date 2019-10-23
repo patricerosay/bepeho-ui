@@ -7,21 +7,24 @@ html, body {
 
  img.camera-mosaic {
  		// width: 640px;
- 		width: 100%;
+ 		width: 90%;
  	}
-
-@media (min-width: 992px)  {
-	.camera {
-		width: 640px;
-		// height: 70px;
+.camera {
+		margin: auto;
+		width: 80%;
 	}
-}
-@media (max-width: 376px)  {
-	.camera {
-		width: 320px;
-		// height: 70px;
-	}
-}
+// @media (min-width: 992px)  {
+// 	.camera {
+// 		width: 100%;
+// 		//  height: 70%;
+// 	}
+// }
+// @media (max-width: 376px)  {
+// 	.camera {
+// 		width: 100%x;
+// 		// height: 70%;
+// 	}
+// }
 table {
 	width: 100%;
   }

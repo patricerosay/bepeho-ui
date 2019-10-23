@@ -67,6 +67,16 @@
           ></mat-slider>
         </div>
         <div class="row">
+            Autodetection
+            <mat-slider
+              (input)="onDetectionLevel($event)"
+              thumbLabel
+              tickInterval="1"
+              min="0"
+              max="10"
+            ></mat-slider>
+          </div>
+        <div class="row">
           Speed (knts)
           <mat-slider thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
         </div>

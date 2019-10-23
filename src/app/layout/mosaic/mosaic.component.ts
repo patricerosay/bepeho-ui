@@ -10,7 +10,7 @@ import {
 
 import { Camera } from './camera-interface';
 import { DataSource } from '@angular/cdk/table';
-export interface PeriodicElement {
+export interface IInstrument {
   speed: string;
   heading: string;
   tws: string;
@@ -20,7 +20,7 @@ export interface PeriodicElement {
   bla: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const ELEMENT_DATA: IInstrument[] = [
   { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla:'n/a', blo:'n/a' }
 ];
 
@@ -130,6 +130,7 @@ export class CameraPropertiesModal {
   styleUrls: ['./mosaic.component.scss']
 })
 export class MosaicComponent implements OnInit {
+  worker: any;
   constructor(
     public http: HttpClient,
 
@@ -137,8 +138,9 @@ export class MosaicComponent implements OnInit {
   ) {}
 
   displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
-  dataSource:  PeriodicElement[] = ELEMENT_DATA;
-  dataSource2 = {};
+  dataSource:  IInstrument[] = ELEMENT_DATA;
+  // showInstrument: true;
+  // dataSource2 = {};
   private url = '/recorder/cams';
   isLoading = true;
   cameras: Array<Camera> = new Array<Camera>();
@@ -149,6 +151,12 @@ export class MosaicComponent implements OnInit {
   withData: boolean;
   errorMsg: string;
 
+  onDisplayInstrument(e): void {
+    this.stopInstrumentWorker();
+    if (e.checked) {
+      this.startInstrumentWorker();
+    } 
+  }
   getInstruments() {
     const self = this;
     self.http.get('recorder/data').subscribe(data => {
@@ -173,12 +181,27 @@ export class MosaicComponent implements OnInit {
       });
     });
   }
+  stopInstrumentWorker(): void {
+    if (null !== this.worker) {
+      clearInterval(this.worker);
+      this.worker = null;
+      this.dataSource[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla:'n/a', blo:'n/a' };
+    }
+  }
+  startInstrumentWorker(): void {
+    this.worker =  setInterval(() => {
+      this.getInstruments();
+  }, 10000);
+
+    // this.worker = interval(10000 ).subscribe(x => {
+    //   this.getInstruments();
+    // });
+  }
 
   ngOnInit() {
-    interval(10000 ).subscribe(x => {
-      this.getInstruments();
-    });
+   
     const self = this;
+   this.startInstrumentWorker();
     // const self.cameras = new Camera[];
     self.http.get(this.url).subscribe(data => {
       // self.cameras

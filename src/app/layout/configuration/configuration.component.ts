@@ -149,11 +149,11 @@ export class ConfigurationComponent implements OnInit {
                         }
                     });
                     self.isLoadingControls = false;
-                }
+                },
+                err => this.logError(err),
             );
         this.http.get('/recorder/parameters')
             .subscribe(
-                err => this.logError(err),
                 data => {
                     const configurations = data as Configuration[];
                     self.advanced = [];
@@ -207,6 +207,7 @@ export class ConfigurationComponent implements OnInit {
 
                     self.isLoadingConf = false;
                 },
+                err => this.logError(err),
             );
     }
 

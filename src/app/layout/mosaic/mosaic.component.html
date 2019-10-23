@@ -1,49 +1,57 @@
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
+
+	<div class="configuration-container ">
+		Show Instruments
+		<mat-slide-toggle id="showInstrument" [checked]="true" (change)="onDisplayInstrument( $event )">
+		</mat-slide-toggle>
+	</div>
+	<div *ngIf="worker">
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-				<!--- Note that these columns can be defined in any order.
+			<!--- Note that these columns can be defined in any order.
 					  The actual rendered columns are set as a property on the row definition" -->
-			  
-				<!-- Position Column -->
-				<ng-container matColumnDef="heading">
-				  <th mat-header-cell *matHeaderCellDef> Heading </th>
-				  <td mat-cell *matCellDef="let element"> {{element.heading}} </td>
-				</ng-container>
-			  
-				<!-- Name Column -->
-				<ng-container matColumnDef="speed">
-				  <th mat-header-cell *matHeaderCellDef> Speed </th>
-				  <td mat-cell *matCellDef="let element"> {{element.speed}} </td>
-				</ng-container>
-			  
-				<!-- Weight Column -->
-				<ng-container matColumnDef="tws">
-				  <th mat-header-cell *matHeaderCellDef> TWS </th>
-				  <td mat-cell *matCellDef="let element"> {{element.tws}} </td>
-				</ng-container>
-			  
-				<!-- Symbol Column -->
-				<ng-container matColumnDef="twd">
-				  <th mat-header-cell *matHeaderCellDef> TWD </th>
-				  <td mat-cell *matCellDef="let element"> {{element.twd}} </td>
-				</ng-container>
-			  <!-- Symbol Column -->
-				<ng-container matColumnDef="time">
-						<th mat-header-cell *matHeaderCellDef> GPS Time </th>
-						<td mat-cell *matCellDef="let element"> {{element.time}} </td>
-					  </ng-container>
-					  <ng-container matColumnDef="blo">
-							<th mat-header-cell *matHeaderCellDef> Longitude </th>
-							<td mat-cell *matCellDef="let element"> {{element.blo}} </td>
-						  </ng-container>
-						  <ng-container matColumnDef="bla">
-								<th mat-header-cell *matHeaderCellDef> Latitude </th>
-								<td mat-cell *matCellDef="let element"> {{element.bla}} </td>
-							  </ng-container>			
-				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-			  </table>
+
+			<!-- Position Column -->
+			<ng-container matColumnDef="heading">
+				<th mat-header-cell *matHeaderCellDef> Heading </th>
+				<td mat-cell *matCellDef="let element"> {{element.heading}} </td>
+			</ng-container>
+
+			<!-- Name Column -->
+			<ng-container matColumnDef="speed">
+				<th mat-header-cell *matHeaderCellDef> Speed </th>
+				<td mat-cell *matCellDef="let element"> {{element.speed}} </td>
+			</ng-container>
+
+			<!-- Weight Column -->
+			<ng-container matColumnDef="tws">
+				<th mat-header-cell *matHeaderCellDef> TWS </th>
+				<td mat-cell *matCellDef="let element"> {{element.tws}} </td>
+			</ng-container>
+
+			<!-- Symbol Column -->
+			<ng-container matColumnDef="twd">
+				<th mat-header-cell *matHeaderCellDef> TWD </th>
+				<td mat-cell *matCellDef="let element"> {{element.twd}} </td>
+			</ng-container>
+			<!-- Symbol Column -->
+			<ng-container matColumnDef="time">
+				<th mat-header-cell *matHeaderCellDef> GPS Time </th>
+				<td mat-cell *matCellDef="let element"> {{element.time}} </td>
+			</ng-container>
+			<ng-container matColumnDef="blo">
+				<th mat-header-cell *matHeaderCellDef> Longitude </th>
+				<td mat-cell *matCellDef="let element"> {{element.blo}} </td>
+			</ng-container>
+			<ng-container matColumnDef="bla">
+				<th mat-header-cell *matHeaderCellDef> Latitude </th>
+				<td mat-cell *matCellDef="let element"> {{element.bla}} </td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		</table>
+	</div>
 	<mat-tab-group>
 		<mat-tab label="Cameras">
 			<mat-tab-group>
@@ -54,49 +62,43 @@
 								<button mat-raised-button color="primary" (click)="openDialog(cam)"> Parameters</button>
 							</li>
 						</ul>
-						<img class="camera" src="{{cam.camPreviewUrl}}" onerror="this.src='assets/images/mire.jpg'">
+						<img class="camera" [lazyLoad]="cam.camPreviewUrl" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
 					</mat-tab>
 				</div>
 			</mat-tab-group>
 		</mat-tab>
 		<mat-tab label="Mosaic">
 			<mat-button-toggle-group #group="matButtonToggleGroup">
-				<mat-button-toggle (click)= "onStream('STREAM_COMMAND_3')" value="Facebook" aria-label="Facebook">
+				<mat-button-toggle (click)="onStream('STREAM_COMMAND_3')" value="Facebook" aria-label="Facebook">
 					<i class="fa fa-fw  fa-facebook-f"></i>
 					Facebook
 				</mat-button-toggle>
-				<mat-button-toggle (click)= "onStream('STREAM_PLAY')" value="Youtube" aria-label="Text align center">
+				<mat-button-toggle (click)="onStream('STREAM_PLAY')" value="Youtube" aria-label="Text align center">
 					<i class="fa fa-fw fa-youtube"></i>
 					Youtube
 				</mat-button-toggle>
-				<mat-button-toggle (click)= "onStream('LIVERECORD')" value="record" aria-label="Text align right">
+				<mat-button-toggle (click)="onStream('LIVERECORD')" value="record" aria-label="Text align right">
 					<i class="fa fa-fw fa-film"></i>
 					Record
 				</mat-button-toggle>
-				<mat-button-toggle (click)= "onStopStream()"value="stop" aria-label="Text align right">
-						<i class="fa fa-fw fa-stop"></i>
-						Stop
+				<mat-button-toggle (click)="onStopStream()" value="stop" aria-label="Text align right">
+					<i class="fa fa-fw fa-stop"></i>
+					Stop
 				</mat-button-toggle>
 			</mat-button-toggle-group>
-			
+
 			<div class="configuration-container ">
 				Include NMEA data in the stream
-				<mat-slide-toggle 
-					id = "datainstream"
-					[checked]="true"
-					(change)="onDataChanged( $event )">
+				<mat-slide-toggle id="datainstream" [checked]="true" (change)="onDataChanged( $event )">
 				</mat-slide-toggle>
 			</div>
 			<div class="configuration-container ">
 				Include audio in the stream
-				<mat-slide-toggle 
-					id = "microphone"
-					[checked]="true"
-					(change)="onMicChanged( $event )">
+				<mat-slide-toggle id="microphone" [checked]="true" (change)="onMicChanged( $event )">
 				</mat-slide-toggle>
 			</div>
-			<ngb-alert  [dismissible]="false" 
-				*ngIf="camera && group.value " class="example-selected-value">Livestreaming now  {{camera.name}} to {{group.value}}
+			<ngb-alert [dismissible]="false" *ngIf="camera && group.value " class="example-selected-value">Livestreaming
+				now {{camera.name}} to {{group.value}}
 			</ngb-alert>
 			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
@@ -105,9 +107,11 @@
 				<mat-grid-list cols="2" rowHeight="2:1">
 					<div *ngFor="let cam of mosaic">
 						<mat-grid-tile>
-							<mat-radio-button class="example-radio-button"  [value]="cam">{{cam.name}}
-								<img class="camera-mosaic" src="{{cam.camPreviewUrl}}"
-									onerror="this.src='assets/images/mire.jpg'">
+							<mat-radio-button class="example-radio-button" [value]="cam">{{cam.name}}
+								<!-- <img class="camera-mosaic" src="{{cam.camPreviewUrl}}"
+									onerror="this.src='assets/images/mire.jpg'"> -->
+								<img class="camera" [lazyLoad]="cam.camPreviewUrl" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
+
 							</mat-radio-button>
 						</mat-grid-tile>
 					</div>

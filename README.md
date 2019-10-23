@@ -11,6 +11,7 @@ npm i @angular/forms --save
 npm add @fortawesome/fontawesome-svg-core
 npm add @fortawesome/free-solid-svg-icons
 npm add @fortawesome/angular-fontawesome
+npm install ng-lazyload-image --save
 ## dev
 npm run start:dev
 
