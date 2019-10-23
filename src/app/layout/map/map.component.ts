@@ -23,6 +23,9 @@ export class MapComponent implements OnInit {
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
+  public totalResults = 0;
+  public pageSize = 0;
+  public displayed = 0;
   public layers = {
     Local: L.tileLayer(
       'http://' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
@@ -77,21 +80,29 @@ export class MapComponent implements OnInit {
     return value;
   }
 
-  public getLatLon(o: any) {
-    const res = new L.LatLng(0.0, 0.0);
+  public  getLatLon(o: any) {
+    console.log(o);
+    let res = null;
     const s = o['nmea_s_boatpos'];
     if (s) {
       const a = s.split(',');
-      res.lat = a[0];
-      res.lng = a[1];
+      res = new L.LatLng(a[0], a[1]);
     }
-    if (0 === parseFloat(res.lat[0]) && 0 === parseFloat(res.lng[1])) {
+    const lat = (null !== res) ? Math.abs(parseFloat(res.lat)) : null;
+    const lon = (null !== res) ? Math.abs(parseFloat(res.lng)) : null;
+
+    if (!lat && !lon) {
       const s2 = o['nmea_loc_boatspatialpos'];
       if (undefined !== s2 && '00.0000,00.0000' !== s2) {
         const a = s2.split(',');
-        res.lat = a[0];
-        res.lng = a[1];
+        if (null === a) {
+          console.log(o);
+        }
+        res = new L.LatLng(a[0], a[1]);
       }
+    }
+    if (null === res) {
+      console.log('null position' + o);
     }
     return res;
   }
@@ -166,7 +177,7 @@ export class MapComponent implements OnInit {
     this.searchPrms.nmea_d_heel_d = event.value;
     this.loadData(this);
   }
- public onDetectionLevel(event) {
+  public onDetectionLevel(event) {
     this.searchPrms.anomaly_score_d = event.value / 10;
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
@@ -198,67 +209,81 @@ export class MapComponent implements OnInit {
         data => {
           if (self.data) {
             self.data = data as any[];
+            self.totalResults = self.data.groupCount;
+            self.pageSize = self.data.groups.length;
             const groups = self.data['groups'] as any[];
+            self.displayed = 0;
+            let errCount=0;
             groups.forEach(function(group) {
               const firstSegment = group[0];
               // let autodetectionReport = firstSegment.end_time;
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
-              linePoints.push(latLon);
-
-              const payload = {
-                segments: self.computePayload(group)
-              };
-              // let imgUrl;
-              if (
-                payload.segments &&
-                payload.segments[0]['videos'] &&
-                0 < payload.segments[0]['videos'].length
-              ) {
-                // imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
-
-                const jsonPayload = JSON.stringify(payload);
+              if (null !== latLon) {
                 
-                let marker = null;
-                if(undefined !== firstSegment['anomaly_score_d']){
-                  const markerOptions: MyMarkerOptions = {
-                    data: firstSegment,
-                    jsonPayload: jsonPayload,
-                    icon: self.iconDetect,
-                    title: firstSegment.anomaly_score_d
-                  };
-                  marker = new L.Marker(latLon, markerOptions).addTo(
-                    self.events
-                  );
-                } else {
-                  const markerOptions: MyMarkerOptions = {
-                    data: firstSegment,
-                    jsonPayload: jsonPayload,
-                    icon: self.iconLove,
-                    title: firstSegment.end_time
-                  };
-                 marker = new L.Marker(latLon, markerOptions).addTo(
-                  self.traces
-                );
-                }
-                // marker.options.payload = jsonPayload;
-                // marker.options.data= firstSegment;
-                marker.on('click', function(e) {
-                  const modalRef = who.modalService.open(QviewComponent, {
-                    size: 'lg',
-                    backdropClass: 'light-blue-backdrop',
-                    centered: true
+                const payload = {
+                  segments: self.computePayload(group)
+                };
+                // let imgUrl;
+                if (
+                  payload.segments &&
+                  payload.segments[0]['videos'] &&
+                  0 < payload.segments[0]['videos'].length
+                ) {
+                  // imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
+                  linePoints.push(latLon);
+                  const jsonPayload = JSON.stringify(payload);
+
+                  let marker = null;
+                  if (undefined !== firstSegment['anomaly_score_d']) {
+                    const markerOptions: MyMarkerOptions = {
+                      data: firstSegment,
+                      jsonPayload: jsonPayload,
+                      icon: self.iconDetect,
+                      title: firstSegment.anomaly_score_d
+                    };
+                    self.displayed ++;
+                    marker = new L.Marker(latLon, markerOptions).addTo(
+                      self.events
+                    );
+                  } else {
+                    const markerOptions: MyMarkerOptions = {
+                      data: firstSegment,
+                      jsonPayload: jsonPayload,
+                      icon: self.iconLove,
+                      title: firstSegment.end_time
+                    };
+                    self.displayed ++;
+                    marker = new L.Marker(latLon, markerOptions).addTo(
+                      self.traces
+                    );
+                  }
+                  // marker.options.payload = jsonPayload;
+                  // marker.options.data= firstSegment;
+                  marker.on('click', function(e) {
+                    const modalRef = who.modalService.open(QviewComponent, {
+                      size: 'lg',
+                      backdropClass: 'light-blue-backdrop',
+                      centered: true
+                    });
+                    modalRef.componentInstance.json =
+                      e.target.options.jsonPayload;
+                    modalRef.componentInstance.data = e.target.options.data;
                   });
-                  modalRef.componentInstance.json =
-                    e.target.options.jsonPayload;
-                  modalRef.componentInstance.data = e.target.options.data;
-                });
+                } else {
+                  errCount++;
+                  const segments = self.computePayload(group);
+                  console.log('no videos' +errCount + ' '+ payload);
+                  const segments = self.computePayload(group);
+                }
+              }else {
+                errCount++;
+                console.log('no position' +errCount + ' '+ firstSegment);
               }
             });
 
             if (self.theMap && self.theMap !== undefined) {
               self.theMap.removeLayer(self.traces);
               self.theMap.removeLayer(self.events);
-
             }
 
             // self.control.panTo(center);
@@ -274,13 +299,17 @@ export class MapComponent implements OnInit {
             self.theMap.addLayer(self.layers.Local);
             self.theMap.addLayer(self.traces);
             self.theMap.addLayer(self.events);
-
+            
           }
-
-          this.isLoading = false;
         },
-        err => this.logError(err),
-        );
+        err => this.logError(err)
+      )
+      .catch(function(e) {
+        this.logError(e);
+      })
+      .finally(function() {
+        self.isLoading = false;
+      });
 
     const who = self;
 

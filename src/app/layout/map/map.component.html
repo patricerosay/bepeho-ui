@@ -2,10 +2,9 @@
 <div *ngIf="error">Error while connecting to server</div>
 
   <div [@routerTransition]>
-    <!-- <button mat-raised-button (click)="loadData()">Refresh</button> -->
     <button mat-raised-button (click)="loadData(this)">Refresh</button>
     <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
-
+    {{pageSize}} / {{totalResults}} Displayed: {{displayed}}
     <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
