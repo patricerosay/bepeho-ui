@@ -26,6 +26,7 @@ export class MapComponent implements OnInit {
   public totalResults = 0;
   public pageSize = 0;
   public displayed = 0;
+  public errCount = 0;
   public layers = {
     Local: L.tileLayer(
       'http://' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
@@ -81,7 +82,7 @@ export class MapComponent implements OnInit {
   }
 
   public  getLatLon(o: any) {
-    console.log(o);
+    // console.log(o);
     let res = null;
     const s = o['nmea_s_boatpos'];
     if (s) {
@@ -101,9 +102,9 @@ export class MapComponent implements OnInit {
         res = new L.LatLng(a[0], a[1]);
       }
     }
-    if (null === res) {
-      console.log('null position' + o);
-    }
+    // if (null === res) {
+    //   console.log('null position' + o);
+    // }
     return res;
   }
   public computePayload(group: any[]) {
@@ -209,17 +210,17 @@ export class MapComponent implements OnInit {
         data => {
           if (self.data) {
             self.data = data as any[];
-            self.totalResults = self.data.groupCount;
-            self.pageSize = self.data.groups.length;
+            self.totalResults = self.data['groupCount'];
+            self.pageSize = self.data['groups'].length;
             const groups = self.data['groups'] as any[];
             self.displayed = 0;
-            let errCount=0;
+            self.errCount = 0;
             groups.forEach(function(group) {
               const firstSegment = group[0];
               // let autodetectionReport = firstSegment.end_time;
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
-                
+
                 const payload = {
                   segments: self.computePayload(group)
                 };
@@ -270,14 +271,12 @@ export class MapComponent implements OnInit {
                     modalRef.componentInstance.data = e.target.options.data;
                   });
                 } else {
-                  errCount++;
-                  const segments = self.computePayload(group);
-                  console.log('no videos' +errCount + ' '+ payload);
-                  const segments = self.computePayload(group);
+                  self.errCount++;
+                  // console.log('no videos' + errCount + ' ' + payload);
                 }
-              }else {
-                errCount++;
-                console.log('no position' +errCount + ' '+ firstSegment);
+              } else {
+                self.errCount++;
+                // console.log('no position' + errCount + ' ' + firstSegment);
               }
             });
 
@@ -299,7 +298,7 @@ export class MapComponent implements OnInit {
             self.theMap.addLayer(self.layers.Local);
             self.theMap.addLayer(self.traces);
             self.theMap.addLayer(self.events);
-            
+
           }
         },
         err => this.logError(err)
