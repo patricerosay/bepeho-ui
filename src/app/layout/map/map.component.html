@@ -5,10 +5,7 @@
     <button mat-raised-button (click)="loadData(this)">Refresh</button>
     <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
     {{pageSize}} / {{totalResults}} 
-    <mat-error *ngIf="errCount">Could not displayed: {{errCount}}</mat-error>
-
-   
-     
+    <mat-error *ngIf="errCount">{{errCount}} sequences could not displayed</mat-error>
         <div class="row">
           <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
             <mat-button-toggle

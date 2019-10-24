@@ -81,7 +81,7 @@ export class MapComponent implements OnInit {
     return value;
   }
 
-  public  getLatLon(o: any) {
+  public getLatLon(o: any) {
     // console.log(o);
     let res = null;
     const s = o['nmea_s_boatpos'];
@@ -89,8 +89,8 @@ export class MapComponent implements OnInit {
       const a = s.split(',');
       res = new L.LatLng(a[0], a[1]);
     }
-    const lat = (null !== res) ? Math.abs(parseFloat(res.lat)) : null;
-    const lon = (null !== res) ? Math.abs(parseFloat(res.lng)) : null;
+    const lat = null !== res ? Math.abs(parseFloat(res.lat)) : null;
+    const lon = null !== res ? Math.abs(parseFloat(res.lng)) : null;
 
     if (!lat && !lon) {
       const s2 = o['nmea_loc_boatspatialpos'];
@@ -202,6 +202,7 @@ export class MapComponent implements OnInit {
     self.traces.clearLayers();
     self.events.clearLayers();
     const linePoints = [];
+
     const params: URLSearchParams = self.serialize(self.searchPrms);
     self.http
       .get('/recorder/search?' + params)
@@ -215,23 +216,37 @@ export class MapComponent implements OnInit {
             const groups = self.data['groups'] as any[];
             self.displayed = 0;
             self.errCount = 0;
+            let linePointsCounter = 0;
+            let lastTime = null;
             groups.forEach(function(group) {
               const firstSegment = group[0];
-              // let autodetectionReport = firstSegment.end_time;
+
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
-
                 const payload = {
                   segments: self.computePayload(group)
                 };
-                // let imgUrl;
+
                 if (
                   payload.segments &&
                   payload.segments[0]['videos'] &&
                   0 < payload.segments[0]['videos'].length
                 ) {
-                  // imgUrl = self.mediaroot + payload.segments[0]['videos'][0].img;
-                  linePoints.push(latLon);
+                  if (!lastTime) {
+                    linePoints[linePointsCounter] = new Array();
+                    linePoints[linePointsCounter].push(latLon);
+                    lastTime = firstSegment['start_time_data'];
+                  } else {
+                    if (lastTime - firstSegment['start_time_data'] >= 3600) {
+                      lastTime = firstSegment['start_time_data'];
+                      linePointsCounter++;
+                      linePoints[linePointsCounter] = new Array();
+                      linePoints[linePointsCounter].push(latLon);
+                    } else {
+                      linePoints[linePointsCounter].push(latLon);
+                    }
+                  }
+                  // linePoints.push(latLon);
                   const jsonPayload = JSON.stringify(payload);
 
                   let marker = null;
@@ -242,7 +257,7 @@ export class MapComponent implements OnInit {
                       icon: self.iconDetect,
                       title: firstSegment.anomaly_score_d
                     };
-                    self.displayed ++;
+                    self.displayed++;
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
                     );
@@ -253,13 +268,12 @@ export class MapComponent implements OnInit {
                       icon: self.iconLove,
                       title: firstSegment.end_time
                     };
-                    self.displayed ++;
+                    self.displayed++;
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.traces
                     );
                   }
-                  // marker.options.payload = jsonPayload;
-                  // marker.options.data= firstSegment;
+
                   marker.on('click', function(e) {
                     const modalRef = who.modalService.open(QviewComponent, {
                       size: 'lg',
@@ -272,11 +286,9 @@ export class MapComponent implements OnInit {
                   });
                 } else {
                   self.errCount++;
-                  // console.log('no videos' + errCount + ' ' + payload);
                 }
               } else {
                 self.errCount++;
-                // console.log('no position' + errCount + ' ' + firstSegment);
               }
             });
 
@@ -285,7 +297,6 @@ export class MapComponent implements OnInit {
               self.theMap.removeLayer(self.events);
             }
 
-            // self.control.panTo(center);
             L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
             self.theMap.setZoom(5);
             let center = new L.LatLng(0.0, 0.0);
@@ -298,7 +309,6 @@ export class MapComponent implements OnInit {
             self.theMap.addLayer(self.layers.Local);
             self.theMap.addLayer(self.traces);
             self.theMap.addLayer(self.events);
-
           }
         },
         err => this.logError(err)
