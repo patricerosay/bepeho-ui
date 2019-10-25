@@ -1,87 +1,120 @@
 <div *ngIf="isLoading">loading ....</div>
 <div *ngIf="error">Error while connecting to server</div>
 
-  <div [@routerTransition]>
-    <button mat-raised-button (click)="loadData(this)">Refresh</button>
-    <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
-    {{pageSize}} / {{totalResults}} 
-    <mat-error *ngIf="errCount">{{errCount}} sequences could not displayed</mat-error>
-        <div class="row">
+<div [@routerTransition]>
+  
+  <mat-accordion>
+      <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              ...
+            </mat-panel-title>
+            <mat-panel-description>
+              Display details about the results
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <table mat-table [dataSource]="searchStats" class="mat-elevation-z8">
+              <!-- Position Column -->
+              <ng-container matColumnDef="sequenceCount">
+                <th mat-header-cell *matHeaderCellDef>Total Stored</th>
+                <td mat-cell *matCellDef="let element">{{ element.sequenceCount }}</td>
+              </ng-container>
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="sequenceDisplayed">
+                <th mat-header-cell *matHeaderCellDef>Currently Displayed</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.sequenceDisplayed }}
+                </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="error">
+                <th mat-header-cell *matHeaderCellDef>Total Erronous</th>
+                <td mat-cell *matCellDef="let element">{{ element.error }}</td>
+              </ng-container>
+          
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="from">
+                <th mat-header-cell *matHeaderCellDef>From</th>
+                <td mat-cell *matCellDef="let element">{{ element.from *1000 | date:'medium'}}</td>
+              </ng-container>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="to">
+                <th mat-header-cell *matHeaderCellDef>To</th>
+                <td mat-cell *matCellDef="let element">{{ element.to*1000 | date:'medium' }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="statColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: statColumns"></tr>
+            </table>
+      </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ...
+        </mat-panel-title>
+        <mat-panel-description>
+          Search Criterias
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+     <div >
+      <div class="row">
+      <button mat-raised-button (click)="Reset()">Reset Search Criterias</button>
+    </div>
+      <div class="row">
+          <!-- <button mat-raised-button (click)="loadData(this)">Refresh</button> -->
+          
           <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-            <mat-button-toggle
-              (click)="onSearchOnLastMinutes('0', '360')"
-              value="bold"
+            <mat-button-toggle (click)="onSearchOnLastMinutes('0', '360')"
               >Last 6 Hours</mat-button-toggle
             >
-            <mat-button-toggle
-              (click)="onSearchOnLastMinutes('0', '1440')"
-              value="bold"
+            <mat-button-toggle (click)="onSearchOnLastMinutes('0', '1440')"
               >Last 24 Hours</mat-button-toggle
             >
-            <mat-button-toggle
-              (click)="onSearchOnLastMinutes('0', '10080')"
-              value="italic"
+            <mat-button-toggle (click)="onSearchOnLastMinutes('0', '10080')"
               >Last 7 Days</mat-button-toggle
             >
-            <mat-button-toggle
-              (click)="onSearchOnLastMinutes('0', '302400')"
-              value="italic"
-              >Last 30 Days
-            </mat-button-toggle>
-            <mat-button-toggle
-              (click)="onSearchOnLastMinutes('0', '2419200')"
-              value="italic"
+            <mat-button-toggle (click)="onSearchOnLastMinutes('0', '302400')"
+              >Last 30 Days</mat-button-toggle
+            >
+            <mat-button-toggle (click)="onSearchOnLastMinutes('0', '2419200')"
               >All</mat-button-toggle
             >
           </mat-button-toggle-group>
-        </div>
-      
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            More...
-          </mat-panel-title>
-          <mat-panel-description>
-            Select on criterias
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="row">
-          Number of results
-          <!-- <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" -->
-          <mat-slider
-            (input)="onSearchLimit($event)"
-            thumbLabel
-            tickInterval="10"
-            min="1"
-            max="100000"
-          ></mat-slider>
-        </div>
-        <div class="row">
-            Autodetection
-            <mat-slider
-              (input)="onDetectionLevel($event)"
-              thumbLabel
-              tickInterval="1"
-              min="0"
-              max="10"
-            ></mat-slider>
-          </div>
-        <div class="row">
-          Speed (knts)
-          <mat-slider thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
-        </div>
-        <div class="row">
-          Heel Angle (deg)
-          <mat-slider
-            (input)="onSearchOnHeelAngle($event)"
-            thumbLabel
-            tickInterval="10"
-            min="-90"
-            max="90"
-          ></mat-slider>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <div class="row" id="map"></div>
-  </div>
+      </div>
+      <div class="row">
+        Autodetection Level
+        <mat-slider
+          (input)="onDetectionLevel($event)"
+          thumbLabel
+          tickInterval="1"
+          min="0"
+          max="10"
+        ></mat-slider>
+      </div>
+      <div class="row">
+        Speed (knts)
+        <mat-slider thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
+      </div>
+      <div class="row">
+        Heel Angle (deg)
+        <mat-slider
+          (input)="onSearchOnHeelAngle($event)"
+          thumbLabel
+          tickInterval="10"
+          min="-90"
+          max="90"
+        ></mat-slider>
+      </div>
+    </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-paginator
+  [length]="searchStats[0].sequenceCount"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageEvent($event)"
+>
+</mat-paginator>
+  <div class="row" id="map"></div>
+</div>

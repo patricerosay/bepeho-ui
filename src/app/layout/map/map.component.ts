@@ -5,11 +5,24 @@ import * as L from 'leaflet';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QviewComponent } from '../../shared/modules/qview/qview.component';
 import { ISearchParams } from '../../shared/interfaces/search.interface';
+import {PageEvent} from '@angular/material/paginator';
+
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
   jsonPayload: string;
 }
-
+export interface ISearchStat {
+  sequenceCount: number;
+  sequenceDisplayed: number;
+  error: number;
+  videoLess: number;
+  positionLess: number;
+  from: number;
+  to: number;
+}
+const ELEMENT_DATA: ISearchStat[] = [
+  { sequenceCount: 0, sequenceDisplayed: 0, error: 0, videoLess: 0, positionLess: 0, from: 0, to: 0 }
+];
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -18,15 +31,19 @@ export interface MyMarkerOptions extends L.MarkerOptions {
 })
 export class MapComponent implements OnInit {
   public isLoading = true;
-  public error: object = null;
+   public error: object = null;
   private mediaroot = '/media/';
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
-  public totalResults = 0;
-  public pageSize = 0;
-  public displayed = 0;
+  public retrievedSequenceCount = 0;
+  // public numberOfGroups = 0;
+  // public displayed = 0;
   public errCount = 0;
+
+  // public length = 100;
+  public pageSize = 500;
+  public pageSizeOptions: number[] = [100, 500, 1000, 10000];
   public layers = {
     Local: L.tileLayer(
       'http://' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
@@ -38,6 +55,9 @@ export class MapComponent implements OnInit {
 
   public traces = L.layerGroup();
   public events = L.layerGroup();
+
+  statColumns: string[] = ['from', 'to', 'sequenceCount', 'sequenceDisplayed', 'error'];
+  searchStats:  ISearchStat[] = ELEMENT_DATA;
 
   searchPrms: ISearchParams = new ISearchParams();
 
@@ -56,12 +76,19 @@ export class MapComponent implements OnInit {
     shadowAnchor: [4, 62],
     popupAnchor: [-3, -76]
   });
+
+  pageEvent: PageEvent;
+
+
+
   constructor(public http: HttpClient, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.theMap = L.map('map');
 
     this.searchPrms.type = 'autorecord';
+    this.searchPrms.start = 0;
+    this.searchPrms.count = this.pageSize;
 
     this.loadData(this);
 
@@ -72,6 +99,14 @@ export class MapComponent implements OnInit {
       })
       .addTo(this.theMap);
   }
+
+  onPageEvent(event) {
+    this.searchPrms.count = event.pageSize;
+    this.searchPrms.start = event.pageIndex * event.pageSize;
+    this.searchTimer = setTimeout(this.loadData, 1000, this);
+  }
+
+
   formatLabel(value: number | null) {
     if (!value) {
       return 0;
@@ -188,21 +223,27 @@ export class MapComponent implements OnInit {
     this.searchTimer = setTimeout(this.loadData, 1000, self);
   }
 
-  public onSearchLimit(event) {
-    this.searchPrms.count = event.value;
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-      this.searchTimer = null;
+  clearMap() {
+    this.theMap.eachLayer( l => {
+        try {
+              this.theMap.removeLayer(l);
+            } catch (e) {
+                console.log('problem with ' + e + l);
+            }
+        });
     }
-    const self: MapComponent = this;
-    this.searchTimer = setTimeout(this.loadData, 1000, self);
-  }
+
   public loadData(_self: MapComponent) {
     const self = _self;
+
+    self.clearMap();
+    self.errCount = 0;
     self.traces.clearLayers();
     self.events.clearLayers();
     const linePoints = [];
-
+    self.searchStats[0].error = 0;
+    self.searchStats[0].positionLess = 0;
+    self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
     self.http
       .get('/recorder/search?' + params)
@@ -210,16 +251,22 @@ export class MapComponent implements OnInit {
       .then(
         data => {
           if (self.data) {
+            let lastDisplayedSegment = null;
             self.data = data as any[];
-            self.totalResults = self.data['groupCount'];
-            self.pageSize = self.data['groups'].length;
-            const groups = self.data['groups'] as any[];
-            self.displayed = 0;
-            self.errCount = 0;
+             const groups = self.data['groups'] as any[];
+            self.searchStats[0].sequenceCount = self.data['groupCount'];
+            self.retrievedSequenceCount = self.data['groups'].length;
+
+            self.searchStats[0].from = null;
+
+
             let linePointsCounter = 0;
             let lastTime = null;
             groups.forEach(function(group) {
               const firstSegment = group[0];
+              if (!self.searchStats[0].from) {
+                self.searchStats[0].from = firstSegment['start_time_data'];
+              }
 
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
@@ -246,7 +293,6 @@ export class MapComponent implements OnInit {
                       linePoints[linePointsCounter].push(latLon);
                     }
                   }
-                  // linePoints.push(latLon);
                   const jsonPayload = JSON.stringify(payload);
 
                   let marker = null;
@@ -257,10 +303,10 @@ export class MapComponent implements OnInit {
                       icon: self.iconDetect,
                       title: firstSegment.anomaly_score_d
                     };
-                    self.displayed++;
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
                     );
+                    lastDisplayedSegment = firstSegment;
                   } else {
                     const markerOptions: MyMarkerOptions = {
                       data: firstSegment,
@@ -268,10 +314,10 @@ export class MapComponent implements OnInit {
                       icon: self.iconLove,
                       title: firstSegment.end_time
                     };
-                    self.displayed++;
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.traces
                     );
+                    lastDisplayedSegment = firstSegment;
                   }
 
                   marker.on('click', function(e) {
@@ -285,10 +331,12 @@ export class MapComponent implements OnInit {
                     modalRef.componentInstance.data = e.target.options.data;
                   });
                 } else {
-                  self.errCount++;
+                  self.searchStats[0].error++;
+                  self.searchStats[0].videoLess++;
                 }
               } else {
-                self.errCount++;
+                self.searchStats[0].error++;
+                self.searchStats[0].positionLess++;
               }
             });
 
@@ -298,11 +346,13 @@ export class MapComponent implements OnInit {
             }
 
             L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
-            self.theMap.setZoom(5);
+            // self.theMap.setZoom(5);
             let center = new L.LatLng(0.0, 0.0);
 
             if (groups.length) {
-              center = self.getLatLon(groups[groups.length - 1][0]);
+              center = self.getLatLon(lastDisplayedSegment );
+              self.searchStats[0].to = lastDisplayedSegment['start_time_data'];
+
             }
 
             self.theMap.setView(center, 8);
@@ -318,13 +368,14 @@ export class MapComponent implements OnInit {
       })
       .finally(function() {
         self.isLoading = false;
+        self.searchStats[0].sequenceDisplayed = self.retrievedSequenceCount - self.searchStats[0].error;
       });
 
     const who = self;
 
     clearTimeout(self.searchTimer);
   }
-  logError(error: object): void {
-    this.error = error;
-  }
+   logError(error: object): void {
+     this.error = error;
+   }
 }
