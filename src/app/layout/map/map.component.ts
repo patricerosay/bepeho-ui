@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QviewComponent } from '../../shared/modules/qview/qview.component';
 import { ISearchParams } from '../../shared/interfaces/search.interface';
 import {PageEvent} from '@angular/material/paginator';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
@@ -81,14 +82,36 @@ export class MapComponent implements OnInit {
 
 
 
-  constructor(public http: HttpClient, private modalService: NgbModal) {}
+  constructor(public http: HttpClient, private modalService: NgbModal, private translate: TranslateService) {
+    this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+    this.translate.setDefaultLang('en');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+
+  }
+/*
+  getCookie(key: string) {
+    return this._cookieService.get(key);
+  }
+  putCookie(key: string, val: string) {
+    return this._cookieService.put(key, val);
+  }*/
 
   ngOnInit() {
     this.theMap = L.map('map');
 
     this.searchPrms.type = 'autorecord';
     this.searchPrms.start = 0;
+    /*
+    if(this.getCookie('pageSize')) {
+      this.pageSize = parseInt(this.getCookie('pageSize'), 10);
+    }
     this.searchPrms.count = this.pageSize;
+
+    if(this.getCookie('pageStart')) {
+      this.searchPrms.start = parseInt(this.getCookie('pageStart'), 10);
+    }
+    */
 
     this.loadData(this);
 
@@ -104,6 +127,9 @@ export class MapComponent implements OnInit {
     this.searchPrms.count = event.pageSize;
     this.searchPrms.start = event.pageIndex * event.pageSize;
     this.searchTimer = setTimeout(this.loadData, 1000, this);
+    /*.putCookie('pageSize', this.searchPrms.count.toString());
+    this.putCookie('pageStart', this.searchPrms.start.toString());
+*/
   }
 
 

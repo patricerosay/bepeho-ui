@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { routerTransition } from '../../router.animations';
 import { Configuration, Property, Controls } from '../../shared/interfaces/configuration-interface';
-// import { HttpHeaders } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 /** @title Configuration Pannel */
 @Component({
@@ -25,7 +25,13 @@ export class ConfigurationComponent implements OnInit {
     errorMsg: string;
 
     controls = new Controls;
-    constructor(public http: HttpClient) { }
+    constructor(public http: HttpClient,
+        private translate: TranslateService) {
+        this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+        this.translate.setDefaultLang('en');
+        const browserLang = this.translate.getBrowserLang();
+        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+     }
     private url = '/recorder/parameters';
 
     onStopProcesses() {

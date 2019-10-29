@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Version } from './version-interface';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 // import { Versions } from './version-mocks';
 // import { loadInternal } from '@angular/core/src/render3/util';
@@ -19,9 +20,13 @@ export class VersionComponent implements OnInit {
   product: string;
   environment: string;
   isLoading = true;
-  constructor(public http: HttpClient) {
-
-  }
+  constructor(public http: HttpClient,
+    private translate: TranslateService) {
+    this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+    this.translate.setDefaultLang('en');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+ }
   onUpdate() {
     this.http.post('/recorder/versions&verb=update', '');
   }
@@ -36,8 +41,8 @@ export class VersionComponent implements OnInit {
             // let body =  data['versions'] as Version[];
             self.product = data['application'];
             self.environment = data['environmentlibs'];
-            self.versions = data['versions'] as Version[];
-            self.versions.sort((a, b) => a.name.localeCompare(b.name));
+            //self.versions = data['versions'] as Version[];
+            //self.versions.sort((a, b) => a.name.localeCompare(b.name));
 
             self.isLoading = false;
         },

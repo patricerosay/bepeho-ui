@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule as Ng2Charts } from 'ng2-charts';
+import { TranslateModule } from '@ngx-translate/core';
 import { ClipModule } from '../../shared';
 
 import { VideoRecordsRoutingModule } from './video-records-routing.module';
@@ -51,7 +51,8 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, VideoRecordsRoutingModule, PageHeaderModule,
+    imports: [TranslateModule,
+        CommonModule, VideoRecordsRoutingModule, PageHeaderModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,

@@ -6,13 +6,13 @@
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-heartbeat"></i>&nbsp;
-				Run
+				{{'Run'|translate}}
 
 			</ng-template>
 				<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 				<div class="configuration-container ">
-					Everything is Running
+					{{'Everything is Running'|translate}}
 					<mat-slide-toggle 
 						id = "autoprocess"
 						[checked]="controls.autoprocess"
@@ -20,7 +20,7 @@
 					</mat-slide-toggle>
 				</div>
 				<div class="configuration-container ">
-						Record Microphones
+						{{'Record Microphones'|translate}}
 						<mat-slide-toggle 
 							id = "autorecordAudio"
 							[checked]="controls.autorecordAudio"
@@ -28,7 +28,7 @@
 						</mat-slide-toggle>
 					</div>
 					<div class="configuration-container ">
-							Record Cameras
+							{{'Record Cameras'|translate}}
 							<mat-slide-toggle 
 								id = "autorecordVideo"
 								[checked]="controls.autorecordVideo"
@@ -39,7 +39,7 @@
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-video-camera"></i>&nbsp;
-				<i class="fa fa-microphone"></i> &nbsp; Devices
+				<i class="fa fa-microphone"></i> &nbsp; {{'Devices'|translate}}
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
@@ -50,7 +50,7 @@
 									<i class="fa fa-video-camera"></i>
 									Cameras
 								</ng-template>
-								<button mat-raised-button (click)="saveDevice(cameras)">Save</button>
+								<button mat-raised-button (click)="saveDevice(cameras)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="cameras" [properties]="cameras"></app-property>
 							</mat-tab>
@@ -59,7 +59,7 @@
 									<i class="fa fa-video-camera"></i>
 									Web Cameras
 								</ng-template>
-								<button mat-raised-button (click)="saveDevice(webCameras)">Save</button>
+								<button mat-raised-button (click)="saveDevice(webCameras)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="webCameras" [properties]="webCameras"></app-property>
 							</mat-tab>
@@ -69,7 +69,7 @@
 									<i class="fa fa-microphone"></i>
 									Integrated Microphones
 								</ng-template>
-								<button mat-raised-button (click)="saveDevice(webMicrophones)">Save</button>
+								<button mat-raised-button (click)="saveDevice(webMicrophones)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="webMicrophones" [properties]="webMicrophones">
 								</app-property>
@@ -81,7 +81,7 @@
 									<i class="fa fa-microphone"></i>
 									IP Microphones
 								</ng-template>
-								<button mat-raised-button (click)="saveDevice(microphones)">Save</button>
+								<button mat-raised-button (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 								<app-property [id]="microphones" [properties]="microphones">
 								</app-property>
@@ -98,12 +98,12 @@
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-user"></i>&nbsp;
-				General
+				{{'Settings'|translate}}
 
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
-					<button mat-raised-button (click)="saveProperties(general)">Save</button>
+					<button mat-raised-button (click)="saveProperties(general)">{{'Save'|translate}}</button>
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>
@@ -138,12 +138,12 @@
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-user-plus"></i>&nbsp;
-				Advanced
+				{{'Advanced Settings'|translate}}
 
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
-					<button mat-raised-button (click)="saveProperties(advanced)">Save</button>
+					<button mat-raised-button (click)="saveProperties(advanced)">{{'Save'|translate}}</button>
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>

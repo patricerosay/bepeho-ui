@@ -13,7 +13,7 @@ import { FormControl, FormGroup, FormBuilder, Validator, Validators,ReactiveForm
 })
 export class LoginComponent implements OnInit {
     private regForm:FormGroup;
-    private name="";
+    private name = "";
     constructor(
         private translate: TranslateService,
         public router: Router
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {}
 
     onLoggedin(f: NgForm ) {
-        if(f.value.name=='mediaman' && f.value.pass=='bepeho')
+        if (f.value.name  === 'mediaman' && f.value.pass === 'bepeho')
         {
             localStorage.setItem('isLoggedin', 'true');
             this.router.navigateByUrl('/');

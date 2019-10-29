@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { VersionRoutingModule } from './version-routing.module';
 import { VersionComponent } from './version.component';
@@ -45,7 +46,8 @@ import {
     MatTreeModule
 } from '@angular/material'; 
 @NgModule({
-    imports: [CommonModule, VersionRoutingModule, PageHeaderModule,
+    imports: [TranslateModule,
+        CommonModule, VersionRoutingModule, PageHeaderModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,

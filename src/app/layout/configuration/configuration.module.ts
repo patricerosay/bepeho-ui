@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule as Ng2Charts } from 'ng2-charts';
 
 import { ConfigurationRoutingModule } from './configuration-routing.module';
 import { ConfigurationComponent } from './configuration.component';
@@ -8,6 +7,7 @@ import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PropertyModule } from '../../shared';
+import { TranslateModule } from '@ngx-translate/core';
 
 import {
     MatAutocompleteModule,
@@ -47,7 +47,8 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, ConfigurationRoutingModule, PageHeaderModule,
+    imports: [TranslateModule,
+        CommonModule, ConfigurationRoutingModule, PageHeaderModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,

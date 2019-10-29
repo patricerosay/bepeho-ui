@@ -7,17 +7,17 @@
         <div class="row">
 
             <div class="col-xl-3 col-lg-6 stat" >
-                <app-stat [bgClass]="'warning'" [icon]="'fa-bolt'" [count]="stats.eventCount" [label]="'Automatically detected events'" [gotoUrl]="'map'" [viewName]="'View on the map'"></app-stat>
+                <app-stat [bgClass]="'warning'" [icon]="'fa-bolt'" [count]="stats.eventCount" [label]="'Automatically detected events' | translate" [gotoUrl]="'map'" [viewName]="'View on the map'|translate"></app-stat>
             </div>
             <div class="col-xl-3 col-lg-6 stat">
-                    <app-stat [bgClass]="'success'" [icon]="'fa-film'" [count]="stats.clipCount" [label]="'Clips ready to share'" [gotoUrl]="'video-records'" [viewName]="'Share these videos'">
+                    <app-stat [bgClass]="'success'" [icon]="'fa-film'" [count]="stats.clipCount" [label]="'Clips ready to share'|translate" [gotoUrl]="'video-records'" [viewName]="'Share these videos'|translate">
                     </app-stat>
                 </div>
         </div>
         <div class="row">
                 <div class="col-xl-3 col-lg-6">
                         <div class="card-header">
-                        Storage
+                        {{'Recording Storage Space'|translate}}
                     </div>
                     <div class="card-body ">
                         <canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" >

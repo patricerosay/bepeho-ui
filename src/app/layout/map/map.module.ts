@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapRoutingModule } from './map-routing.module';
 import { MapComponent } from './map.component';
@@ -45,7 +46,8 @@ import {
     MatTreeModule,
 } from '@angular/material';
 @NgModule({
-    imports: [CommonModule, MapRoutingModule, PageHeaderModule,
+    imports: [
+        CommonModule, MapRoutingModule, PageHeaderModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,
@@ -84,7 +86,8 @@ import {
         MatTreeModule,
         MatCheckboxModule,
         NgbModule,
-        QviewModule],
+        QviewModule,
+        TranslateModule],
     declarations: [MapComponent],
     entryComponents: []
 

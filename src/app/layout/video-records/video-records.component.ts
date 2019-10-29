@@ -6,9 +6,9 @@ import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ISearchParams } from '../../shared/interfaces/search.interface';
 import {saveAs as importedSaveAs} from 'file-saver';
-/**
- * @title Table retrieving data through HTTP
- */
+import { TranslateService } from '@ngx-translate/core';
+
+
 @Component({
     selector: 'app-map',
     templateUrl: './video-records.component.html',
@@ -27,7 +27,12 @@ export class VideoRecordsComponent implements AfterViewInit {
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-    constructor(private _httpClient: HttpClient) { }
+    constructor(private _httpClient: HttpClient, private translate: TranslateService) {
+        this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+        this.translate.setDefaultLang('en');
+        const browserLang = this.translate.getBrowserLang();
+        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+      }
     public getImg(row: []): string {
         const  rowUrl = '/media/' + row['filename_i_file'];
         return rowUrl;

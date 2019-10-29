@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { interval } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   MatDialog,
@@ -21,7 +21,7 @@ export interface IInstrument {
 }
 
 const ELEMENT_DATA: IInstrument[] = [
-  { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla:'n/a', blo:'n/a' }
+  { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' }
 ];
 
 @Component({
@@ -133,9 +133,14 @@ export class MosaicComponent implements OnInit {
   worker: any;
   constructor(
     public http: HttpClient,
+    public dialog: MatDialog,
+    private translate: TranslateService) {
+      this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+      this.translate.setDefaultLang('en');
+      const browserLang = this.translate.getBrowserLang();
+      this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
-    public dialog: MatDialog
-  ) {}
+    }
 
   displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
   dataSource:  IInstrument[] = ELEMENT_DATA;
@@ -155,7 +160,7 @@ export class MosaicComponent implements OnInit {
     this.stopInstrumentWorker();
     if (e.checked) {
       this.startInstrumentWorker();
-    } 
+    }
   }
   getInstruments() {
     const self = this;
@@ -185,7 +190,7 @@ export class MosaicComponent implements OnInit {
     if (null !== this.worker) {
       clearInterval(this.worker);
       this.worker = null;
-      this.dataSource[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla:'n/a', blo:'n/a' };
+      this.dataSource[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' };
     }
   }
   startInstrumentWorker(): void {
@@ -199,7 +204,7 @@ export class MosaicComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+
     const self = this;
    this.startInstrumentWorker();
     // const self.cameras = new Camera[];

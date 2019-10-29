@@ -1,24 +1,10 @@
-<button mat-raised-button (click)="onUpdate()">Find a new version and update
-</button>
+
 
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
-  <ul class="versions">
-    <li *ngFor="let version of versions">
-      <div class="row">
-        <div class="col card mb-3">
-          {{version.name}} 
-        </div>
-        <div class="col card mb-3">
-            {{version.version}}
-        </div>
-        <div class="col card mb-3">
-          <span class="badge">{{version.state}} </span>
-        </div>
-      </div>
-    </li>
-  </ul>
-  <h1>Technical Environment</h1>
-  <h5>{{environment}}</h5>
+ 
+  <h1>{{'This is'|translate}} {{product}} </h1>
 
+  <button mat-raised-button (click)="onUpdate()">{{'Find a new version and update'|translate}}
+  </button>
 </div>
