@@ -102,11 +102,12 @@ export class MapComponent implements OnInit {
 
     this.searchPrms.type = 'autorecord';
     this.searchPrms.start = 0;
+    this.searchPrms.count = this.pageSize;
+
     /*
     if(this.getCookie('pageSize')) {
       this.pageSize = parseInt(this.getCookie('pageSize'), 10);
     }
-    this.searchPrms.count = this.pageSize;
 
     if(this.getCookie('pageStart')) {
       this.searchPrms.start = parseInt(this.getCookie('pageStart'), 10);
@@ -332,7 +333,9 @@ export class MapComponent implements OnInit {
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
                     );
-                    lastDisplayedSegment = firstSegment;
+                    if ( !lastDisplayedSegment) {
+                     lastDisplayedSegment = firstSegment;
+                    }
                   } else {
                     const markerOptions: MyMarkerOptions = {
                       data: firstSegment,
@@ -343,7 +346,9 @@ export class MapComponent implements OnInit {
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.traces
                     );
-                    lastDisplayedSegment = firstSegment;
+                    if ( !lastDisplayedSegment) {
+                      lastDisplayedSegment = firstSegment;
+                     }
                   }
 
                   marker.on('click', function(e) {
