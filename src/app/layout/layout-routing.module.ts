@@ -18,6 +18,7 @@ const routes: Routes = [
  //           { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
 //            { path: 'linear-charts', loadChildren: './linear-charts/linear-charts.module#LinearChartsModule' },
             { path: 'mosaic', loadChildren: './mosaic/mosaic.module#MosaicModule' },
+            { path: 'worker', loadChildren: './worker/worker.module#WorkerModule' },
 
             { path: 'map', loadChildren: './map/map.module#MapModule' },
             { path: 'version', loadChildren: './version/version.module#VersionModule' },

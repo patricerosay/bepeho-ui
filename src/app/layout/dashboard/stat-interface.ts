@@ -6,4 +6,5 @@ export interface IStats {
     storageLimit: number;
     clipCount: number;
     eventCount: number;
+    workerCount: number;
 }

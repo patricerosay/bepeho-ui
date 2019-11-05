@@ -3,6 +3,7 @@ import { routerTransition } from '../../router.animations';
 import { HttpClient } from '@angular/common/http';
 import { IStats } from './stat-interface';
 import { TranslateService } from '@ngx-translate/core';
+import { IWorker } from '../../shared/interfaces/worker-interface';
 
 @Component({
     selector: 'app-dashboard',
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
             this.translate.setDefaultLang('en');
             const browserLang = this.translate.getBrowserLang();
             this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
- 
+
         this.doughnutChartType = 'doughnut';
 
     }
@@ -43,24 +44,35 @@ export class DashboardComponent implements OnInit {
         // console.log(e);
     }
 
+    getStats(_self: DashboardComponent) {
+        _self.http.get(_self.url)
+        .subscribe(
+            data => {
+                _self.stats = data as IStats;
+                _self.doughnutChartData[0] = _self.stats.storageUsage;
+                _self.doughnutChartData[1] = _self.stats.storageLimit - _self.stats.storageUsage;
+                _self.doughnutChartData[2] = 100 - _self.stats.storageLimit;
 
+                _self.getWorkers (_self);
+
+            },
+            error => this.logError(error),
+        );
+    }
+    getWorkers (_self: DashboardComponent) {
+        _self.http.get('/recorder/tasksTag')
+        .subscribe(
+          data => {
+            const workers = data['tasks'] as IWorker[];
+            _self.stats.workerCount = workers.length;
+
+            _self.isLoading = false;
+
+          },
+        );
+    }
     ngOnInit() {
-
-        const self = this;
-
-        this.http.get(this.url)
-            .subscribe(
-                data => {
-                    self.stats = data as IStats;
-                    self.doughnutChartData[0]=self.stats.storageUsage;
-                    self.doughnutChartData[1]=self.stats.storageLimit-self.stats.storageUsage;
-                    self.doughnutChartData[2]=100-self.stats.storageLimit;
-
-                    self.isLoading = false;
-                },
-                error => this.logError(error),
-            );
-
+        this.getStats(this);
     }
     logError(error: object): void {
         this.error = 'error';

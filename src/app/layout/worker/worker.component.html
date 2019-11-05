@@ -1,0 +1,17 @@
+<div *ngIf="isLoading">loading ....</div>
+<div *ngIf="!isLoading">
+        <mat-grid-list cols="2" rowHeight="2:1">
+                <mat-grid-tile *ngFor="let worker of workers">
+                        <app-countdown
+                        [bgClass]="'success'"
+                        [icon]=getIcon(worker)
+                        [count]="worker.time"
+                        [label]="worker.name"
+                        [viewName]="worker.group"
+                      >
+                      </app-countdown>
+                </mat-grid-tile>
+                
+        </mat-grid-list>
+
+</div>

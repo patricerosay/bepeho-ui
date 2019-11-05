@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    private url = '/recorder/processStates';
+    private urlProcess = '/recorder/processStates';
     private urlStatus = '/recorder/recapProcessStates ';
     isLoading = true;
     tasks: ITask[];
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
                 self.status = data['RecapProgressStatus'] as number;
             },
         );
-        this.http.get(this.url)
+        this.http.get(this.urlProcess)
             .subscribe(
                 data => {
                     self.tasks = data['ProgressStatus'] as ITask[];
