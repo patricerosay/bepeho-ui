@@ -240,6 +240,10 @@ export class MapComponent implements OnInit {
     this.searchPrms.nmea_d_heel_d = event.value;
     this.loadData(this);
   }
+  public onSearchOnSpeed(event) {
+    this.searchPrms.nmea_d_bgs_d = [event.value, 50];
+    this.loadData(this);
+  }
   public onDetectionLevel(event) {
     this.searchPrms.anomaly_score_d = event.value / 10;
     if (this.searchTimer) {

@@ -94,7 +94,7 @@
       </div>
       <div class="row">
         {{'Speed (knts)'|translate}}
-        <mat-slider thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
+        <mat-slider (input)="onSearchOnSpeed($event)" thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
       </div>
       <div class="row">
         {{'Heel Angle (deg)'| translate}}
