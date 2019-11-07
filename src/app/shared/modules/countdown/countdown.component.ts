@@ -20,7 +20,7 @@ export class CountdownComponent implements OnInit {
     searchTimer = null;
     displayValue: string;
     computeValueToDisplay() {
-      if ( 0 >= this.count) {
+      if ( undefined === this.count || ! this.count || 0 >= this.count) {
         return 'started';
       }
       const hours = Math.floor((this.count % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

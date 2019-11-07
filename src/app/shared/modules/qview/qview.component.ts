@@ -207,7 +207,7 @@ export class QviewComponent implements OnInit {
     this.videoApi.subscriptions.rateChange.subscribe(this.onRateChaged.bind(this));
     this.videoApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
     this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-    this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
+    // this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
     this.videoApi.subscriptions.timeUpdate.subscribe(data => {
       if(0 !== data.srcElement.currentTime ){
       if ( self.currentSrc === data.srcElement.currentSrc ) {

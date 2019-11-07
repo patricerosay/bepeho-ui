@@ -4,6 +4,8 @@
     "Video Bank": "ビデオバンク",
     "Live": "ダイレクト",
     "System": "システム",
+    "Configuration":"システム構成",
+    "Version":"バージョン",
     "Automatically detected events": "検出されたイベント",
     "Clips ready to share":"放送準備ができたクリップ", 
     "Share these videos":"ビデオを共有する",

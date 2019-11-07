@@ -128,9 +128,6 @@ export class MapComponent implements OnInit {
     this.searchPrms.count = event.pageSize;
     this.searchPrms.start = event.pageIndex * event.pageSize;
     this.searchTimer = setTimeout(this.loadData, 1000, this);
-    /*.putCookie('pageSize', this.searchPrms.count.toString());
-    this.putCookie('pageStart', this.searchPrms.start.toString());
-*/
   }
 
 
@@ -245,7 +242,7 @@ export class MapComponent implements OnInit {
     this.loadData(this);
   }
   public onDetectionLevel(event) {
-    this.searchPrms.anomaly_score_d = event.value / 10;
+    this.searchPrms.anomaly_score_d = - event.value / 10;
     if (this.searchTimer) {
       clearTimeout(this.searchTimer);
       this.searchTimer = null;
@@ -281,6 +278,8 @@ export class MapComponent implements OnInit {
       .toPromise()
       .then(
         data => {
+          clearTimeout(self.searchTimer);
+
           if (self.data) {
             let lastDisplayedSegment = null;
             self.data = data as any[];
@@ -407,8 +406,6 @@ export class MapComponent implements OnInit {
       });
 
     const who = self;
-
-    clearTimeout(self.searchTimer);
   }
    logError(error: object): void {
      this.error = error;

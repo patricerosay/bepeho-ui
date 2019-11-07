@@ -1,53 +1,10 @@
-<div *ngIf="isLoading">loading ....</div>
-<div *ngIf="error">Error while connecting to server</div>
+<div *ngIf="isLoadingResults">loading ....</div>
+<div *ngIf="connexionError">Error while connecting to server</div>
 
-<div >
+<div>
   
   <mat-accordion>
-      <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              ...
-            </mat-panel-title>
-            <mat-panel-description>
-              {{'Display details about the results' | translate}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <table mat-table [dataSource]="searchStats" class="mat-elevation-z8">
-              <!-- Position Column -->
-              <ng-container matColumnDef="sequenceCount">
-                <th mat-header-cell *matHeaderCellDef>{{'Total Stored'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.sequenceCount }}</td>
-              </ng-container>
-          
-              <!-- Name Column -->
-              <ng-container matColumnDef="sequenceDisplayed">
-                <th mat-header-cell *matHeaderCellDef>{{'Currently Displayed'|translate}}</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.sequenceDisplayed }}
-                </td>
-              </ng-container>
-          
-              <!-- Weight Column -->
-              <ng-container matColumnDef="error">
-                <th mat-header-cell *matHeaderCellDef>{{'Total Erronous'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.error }}</td>
-              </ng-container>
-          
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="from">
-                <th mat-header-cell *matHeaderCellDef>{{'From'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.to *1000 | date:'medium'}}</td>
-              </ng-container>
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="to">
-                <th mat-header-cell *matHeaderCellDef>{{'To'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.from*1000 | date:'medium' }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="statColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: statColumns"></tr>
-            </table>
-      </mat-expansion-panel>
+      
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -116,5 +73,80 @@
   (page)="onPageEvent($event)"
 >
 </mat-paginator>
-  <div class="row" id="map"></div>
+<table
+mat-table
+[dataSource]="data"
+matSort
+matSortActive="created"
+matSortDisableClear
+matSortDirection="desc"
+>
+<ng-container matColumnDef="direction">
+  <th mat-header-cell *matHeaderCellDef>{{ "Direction" | translate }}</th>
+  <td mat-cell *matCellDef="let row">{{ getProperty(row, "nmea_d_bgt_d") }}</td>
+</ng-container>
+
+<ng-container matColumnDef="img">
+  <th mat-header-cell *matHeaderCellDef>{{ "Preview" | translate }}</th>
+  <td mat-cell *matCellDef="let row">
+	<app-clip
+	  [id]="getID(row)"
+	  [img]="getImg(row)"
+	  [src]="getUrl(row)"
+	  [subtitle]="getSubtitle(row)"
+	>
+	</app-clip>
+  </td>
+</ng-container>
+
+<ng-container matColumnDef="state">
+  <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
+  <td mat-cell *matCellDef="let row">
+	<button mat-button [matMenuTriggerFor]="menu">>></button>
+
+	<mat-menu #menu="matMenu">
+	  <button
+		mat-menu-item
+		(click)="
+		  uploadThisFile(getUrl(row), getID(row) + ' was uploaded')
+		"
+	  >
+		<i class="fa fa-upload"></i>
+		<span> {{ "Upload the clip on FTP server" | translate }}</span>
+	  </button>
+	  <button
+		mat-menu-item
+		(click)="
+		  downloadThisFile(
+			getUrl(row),
+			getID(row) + ' was downloaded'
+		  )
+		"
+	  >
+		<i class="fa fa-download"></i>
+		<span>{{ "Download the clip" | translate }} </span>
+	  </button>
+	</mat-menu>
+  </td>
+</ng-container>
+
+<ng-container matColumnDef="created">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+	{{ "Creation Date" | translate }}
+  </th>
+  <td mat-cell *matCellDef="let row">
+	{{ row[0]["start_time"] | date: "MM/dd/yyyy hh:mm" }}
+  </td>
+</ng-container>
+<ng-container matColumnDef="speed">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+	{{ "Speed" | translate }}
+  </th>
+  <td mat-cell *matCellDef="let row">
+	{{ row[0]["nmea_d_bgs_d"]  }}
+  </td>
+</ng-container>
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
 </div>

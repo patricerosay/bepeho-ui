@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import {
-    TimelineComponent,
-    NotificationComponent,
-    ChatComponent
-} from './components';
+// import {
+//     TimelineComponent,
+//     NotificationComponent,
+//     ChatComponent
+// } from './components';
 import { StatModule } from '../../shared';
 
 @NgModule({
@@ -25,9 +25,9 @@ import { StatModule } from '../../shared';
     ],
     declarations: [
         DashboardComponent,
-        TimelineComponent,
-        NotificationComponent,
-        ChatComponent
+        // TimelineComponent,
+        // NotificationComponent,
+        // ChatComponent
     ]
 })
 export class DashboardModule {}

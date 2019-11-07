@@ -21,6 +21,7 @@ const routes: Routes = [
             { path: 'worker', loadChildren: './worker/worker.module#WorkerModule' },
 
             { path: 'map', loadChildren: './map/map.module#MapModule' },
+            { path: 'video-list', loadChildren: './video-list/video-list.module#VideoListModule' },
             { path: 'version', loadChildren: './version/version.module#VersionModule' },
             { path: 'task', loadChildren: './task/task.module#TaskModule' },
             { path: 'configuration', loadChildren: './configuration/configuration.module#ConfigurationModule' },

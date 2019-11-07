@@ -3299,7 +3299,7 @@
       }
     ]
   },
-  "task": {
+  "tasksTag": {
     "tasks": [
       {
         "name": "Auto recording data NMEA",
