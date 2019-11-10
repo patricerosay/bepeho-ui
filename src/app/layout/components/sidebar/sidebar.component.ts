@@ -39,7 +39,9 @@ export class SidebarComponent implements OnInit {
         this.pushRightClass = 'push-right';
     }
 
-
+    gotoWIFI() {
+            window.location.href = '/wifi';
+    }
     eventCalled() {
         this.isActive = !this.isActive;
     }

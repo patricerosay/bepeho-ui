@@ -249,7 +249,13 @@ export class MosaicComponent implements OnInit {
   onDataChanged(e): void {
     this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));
   }
-
+  getPreviewUrl(cam: Camera): string {
+    if ( cam ) {
+    return '/' + cam.id;
+    } else {
+      return undefined;
+    }
+  }
   onStream(stream: string) {
     this.stream = stream;
     if ('LIVERECORD' !== this.stream) {

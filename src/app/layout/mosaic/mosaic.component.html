@@ -57,12 +57,12 @@
 			<mat-tab-group>
 				<div *ngFor="let cam of cameras">
 					<mat-tab label="{{cam.name}}">
-						<!--<ul class=" nav navbar-nav  flex-nowrap ml-auto">
+						<!-- <ul class=" nav navbar-nav  flex-nowrap ml-auto">
 							<li>
 								<button mat-raised-button color="primary" (click)="openDialog(cam)"> Parameters</button>
 							</li>
-						</ul>-->
-						<img class="camera" [lazyLoad]="cam.camPreviewUrl" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
+						</ul> -->
+						<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
 					</mat-tab>
 				</div>
 			</mat-tab-group>
@@ -110,7 +110,7 @@
 							<mat-radio-button class="example-radio-button" [value]="cam">{{cam.name}}
 								<!-- <img class="camera-mosaic" src="{{cam.camPreviewUrl}}"
 									onerror="this.src='assets/images/mire.jpg'"> -->
-								<img class="camera" [lazyLoad]="cam.camPreviewUrl" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
+								<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
 
 							</mat-radio-button>
 						</mat-grid-tile>
