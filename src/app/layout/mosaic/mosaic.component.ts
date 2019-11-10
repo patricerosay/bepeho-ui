@@ -164,7 +164,7 @@ export class MosaicComponent implements OnInit {
   }
   getInstruments() {
     const self = this;
-    self.http.get('recorder/data').subscribe(data => {
+    self.http.get('/recorder/data').subscribe(data => {
       const instruments = data as { id: string; value: string }[];
       instruments.forEach(function(ins) {
         if ('bgs_d' === ins.id) {

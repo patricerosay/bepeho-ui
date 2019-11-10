@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class CountdownComponent implements OnInit {
     @Input() bgClass: string;
     @Input() icon: string;
+    @Input() progress: number;
     @Input() count: number;
     @Input() label: string;
     @Input() data: number;
@@ -20,9 +21,12 @@ export class CountdownComponent implements OnInit {
     searchTimer = null;
     displayValue: string;
     computeValueToDisplay() {
-      if ( undefined === this.count || ! this.count || 0 >= this.count) {
-        return 'started';
-      }
+      if ( undefined !== this.progress ||  this.progress || 0 <= this.progress) {
+        return this.progress + ' %';
+      } else if ( undefined === this.count || ! this.count || 0 >= this.count) {
+          return 'started';
+        }
+
       const hours = Math.floor((this.count % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((this.count % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((this.count % (1000 * 60)) / 1000);
