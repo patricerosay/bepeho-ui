@@ -15,8 +15,6 @@
 						[checked]="property.value === 'true' ? true : false"
 						(change)="setBooleanValue( property , $event )">
 					</mat-slide-toggle>
-					<!-- <mat-slide-toggle id="{{property.name}}" checked="{{property.value}}" [(ngModel)]="property.value">
-					</mat-slide-toggle> -->
 				</div>
 				<div *ngSwitchCase="'java.lang.String'">
 					<mat-form-field>

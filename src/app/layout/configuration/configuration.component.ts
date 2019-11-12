@@ -47,14 +47,34 @@ export class ConfigurationComponent implements OnInit {
     }
     saveDevice(device: Map<string, Property[]>) {
         const params: URLSearchParams = new URLSearchParams();
-        device.forEach((conf: Property[], key: string) => {
+    this.cameras.forEach((conf: Property[], key: string) => {
             if (null !== conf) {
                 conf.forEach(prop => {
                     params.set(prop.name, prop.value);
                 });
             }
         });
-
+        this.webCameras.forEach((conf: Property[], key: string) => {
+            if (null !== conf) {
+                conf.forEach(prop => {
+                    params.set(prop.name, prop.value);
+                });
+            }
+        });
+        this.webMicrophones.forEach((conf: Property[], key: string) => {
+            if (null !== conf) {
+                conf.forEach(prop => {
+                    params.set(prop.name, prop.value);
+                });
+            }
+        });
+        this.microphones.forEach((conf: Property[], key: string) => {
+            if (null !== conf) {
+                conf.forEach(prop => {
+                    params.set(prop.name, prop.value);
+                });
+            }
+        });
         this.http.post<any>('/recorder', 'action=Parameter&verb=save&' + params,
             {
                 headers: {

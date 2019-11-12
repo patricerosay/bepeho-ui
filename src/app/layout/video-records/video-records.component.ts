@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./video-records.component.scss'],
 })
 export class VideoRecordsComponent implements AfterViewInit {
-    displayedColumns: string[] = ['created', 'img', 'title', 'state'];
+    displayedColumns: string[] = ['created', 'img', 'title', 'state', 'action'];
     exampleDatabase: SearchDatabase | null;
     data: GithubIssue[] = [];
     elementPerPage = 5;
@@ -44,6 +44,9 @@ export class VideoRecordsComponent implements AfterViewInit {
     public getID(row: []): string {
         return  row['GroupID'];
     }
+    public getState(row: []): string {
+        return  row['State'];
+    }
     public getSubtitle(row: []): string {
         const  rowUrl = '/media/subtitles/' + row['GroupID'] + '.vtt';
         return rowUrl;
@@ -53,9 +56,30 @@ export class VideoRecordsComponent implements AfterViewInit {
         this.resultMessage = msg;
 
     }
-    public uploadThisFile(url: string, msg: string) {
+    // "{"id":"coolx1-30-4-2019_16-23","text":"<p><br></p>"}"
+    public uploadThisFile(id: string, msg: string) {
+        const params: URLSearchParams = new URLSearchParams();
+        const prm = {'id': id,
+                'text': ' empty'};
+
+        this._httpClient.post<any>('/recorder', 'action=FileSystem&verb=send&prm=' + JSON.stringify(prm),
+        {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            }
+        }).subscribe(
+            (res) => {
+                console.log(res);
+                this.resultMessage = 'Success';
+
+            },
+            (err) => {
+                console.log(err);
+                this.resultMessage = err.message;
+            });
         this.resultMessage = msg;
     }
+
     ngAfterViewInit() {
         this.searchPrms.type = 'video_import';
 

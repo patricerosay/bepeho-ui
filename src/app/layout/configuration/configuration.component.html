@@ -47,8 +47,8 @@
 						<div>
 							<mat-tab>
 								<ng-template mat-tab-label>
-									<i class="fa fa-video-camera"></i>
-									Cameras
+									<i class="fa fa-video-camera"></i>&nbsp;
+									IP Cameras
 								</ng-template>
 								<button mat-raised-button (click)="saveDevice(cameras)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
@@ -56,8 +56,18 @@
 							</mat-tab>
 							<mat-tab>
 								<ng-template mat-tab-label>
-									<i class="fa fa-video-camera"></i>
-									Web Cameras
+									<i class="fa fa-microphone"></i>&nbsp;
+									IP Microphones
+								</ng-template>
+								<button mat-raised-button (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
+								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+								<app-property [id]="microphones" [properties]="microphones">
+								</app-property>
+							</mat-tab>
+							<mat-tab>
+								<ng-template mat-tab-label>
+									<i class="fa fa-video-camera"></i>&nbsp;
+									Integrated Cameras
 								</ng-template>
 								<button mat-raised-button (click)="saveDevice(webCameras)">{{'Save'|translate}}</button>
 								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
@@ -66,7 +76,7 @@
 
 							<mat-tab>
 								<ng-template mat-tab-label>
-									<i class="fa fa-microphone"></i>
+									<i class="fa fa-microphone"></i>&nbsp;
 									Integrated Microphones
 								</ng-template>
 								<button mat-raised-button (click)="saveDevice(webMicrophones)">{{'Save'|translate}}</button>
@@ -76,16 +86,7 @@
 							</mat-tab>
 
 
-							<mat-tab>
-								<ng-template mat-tab-label>
-									<i class="fa fa-microphone"></i>
-									IP Microphones
-								</ng-template>
-								<button mat-raised-button (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="microphones" [properties]="microphones">
-								</app-property>
-							</mat-tab>
+							
 
 
 

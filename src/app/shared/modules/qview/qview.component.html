@@ -68,7 +68,14 @@
               </vg-scrub-bar>
               <vg-fullscreen></vg-fullscreen>
 
-         
+              <button *ngFor="let item of this.segment.videos; let $index = index"
+              mat-raised-button
+              color="primary"
+              (click)="onClickPlaylistItem(item, $index)"
+              [class.selected]="item === currentVideo"
+            >
+              {{ item.channel }}
+            </button>
             
           </vg-controls>
          
@@ -91,14 +98,14 @@
         </vg-player>
       </div>
       
-        <button *ngFor="let item of this.segment.videos; let $index = index"
+        <!-- <button *ngFor="let item of this.segment.videos; let $index = index"
           mat-raised-button
           color="primary"
           (click)="onClickPlaylistItem(item, $index)"
           [class.selected]="item === currentVideo"
         >
           {{ item.channel }}
-        </button>
+        </button> -->
       
       <div *ngIf=" !currentAudio"><i class="fa fa-microphone-slash" ></i> No Audio</div>
       

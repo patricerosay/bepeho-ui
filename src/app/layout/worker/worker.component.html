@@ -1,4 +1,4 @@
-<div *ngIf="isLoading">loading ....</div>
+<!-- <div *ngIf="isLoading">loading ....</div>
 <div *ngIf="!isLoading">
         <mat-grid-list cols="2" rowHeight="2:1">
                 <mat-grid-tile *ngFor="let worker of workers">
@@ -15,4 +15,20 @@
                 
         </mat-grid-list>
 
+</div> -->
+<div *ngIf="isLoading">loading ....</div>
+<div *ngIf="!isLoading">
+        <div class="row" *ngFor="let worker of workers">
+        <div class="col-xl-3 col-lg-6 stat " >
+
+                        <app-countdown 
+                        [bgClass]="'success'"
+                        [icon]=getIcon(worker)
+                        [count]="worker.time"
+                        [label]="worker.name"
+                        [progress]="worker.progress"
+                        [viewName]="worker.group"
+                      >
+                      </app-countdown>
+                      </div>
 </div>

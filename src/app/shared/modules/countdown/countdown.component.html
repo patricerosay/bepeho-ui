@@ -1,4 +1,4 @@
-<div
+<!-- <div
   class="card text-white bg-{{ bgClass }}"
   mat-elevation-z8
   (click)="gotoPage()"
@@ -20,4 +20,27 @@
       </div>
     </div>
   </div>
+</div> -->
+<div class="card text-white bg-{{bgClass}}" mat-elevation-z8 (click)="gotoPage()">
+	<div class="card-header">
+		<div class="row">
+			<div class="col col-xs-3">
+				<i class="fa {{icon}} fa-5x"></i>
+			</div>
+			<div class="col col-xs-9 text-right">
+      <h1>
+
+
+				<div class="d-block huge">{{displayValue}}</div>
+        </h1>
+
+			</div>
+		</div>
+	</div>
+	<div class="card-footer">
+		<h5>
+		<span class="float-left">{{ label }} </span>
+	</h5>
+		<span ><i class="fa fa-arrow-circle-right fa-5x"></i></span>
+	</div>
 </div>
