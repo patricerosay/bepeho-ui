@@ -3,6 +3,38 @@ import { HttpClient, } from '@angular/common/http';
 import { routerTransition } from '../../router.animations';
 import { Configuration, Property, Controls } from '../../shared/interfaces/configuration-interface';
 import { TranslateService } from '@ngx-translate/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
+@Component({
+    template: `
+        <div class="modal-header" >
+          <h4 class="modal-title">Confirmation</h4>
+          <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+              <div class="nav navbar-nav  flex-nowrap ml-auto">
+                Are your  sure you want to remove all records from the system ?
+                  <br/>
+
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('')">Cancel</button>
+          <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('OK')">Confirm</button>
+        </div>
+      `
+  })
+
+
+  export class ConfirmationModalDialog {
+
+    constructor(public activeModal: NgbActiveModal) {
+
+    }
+  }
 
 /** @title Configuration Pannel */
 @Component({
@@ -26,6 +58,7 @@ export class ConfigurationComponent implements OnInit {
 
     controls = new Controls;
     constructor(public http: HttpClient,
+        private modalService: NgbModal,
         private translate: TranslateService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
@@ -33,7 +66,43 @@ export class ConfigurationComponent implements OnInit {
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
      }
     private url = '/recorder/parameters';
-
+    deleteAll() {
+        const self = this;
+        this.modalService.open(ConfirmationModalDialog, { centered: true }).result.then((result) => {
+        if ( result) {
+        this.http.post<any>('/recorder', 'action=System&verb=cleanup',
+        {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            }
+        }).subscribe(
+            (res) => {
+                console.log(res);
+                this.errorMsg = 'Success';
+            },
+            (err) => {
+                console.log(err);
+                this.errorMsg = err.message;
+            });
+        }
+    });
+    }
+    cleanup() {
+        this.http.post<any>('/recorder', 'action=FileSystem&verb=cleanup',
+        {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            }
+        }).subscribe(
+            (res) => {
+                console.log(res);
+                this.errorMsg = 'Success';
+            },
+            (err) => {
+                console.log(err);
+                this.errorMsg = err.message;
+            });
+    }
     onStopProcesses() {
         // postMessage('Process', '&verb=resume', location.reload());
     }

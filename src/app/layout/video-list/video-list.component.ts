@@ -206,7 +206,8 @@ export class SearchDatabase {
     }
     getGroups(sort: string, order: string, page: number, searchPrms: ISearchParams): Observable<SearchAPI> {
         searchPrms.start = page * this.elementPerPage;
-        searchPrms.count = (page + 1) * this.elementPerPage;
+//        searchPrms.count = (page + 1) * this.elementPerPage;
+        // searchPrms.count = this.elementPerPage;
         const params: URLSearchParams = this.serialize(searchPrms);
 
         const requestUrl = '/recorder/search?' + params;

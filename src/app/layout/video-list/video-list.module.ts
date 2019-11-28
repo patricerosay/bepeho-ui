@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { ClipModule } from '../../shared';
+import { SequenceModule } from '../../shared';
 
 import { VideoListRoutingModule } from './video-list-routing.module';
 import { VideoListComponent } from './video-list.component';
@@ -94,7 +94,7 @@ import {
         CdkTableModule,
         CdkTreeModule,
         ScrollingModule,
-        ClipModule,
+        SequenceModule,
         NgbAlertModule],
     declarations: [VideoListComponent],
     entryComponents: [VideoListComponent]

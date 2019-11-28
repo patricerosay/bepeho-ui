@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { VgAPI } from 'videogular2/compiled/core';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ISegment, IVideo, IAudio } from './segment-interface';
+import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
@@ -109,7 +109,7 @@ export class QviewComponent implements OnInit {
   headerMessage: string;
   errorMsg: string;
   json: string;
-  
+
   route: ActivatedRoute;
   isLoading = true;
   currentIndex = 0;
@@ -154,51 +154,47 @@ export class QviewComponent implements OnInit {
     this.isLoading = false;
 
   }
- 
+
   onPlayedVideo(event: any) {
     // console.log("on played video");
-    if(this.audioApi){
+    if (this.audioApi) {
     this.audioApi.play();
     }
   }
   onPausedVideo(event: any) {
-    if(this.audioApi){
+    if (this.audioApi) {
     this.audioApi.pause();
     }
   }
   onUpdateVideoState(event: any) {
-    if(this.audioApi){
+    if (this.audioApi) {
     // console.log("on ended");
     this.videoApi.play();
     }
   }
   onSeeked(event: any) {
     // console.log("on seeked");
-    if(this.audioApi){
+    if (this.audioApi) {
     this.audioApi.seekTime(this.currentTime);
     }
   }
   onEnded(event: any) {
-    if(this.audioApi){
+    if (this.audioApi) {
     this.audioApi.pause();
     // console.log("on ended");
     }
   }
   onRateChaged(event: any) {
-    //console.log(event.type);
-    if(this.audioApi){
+    // console.log(event.type);
+    if (this.audioApi) {
     this.audioApi.playbackRate = this.videoApi.playbackRate;
     }
   }
   onAudioPlayerReady(api: VgAPI) {
     this.audioApi = api;
-
-    // this.audioApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-    // this.audioApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-
   }
   onVideoPlayerReady(api: VgAPI) {
-    const self= this;
+    const self = this;
     this.videoApi = api;
     this.videoApi.subscriptions.play.subscribe(this.onPlayedVideo.bind(this));
     this.videoApi.subscriptions.pause.subscribe(this.onPausedVideo.bind(this));
@@ -209,7 +205,7 @@ export class QviewComponent implements OnInit {
     this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
     // this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
     this.videoApi.subscriptions.timeUpdate.subscribe(data => {
-      if(0 !== data.srcElement.currentTime ){
+      if (0 !== data.srcElement.currentTime ) {
       if ( self.currentSrc === data.srcElement.currentSrc ) {
         self.currentTime = data.srcElement.currentTime;
         // console.log('assigning currentime to ' + self.currentTime);
@@ -219,30 +215,10 @@ export class QviewComponent implements OnInit {
         // self.seekToCurrentTime();
       }
     }
-      
+
     });
   }
-  // onVideoPlayerReady(api: VgAPI) {
-  //   this.videoApi = api;
-
-  //   this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-  //   this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-
-  // }
-  // onAudioPlayerReady(api: VgAPI) {
-  //   this.audioApi = api;
-  //   this.audioApi.subscriptions.play.subscribe(this.onPlayedAudio.bind(this));
-  //   this.audioApi.subscriptions.pause.subscribe(this.onPausedAudio.bind(this));
-  //   this.audioApi.subscriptions.ended.subscribe(this.onEnded.bind(this));
-  //   this.audioApi.subscriptions.error.subscribe(this.onEnded.bind(this));
-  //   this.audioApi.subscriptions.rateChange.subscribe(this.onRateChaged.bind(this));
-  //   this.audioApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
-  //   this.audioApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-  //   this.audioApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
-  //   this.audioApi.subscriptions.timeUpdate.subscribe(data => {
-  //     this.currentTime = data.srcElement.currentTime;
-  //   });
-  // }
+  
   nextVideo() {
     this.currentIndex++;
 
@@ -256,7 +232,7 @@ export class QviewComponent implements OnInit {
   seekToCurrentTime(): void {
     // console.log('seektocurrent time   ' + this.currentTime);
     this.videoApi.seekTime(this.currentTime);
-    if(this.audioApi){
+    if (this.audioApi) {
     this.audioApi.seekTime(this.currentTime);
     }
   }
@@ -331,8 +307,35 @@ export class QviewComponent implements OnInit {
 
 
   }
+  onSaveSegment() {
+    const ids = [];
+    const self = this;
+    this.segment.audios.forEach(audio => {
+      ids.push (audio.id);
+    });
+    this.segment.videos.forEach(video => {
+      ids.push (video.id);
+    });
+    ids.push (this.data['GroupID']);
+
+    this.http.post<any>('/recorder', 'action=FileSystem&verb=keep&prm=' + ids.join(','),
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      }).subscribe(
+        (res) => {
+          // console.log(res);
+          self.headerMessage = 'Success';
+
+        },
+        (err) => {
+          // console.log(err);
+          self.headerMessage = err.message;
+        });
+  }
   onExportSegment() {
-    let ids = [];
+    const ids = [];
     const self = this;
     this.segment.audios.forEach(audio => {
       ids.push (audio.id);

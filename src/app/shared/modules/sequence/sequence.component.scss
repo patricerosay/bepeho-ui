@@ -1,0 +1,21 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.videogular-container{
+	width: 320px;
+	height: 180px;
+    margin: 0;
+	padding: 0;
+}
+vg-player.video {
+    font-family: 'videogular';
+    position: relative;
+    display: flex;
+    width: 320px;
+	height: 180px;
+    overflow: hidden;
+    background-color: black;
+}

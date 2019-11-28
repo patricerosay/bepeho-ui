@@ -62,14 +62,18 @@ export class MapComponent implements OnInit {
 
   searchPrms: ISearchParams = new ISearchParams();
 
-  iconLove = L.icon({
-    iconUrl: 'assets/images/love-icon.png',
-    shadowSize: [50, 64],
-    iconAnchor: [25, 80],
-    shadowAnchor: [4, 62],
+  iconTrace = L.icon({
+    iconUrl: 'assets/images/marker-icon-2x.png',
+    iconSize: [25, 42],
+    iconAnchor: [12, 42],
     popupAnchor: [-3, -76]
   });
-
+iconSaved = L.icon({
+    iconUrl: 'assets/images/love-icon.png',
+    iconSize: [35, 51],
+    iconAnchor: [17, 51],
+    popupAnchor: [-3, -76]
+  });
   iconDetect = L.icon({
     iconUrl: 'assets/images/detection-icon.png',
     shadowSize: [50, 64],
@@ -287,16 +291,15 @@ export class MapComponent implements OnInit {
             self.searchStats[0].sequenceCount = self.data['groupCount'];
             self.retrievedSequenceCount = self.data['groups'].length;
 
-            self.searchStats[0].from = null;
-
+            self.searchStats[0].to = Date.now();
+            self.searchStats[0].from = 0;
 
             let linePointsCounter = 0;
             let lastTime = null;
+            groups.reverse();
             groups.forEach(function(group) {
               const firstSegment = group[0];
-              if (!self.searchStats[0].from) {
-                self.searchStats[0].from = firstSegment['start_time_data'];
-              }
+              
 
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
@@ -309,12 +312,13 @@ export class MapComponent implements OnInit {
                   payload.segments[0]['videos'] &&
                   0 < payload.segments[0]['videos'].length
                 ) {
+                  
                   if (!lastTime) {
                     linePoints[linePointsCounter] = new Array();
                     linePoints[linePointsCounter].push(latLon);
                     lastTime = firstSegment['start_time_data'];
                   } else {
-                    if (lastTime - firstSegment['start_time_data'] >= 3600) {
+                    if (firstSegment['start_time_data'] - lastTime  >= 3600) {
                       lastTime = firstSegment['start_time_data'];
                       linePointsCounter++;
                       linePoints[linePointsCounter] = new Array();
@@ -326,8 +330,9 @@ export class MapComponent implements OnInit {
                   const jsonPayload = JSON.stringify(payload);
 
                   let marker = null;
+                  let markerOptions: MyMarkerOptions;
                   if (undefined !== firstSegment['anomaly_score_d']) {
-                    const markerOptions: MyMarkerOptions = {
+                    markerOptions = {
                       data: firstSegment,
                       jsonPayload: jsonPayload,
                       icon: self.iconDetect,
@@ -340,19 +345,33 @@ export class MapComponent implements OnInit {
                      lastDisplayedSegment = firstSegment;
                     }
                   } else {
-                    const markerOptions: MyMarkerOptions = {
-                      data: firstSegment,
-                      jsonPayload: jsonPayload,
-                      icon: self.iconLove,
-                      title: firstSegment.end_time
-                    };
+                    if (firstSegment['State'] === 'archived') {
+                      markerOptions = {
+                        data: firstSegment,
+                        jsonPayload: jsonPayload,
+                        icon: self.iconSaved,
+                        title: 'Saved'
+                      };
+                    } else {
+                      markerOptions = {
+                        data: firstSegment,
+                        jsonPayload: jsonPayload,
+                        icon: self.iconTrace,
+                        title: new Date(firstSegment.end_time_data * 1000).toUTCString()
+                      };
+                    }
+
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.traces
                     );
-                    if ( !lastDisplayedSegment) {
-                      lastDisplayedSegment = firstSegment;
-                     }
                   }
+                  self.searchStats[0].from = Math.max(self.searchStats[0].from, firstSegment['end_time_data']);
+                  self.searchStats[0].to = Math.min(self.searchStats[0].to, firstSegment['end_time_data']);
+
+                  //console.log(self.searchStats[0].from);
+                  lastDisplayedSegment = firstSegment;
+                    
+                  
 
                   marker.on('click', function(e) {
                     const modalRef = who.modalService.open(QviewComponent, {
@@ -385,7 +404,7 @@ export class MapComponent implements OnInit {
 
             if (groups.length) {
               center = self.getLatLon(lastDisplayedSegment );
-              self.searchStats[0].to = lastDisplayedSegment['start_time_data'];
+              //self.searchStats[0].from = lastDisplayedSegment['start_time_data'];
 
             }
 

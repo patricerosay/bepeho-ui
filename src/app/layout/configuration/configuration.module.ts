@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ConfigurationRoutingModule } from './configuration-routing.module';
-import { ConfigurationComponent } from './configuration.component';
+import { ConfigurationComponent, ConfirmationModalDialog } from './configuration.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PropertyModule } from '../../shared';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
     MatAutocompleteModule,
@@ -87,9 +88,11 @@ import {
         MatTreeModule,
         MatCheckboxModule,
         FormsModule,
+        NgbModule,
         PropertyModule],
-    declarations: [ConfigurationComponent],
-    entryComponents: [ConfigurationComponent]
+    declarations: [ConfigurationComponent, ConfirmationModalDialog],
+    entryComponents: [ConfigurationComponent, ConfirmationModalDialog],
+    exports: [ ConfigurationComponent, ConfirmationModalDialog]
 
 })
 export class ConfigurationModule { }

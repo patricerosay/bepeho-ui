@@ -45,6 +45,9 @@
   <button mat-raised-button color="primary" (click)="onExportSegment()">
     Export
   </button>
+  <button mat-raised-button color="primary" (click)="onSaveSegment()">
+    Save
+  </button>
   <nav
     class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top"
   >
@@ -97,15 +100,6 @@
           </video>
         </vg-player>
       </div>
-      
-        <!-- <button *ngFor="let item of this.segment.videos; let $index = index"
-          mat-raised-button
-          color="primary"
-          (click)="onClickPlaylistItem(item, $index)"
-          [class.selected]="item === currentVideo"
-        >
-          {{ item.channel }}
-        </button> -->
       
       <div *ngIf=" !currentAudio"><i class="fa fa-microphone-slash" ></i> No Audio</div>
       

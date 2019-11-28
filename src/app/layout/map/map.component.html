@@ -37,12 +37,12 @@
               <!-- Symbol Column -->
               <ng-container matColumnDef="from">
                 <th mat-header-cell *matHeaderCellDef>{{'From'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.to *1000 | date:'medium'}}</td>
+                <td mat-cell *matCellDef="let element">{{ element.to *1000 | date:'MMMM d, y, HH:mm:ss a z'}}</td>
               </ng-container>
               <!-- Symbol Column -->
               <ng-container matColumnDef="to">
                 <th mat-header-cell *matHeaderCellDef>{{'To'|translate}}</th>
-                <td mat-cell *matCellDef="let element">{{ element.from*1000 | date:'medium' }}</td>
+                <td mat-cell *matCellDef="let element">{{ element.from*1000 | date:'MMMM d, y, HH:mm:ss a z' }}</td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="statColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: statColumns"></tr>
@@ -82,7 +82,7 @@
             >
           </mat-button-toggle-group>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         {{'Autodetection Level'|translate}}
         <mat-slider
           (input)="onDetectionLevel($event)"
@@ -91,7 +91,7 @@
           min="0"
           max="10"
         ></mat-slider>
-      </div>
+      </div> -->
       <div class="row">
         {{'Speed (knts)'|translate}}
         <mat-slider (input)="onSearchOnSpeed($event)" thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
