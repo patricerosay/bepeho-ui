@@ -102,23 +102,21 @@ iconSaved = L.icon({
   }*/
 
   ngOnInit() {
+   // if ( 'map' === this.group.value) {
     this.theMap = L.map('map');
 
     this.searchPrms.type = 'autorecord';
     this.searchPrms.start = 0;
     this.searchPrms.count = this.pageSize;
 
-    /*
-    if(this.getCookie('pageSize')) {
-      this.pageSize = parseInt(this.getCookie('pageSize'), 10);
-    }
-
-    if(this.getCookie('pageStart')) {
-      this.searchPrms.start = parseInt(this.getCookie('pageStart'), 10);
-    }
-    */
-
     this.loadData(this);
+    this.layers['Local'].on('tileerror', function (event)  {
+      console.log('error');
+    });
+
+    this.layers['Online OpenStreetMap'].on('tileerror', function (event)  {
+      console.log('error');
+      });
 
     L.control
       .layers(this.layers, {
@@ -126,6 +124,7 @@ iconSaved = L.icon({
         Events: this.events
       })
       .addTo(this.theMap);
+    //}
   }
 
   onPageEvent(event) {
@@ -299,7 +298,7 @@ iconSaved = L.icon({
             groups.reverse();
             groups.forEach(function(group) {
               const firstSegment = group[0];
-              
+
 
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
@@ -312,7 +311,7 @@ iconSaved = L.icon({
                   payload.segments[0]['videos'] &&
                   0 < payload.segments[0]['videos'].length
                 ) {
-                  
+
                   if (!lastTime) {
                     linePoints[linePointsCounter] = new Array();
                     linePoints[linePointsCounter].push(latLon);
@@ -368,10 +367,10 @@ iconSaved = L.icon({
                   self.searchStats[0].from = Math.max(self.searchStats[0].from, firstSegment['end_time_data']);
                   self.searchStats[0].to = Math.min(self.searchStats[0].to, firstSegment['end_time_data']);
 
-                  //console.log(self.searchStats[0].from);
+                  // console.log(self.searchStats[0].from);
                   lastDisplayedSegment = firstSegment;
-                    
-                  
+
+
 
                   marker.on('click', function(e) {
                     const modalRef = who.modalService.open(QviewComponent, {
@@ -404,7 +403,7 @@ iconSaved = L.icon({
 
             if (groups.length) {
               center = self.getLatLon(lastDisplayedSegment );
-              //self.searchStats[0].from = lastDisplayedSegment['start_time_data'];
+              // self.searchStats[0].from = lastDisplayedSegment['start_time_data'];
 
             }
 
