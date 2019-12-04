@@ -7,6 +7,7 @@ import { QviewComponent } from '../../shared/modules/qview/qview.component';
 import { ISearchParams } from '../../shared/interfaces/search.interface';
 import {PageEvent} from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
+import {CookieService} from 'ngx-cookie-service';
 
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
@@ -32,6 +33,7 @@ const ELEMENT_DATA: ISearchStat[] = [
 })
 export class MapComponent implements OnInit {
   public isLoading = true;
+  public searchViewMode = '/map';
    public error: object = null;
   private mediaroot = '/media/';
   private searchTimer = null;
@@ -86,7 +88,8 @@ iconSaved = L.icon({
 
 
 
-  constructor(public http: HttpClient, private modalService: NgbModal, private translate: TranslateService) {
+  constructor(public http: HttpClient, private modalService: NgbModal, private translate: TranslateService,
+    private cookieService: CookieService) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
     const browserLang = this.translate.getBrowserLang();
@@ -100,8 +103,13 @@ iconSaved = L.icon({
   putCookie(key: string, val: string) {
     return this._cookieService.put(key, val);
   }*/
-
+  onsearchValueMode(mode: string) {
+    this.cookieService.set('searchViewMode', mode);
+  }
   ngOnInit() {
+    if ( this.cookieService.check('searchViewMode')) {
+      this.searchViewMode = '/' + this.cookieService.get('searchViewMode');
+    }
    // if ( 'map' === this.group.value) {
     this.theMap = L.map('map');
 

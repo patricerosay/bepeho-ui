@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-sidebar',
@@ -12,10 +13,14 @@ export class SidebarComponent implements OnInit {
     collapsed: boolean;
     showMenu: string;
     pushRightClass: string;
-    status =1;
+    status = 1;
     @Output() collapsedEvent = new EventEmitter<boolean>();
+    searchViewMode = '/map';
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService,
+        public router: Router,
+        private cookieService: CookieService) {
+
         this.translate.addLangs(['en', 'fr', 'jp', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.setDefaultLang('en');
         const browserLang = this.translate.getBrowserLang();
@@ -37,6 +42,8 @@ export class SidebarComponent implements OnInit {
         this.collapsed = false;
         this.showMenu = '';
         this.pushRightClass = 'push-right';
+        this.searchViewMode = '/' + this.cookieService.get('searchViewMode');
+
     }
 
     gotoWIFI() {

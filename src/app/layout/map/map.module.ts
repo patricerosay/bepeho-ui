@@ -8,6 +8,8 @@ import { MapComponent } from './map.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { QviewModule } from '../../shared/modules/qview/qview.module';
+import {CookieService} from 'ngx-cookie-service';
+
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -89,7 +91,8 @@ import {
         QviewModule,
         TranslateModule],
     declarations: [MapComponent],
-    entryComponents: []
+    entryComponents: [],
+    providers: [ CookieService ]
 
 })
 export class MapModule {}

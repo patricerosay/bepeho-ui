@@ -52,6 +52,7 @@
     "ng-lazyload-image": "^7.0.0",
     "ng2-charts": "1.6.0",
     "ngx-cookie": "^4.1.2",
+    "ngx-cookie-service": "^2.2.0",
     "ngx-countdown": "^3.2.0",
     "plotly.js": "^1.44.3",
     "rxjs": "6.5.3",

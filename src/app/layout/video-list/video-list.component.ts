@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
@@ -8,7 +8,8 @@ import { ISearchParams } from '../../shared/interfaces/search.interface';
 import {saveAs as importedSaveAs} from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { ISearchStat } from '../map/map.component';
-// import { stringify } from '@angular/compiler/src/util';
+import {CookieService} from 'ngx-cookie-service';
+
 
 
 @Component({
@@ -17,8 +18,8 @@ import { ISearchStat } from '../map/map.component';
     styleUrls: ['./video-list.component.scss'],
 })
 
-export class VideoListComponent implements AfterViewInit {
-
+export class VideoListComponent implements AfterViewInit, OnInit {
+    public searchViewMode = 'video-list';
     displayedColumns: string[] = ['created', 'speed',  'direction','img', 'state'];
     searchDatabase: SearchDatabase | null;
     data: IGroup[] = [];
@@ -41,12 +42,22 @@ export class VideoListComponent implements AfterViewInit {
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-    constructor(private _httpClient: HttpClient, private translate: TranslateService) {
+    constructor(private _httpClient: HttpClient, private translate: TranslateService,
+        private cookieService: CookieService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
         const browserLang = this.translate.getBrowserLang();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
       }
+      ngOnInit() {
+        if ( this.cookieService.check('searchViewMode')) {
+          this.searchViewMode = this.cookieService.get('searchViewMode');
+        }
+    }
+    public onsearchValueMode(mode: string) {
+        this.cookieService.set('searchViewMode', mode);
+      }
+
     public getImg(row: any[]): string {
         if ( undefined === row) {
             return 'assets/images/white-noise.jpg';
@@ -78,6 +89,10 @@ export class VideoListComponent implements AfterViewInit {
     }
     public getProperty(row: any [], prop: string ): string {
         return  row [0][prop];
+    }
+    public edit(url: string) {
+        
+
     }
     public downloadThisFile(url: string, msg: string) {
         importedSaveAs(url, 'video.mp4');
@@ -119,6 +134,9 @@ export class VideoListComponent implements AfterViewInit {
         // this.searchTimer = setTimeout(this.loadData, 1000, this);
       }
     ngAfterViewInit() {
+        if ( this.cookieService.check('searchViewMode')) {
+            this.searchViewMode = this.cookieService.get('searchViewMode');
+          }
         this.searchPrms.start = 0;
         this.searchPrms.count = this.pageSize;
         this.searchPrms.type = 'autorecord';
