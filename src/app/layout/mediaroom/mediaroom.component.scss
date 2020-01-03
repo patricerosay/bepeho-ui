@@ -11,7 +11,7 @@ html, body {
  	}
 .camera {
 		margin: auto;
-		width: 80%;
+		width: 90%;
 	}
 .minimized {
 	width: 0%;
@@ -31,4 +31,20 @@ html, body {
 // }
 table {
 	width: 100%;
+  }
+mat-list {
+	width: 100%;
+  }
+
+  mat-list-item {
+	width: 100%;
+  }
+mat-form-field{
+	width: 100%;
+  }
+.center {
+	margin: auto;
+	// width: 50%;
+	// border: 3px solid green;
+	// padding: 10px;
   }

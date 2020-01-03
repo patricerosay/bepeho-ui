@@ -18,13 +18,30 @@ export class MediaroomComponent implements OnInit {
   devices = null;
   videoinputs: any[];
   audioinputs: any[];
+  audiooutputs: any[];
   selectedaudio = '';
+  selectedaudiooutput = '';
   selectedvideo = '';
   connectedSession = null;
   connectedConversation = null;
   contactList = null;
   localStream = null;
   call = null;
+  currentStreamID = null;
+  upQoSs = [
+    {label: 'Low', kbps: 100},
+    {label: 'Good', kbps: 700},
+    {label: 'Very good', kbps: 2000}
+  ];
+  subscribeOptions = {
+    audioOnly: true,
+    videoOnly: true
+  };
+  defaultupstreamQuality = 100;
+  currentUpQoS = 100;
+
+  defaultDownQuality = 100;
+  currentDownQoS = 100;
 
   constructor(
     private translate: TranslateService, private scriptService: ScriptService) {
@@ -72,6 +89,13 @@ export class MediaroomComponent implements OnInit {
         self.audioinputs.push(Object.values(self.devices.audioinput)[i]);
       }
       self.selectedaudio = self.devices.audioinput.default.id;
+
+
+      self.audiooutputs = [];
+      for (let i = 0; i < Object.values(self.devices.audiooutput).length; i++) {
+        self.audiooutputs.push(Object.values(self.devices.audiooutput)[i]);
+      }
+      self.selectedaudiooutput = self.devices.audiooutput.default.id;
     });
 
 
@@ -100,7 +124,8 @@ export class MediaroomComponent implements OnInit {
   }
 
   createStream() {
-
+    this.ua.setOverallOutgoingVideoBandwidth(this.currentUpQoS);
+    this.ua.setOverallIncomingVideoBandwidth(this.currentDownQoS);
     if (this.localStream !== null) {
       this.call = this.connectedConversation.getConversationCall(this.localStream);
       this.localStream.release();
@@ -117,7 +142,7 @@ export class MediaroomComponent implements OnInit {
     // this.ua.unregister({
     //   cloudUrl: this.cloudUrl
     // });
-    if ( this.localStream ) {
+    if (this.localStream) {
       this.localStream.release();
       this.localStream = null;
     }
@@ -171,12 +196,14 @@ export class MediaroomComponent implements OnInit {
 
       self.connectedConversation
         .on('streamAdded', function (stream) {
+          self.currentStreamID = stream;
           stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, {}, false);
           document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
 
         }).on('streamRemoved', function (stream) {
           document.getElementById('remote-container-placeholder').setAttribute('class', 'camera');
           stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
+          self.currentStreamID = null;
         });
 
       // ==============================
@@ -209,14 +236,57 @@ export class MediaroomComponent implements OnInit {
   }
   changeVideoInput($event) {
     this.selectedvideo = $event.value;
-    if ( this.call) {
+    if (this.call) {
       this.createStream();
     }
   }
   changeAudioInput($event) {
     this.selectedaudio = $event.value;
-    if ( this.call) {
+    if (this.call) {
       this.createStream();
     }
+  }
+  onVideoInStream($event) {
+    if ($event.checked) {
+      this.localStream.unmuteVideo();
+    } else {
+      this.localStream.muteVideo();
+    }
+  }
+  onAudioInStream($event) {
+    if ($event.checked) {
+      this.localStream.unmuteAudio();
+    } else {
+      this.localStream.muteAudio();
+    }
+  }
+
+
+  getAudio($event) {
+    const self = this;
+    this.subscribeOptions.audioOnly = $event.checked;
+    this.connectedConversation.subscribeToStream(this.currentStreamID, this.subscribeOptions)
+      .then(function (stream) {
+        console.log('subscribeToStream success');
+      }).catch(function (err) {
+        self.errorMsg = err;
+      });
+  }
+  getVideo($event) {
+    const self = this;
+    this.subscribeOptions.videoOnly = $event.checked;
+    this.connectedConversation.subscribeToStream(this.currentStreamID, this.subscribeOptions)
+      .then(function (stream) {
+        console.log('subscribeToStream success');
+      }).catch(function (err) {
+        self.errorMsg = err;
+      });
+  }
+  changeUpStreamQuality($event) {
+    this.currentUpQoS = $event.value;
+  }
+
+  changeDownStreamQuality($event) {
+    this.currentDownQoS = $event.value;
   }
 }

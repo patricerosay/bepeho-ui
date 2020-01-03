@@ -2,50 +2,161 @@
 
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
-	<mat-button-toggle (click)="joinConference('Bepeho Media Room')" value="call" aria-label="Text align center">
-		<i class="fa fa-fw  fa-phone"></i>
-		Call
-	</mat-button-toggle>
-	<mat-button-toggle (click)="hangup()" value="hangup" aria-label="Text align center">
-		<i class="fa fa-fw  fa-stop"></i>
-		Hangup
-	</mat-button-toggle>
-	<br />
-	<mat-form-field>
-		<mat-label>Select the camera</mat-label>
-		<mat-select (selectionChange)="changeVideoInput($event)" [(value)]="selectedvideo" placeholder="Video Input">
-			<mat-option *ngFor="let device of videoinputs" [value]="device.id">
-				{{device.label}}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
 
-	<mat-form-field>
-		<mat-label>Select the microphone</mat-label>
-		<mat-select (selectionChange)="changeAudioInput($event)" [(value)]="selectedaudio" placeholder="Audio Input">
-			<mat-option *ngFor="let device of audioinputs" [value]="device.id">
-				{{device.label}}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
 	<div id="conference">
-		<mat-grid-list cols="2" rowHeight="2:1">
-			<mat-grid-tile>
-				<div id="remote-container">
-					<img id="remote-container-placeholder" class="camera" [lazyLoad]='"assets/images/white-noise.jpg"'
-						[defaultImage]='"assets/images/mire.jpg"'>
+		<mat-grid-list cols="1" rowHeight="10:1">
+			<mat-grid-tile class="center">
+				<mat-list-item role="listitem" class="center">
+					<mat-button-toggle-group class="center" #group="matButtonToggleGroup" value="hangup">
+						<mat-button-toggle (click)="joinConference('Bepeho Media Room')" value="call"
+							aria-label="Text align center">
+							<i class="fa fa-fw  fa-phone"></i>
+							Call
+						</mat-button-toggle>
 
-				</div>
-			
+						<mat-button-toggle (click)="hangup()" value="hangup" aria-label="Text align center">
+							<i class="fa fa-fw  fa-stop"></i>
+							Hangup
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+				</mat-list-item>
 			</mat-grid-tile>
+		</mat-grid-list>
+		<mat-grid-list cols="2" rowHeight="2:1">
+
 			<mat-grid-tile>
 				<div id="local-container">
 					<img id="local-container-placeholder" class="camera" [lazyLoad]='"assets/images/white-noise.jpg"'
 						[defaultImage]='"assets/images/mire.jpg"'>
 
 				</div>
-			
 			</mat-grid-tile>
+			<mat-grid-tile>
+				<div id="remote-container">
+					<img id="remote-container-placeholder" class="camera" [lazyLoad]='"assets/images/white-noise.jpg"'
+						[defaultImage]='"assets/images/mire.jpg"'>
+				</div>
+			</mat-grid-tile>
+		</mat-grid-list>
+		<mat-grid-list cols="2" rowHeight="2:1">
+			<mat-grid-tile>
+				<mat-list role="list">
+					<mat-list-item role="listitem">
+						<h1 class="center">You</h1>
+					</mat-list-item>
+					<mat-accordion>
+						<mat-expansion-panel>
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									Advanced
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<mat-list role="list">
+								<mat-list-item role="listitem">
+									<mat-form-field>
+										<mat-label>Outgoing Bandwidth Capability</mat-label>
+										<mat-select (selectionChange)="changeUpStreamQuality($event)"
+											[(value)]="defaultupstreamQuality" placeholder="Upstream Quality">
+											<mat-option *ngFor="let upQoS of upQoSs" [value]="upQoS.kbps">
+												{{upQoS.label}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</mat-list-item>
+								<mat-list-item role="listitem">
+									<mat-form-field>
+										<mat-label>Select the camera</mat-label>
+										<mat-select (selectionChange)="changeVideoInput($event)"
+											[(value)]="selectedvideo" placeholder="Video Input">
+											<mat-option *ngFor="let device of videoinputs" [value]="device.id">
+												{{device.label}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</mat-list-item>
+								<mat-list-item role="listitem">
+									<mat-form-field>
+										<mat-label>Select the microphone</mat-label>
+										<mat-select (selectionChange)="changeAudioInput($event)"
+											[(value)]="selectedaudio" placeholder="Audio Input">
+											<mat-option *ngFor="let device of audioinputs" [value]="device.id">
+												{{device.label}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</mat-list-item>
+								<mat-list-item role="listitem">
+									<mat-form-field>
+										<mat-label>Select the output</mat-label>
+										<mat-select (selectionChange)="changeAudioInput($event)"
+											[(value)]="selectedaudiooutput" placeholder="Audio Output">
+											<mat-option *ngFor="let device of audiooutputs" [value]="device.id">
+												{{device.label}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</mat-list-item>
+								<mat-list-item role="listitem">
+									<mat-list-item role="listitem">
+										{{'Share Video'|translate}}
+										<mat-slide-toggle id="videoInSteam" [checked]="true"
+											(change)="onVideoInStream( $event )">
+										</mat-slide-toggle>
+									</mat-list-item>
+									<mat-list-item role="listitem">
+										{{'Share Audio'|translate}}
+										<mat-slide-toggle id="audioInSteam" [checked]="true"
+											(change)="onAudioInStream( $event )">
+										</mat-slide-toggle>
+									</mat-list-item>
+								</mat-list-item>
+							</mat-list>
+						</mat-expansion-panel>
+					</mat-accordion>
+				</mat-list>
+			</mat-grid-tile>
+
+			<mat-grid-tile>
+				<mat-list role="list">
+					<mat-list-item role="listitem">
+						<h1 class="center">Remote</h1>
+					</mat-list-item>
+					<mat-accordion>
+						<mat-expansion-panel>
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									Advanced
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<mat-list-item role="listitem">
+								<mat-form-field>
+									<mat-label>Incoming Bandwidth Capability</mat-label>
+									<mat-select (selectionChange)="changeDownStreamQuality($event)"
+										[(value)]="defaultDownQuality" placeholder="Upstream Quality">
+										<mat-option *ngFor="let upQoS of upQoSs" [value]="upQoS.kbps">
+											{{upQoS.label}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</mat-list-item>
+							<mat-list-item role="listitem">
+								<mat-list-item role="listitem">
+									{{'Get Audio'|translate}}
+									<mat-slide-toggle id="getaudio" [checked]="true" (change)="getAudio( $event )">
+									</mat-slide-toggle>
+								</mat-list-item>
+								<mat-list-item role="listitem">
+									{{'Get Video'|translate}}
+									<mat-slide-toggle id="getvideo" [checked]="true" (change)="getVideo( $event )">
+									</mat-slide-toggle>
+								</mat-list-item>
+
+							</mat-list-item>
+						</mat-expansion-panel>
+					</mat-accordion>
+				</mat-list>
+			</mat-grid-tile>
+
 		</mat-grid-list>
 	</div>
 
