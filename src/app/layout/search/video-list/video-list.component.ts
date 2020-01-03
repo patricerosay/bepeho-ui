@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ISearchParams } from '../../shared/interfaces/search.interface';
+import { ISearchParams } from '../../../shared/interfaces/search.interface';
 import {saveAs as importedSaveAs} from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { ISearchStat } from '../map/map.component';
@@ -119,15 +119,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         this.searchPrms.nmea_d_bgs_d = [event.value, 50];
         this.loadData(this);
       }
-      public onDetectionLevel(event) {
-        this.searchPrms.anomaly_score_d = event.value / 10;
-        if (this.searchTimer) {
-          clearTimeout(this.searchTimer);
-          this.searchTimer = null;
-        }
-        const self: VideoListComponent = this;
-        this.searchTimer = setTimeout(this.loadData, 1000, self);
-      }
+    
       onPageEvent(event) {
         this.searchPrms.count = event.pageSize;
         this.searchPrms.start = event.pageIndex * event.pageSize;

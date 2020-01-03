@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { SequenceModule } from '../../shared';
+import { SequenceModule } from '../../../shared';
 
 import { VideoListRoutingModule } from './video-list-routing.module';
 import { VideoListComponent } from './video-list.component';
-import { PageHeaderModule } from '../../shared';
+import { PageHeaderModule } from '../../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';

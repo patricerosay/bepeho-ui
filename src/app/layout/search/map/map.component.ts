@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { routerTransition } from '../../router.animations';
+import { routerTransition } from '../../../router.animations';
 import * as L from 'leaflet';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { QviewComponent } from '../../shared/modules/qview/qview.component';
-import { ISearchParams } from '../../shared/interfaces/search.interface';
-import {PageEvent} from '@angular/material/paginator';
+import { QviewComponent } from '../../../shared/modules/qview/qview.component';
+import { ISearchParams } from '../../../shared/interfaces/search.interface';
+import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
@@ -34,17 +34,15 @@ const ELEMENT_DATA: ISearchStat[] = [
 export class MapComponent implements OnInit {
   public isLoading = true;
   public searchViewMode = '/map';
-   public error: object = null;
+  public error: object = null;
   private mediaroot = '/media/';
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
   public retrievedSequenceCount = 0;
-  // public numberOfGroups = 0;
-  // public displayed = 0;
+
   public errCount = 0;
 
-  // public length = 100;
   public pageSize = 500;
   public pageSizeOptions: number[] = [100, 500, 1000, 10000];
   public layers = {
@@ -60,9 +58,42 @@ export class MapComponent implements OnInit {
   public events = L.layerGroup();
 
   statColumns: string[] = ['from', 'to', 'sequenceCount', 'sequenceDisplayed', 'error'];
-  searchStats:  ISearchStat[] = ELEMENT_DATA;
+  searchStats: ISearchStat[] = ELEMENT_DATA;
 
   searchPrms: ISearchParams = new ISearchParams();
+  heelRange = [
+    {'name':'all', 'value': []},
+    {'name':'starboard', 'value': [-90, 0]},
+    {'name':'more than 45° starboard','value':  [-90, -45]},
+    {'name':'less than 45° starboard','value':  [-45, 0]},
+    {'name':'less than 45° port','value':  [0, 45]},
+    {'name':'more than 45° port','value':  [45, 90]},
+    {'name':'port','value':  [0, 90]}
+
+  ];
+
+  timeRange = [
+    {'name':'all', 'value': []},
+    {'name':'last 6 hours' , 'value' : ['0', '260']},
+    {'name':'last 24 hours', 'value': ['0','1440']},
+    {'name':'last 7 days', 'value':['0','10080']},
+    {'name':'last 30 days',  'value': ['0','302400']},
+
+  ];
+
+  
+  
+  speedRange = [
+  {'name':'all' , 'value': []},
+  {'name':'0 to 5' , 'value' :[0, 5]},
+  {'name':'5 to 10', 'value' : [5, 10]},
+  {'name':'10 to 15', 'value' : [10, 15]},
+  {'name':'15 to 20', 'value' : [15, 20]},
+  {'name':'20 to 30', 'value' : [20, 30]},
+  {'name':'30 to 40', 'value' : [30, 40]},
+  {'name':'40 To More', 'value' : [40, 100]},
+]
+
 
   iconTrace = L.icon({
     iconUrl: 'assets/images/marker-icon-2x.png',
@@ -70,7 +101,7 @@ export class MapComponent implements OnInit {
     iconAnchor: [12, 42],
     popupAnchor: [-3, -76]
   });
-iconSaved = L.icon({
+  iconSaved = L.icon({
     iconUrl: 'assets/images/love-icon.png',
     iconSize: [35, 51],
     iconAnchor: [17, 51],
@@ -96,35 +127,30 @@ iconSaved = L.icon({
     this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
   }
-/*
-  getCookie(key: string) {
-    return this._cookieService.get(key);
-  }
-  putCookie(key: string, val: string) {
-    return this._cookieService.put(key, val);
-  }*/
-  onsearchValueMode(mode: string) {
-    this.cookieService.set('searchViewMode', mode);
-  }
+
+  currentSpeedRangeName: string;
+  currentHeelRangeName: string;
+  currentTimeRangeName: string;
   ngOnInit() {
-    if ( this.cookieService.check('searchViewMode')) {
-      this.searchViewMode = '/' + this.cookieService.get('searchViewMode');
-    }
-   // if ( 'map' === this.group.value) {
-    this.theMap = L.map('map');
+    this.currentSpeedRangeName = (this.cookieService.check(('bepeho/speedRange')) ? this.cookieService.get('bepeho/speedRange') : 'all');
+    this.currentHeelRangeName = (this.cookieService.check(('bepeho/heelRange')) ? this.cookieService.get('bepeho/heelRange') : 'all');
+    this.currentTimeRangeName = (this.cookieService.check(('bepeho/timeRange')) ? this.cookieService.get('bepeho/timeRange') : 'all');
 
     this.searchPrms.type = 'autorecord';
     this.searchPrms.start = 0;
     this.searchPrms.count = this.pageSize;
 
+
+
+    this.theMap = L.map('map');
     this.loadData(this);
-    this.layers['Local'].on('tileerror', function (event)  {
+    this.layers['Local'].on('tileerror', function (event) {
       console.log('error');
     });
 
-    this.layers['Online OpenStreetMap'].on('tileerror', function (event)  {
+    this.layers['Online OpenStreetMap'].on('tileerror', function (event) {
       console.log('error');
-      });
+    });
 
     L.control
       .layers(this.layers, {
@@ -184,7 +210,7 @@ iconSaved = L.icon({
       videos: [],
       audios: []
     };
-    group.sort(function(a, b) {
+    group.sort(function (a, b) {
       // videos on top of audios
       if (a.mime < b.mime) {
         return 1;
@@ -237,40 +263,45 @@ iconSaved = L.icon({
   }
   public Reset() {
     this.searchPrms = new ISearchParams();
+    this.cookieService.deleteAll('bepeho');
     this.searchPrms.type = 'autorecord';
     this.loadData(this);
   }
-  public onSearchOnLastMinutes(from: string, to: string) {
-    this.searchPrms.start_time = [from, to];
-    this.loadData(this);
-  }
-  public onSearchOnHeelAngle(event) {
-    this.searchPrms.nmea_d_heel_d = event.value;
-    this.loadData(this);
-  }
-  public onSearchOnSpeed(event) {
-    this.searchPrms.nmea_d_bgs_d = [event.value, 50];
-    this.loadData(this);
-  }
-  public onDetectionLevel(event) {
-    this.searchPrms.anomaly_score_d = - event.value / 10;
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-      this.searchTimer = null;
+  public onSearchOnTime(range) {
+    if( 'all' !== range.name)
+    {
+      this.searchPrms.start_time = range.value;
     }
-    const self: MapComponent = this;
-    this.searchTimer = setTimeout(this.loadData, 1000, self);
+    else{
+      this.searchPrms.start_time=undefined;
+    }
+    this.cookieService.set('bepeho/timeRange', range.name);
+
+    this.loadData(this);
   }
 
+  public onSearchOnHeelAngle(range) {
+
+    this.searchPrms.nmea_d_heel_d = range.value;
+    this.cookieService.set('bepeho/heelRange', range.name);
+    this.loadData(this);
+  }
+  public onSearchOnSpeed(range) {
+    this.searchPrms.nmea_d_bgs_d = range.value;
+    this.cookieService.set('bepeho/speedRange', range.name);
+    this.loadData(this);
+  }
+
+
   clearMap() {
-    this.theMap.eachLayer( l => {
-        try {
-              this.theMap.removeLayer(l);
-            } catch (e) {
-                console.log('problem with ' + e + l);
-            }
-        });
-    }
+    this.theMap.eachLayer(l => {
+      try {
+        this.theMap.removeLayer(l);
+      } catch (e) {
+        console.log('problem with ' + e + l);
+      }
+    });
+  }
 
   public loadData(_self: MapComponent) {
     const self = _self;
@@ -294,7 +325,7 @@ iconSaved = L.icon({
           if (self.data) {
             let lastDisplayedSegment = null;
             self.data = data as any[];
-             const groups = self.data['groups'] as any[];
+            const groups = self.data['groups'] as any[];
             self.searchStats[0].sequenceCount = self.data['groupCount'];
             self.retrievedSequenceCount = self.data['groups'].length;
 
@@ -304,7 +335,7 @@ iconSaved = L.icon({
             let linePointsCounter = 0;
             let lastTime = null;
             groups.reverse();
-            groups.forEach(function(group) {
+            groups.forEach(function (group) {
               const firstSegment = group[0];
 
 
@@ -325,7 +356,7 @@ iconSaved = L.icon({
                     linePoints[linePointsCounter].push(latLon);
                     lastTime = firstSegment['start_time_data'];
                   } else {
-                    if (firstSegment['start_time_data'] - lastTime  >= 3600) {
+                    if (firstSegment['start_time_data'] - lastTime >= 3600) {
                       lastTime = firstSegment['start_time_data'];
                       linePointsCounter++;
                       linePoints[linePointsCounter] = new Array();
@@ -348,8 +379,8 @@ iconSaved = L.icon({
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
                     );
-                    if ( !lastDisplayedSegment) {
-                     lastDisplayedSegment = firstSegment;
+                    if (!lastDisplayedSegment) {
+                      lastDisplayedSegment = firstSegment;
                     }
                   } else {
                     if (firstSegment['State'] === 'archived') {
@@ -380,7 +411,7 @@ iconSaved = L.icon({
 
 
 
-                  marker.on('click', function(e) {
+                  marker.on('click', function (e) {
                     const modalRef = who.modalService.open(QviewComponent, {
                       size: 'lg',
                       backdropClass: 'light-blue-backdrop',
@@ -406,13 +437,10 @@ iconSaved = L.icon({
             }
 
             L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
-            // self.theMap.setZoom(5);
             let center = new L.LatLng(0.0, 0.0);
 
             if (groups.length) {
-              center = self.getLatLon(lastDisplayedSegment );
-              // self.searchStats[0].from = lastDisplayedSegment['start_time_data'];
-
+              center = self.getLatLon(lastDisplayedSegment);
             }
 
             self.theMap.setView(center, 8);
@@ -423,17 +451,17 @@ iconSaved = L.icon({
         },
         err => this.logError(err)
       )
-      .catch(function(e) {
+      .catch(function (e) {
         this.logError(e);
       })
-      .finally(function() {
+      .finally(function () {
         self.isLoading = false;
         self.searchStats[0].sequenceDisplayed = self.retrievedSequenceCount - self.searchStats[0].error;
       });
 
     const who = self;
   }
-   logError(error: object): void {
-     this.error = error;
-   }
+  logError(error: object): void {
+    this.error = error;
+  }
 }

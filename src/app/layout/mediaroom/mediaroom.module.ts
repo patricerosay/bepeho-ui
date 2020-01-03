@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
-
-import { MapRoutingModule } from './map-routing.module';
-import { MapComponent } from './map.component';
+import { MediaroomRoutingModule } from './mediaroom-routing.module';
+import { MediaroomComponent } from './mediaroom.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import { QviewModule } from '../../shared/modules/qview/qview.module';
-import {CookieService} from 'ngx-cookie-service';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LazyLoadImageModule } from 'ng-lazyload-image'; 
+import { TranslateModule } from '@ngx-translate/core';
+import { ScriptService } from '../../shared/services/scripts/script.service';
 
 import {
     MatAutocompleteModule,
@@ -45,11 +45,11 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule,
+    MatTreeModule
 } from '@angular/material';
 @NgModule({
-    imports: [
-        CommonModule, MapRoutingModule, PageHeaderModule,
+    imports: [TranslateModule,
+        CommonModule, MediaroomRoutingModule, PageHeaderModule, LazyLoadImageModule,
         HttpClientModule,
         MatAutocompleteModule,
         MatBadgeModule,
@@ -87,12 +87,15 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        NgbModule,
-        QviewModule,
-        TranslateModule],
-    declarations: [MapComponent],
-    entryComponents: [],
-    providers: [ CookieService ]
+        FormsModule,
+        NgbModule
+        // NgbCarouselModule
+        ],
+    declarations: [MediaroomComponent],
+    providers: [ScriptService],
+    entryComponents: [MediaroomComponent],
+        exports: [MediaroomComponent]
+
 
 })
-export class MapModule {}
+export class MediaroomModule {}

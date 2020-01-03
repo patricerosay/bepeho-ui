@@ -4,16 +4,15 @@
 <div class="col-lg-12">
   <div class="row">
     <div class="col-lg-6">
-      <mat-button-toggle-group #group="matButtonToggleGroup" 
-      value ="map">
-        
-        <mat-button-toggle (click)="onsearchValueMode('map')" routerLink="/map" value="map" aria-label="Map">
+      <mat-button-toggle-group #group="matButtonToggleGroup" value="map">
+
+        <mat-button-toggle routerLink="/search/map" value="map" aria-label="Map">
           <i class="fa fa-fw fa-map-marker"></i>&nbsp;
-          
+
           <span>{{ "Map" | translate }} </span>
 
         </mat-button-toggle>
-        <mat-button-toggle (click)="onsearchValueMode('video-list')" routerLink="/video-list" value="video-list" aria-label="List">
+        <mat-button-toggle routerLink="/search/video-list" value="video-list" aria-label="List">
           <i class="fa fa-fw fa-list"></i>&nbsp;
           <span>{{ "List" | translate }} </span>
         </mat-button-toggle>
@@ -44,38 +43,35 @@
             <button mat-raised-button (click)="Reset()">{{'Reset Search Criterias'|translate}}</button>
           </div>
           <div class="row">
-            <!-- <button mat-raised-button (click)="loadData(this)">Refresh</button> -->
+            <mat-button-toggle-group *ngFor="let x of timeRange " name="timeSearch"
+              #timeRange="matButtonToggleGroup" aria-label="Font Style" value={{currentTimeRangeName}}>
 
-            <mat-button-toggle-group name="timeSearch" #timeSearch="matButtonToggleGroup" aria-label="Font Style" value="all">
-              <mat-button-toggle value="last6" (click)="onSearchOnLastMinutes('0', '360')">{{'Last 6 Hours'|translate}}
+              <mat-button-toggle value={{x.value}} (click)="onSearchOnTime(x)">{{x.name}}
               </mat-button-toggle>
-              <mat-button-toggle value="last24" (click)="onSearchOnLastMinutes('0', '1440')">{{'Last 24 Hours'|translate}}
+
+            </mat-button-toggle-group>
+
+          </div>
+
+          <div class="row">
+
+            <mat-button-toggle-group *ngFor="let x of speedRange" name="speedSearch"
+              #speedSearch="matButtonToggleGroup" aria-label="Font Style" value={{currentSpeedRangeName}}>
+
+              <mat-button-toggle value={{x.name}} (click)="onSearchOnSpeed(x)">{{x.name}}
               </mat-button-toggle>
-              <mat-button-toggle value="last7d" (click)="onSearchOnLastMinutes('0', '10080')">{{'Last 7 Days'|translate}}
-              </mat-button-toggle>
-              <mat-button-toggle value="last30d"(click)="onSearchOnLastMinutes('0', '302400')">{{'Last 30 Days'|translate}}
-              </mat-button-toggle>
-              <mat-button-toggle value="all" (click)="onSearchOnLastMinutes('0', '2419200')">{{'All'|translate}}</mat-button-toggle>
+
             </mat-button-toggle-group>
           </div>
-          <!-- <div class="row">
-        {{'Autodetection Level'|translate}}
-        <mat-slider
-          (input)="onDetectionLevel($event)"
-          thumbLabel
-          tickInterval="1"
-          min="0"
-          max="10"
-        ></mat-slider>
-      </div> -->
           <div class="row">
-            {{'Speed (knts)'|translate}}
-            <mat-slider (input)="onSearchOnSpeed($event)" thumbLabel tickInterval="1" min="0" max="40"></mat-slider>
-          </div>
-          <div class="row">
-            {{'Heel Angle (deg)'| translate}}
-            <mat-slider (input)="onSearchOnHeelAngle($event)" thumbLabel tickInterval="10" min="-90" max="90">
-            </mat-slider>
+            <mat-button-toggle-group *ngFor="let x of heelRange " name="heelSearch"
+              #heelSearch="matButtonToggleGroup" aria-label="Font Style" value={{currentHeelRangeName}}>
+
+              <mat-button-toggle value={{x.name}} (click)="onSearchOnHeelAngle(x)">{{x.name}}
+              </mat-button-toggle>
+
+            </mat-button-toggle-group>
+
           </div>
         </div>
       </mat-expansion-panel>

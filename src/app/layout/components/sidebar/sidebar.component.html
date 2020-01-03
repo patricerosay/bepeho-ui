@@ -4,7 +4,7 @@
 >
   <div class="list-group">
     <a
-      routerLink="['/dashboard']"
+      [routerLink]="['/dashboard']"
       [routerLinkActive]="['router-link-active']"
       class="list-group-item"
     >
@@ -12,7 +12,7 @@
       <span>{{ "Dashboard" | translate }}</span>
     </a>
     <a
-      [routerLink]="['/map']"
+      [routerLink]="['/search/map']"
       [routerLinkActive]="['router-link-active']"
       class="list-group-item"
     >
@@ -22,7 +22,7 @@
  
     
     <a
-      [routerLink]="['/video-records']"
+      [routerLink]="['/search/video-records']"
       [routerLinkActive]="['router-link-active']"
       class="list-group-item"
     >
@@ -37,7 +37,14 @@
       <i class="fa fa-fw fa-television"></i>&nbsp;
       <span>{{ "Live" | translate }}</span>
     </a>
-
+    <a
+    [routerLink]="['/mediaroom']"
+    [routerLinkActive]="['router-link-active']"
+    class="list-group-item"
+  >
+    <i class="fa fa-fw fa-phone"></i>&nbsp;
+    <span>{{ "Call" | translate }}</span>
+  </a>
     <div class="nested-menu">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-plus"></i>&nbsp;

@@ -43,7 +43,7 @@
 				<i class="fa fa-microphone"></i> &nbsp; {{'Devices'|translate}}
 			</ng-template>
 			<mat-accordion>
-				<div class="configuration-container ">
+				
 					<mat-tab-group>
 						<div>
 							<mat-tab>
@@ -51,49 +51,50 @@
 									<i class="fa fa-video-camera"></i>&nbsp;
 									IP Cameras
 								</ng-template>
-								<button mat-stroked-button (click)="saveDevice(cameras)">{{'Save'|translate}}</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="cameras" [properties]="cameras"></app-property>
+								<div class="configuration-container ">
+									<button mat-stroked-button color="accent" (click)="saveDevice(cameras)">{{'Save'|translate}}</button>
+									<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+									<app-property [id]="cameras" [properties]="cameras"></app-property>
+								</div>
 							</mat-tab>
 							<mat-tab>
-								<ng-template mat-tab-label>
-									<i class="fa fa-microphone"></i>&nbsp;
-									IP Microphones
-								</ng-template>
-								<button mat-stroked-button (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="microphones" [properties]="microphones">
-								</app-property>
+									<div class="configuration-container ">
+										<ng-template mat-tab-label>
+											<i class="fa fa-microphone"></i>&nbsp;
+											IP Microphones
+										</ng-template>
+										<button mat-stroked-button color="accent" (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
+										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+										<app-property [id]="microphones" [properties]="microphones">
+										</app-property>
+									</div>
 							</mat-tab>
 							<mat-tab>
-								<ng-template mat-tab-label>
-									<i class="fa fa-video-camera"></i>&nbsp;
-									Integrated Cameras
-								</ng-template>
-								<button mat-stroked-button (click)="saveDevice(webCameras)">{{'Save'|translate}}</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="webCameras" [properties]="webCameras"></app-property>
+									<div class="configuration-container ">
+										<ng-template mat-tab-label>
+											<i class="fa fa-video-camera"></i>&nbsp;
+											Integrated Cameras
+										</ng-template>
+										<button mat-stroked-button color="accent" (click)="saveDevice(webCameras)">{{'Save'|translate}}</button>
+										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+										<app-property [id]="webCameras" [properties]="webCameras"></app-property>
+									</div>
 							</mat-tab>
 
 							<mat-tab>
-								<ng-template mat-tab-label>
-									<i class="fa fa-microphone"></i>&nbsp;
-									Integrated Microphones
-								</ng-template>
-								<button mat-stroked-button (click)="saveDevice(webMicrophones)">{{'Save'|translate}}</button>
-								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-								<app-property [id]="webMicrophones" [properties]="webMicrophones">
-								</app-property>
+									<div class="configuration-container ">
+										<ng-template mat-tab-label>
+											<i class="fa fa-microphone"></i>&nbsp;
+											Integrated Microphones
+										</ng-template>
+										<button mat-stroked-button color="accent" (click)="saveDevice(webMicrophones)">{{'Save'|translate}}</button>
+										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+										<app-property [id]="webMicrophones" [properties]="webMicrophones"> </app-property>
+								</div>
 							</mat-tab>
-
-
-							
-
-
-
-						</div>
+							</div>
 					</mat-tab-group>
-				</div>
+				
 			</mat-accordion>
 		</mat-tab>
 
@@ -105,7 +106,7 @@
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
-					<button mat-stroked-button (click)="saveProperties(general)">{{'Save'|translate}}</button>
+					<button mat-stroked-button color="accent" (click)="saveProperties(general)">{{'Save'|translate}}</button>
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>
@@ -144,8 +145,8 @@
 
 			</ng-template>
 			<mat-accordion>
-				<div class="configuration-container ">
-					<button mat-stroked-button (click)="saveProperties(advanced)">{{'Save'|translate}}</button>
+				<div class="configuration-container">
+					<button mat-stroked-button color="accent" (click)="saveProperties(advanced)">{{'Save'|translate}}</button>
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>
@@ -186,11 +187,11 @@
 			</ng-template>
 				<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
-				<div class="configuration-container ">
+				<div class="configuration-container">
 					<button mat-stroked-button	 (click)="deleteAll(cameras)">{{'Delete all records'|translate}}</button>
 
 				</div>
-				<div class="configuration-container ">
+				<div class="configuration-container">
 					<button mat-stroked-button (click)="cleanup(cameras)">{{'Cleanup export folder'|translate}}</button>
 
 					</div>
