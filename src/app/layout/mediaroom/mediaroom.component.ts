@@ -10,6 +10,8 @@ import { ScriptService } from '../../shared/services/scripts/script.service';
 })
 export class MediaroomComponent implements OnInit {
   isLoading = true;
+  isLive = false;
+  isConnected = false;
   errorMsg: string;
   apiRTC: any;
   ua = null;
@@ -76,7 +78,7 @@ export class MediaroomComponent implements OnInit {
 
 
     this.ua.on('mediaDeviceChanged', function (updatedContacts) {
-      console.error('mediaDeviceChanged');
+      console.log('mediaDeviceChanged');
       self.videoinputs = [];
       self.devices = self.ua.getUserMediaDevices();
       for (let i = 0; i < Object.values(self.devices.videoinput).length; i++) {
@@ -104,8 +106,8 @@ export class MediaroomComponent implements OnInit {
     const self = this;
     return new Promise((resolve, reject) => {
       const createStreamOptions = {
-        audioInputId: self.selectedvideo,
-        videoInputId: self.selectedaudio,
+        audioInputId: self.selectedaudio,
+        videoInputId: self.selectedvideo,
       };
       self.ua.createStream(createStreamOptions)
         .then(function (stream) {
@@ -133,15 +135,15 @@ export class MediaroomComponent implements OnInit {
 
     if (this.call !== null) {
       // Switch the camera if call is ongoing
-      return this.call.replacePublishedStream(null, this.getStream);
+      return this.call.replacePublishedStream(null, this.getStream());
     } else {
       return this.getStream();
     }
   }
   hangup(): void {
-    // this.ua.unregister({
-    //   cloudUrl: this.cloudUrl
-    // });
+    this.ua.unregister({
+      cloudUrl: this.cloudUrl
+    });
     if (this.localStream) {
       this.localStream.release();
       this.localStream = null;
@@ -154,25 +156,29 @@ export class MediaroomComponent implements OnInit {
       this.connectedSession.disconnect();
       this.connectedSession = null;
     }
+    this.isLive = false;
+    self.isConnected = false;
     // document.getElementById('local-container-placeholder').setAttribute('class', 'camera');
-    document.getElementById('local-media').setAttribute('class', 'minimized');
+    //document.getElementById('local-media').setAttribute('class', 'minimized');
 
   }
   joinConference(conferenceName: string): void {
 
 
-    this.initConference();
+//    this.initConference();
 
     const self = this;
     this.ua.register({
       cloudUrl: this.cloudUrl
     }).then(function (session) {
       self.connectedSession = session;
+      self.isConnected = true;
       self.connectedSession
         .on('contactListUpdate', function (updatedContacts) {
-          console.log('MAIN - contactListUpdate', updatedContacts);
+          // console.log('MAIN - contactListUpdate', updatedContacts);
           if (self.connectedConversation !== null) {
             self.contactList = self.connectedConversation.getContacts();
+            self.isLive = 0 < Object.values(self.contactList).length;
           }
         });
 
@@ -231,18 +237,19 @@ export class MediaroomComponent implements OnInit {
 
         }).catch(function (err) {
           self.errorMsg = err;
+          self.isConnected = false;
         });
     });
   }
   changeVideoInput($event) {
     this.selectedvideo = $event.value;
-    if (this.call) {
+    if (this.connectedConversation) {
       this.createStream();
     }
   }
   changeAudioInput($event) {
     this.selectedaudio = $event.value;
-    if (this.call) {
+    if (this.connectedConversation) {
       this.createStream();
     }
   }

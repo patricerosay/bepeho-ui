@@ -6,7 +6,7 @@
 	<div id="conference">
 		<mat-grid-list cols="1" rowHeight="10:1">
 			<mat-grid-tile class="center">
-				<mat-list-item role="listitem" class="center">
+				<!-- <mat-list-item role="listitem" class="center"> -->
 					<mat-button-toggle-group class="center" #group="matButtonToggleGroup" value="hangup">
 						<mat-button-toggle (click)="joinConference('Bepeho Media Room')" value="call"
 							aria-label="Text align center">
@@ -19,7 +19,16 @@
 							Hangup
 						</mat-button-toggle>
 					</mat-button-toggle-group>
-				</mat-list-item>
+					<div *ngIf="!isConnected" >
+						<i class="fa fa-chain-broken" aria-hidden="true"></i>
+					</div>
+					<div *ngIf=" isConnected" >
+						<i class="fa fa-link" aria-hidden="true"></i>
+					</div>
+					<div *ngIf="isLive" >
+						<i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+					</div>
+				<!-- </mat-list-item> -->
 			</mat-grid-tile>
 		</mat-grid-list>
 		<mat-grid-list cols="2" rowHeight="2:1">
