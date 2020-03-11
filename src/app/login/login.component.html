@@ -12,7 +12,7 @@
                
                 <button  class="btn rounded-btn">{{ 'Log in' | translate }}</button>               
             </form> 
-            <a routerLink="/dashboard"><button  class="btn rounded-btn" (click)="onCancel()">{{ 'Back' | translate }}</button> 
+            <a routerLink="/dashboard"><button  class="btn rounded-btn">{{ 'Back' | translate }}</button> 
             </a>
             <br/>
             <mat-error *ngIf="loginFailed">{{ 'Login Failed. Please check your user name and password' | translate }}</mat-error>
