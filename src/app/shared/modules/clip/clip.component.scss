@@ -4,12 +4,13 @@ html, body {
 	overflow: hidden;
 }
 
-.videogular-container{
-	width: 320px;
-	height: 180px;
-    margin: 0;
-	padding: 0;
-}
+// .videogular-container{
+// 	width: 320px;
+// 	height: 180px;
+//     margin: 0;
+// 	padding: 0;
+// }
+
 vg-player.video {
     font-family: 'videogular';
     position: relative;
@@ -18,4 +19,46 @@ vg-player.video {
 	height: 180px;
     overflow: hidden;
     background-color: black;
+}
+.videogular-container {
+	width: 70%;
+	height: auto;
+	margin: auto;
+	overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+	.videogular-container {
+		width: 320px;
+		height: 180px;
+	}
+
+	.videogular-container.audio {
+		width: 320px;
+		height: 50px;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.videogular-container {
+		width: 320px;
+		height: 180px;
+	}
+
+	.videogular-container.audio {
+		width: 320px;
+		height: 50px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.videogular-container {
+		width: 320px;
+		height: 180px;
+	}
+
+	.videogular-container.audio {
+		width: 320px;
+		height: 50px;
+	}
 }

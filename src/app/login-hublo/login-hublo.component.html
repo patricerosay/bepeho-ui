@@ -1,0 +1,33 @@
+
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            
+            <img src="assets/images/Icon-83.5@2x.png" width="150px"  />
+            <h1>Connect to Hublo.io</h1>
+             <form role="form" #f="ngForm" (ngSubmit)="onLoggedin(f)">
+                    <div class="form-content">
+                    <input name="name" ngModel required #name="ngModel"  class="form-control input-underline input-lg" id="name" placeholder="{{ 'Name' | translate }}">
+                    <input type="password" name="pass" ngModel required #pass="ngModel"  class="form-control input-underline input-lg" id="pass" placeholder="{{ 'Password' | translate }}">
+                </div>
+                 
+                <input type="submit" class="btn rounded-btn" value="{{ 'Log in' | translate }}">
+
+               
+                <!-- <button  class="btn rounded-btn">{{ 'Log in' | translate }}</button>                -->
+            </form> 
+            <a routerLink="/dashboard"><button  class="btn rounded-btn" (click)="onCancel()">{{ 'Back' | translate }}</button> 
+            </a>
+            <div *ngIf="isRegistering">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Registering...</span>
+            </div>
+            <br/>
+            <mat-error *ngIf="isLogginFailed">{{ 'Login Failed. Please check your user name and password' | translate }}</mat-error>
+            <br/>
+            <mat-error *ngIf="errorMsg">{{ errorMsg | translate }}</mat-error>
+        </div>
+       
+        
+    </div>
+</div>

@@ -1,0 +1,247 @@
+<mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+
+<div *ngIf="isLoading">loading ....</div>
+<div *ngIf="!isLoading">
+  <div id="conference">
+    <mat-grid-list cols="1" rowHeight="10:1">
+      <mat-grid-tile >
+        <div *ngIf="!isLoading">
+			
+          <div *ngIf="joining" >
+            <button class="center-button" color="accent" mat-fab (click)="hangup()">
+              <i class="fa fa-2x fa-spin fa-spinner" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div *ngIf="!joining">
+			<button
+			class="center-button"
+              *ngIf="!connectedConversation"
+              color="primary"
+              mat-fab
+              (click)="joinConference('Bepeho Media Room')"
+            >
+              <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
+            </button>
+
+			<button
+			class ="center-button"
+              *ngIf="connectedConversation"
+              color="accent"
+              mat-fab
+              (click)="hangup()"
+            >
+              <i class="fa fa-fw fa-2x fa-stop"></i>
+            </button>
+			<div class ="left-button" >
+            <div *ngIf="!screensharingStream" >
+              <button color="primary" mat-fab (click)="shareScreen()">
+                <i class="fa fa-2x  fa-desktop" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div *ngIf="screensharingStream" >
+              <button  color="accent" mat-fab (click)="shareScreen()">
+                <i class="fa fa-2x  fa-desktop" aria-hidden="true"></i>
+              </button>
+            </div>
+		</div>
+		<div class ="right-button" >
+			<div *ngIf="!recordingInterview" >
+				<button color="primary" mat-fab (click)="recordInterview(true)">
+					<i class="fa  fa-2x fa-file-video-o" aria-hidden="true"></i>
+				</button>
+			  </div>
+			  <div *ngIf="recordingInterview" >
+				<button color="accent" mat-fab (click)="recordInterview(false)">
+					<i class="fa  fa-2x fa-file-video-o" aria-hidden="true"></i>
+				</button>
+			  </div>
+		  </div>
+		</div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
+        <div id="local-container">
+          <img
+            id="local-container-placeholder"
+            class="camera"
+            [lazyLoad]="'assets/images/white-noise.jpg'"
+            [defaultImage]="'assets/images/white-noise.jpg'"
+          />
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div id="remote-container">
+          <img
+            id="remote-container-placeholder"
+            class="camera"
+            [lazyLoad]="'assets/images/white-noise.jpg'"
+            [defaultImage]="'assets/images/white-noise.jpg'"
+          />
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+			<h1 class="center">{{getCookieInfo('nickname')}}</h1>
+			<button color="primary" mat-fab [routerLink]="['/login-hublo']">
+				<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+			</button>
+            <div *ngIf="!isConnected">
+              <i class="fa fa-2x fa-chain-broken" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="isConnected">
+              <i class="fa fa-2x fa-link" aria-hidden="true"></i>
+            </div>
+            
+          </mat-list-item>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Advanced
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list role="list">
+                
+                <mat-list-item role="listitem">
+                  <mat-form-field>
+                    <mat-label>Select the camera</mat-label>
+                    <mat-select
+                      (selectionChange)="changeVideoInput($event)"
+                      [(value)]="selectedvideo"
+                      placeholder="Video Input"
+                    >
+                      <mat-option
+                        *ngFor="let device of videoinputs"
+                        [value]="device.id"
+                      >
+                        {{ device.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <mat-form-field>
+                    <mat-label>Select the microphone</mat-label>
+                    <mat-select
+                      (selectionChange)="changeAudioInput($event)"
+                      [(value)]="selectedaudio"
+                      placeholder="Audio Input"
+                    >
+                      <mat-option
+                        *ngFor="let device of audioinputs"
+                        [value]="device.id"
+                      >
+                        {{ device.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <mat-form-field>
+                    <mat-label>Select the output</mat-label>
+                    <mat-select
+                      (selectionChange)="changeAudioInput($event)"
+                      [(value)]="selectedaudiooutput"
+                      placeholder="Audio Output"
+                    >
+                      <mat-option
+                        *ngFor="let device of audiooutputs"
+                        [value]="device.id"
+                      >
+                        {{ device.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <mat-list-item role="listitem">
+                    {{ "Share Video" | translate }}
+                    <mat-slide-toggle
+                      id="videoInSteam"
+                      [checked]="true"
+                      (change)="onVideoInStream($event)"
+                    >
+                    </mat-slide-toggle>
+                  </mat-list-item>
+                  <mat-list-item role="listitem">
+                    {{ "Share Audio" | translate }}
+                    <mat-slide-toggle
+                      id="audioInSteam"
+                      [checked]="true"
+                      (change)="onAudioInStream($event)"
+                    >
+                    </mat-slide-toggle>
+                  </mat-list-item>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-list>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+			<h1 class="center">Remote</h1>
+			<button color="primary" mat-fab [routerLink]="['/network']">
+				<i class="fa fa-exchange" aria-hidden="true"></i>
+
+			</button>
+            <div *ngIf="!isLive">
+              <i class="fa fa-2x fa-chain-broken" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="isLive">
+              <i class="fa fa-2x fa-link" aria-hidden="true"></i>
+            </div>
+          </mat-list-item>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+				  Advanced
+				 
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- <mat-list-item role="listitem">
+								<mat-form-field>
+									<mat-label>Incoming Bandwidth Capability</mat-label>
+									<mat-select (selectionChange)="changeDownStreamQuality($event)"
+										[(value)]="defaultDownQuality" placeholder="Upstream Quality">
+										<mat-option *ngFor="let upQoS of upQoSs" [value]="upQoS.kbps">
+											{{upQoS.label}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</mat-list-item> -->
+              <mat-list-item role="listitem">
+                <mat-list-item role="listitem">
+                  {{ "Get Audio" | translate }}
+                  <mat-slide-toggle
+                    id="getaudio"
+                    [checked]="true"
+                    (change)="getAudio($event)"
+                  >
+                  </mat-slide-toggle>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  {{ "Get Video" | translate }}
+                  <mat-slide-toggle
+                    id="getvideo"
+                    [checked]="true"
+                    (change)="getVideo($event)"
+                  >
+                  </mat-slide-toggle>
+                </mat-list-item>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-list>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>

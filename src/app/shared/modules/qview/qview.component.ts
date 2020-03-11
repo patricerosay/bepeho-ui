@@ -52,7 +52,8 @@ export interface NMEA {
       <div class="modal-body">
             <div class="nav navbar-nav  flex-nowrap ml-auto">
                 <mat-form-field hintLabel="Min 5 and max 30 characters">
-                    <input matInput matNativeControl required #input [(ngModel)]="newClipName" maxlength="30" placeholder="Enter new clip name">
+                    <input matInput matNativeControl required #input
+                    [(ngModel)]="newClipName" maxlength="30" placeholder="Enter new clip name">
                     <mat-hint align="end">{{input.value?.length || 1}}/30</mat-hint>
                     <mat-error *ngIf="invalidClipNameError">{{invalidClipNameError}}</mat-error>
 
@@ -135,7 +136,7 @@ export class QviewComponent implements OnInit {
     private modalService: NgbModal) {
 
   }
-  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
+   @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
 
   ngOnInit() {
 
@@ -218,7 +219,7 @@ export class QviewComponent implements OnInit {
 
     });
   }
-  
+
   nextVideo() {
     this.currentIndex++;
 
@@ -252,11 +253,11 @@ export class QviewComponent implements OnInit {
     // this.seekToCurrentTime();
   }
 
-  triggerResize() {
-    // Wait for changes to be applied, then trigger textarea resize.
-    this._ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
-  }
+  // triggerResize() {
+  //   // Wait for changes to be applied, then trigger textarea resize.
+  //   this._ngZone.onStable.pipe(take(1))
+  //     .subscribe(() => this.autosize.resizeToFitContent(true));
+  // }
 
   onBuildClip() {
     const self = this;

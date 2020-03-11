@@ -16,6 +16,7 @@ import { take } from 'rxjs/operators';
 
 export class SequenceComponent implements OnInit {
     @Input() sequence: any[];
+    @Input() currentIndex: number;
     @Output() event: EventEmitter<any> = new EventEmitter();
 
     headerMessage: string;
@@ -25,7 +26,7 @@ export class SequenceComponent implements OnInit {
     // route: ActivatedRoute;
     groupID = 0;
     isLoading = true;
-    currentIndex = 0;
+    // currentIndex = 0;
     segment: ISegment;
     videoApi: VgAPI;
     audioApi: VgAPI;
@@ -41,7 +42,7 @@ export class SequenceComponent implements OnInit {
 
     constructor(private _ngZone: NgZone) {  }
 
-    @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
+    @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
 
     ngOnInit() {
     const self = this;

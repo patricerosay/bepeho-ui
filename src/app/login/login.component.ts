@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { routerTransition } from '../router.animations';
 import {NgForm} from '@angular/forms';
-import { FormControl, FormGroup, FormBuilder, Validator, Validators,ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, FormBuilder, Validator, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-login',
@@ -12,8 +12,9 @@ import { FormControl, FormGroup, FormBuilder, Validator, Validators,ReactiveForm
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
-    private regForm:FormGroup;
-    private name = "";
+    private regForm: FormGroup;
+    private name = '';
+    loginFailed = false;
     constructor(
         private translate: TranslateService,
         public router: Router
@@ -27,10 +28,11 @@ export class LoginComponent implements OnInit {
     ngOnInit() {}
 
     onLoggedin(f: NgForm ) {
-        if (f.value.name  === 'mediaman' && f.value.pass === 'bepeho')
-        {
+        if (f.value.name  === 'mediaman' && f.value.pass === 'bepeho') {
             localStorage.setItem('isLoggedin', 'true');
             this.router.navigateByUrl('/');
+        } else {
+            this.loginFailed = true;
         }
     }
 }

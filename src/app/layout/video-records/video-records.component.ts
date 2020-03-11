@@ -24,8 +24,8 @@ export class VideoRecordsComponent implements AfterViewInit {
     isRateLimitReached = false;
     resultMessage: string;
     searchPrms: ISearchParams = new ISearchParams();
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
+    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    @ViewChild(MatSort, {static: false}) sort: MatSort;
 
     constructor(private _httpClient: HttpClient, private translate: TranslateService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);

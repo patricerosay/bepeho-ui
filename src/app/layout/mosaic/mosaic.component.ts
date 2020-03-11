@@ -117,7 +117,7 @@ export class CameraPropertiesModal {
   constructor(
     public dialogRef: MatDialogRef<CameraPropertiesModal>,
     @Inject(MAT_DIALOG_DATA) public data: Camera
-  ) {}
+  ) { }
 
   onSubmit(): void {
     this.dialogRef.close();
@@ -135,15 +135,15 @@ export class MosaicComponent implements OnInit {
     public http: HttpClient,
     public dialog: MatDialog,
     private translate: TranslateService) {
-      this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-      this.translate.setDefaultLang('en');
-      const browserLang = this.translate.getBrowserLang();
-      this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+    this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+    this.translate.setDefaultLang('en');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
-    }
+  }
 
   displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
-  dataSource:  IInstrument[] = ELEMENT_DATA;
+  dataSource: IInstrument[] = ELEMENT_DATA;
   // showInstrument: true;
   // dataSource2 = {};
   private url = '/recorder/cams';
@@ -166,25 +166,47 @@ export class MosaicComponent implements OnInit {
     const self = this;
     self.http.get('/recorder/data').subscribe(data => {
       const instruments = data as { id: string; value: string }[];
-      instruments.forEach(function(ins) {
-        if ('bgs_d' === ins.id) {
-          self.dataSource[0].speed = ins.value;
-        } else if ('bgt_d' === ins.id) {
-          self.dataSource[0].heading = ins.value;
-        } else if ('twa_d' === ins.id) {
-          self.dataSource[0].twd = ins.value;
-        } else if ('tws_d' === ins.id) {
-          self.dataSource[0].tws = ins.value;
-        } else if ('gpsTime' === ins.id) {
-          self.dataSource[0].time = ins.value;
-        } else if ('blo' === ins.id) {
-          self.dataSource[0].blo = ins.value;
-        } else if ('bla' === ins.id) {
-          self.dataSource[0].bla = ins.value;
-        }
+      if (null !== instruments) {
+        instruments.forEach(function (ins) {
+          if ('bgs_d' === ins.id) {
+            self.dataSource[0].speed = ins.value;
+          } else if ('bgt_d' === ins.id) {
+            self.dataSource[0].heading = ins.value;
+          } else if ('twa_d' === ins.id) {
+            self.dataSource[0].twd = ins.value;
+          } else if ('tws_d' === ins.id) {
+            self.dataSource[0].tws = ins.value;
+          } else if ('gpsTime' === ins.id) {
+            const n = Math.round(parseInt(ins.value, 10));
+            //164023.00	
+            const h = Math.floor(n / 10000) ;
+            const m = Math.floor((n - (h * 10000)) / 100 );
+            const s = n - ((h * 10000) + (m * 100));
+            self.dataSource[0].time = h + ':' + m + ':' + s;
+          } else if ('blo' === ins.id) {
+            self.dataSource[0].blo = ins.value;
+          } else if ('bla' === ins.id) {
+            self.dataSource[0].bla = ins.value;
+          }
+        });
+      } else {
+        self.dataSource[0].speed = 'err';
+        self.dataSource[0].heading = 'err';
+        self.dataSource[0].twd = 'err';
+        self.dataSource[0].tws = 'err';
+        self.dataSource[0].time = 'err';
+        self.dataSource[0].blo = 'err';
+      }
+    },
+      err => {
+      self.dataSource[0].speed = 'err';
+        self.dataSource[0].heading = 'err';
+        self.dataSource[0].twd = 'err';
+        self.dataSource[0].tws = 'err';
+        self.dataSource[0].time = 'err';
+        self.dataSource[0].blo = 'err';
 
       });
-    });
   }
   stopInstrumentWorker(): void {
     if (null !== this.worker) {
@@ -194,24 +216,23 @@ export class MosaicComponent implements OnInit {
     }
   }
   startInstrumentWorker(): void {
-    this.worker =  setInterval(() => {
+    this.getInstruments();
+    this.worker = setInterval(() => {
       this.getInstruments();
-  }, 10000);
+    }, 2500);
 
-    // this.worker = interval(10000 ).subscribe(x => {
-    //   this.getInstruments();
-    // });
+
   }
 
   ngOnInit() {
 
     const self = this;
-   this.startInstrumentWorker();
+    this.startInstrumentWorker();
     // const self.cameras = new Camera[];
     self.http.get(this.url).subscribe(data => {
       // self.cameras
       const tempCams = data as Camera[];
-      tempCams.forEach(function(cam) {
+      tempCams.forEach(function (cam) {
         if ('CAM' === cam.type) {
           self.cameras.push(cam);
           if (cam.camPreviewUrl && cam.enabled) {
@@ -250,8 +271,8 @@ export class MosaicComponent implements OnInit {
     this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));
   }
   getPreviewUrl(cam: Camera): string {
-    if ( cam ) {
-    return '/' + cam.id;
+    if (cam) {
+      return '/' + cam.id;
     } else {
       return undefined;
     }

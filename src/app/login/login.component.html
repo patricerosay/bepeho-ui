@@ -2,7 +2,7 @@
     <div class="row justify-content-md-center">
         <div class="col-md-4">
             <img src="assets/images/MMA.png" width="150px"  />
-            <h1>Bepeho Video System</h1>
+            <h1>System Administration</h1>
            
              <form role="form" #f="ngForm" (ngSubmit)="onLoggedin(f)">
                     <div class="form-content">
@@ -12,6 +12,11 @@
                
                 <button  class="btn rounded-btn">{{ 'Log in' | translate }}</button>               
             </form> 
+            <a routerLink="/dashboard"><button  class="btn rounded-btn" (click)="onCancel()">{{ 'Back' | translate }}</button> 
+            </a>
+            <br/>
+            <mat-error *ngIf="loginFailed">{{ 'Login Failed. Please check your user name and password' | translate }}</mat-error>
+
         </div>
     </div>
 </div>
