@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
+// import {CdkTreeModule} from '@angular/cdk/tree';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
@@ -92,7 +92,7 @@ import {
         MatCheckboxModule,
         CdkStepperModule,
         CdkTableModule,
-        CdkTreeModule,
+        // CdkTreeModule,
         ScrollingModule,
         ClipModule,
         NgbAlertModule],

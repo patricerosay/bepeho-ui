@@ -1,14 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
+import JSMpeg from '@cycjimmy/jsmpeg-player';
+import { repeat } from 'rxjs/operators';
 
+interface BPOCanvasElement extends HTMLCanvasElement {
+  captureStream(fps: number): void;
+}
 
 @Component({
   selector: 'app-interview',
   templateUrl: './interview.component.html',
   styleUrls: ['./interview.component.scss']
 })
-export class InterviewComponent implements OnInit , OnDestroy {
+export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild('myCanvas', { static: false }) myCanvas: ElementRef;
   isLoading: false;
   joining: boolean;
   isLive = false;
@@ -50,7 +57,7 @@ export class InterviewComponent implements OnInit , OnDestroy {
   captureSourceType: string;
   document: any;
   recordingInterview = false;
-
+  remoteContact = 'Remote';
   constructor(
     private translate: TranslateService, private scriptService: ScriptService) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
@@ -62,7 +69,13 @@ export class InterviewComponent implements OnInit , OnDestroy {
       self.apiRTC = window['apiRTC'];
 
       self.apiRTC.setLogLevel(0);
-     // self.initConference();
+
+      const apikey = localStorage.getItem('apikey');
+      this.ua = new this.apiRTC.UserAgent({
+        uri: apikey,
+      });
+
+      // self.initConference();
       self.isLoading = false;
 
     }).catch(error => self.errorMsg = error);
@@ -70,24 +83,32 @@ export class InterviewComponent implements OnInit , OnDestroy {
   }
 
 
+
   ngOnInit() {
 
+  }
+  ngAfterViewInit(): void {
+
+    const canvas: HTMLElement = document.getElementById('canvasID');
+    const self = this;
+    const mpeg = new JSMpeg.Player('ws://' + location.hostname + ':2000/api/stream', {
+      canvas: canvas,
+      poster: '/assets/images/white-noise.jpg',
+      audio: false
+    });
 
   }
   ngOnDestroy() {
-     console.log('ondestroy');
-     this.hangup();
-    }
+    console.log('ondestroy');
+    this.hangup();
+  }
 
-    getCookieInfo(key: string): string {
-      return localStorage.getItem(key);
-    }
+  getCookieInfo(key: string): string {
+    return localStorage.getItem(key);
+  }
   initConference() {
     const self = this;
-    const apikey = localStorage.getItem('apikey');
-    this.ua = new this.apiRTC.UserAgent({
-      uri: apikey,
-    });
+
 
     self.ua.on('mediaDeviceChanged', function (updatedContacts) {
       console.log('mediaDeviceChanged');
@@ -129,117 +150,58 @@ export class InterviewComponent implements OnInit , OnDestroy {
     }
     return n;
   }
-  getStream() {
-    const self = this;
-    return new Promise((resolve, reject) => {
-      const createStreamOptions = {
-        audioInputId: self.selectedaudio,
-        videoInputId: self.selectedvideo,
-        constraints: {
 
-          video: {
 
-            frameRate: { min: 5, max: 25, ideal: 20 },
-
-            width: { min: '160', max: '1080', ideal: '640' },
-            height: { min: '120',  max: '720', ideal: '480' }
-
-          }
-        }
-      };
-      self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('upload-kbps', 100));
-      self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('download-kbps', 100));
-
-      self.ua.createStream(createStreamOptions)
-        .then(function (stream) {
-          // Save local stream
-          const localContainer = document.getElementById('local-container');
-          if (localContainer) {
-            self.localStream = stream;
-            self.localStream = stream;
-            self.removeDiv('local-container-placeholder');
-            stream.removeFromDiv('local-container', 'local-media');
-            stream.addInDiv(
-              'local-container',
-              'local-media',
-              { width: '100%', height: '100%' },
-              true
-            );
-          }
-          return resolve(stream);
-        })
-        .catch(function (err) {
-          self.errorMsg = err;
-          console.log(err);
-        });
-    });
-  }
-
-  createStream() {
-    this.ua.setOverallOutgoingVideoBandwidth(this.currentUpQoS);
-    this.ua.setOverallIncomingVideoBandwidth(this.currentDownQoS);
-    if (this.localStream !== null) {
-      this.call = this.connectedConversation.getConversationCall(this.localStream);
-      this.localStream.release();
-    }
-
-    if (this.call !== null) {
-      // Switch the camera if call is ongoing
-      return this.call.replacePublishedStream(null, this.getStream());
-    } else {
-      return this.getStream();
-    }
-  }
   shareScreen() {
     console.log('on sharescreen');
     const self = this;
-      if (self.screensharingStream === null) {
-          let captureSourceType = [];
-          if (self.apiRTC.browser === 'Firefox') {
-            self.captureSourceType = 'screen';
-          } else {
-              // Chrome
-              // captureSourceType = ["screen", "window", "tab", "audio"];
-              captureSourceType = ['screen'];
-          }
-
-          self.apiRTC.Stream.createScreensharingStream(captureSourceType)
-              .then(function(stream) {
-
-                  stream.on('stopped', function() {
-                      // Used to detect when user stop the screenSharing with Chrome DesktopCapture UI
-                      console.log('stopped event on stream');
-                      document.getElementById('local-screensharing').remove();
-                      self.screensharingStream = null;
-                  });
-
-                  self.screensharingStream = stream;
-                  self.connectedConversation.publish(self.screensharingStream);
-                  // Get media container
-                  const container = document.getElementById('local-container');
-
-                  // Create media element
-                  const mediaElement = document.createElement('video');
-                  mediaElement.id = 'local-screensharing';
-                  mediaElement.autoplay = true;
-                  mediaElement.muted = true;
-
-                  // Add media element to media container
-                  container.appendChild(mediaElement);
-
-                  // Attach stream
-                  self.screensharingStream.attachToElement(mediaElement);
-
-              })
-              .catch(function(err) {
-                  console.error('Could not create screensharing stream :', err);
-              });
+    if (self.screensharingStream === null) {
+      let captureSourceType = [];
+      if (self.apiRTC.browser === 'Firefox') {
+        self.captureSourceType = 'screen';
       } else {
-        self.connectedConversation.unpublish(self.screensharingStream);
-        self.screensharingStream.release();
-        self.screensharingStream = null;
-        self.document.getElementById('local-screensharing').remove();
+        // Chrome
+        // captureSourceType = ["screen", "window", "tab", "audio"];
+        captureSourceType = ['screen'];
       }
+
+      self.apiRTC.Stream.createScreensharingStream(captureSourceType)
+        .then(function (stream) {
+
+          stream.on('stopped', function () {
+            // Used to detect when user stop the screenSharing with Chrome DesktopCapture UI
+            console.log('stopped event on stream');
+            document.getElementById('local-screensharing').remove();
+            self.screensharingStream = null;
+          });
+
+          self.screensharingStream = stream;
+          self.connectedConversation.publish(self.screensharingStream);
+          // Get media container
+          const container = document.getElementById('local-container');
+
+          // Create media element
+          const mediaElement = document.createElement('video');
+          mediaElement.id = 'local-screensharing';
+          mediaElement.autoplay = true;
+          mediaElement.muted = true;
+
+          // Add media element to media container
+          container.appendChild(mediaElement);
+
+          // Attach stream
+          self.screensharingStream.attachToElement(mediaElement);
+
+        })
+        .catch(function (err) {
+          console.error('Could not create screensharing stream :', err);
+        });
+    } else {
+      self.connectedConversation.unpublish(self.screensharingStream);
+      self.screensharingStream.release();
+      self.screensharingStream = null;
+      self.document.getElementById('local-screensharing').remove();
+    }
 
   }
 
@@ -267,19 +229,19 @@ export class InterviewComponent implements OnInit , OnDestroy {
     this.isConnected = false;
 
     if (this.ua) {
-    this.ua
-      .unregister({
-        cloudUrl: this.cloudUrl
-      })
-      .then(() => {
-        // OK : UserAgent is disconnected from the Apizee platform
-      })
-      .catch(error => {
-        // this.errorMsg = ' disconnection error ' + error;
-        console.error(error);
-      });
+      this.ua
+        .unregister({
+          cloudUrl: this.cloudUrl
+        })
+        .then(() => {
+          // OK : UserAgent is disconnected from the Apizee platform
+        })
+        .catch(error => {
+          // this.errorMsg = ' disconnection error ' + error;
+          console.error(error);
+        });
     }
-   // this.contactCount = 'Disconnected';
+    // this.contactCount = 'Disconnected';
   }
 
   joinConference(conferenceName: string): void {
@@ -298,6 +260,8 @@ export class InterviewComponent implements OnInit , OnDestroy {
 
     this.ua.register(registerInformation).then(function (session) {
       console.log('registered');
+      self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('upload-kbps', 100));
+      self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('download-kbps', 100));
 
       self.connectedSession = session;
       self.isConnected = true;
@@ -319,7 +283,7 @@ export class InterviewComponent implements OnInit , OnDestroy {
         .on('streamListChanged', function (streamInfo) {
           if (streamInfo.listEventType === 'added') {
             if (streamInfo.isRemote === true) {
-
+              self.remoteContact = streamInfo.contact.userData.nickname;
               self.connectedConversation.subscribeToMedia(streamInfo.streamId)
                 .then(function () {
                   console.log('subscribeToMedia success');
@@ -353,7 +317,7 @@ export class InterviewComponent implements OnInit , OnDestroy {
         }
       };
 
-      self.createStream()
+      self.createWebcamAudioVideoStreams()
         .then(function (stream) {
 
           self.connectedConversation.join()
@@ -365,7 +329,7 @@ export class InterviewComponent implements OnInit , OnDestroy {
               // options.qos.videoForbidInactive = true;
               // options.qos.videoMinQuality = 'medium';
 
-              self.connectedConversation.publish(stream, options);
+              self.connectedConversation.publish(stream, createStreamOptions);
             });
 
         }).catch(function (err) {
@@ -378,13 +342,13 @@ export class InterviewComponent implements OnInit , OnDestroy {
   changeVideoInput($event) {
     this.selectedvideo = $event.value;
     if (this.connectedConversation) {
-      this.createStream();
+      this.createWebcamAudioVideoStreams();
     }
   }
   changeAudioInput($event) {
     this.selectedaudio = $event.value;
     if (this.connectedConversation) {
-      this.createStream();
+      this.createWebcamAudioVideoStreams();
     }
   }
   onVideoInStream($event) {
@@ -463,4 +427,219 @@ export class InterviewComponent implements OnInit , OnDestroy {
     }
     console.log(event);
   }
+
+  releaseCallStream(ls):any {
+    if(null === this.connectedConversation) {
+      return null;
+    }
+    const call = this.connectedConversation.getConversationCall(ls);
+
+    if (ls !== null) {
+
+      ls.release();
+      ls = null;
+    }
+    return call;
+  }
+
+  // getWebcamAudioVideoStreams(): Promise<any> {
+  //   const self = this;
+  //   return new Promise((resolve, reject) => {
+  //     const createStreamOptions = {
+  //       audioInputId: self.selectedaudio,
+  //       videoInputId: self.selectedvideo,
+  //       constraints: {
+  //         video: {
+  //           frameRate: { min: 5, max: 25, ideal: 20 },
+  //           width: { min: '160', max: '1080', ideal: '640' },
+  //           height: { min: '120', max: '720', ideal: '480' }
+
+  //         }
+  //       }
+  //     };
+
+  //     self.ua.createStream(createStreamOptions)
+  //       .then(function (stream) {
+  //         console.log('streaming webcam', stream);
+         
+  //           self.localStream = stream;
+  //           self.removeDiv('local-container-placeholder');
+  //           stream.removeFromDiv('local-container', 'local-media');
+  //           stream.addInDiv(
+  //             'local-container',
+  //             'local-media',
+  //             { width: '100%', height: '100%' },
+  //             true
+  //           );
+          
+  //         return resolve(stream);
+  //       })
+  //       .catch(function (err) {
+  //         self.errorMsg = err;
+  //         console.log(err);
+  //         reject(err);
+  //       });
+  //   });
+  // }
+
+  // createWebCamStream() {
+
+  //   if (this.localStream !== null) {
+  //     this.call = this.connectedConversation.getConversationCall(this.localStream);
+  //     this.localStream.release();
+  //   }
+  //   if (this.call !== null) {
+  //     // Switch the camera if call is ongoing
+  //     return this.call.replacePublishedStream(null, this.getWebcamAudioVideoStreams());
+  //   } else {
+  //     return this.getWebcamAudioVideoStreams();
+  //   }
+  // }
+  createWebcamAudioVideoStreams() {
+    // Release old stream if it exists
+    const call = this.releaseCallStream(this.localStream);
+
+    // if (this.localStream !== null) {
+    //   call = this.connectedConversation.getConversationCall(
+    //     this.localStream
+    //   );
+    //   this.releaseLocalStream(this.localStream);
+
+    // }
+
+    const callback = {
+      getStream: () => {
+        const self = this;
+        return new Promise((resolve, reject) => {
+          const createStreamOptions = {
+                 audioInputId: self.selectedaudio,
+                 videoInputId: self.selectedvideo,
+                 constraints: {
+                   video: {
+                     frameRate: { min: 5, max: 25, ideal: 20 },
+                     width: { min: '160', max: '1080', ideal: '640' },
+                     height: { min: '120', max: '720', ideal: '480' }
+                   }
+                 }
+               };
+         // self.createStreamOptions.videoInputId = self.selectedDevices.video.id;
+         // self.createStreamOptions.audioInputId = self.selectedDevices.audio.id;
+          console.log(createStreamOptions);
+          self.ua
+            .createStream(createStreamOptions)
+            .then(function (stream) {
+              // Save local stream
+              self.localStream = stream;
+              self.removeDiv('local-container-placeholder');
+              stream.removeFromDiv('local-container', 'local-media');
+              stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
+              return resolve(stream);
+            })
+            .catch(function (err) {
+              self.errorMsg = 'create stream error' + err;
+              console.error(self.errorMsg);
+
+              reject();
+            });
+        });
+      }
+    };
+
+    if (call) {
+      // Switch the camera if call is ongoing
+      return call.replacePublishedStream(null, callback);
+    } else {
+      return callback.getStream();
+    }
+  }
+  switchToCamera() {
+    // Release old stream if it exists
+    const call = this.releaseCallStream(this.localStream);
+
+    const callback = {
+      getStream: () => {
+        const self = this;
+        return new Promise((resolve, reject) => {
+   
+       const videoToStreamElt = <BPOCanvasElement>document.getElementById('canvasID');
+       const videoToStream = videoToStreamElt.captureStream(30);
+
+
+       this.ua.createStreamFromMediaStream(videoToStream)
+  //       console.log(createStreamOptions);
+  //        self.ua.createStream(createStreamOptions)
+            .then(function (stream) {
+              // Save local stream
+              self.localStream = stream;
+              self.removeDiv('local-container-placeholder');
+              stream.removeFromDiv('local-container', 'local-media');
+              stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
+              return resolve(stream);
+            })
+            .catch(function (err) {
+              self.errorMsg = 'create stream error' + err;
+              console.error(self.errorMsg);
+
+              reject();
+            });
+        });
+      }
+    };
+
+    if (call) {
+      // Switch the camera if call is ongoing
+      return call.replacePublishedStream(null, callback);
+    } else {
+      return callback.getStream();
+    }
+  }
+  // createCameraStream(): Promise<any> {
+  //   const self = this;
+  //   return new Promise((resolve, reject) => {
+
+  //     const videoToStreamElt = <BPOCanvasElement>document.getElementById('canvasID');
+  //     const videoToStream = videoToStreamElt.captureStream(30);
+
+
+  //     this.ua.createStreamFromMediaStream(videoToStream)
+  //       .then(function (stream) {
+  //         console.log('streaming camera', stream);
+
+
+  //         // self.createStream();
+  //         self.localStream = stream;
+  //         self.removeDiv('local-container-placeholder');
+  //         stream.removeFromDiv('local-container', 'local-media');
+  //         stream.addInDiv(
+  //           'local-container',
+  //           'local-media',
+  //           { width: '100%', height: '100%' },
+  //           true
+  //         );
+  //         return resolve(stream);
+  //       })
+  //       .catch(function (err) {
+  //         console.error('create stream error', err);
+  //         reject(err);
+  //       });
+  //   });
+  // }
+  // switchToCamera() {
+
+  //   if (this.localStream !== null) {
+  //     this.call = this.connectedConversation.getConversationCall(this.localStream);
+  //     this.localStream.release();
+  //   }
+
+  //   if (this.call !== null) {
+  //     // Switch the camera if call is ongoing
+
+  //     return this.call.replacePublishedStream( null, this.createCameraStream());
+  //   } else {
+  //     return this.createCameraStream();
+  //   }
+  // }
+
+
 }
+
