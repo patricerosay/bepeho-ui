@@ -89,14 +89,18 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit(): void {
 
-    const canvas: HTMLElement = document.getElementById('canvasID');
-    const self = this;
-    const mpeg = new JSMpeg.Player('ws://' + location.hostname + ':2000/api/stream', {
-      canvas: canvas,
+    const canvas: HTMLElement = document.getElementById('cameo2');
+    // const self = this;
+    const mpeg = new JSMpeg.Player('ws://' + location.hostname + ':2000/cameo', {
+      canvas: document.getElementById('cameo1'),
       poster: '/assets/images/white-noise.jpg',
       audio: false
     });
-
+    const mpeg2 = new JSMpeg.Player('ws://' + location.hostname + ':2001/cameo', {
+      canvas: document.getElementById('cameo2'),
+      poster: '/assets/images/white-noise.jpg',
+      audio: false
+    });
   }
   ngOnDestroy() {
     console.log('ondestroy');
@@ -432,6 +436,9 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
     if(null === this.connectedConversation) {
       return null;
     }
+    if(null === ls){
+      return null;
+    }
     const call = this.connectedConversation.getConversationCall(ls);
 
     if (ls !== null) {
@@ -442,71 +449,9 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
     return call;
   }
 
-  // getWebcamAudioVideoStreams(): Promise<any> {
-  //   const self = this;
-  //   return new Promise((resolve, reject) => {
-  //     const createStreamOptions = {
-  //       audioInputId: self.selectedaudio,
-  //       videoInputId: self.selectedvideo,
-  //       constraints: {
-  //         video: {
-  //           frameRate: { min: 5, max: 25, ideal: 20 },
-  //           width: { min: '160', max: '1080', ideal: '640' },
-  //           height: { min: '120', max: '720', ideal: '480' }
-
-  //         }
-  //       }
-  //     };
-
-  //     self.ua.createStream(createStreamOptions)
-  //       .then(function (stream) {
-  //         console.log('streaming webcam', stream);
-         
-  //           self.localStream = stream;
-  //           self.removeDiv('local-container-placeholder');
-  //           stream.removeFromDiv('local-container', 'local-media');
-  //           stream.addInDiv(
-  //             'local-container',
-  //             'local-media',
-  //             { width: '100%', height: '100%' },
-  //             true
-  //           );
-          
-  //         return resolve(stream);
-  //       })
-  //       .catch(function (err) {
-  //         self.errorMsg = err;
-  //         console.log(err);
-  //         reject(err);
-  //       });
-  //   });
-  // }
-
-  // createWebCamStream() {
-
-  //   if (this.localStream !== null) {
-  //     this.call = this.connectedConversation.getConversationCall(this.localStream);
-  //     this.localStream.release();
-  //   }
-  //   if (this.call !== null) {
-  //     // Switch the camera if call is ongoing
-  //     return this.call.replacePublishedStream(null, this.getWebcamAudioVideoStreams());
-  //   } else {
-  //     return this.getWebcamAudioVideoStreams();
-  //   }
-  // }
+  
   createWebcamAudioVideoStreams() {
-    // Release old stream if it exists
     const call = this.releaseCallStream(this.localStream);
-
-    // if (this.localStream !== null) {
-    //   call = this.connectedConversation.getConversationCall(
-    //     this.localStream
-    //   );
-    //   this.releaseLocalStream(this.localStream);
-
-    // }
-
     const callback = {
       getStream: () => {
         const self = this;
@@ -522,9 +467,7 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
                    }
                  }
                };
-         // self.createStreamOptions.videoInputId = self.selectedDevices.video.id;
-         // self.createStreamOptions.audioInputId = self.selectedDevices.audio.id;
-          console.log(createStreamOptions);
+
           self.ua
             .createStream(createStreamOptions)
             .then(function (stream) {
@@ -552,8 +495,9 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
       return callback.getStream();
     }
   }
-  switchToCamera() {
-    // Release old stream if it exists
+
+  switchToCamera(cam: string) {
+
     const call = this.releaseCallStream(this.localStream);
 
     const callback = {
@@ -561,13 +505,10 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
         const self = this;
         return new Promise((resolve, reject) => {
    
-       const videoToStreamElt = <BPOCanvasElement>document.getElementById('canvasID');
+       const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
        const videoToStream = videoToStreamElt.captureStream(30);
 
-
        this.ua.createStreamFromMediaStream(videoToStream)
-  //       console.log(createStreamOptions);
-  //        self.ua.createStream(createStreamOptions)
             .then(function (stream) {
               // Save local stream
               self.localStream = stream;
@@ -587,58 +528,11 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     if (call) {
-      // Switch the camera if call is ongoing
       return call.replacePublishedStream(null, callback);
     } else {
       return callback.getStream();
     }
   }
-  // createCameraStream(): Promise<any> {
-  //   const self = this;
-  //   return new Promise((resolve, reject) => {
-
-  //     const videoToStreamElt = <BPOCanvasElement>document.getElementById('canvasID');
-  //     const videoToStream = videoToStreamElt.captureStream(30);
-
-
-  //     this.ua.createStreamFromMediaStream(videoToStream)
-  //       .then(function (stream) {
-  //         console.log('streaming camera', stream);
-
-
-  //         // self.createStream();
-  //         self.localStream = stream;
-  //         self.removeDiv('local-container-placeholder');
-  //         stream.removeFromDiv('local-container', 'local-media');
-  //         stream.addInDiv(
-  //           'local-container',
-  //           'local-media',
-  //           { width: '100%', height: '100%' },
-  //           true
-  //         );
-  //         return resolve(stream);
-  //       })
-  //       .catch(function (err) {
-  //         console.error('create stream error', err);
-  //         reject(err);
-  //       });
-  //   });
-  // }
-  // switchToCamera() {
-
-  //   if (this.localStream !== null) {
-  //     this.call = this.connectedConversation.getConversationCall(this.localStream);
-  //     this.localStream.release();
-  //   }
-
-  //   if (this.call !== null) {
-  //     // Switch the camera if call is ongoing
-
-  //     return this.call.replacePublishedStream( null, this.createCameraStream());
-  //   } else {
-  //     return this.createCameraStream();
-  //   }
-  // }
 
 
 }

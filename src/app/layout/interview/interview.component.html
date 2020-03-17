@@ -5,8 +5,11 @@
   <div id="conference">
     <mat-grid-list cols="1" rowHeight="10:1">
       <mat-grid-tile >
-<div class="canvasVideoPreview">
-       <canvas  id="canvasID" width="160" height="90" (click)="switchToCamera()"></canvas>
+      <div class="canvasVideoPreview">
+       <canvas  id="cameo1" width="160" height="90" (click)="switchToCamera('cameo1')"></canvas>
+      </div>
+      <div>
+      <canvas  id="cameo2" width="160" height="90" (click)="switchToCamera('cameo2')"></canvas>
       </div>
       </mat-grid-tile>
     </mat-grid-list>
