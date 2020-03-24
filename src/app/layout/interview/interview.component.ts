@@ -3,7 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
 import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
-// import { NetworkComponent } from './network/network.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
 
@@ -29,9 +28,8 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   errorMsg: string;
   apiRTC: any;
   ua = null;
-  cloudUrl = 'https://cloud.apizee.com';
-  // apikey = 'apzkey:a56f6c0e185ada4f0b1abbe563c8a37a';
-  // devices = null;
+
+
   videoinputs: any[];
   audioinputs: any[];
   audiooutputs: any[];
@@ -69,11 +67,12 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   cams = [{ id: 'cameo1', url: 'ws://' + location.hostname + ':2000/cameo' },
   { id: 'cameo2', url: 'ws://' + location.hostname + ':2001/cameo' }
   ];
-  // cams = [];
+  webrtc: WebRTCService = null;
   constructor(
     private translate: TranslateService,
     private scriptService: ScriptService,
     private modalService: NgbModal) {
+      this.webrtc = new WebRTCService();
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
     const browserLang = this.translate.getBrowserLang();
@@ -309,7 +308,7 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.ua) {
       this.ua
         .unregister({
-          cloudUrl: this.cloudUrl
+          cloudUrl: this.webrtc.cloudUrl
         })
         .then(() => {
           // OK : UserAgent is disconnected from the Apizee platform
