@@ -27,7 +27,6 @@ export class BandwidthComponent implements OnInit {
   cloudUrl = 'https://cloud.apizee.com';
   apikey = 'apzkey:a56f6c0e185ada4f0b1abbe563c8a37a';
 
-
   constructor( private translate: TranslateService,
     private scriptService: ScriptService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);

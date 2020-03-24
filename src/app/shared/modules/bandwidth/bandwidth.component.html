@@ -1,13 +1,13 @@
 <div class="modal-header modal-xl">
   <h4 class="modal-title">
-    <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
-    <div *ngIf="headerMessage">{{ headerMessage }}</div>
+    Network Analysis
   </h4>
+  <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+
   <button
     type="button"
     class="close"
     aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
   >
     <span aria-hidden="true">&times;</span>
   </button>

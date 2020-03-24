@@ -10,6 +10,7 @@ export class WebRTCService {
     connectedSession: any;
     isConnected: boolean;
     isLive: boolean;
+    ua: any;
 
     constructor() {
     }
