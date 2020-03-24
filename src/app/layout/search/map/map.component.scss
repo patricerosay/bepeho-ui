@@ -16,3 +16,29 @@ mat-slider {
 table {
     width: 100%;
   }
+
+  @media (min-width: 501px) and (max-width: 1920px){
+    #map {
+        height: 700px;
+        width: 100%
+    }
+  }
+  @media (min-width: 1921px) {
+    #map {
+        height: 1000px;
+        width: 100%
+    }
+  }
+  @media (max-width: 500px) {
+    #map {
+        height: 600px;
+        width: 100%
+    }
+  }
+  
+  @media (max-width: 960px) {
+    #map {
+        height: 600px;
+        width: 100%
+    }
+  }

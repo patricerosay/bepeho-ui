@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MapComponent } from './map.component';
+import { BandwidthComponent } from './bandwidth.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: MapComponent
+        component: BandwidthComponent
     }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class MapRoutingModule {}
+export class BandwidthRoutingModule {}

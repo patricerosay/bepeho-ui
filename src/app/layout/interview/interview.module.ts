@@ -6,9 +6,10 @@ import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LazyLoadImageModule } from 'ng-lazyload-image'; 
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
+import { BandwidthModule } from '../../shared/modules/bandwidth/bandwidth.module';
 
 import {
     MatAutocompleteModule,
@@ -31,7 +32,9 @@ import {
     MatTableModule,
     MatTabsModule} from '@angular/material';
 @NgModule({
-    imports: [TranslateModule,
+    imports: [
+        BandwidthModule,
+        TranslateModule,
         CommonModule, InterviewRoutingModule, PageHeaderModule, LazyLoadImageModule,
         HttpClientModule,
         MatAutocompleteModule,

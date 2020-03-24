@@ -46,10 +46,10 @@ export class MapComponent implements OnInit {
   public pageSize = 500;
   public pageSizeOptions: number[] = [100, 500, 1000, 10000];
   public layers = {
-    Local: L.tileLayer(
+    'Local': L.tileLayer(
       'http://' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
     ),
-    'Online OpenStreetMap': L.tileLayer(
+    'Online': L.tileLayer(
       'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
     )
   };
@@ -153,7 +153,7 @@ export class MapComponent implements OnInit {
       console.log('error');
     });
 
-    this.layers['Online OpenStreetMap'].on('tileerror', function (event) {
+    this.layers['Online'].on('tileerror', function (event) {
       console.log('error');
     });
 
@@ -450,7 +450,7 @@ export class MapComponent implements OnInit {
             }
 
             self.theMap.setView(center, 8);
-            self.theMap.addLayer(self.layers.Local);
+            self.theMap.addLayer(self.layers.Online);
             self.theMap.addLayer(self.traces);
             self.theMap.addLayer(self.events);
           }

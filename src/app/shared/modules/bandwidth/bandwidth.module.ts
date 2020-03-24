@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BandwidthComponent } from './bandwidth.component';
+import { HttpClientModule } from '@angular/common/http';
+import {VgCoreModule} from 'node_modules/videogular2/compiled/core';
+import {VgControlsModule} from 'node_modules/videogular2/compiled/controls';
+import { VgBufferingModule } from 'node_modules/videogular2/compiled/buffering';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { MapRoutingModule } from './map-routing.module';
-import { MapComponent } from './map.component';
-import { PageHeaderModule } from '../../shared';
-import { HttpClientModule } from '@angular/common/http';
-import { QviewModule } from '../../shared/modules/qview/qview.module';
 import {
+    MatFormFieldModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -47,8 +49,13 @@ import {
 } from '@angular/material';
 @NgModule({
     imports: [
-        CommonModule, MapRoutingModule, PageHeaderModule,
+        TranslateModule,
+        MatFormFieldModule,
+        CommonModule,
         HttpClientModule,
+        VgCoreModule,
+        VgControlsModule,
+        VgBufferingModule,
         MatAutocompleteModule,
         MatBadgeModule,
         MatBottomSheetModule,
@@ -85,11 +92,10 @@ import {
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-        NgbModule,
-        QviewModule,
-        TranslateModule],
-    declarations: [MapComponent],
-    entryComponents: []
+        NgbModule, FormsModule],
+    declarations: [BandwidthComponent],
+    entryComponents: [BandwidthComponent],
+    exports: [BandwidthComponent]
 
 })
-export class MapModule {}
+export class BandwidthModule {}

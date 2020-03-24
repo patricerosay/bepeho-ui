@@ -99,7 +99,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
 
     }
     public onsearchValueMode(mode: string) {
-        localStorage.set('searchViewMode', mode);
+        localStorage.setItem('searchViewMode', mode);
       }
     public nextPoster() {
         this.posterIndex ++;

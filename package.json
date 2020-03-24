@@ -16,7 +16,9 @@
     "start:proxyremote": "ng serve --proxy-config ./mocks/proxy-remote.conf.json",
     "start:proxy-local-docker": "ng serve --proxy-config ./mocks/proxy-local-docker.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
-    "start:mockers": "json-server --port 4000 --watch ./mocks/mocks.json --routes ./mocks/routes.json"
+    "start:mockers": "json-server --port 4000 --watch ./mocks/mocks.json --routes ./mocks/routes.json",
+    "start:cam1": "node ../rtsp-relay/app.js",
+    "start:cam2": "node ../rtsp-relay/app2.js"
   },
   "private": true,
   "dependencies": {

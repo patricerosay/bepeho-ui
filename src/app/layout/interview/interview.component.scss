@@ -1,77 +1,88 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-.container {
-  display: flex; /* or inline-flex */
-}
-.right-button {
-  right: 20px;
-  bottom: 10px;
-  left: auto;
-  position: absolute;
-}
-.center-button {
-	right: auto;
-	bottom: 10px;
-	left: auto;
-	position: absolute;
-  }
-.left-button {
-  left: 20px;
- bottom: 10px;
-  right: auto;
-  position: absolute;
-}
-img.camera-mosaic {
-  // width: 640px;
-  width: 90%;
-}
 .camera {
   margin: auto;
-  width: 90%;
+  width: 100%;
 }
-.minimized {
-  width: 0%;
-  height: 0%;
+.controls {
+  z-index: 10;
+  width: 64px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
-.canvasVideoPreview {
+
+.control {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  // width: 1600px;
+  // height: 900px;
+  width: 100%;
+  height: 900px;
+  position: relative;
+}
+
+.remote {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.locals {
+  z-index: 10;
+  /* width: 100%;
+  height: 100%; */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.local {
   width: 320px;
   height: 180px;
 }
-// @media (min-width: 992px)  {
-// 	.camera {
-// 		width: 100%;
-// 		//  height: 70%;
-// 	}
-// }
-// @media (max-width: 376px)  {
-// 	.camera {
-// 		width: 100%x;
-// 		// height: 70%;
-// 	}
-// }
-table {
-  width: 100%;
-}
-mat-list {
-  width: 100%;
-}
 
-mat-list-item {
-  width: 100%;
-}
-mat-form-field {
-  width: 100%;
-}
-.center {
-  margin: auto;
-  // width: 50%;
-  // border: 3px solid green;
-  // padding: 10px;
-}
-.iconlive {
-  width: 100px;
-}
+// @media (min-width: 501px) and (max-width: 1920px){
+//   .container {
+//     width: 1600px;
+//     height: 900px;
+//     position: relative;
+//   }
+//   .local {
+//     width: 320px;
+//     height: 180px;
+//   }
+// }
+// @media (min-width: 1921px) {
+//   .container {
+//     width: 1900px;
+//     height: 900px;
+//     position: relative;
+//   }
+// }
+
+// @media (max-width: 960px) {
+//   .container {
+//     width: 600;
+//     height: 500px;
+//     position: relative;
+//   }
+//   .local {
+//     width: 320px;
+//     height: 180px;
+//   }
+// }
+// @media (max-width: 500px) {
+//   .container {
+//     width: 400;
+//     height: 500px;
+//     position: relative;
+//   }
+//   .local {
+//     width: 320px;
+//     height: 180px;
+//   }
+// }

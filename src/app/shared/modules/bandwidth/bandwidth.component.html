@@ -1,0 +1,50 @@
+<div class="modal-header modal-xl">
+  <h4 class="modal-title">
+    <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+    <div *ngIf="headerMessage">{{ headerMessage }}</div>
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="isLoading">loading ....</div>
+<div *ngIf="error">Error while connecting to server</div>
+
+<div *ngIf="!isLoading && !error">
+  <div>
+    <div class="row" *ngIf="networkTestStarted">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <h1>Computing bandwidth connection to the communication server...</h1>
+    </div>
+    <div class="row" *ngIf="! networkTestStarted">
+      
+      <h1>Bandwidth analysis Results:</h1>
+    </div>
+    <div class="row">
+      <div *ngIf="errorMsg" class="alert alert-warning " role="alert">
+        <strong>errorMsg </strong>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="upload" class="alert alert-primary " role="alert">
+        <strong>Upload {{ upload }} kbps</strong>
+      </div>
+    </div>
+
+    <div class="row">
+      <div *ngIf="download" class="alert alert-primary " role="alert">
+        <strong>Download {{ download }} kbps</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="latency" class="alert alert-primary " role="alert">
+        <strong>Latency {{ latency }} ms</strong>
+      </div>
+    </div>
+  </div>
+</div>

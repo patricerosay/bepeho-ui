@@ -2,10 +2,17 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } fr
 import { TranslateService } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
 import JSMpeg from '@cycjimmy/jsmpeg-player';
-import { repeat } from 'rxjs/operators';
+import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
+// import { NetworkComponent } from './network/network.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
 
 interface BPOCanvasElement extends HTMLCanvasElement {
-  captureStream(fps: number): void;
+  captureStream(fps: number): BPOStream;
+}
+
+interface BPOStream extends HTMLCanvasElement {
+  addTrack (track);
 }
 
 @Component({
@@ -15,7 +22,6 @@ interface BPOCanvasElement extends HTMLCanvasElement {
 })
 export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('myCanvas', { static: false }) myCanvas: ElementRef;
   isLoading: false;
   joining: boolean;
   isLive = false;
@@ -25,7 +31,7 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   ua = null;
   cloudUrl = 'https://cloud.apizee.com';
   // apikey = 'apzkey:a56f6c0e185ada4f0b1abbe563c8a37a';
-  devices = null;
+  // devices = null;
   videoinputs: any[];
   audioinputs: any[];
   audiooutputs: any[];
@@ -35,19 +41,21 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   connectedSession = null;
   connectedConversation = null;
   contactList = null;
-  localStream = null;
+  currentLocalStream = null;
   call = null;
   currentStreamID = null;
-  upQoSs = [
-    { label: 'Low', kbps: 100 },
-    { label: 'Good', kbps: 700 },
-    { label: 'Very good', kbps: 2000 }
-  ];
+  audioMuted = false;
+  videoMuted = false;
+  // upQoSs = [
+  //   { label: 'Low', kbps: 100 },
+  //   { label: 'Good', kbps: 700 },
+  //   { label: 'Very good', kbps: 2000 }
+  // ];
   subscribeOptions = {
     audioOnly: true,
     videoOnly: true
   };
-  defaultupstreamQuality = 100;
+  // defaultupstreamQuality = 100;
   currentUpQoS = 100;
 
   defaultDownQuality = 100;
@@ -58,8 +66,14 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   document: any;
   recordingInterview = false;
   remoteContact = 'Remote';
+  cams = [{ id: 'cameo1', url: 'ws://' + location.hostname + ':2000/cameo' },
+  { id: 'cameo2', url: 'ws://' + location.hostname + ':2001/cameo' }
+  ];
+  // cams = [];
   constructor(
-    private translate: TranslateService, private scriptService: ScriptService) {
+    private translate: TranslateService,
+    private scriptService: ScriptService,
+    private modalService: NgbModal) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
     const browserLang = this.translate.getBrowserLang();
@@ -74,8 +88,8 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ua = new this.apiRTC.UserAgent({
         uri: apikey,
       });
+      this.initWebCams();
 
-      // self.initConference();
       self.isLoading = false;
 
     }).catch(error => self.errorMsg = error);
@@ -87,20 +101,70 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
 
   }
+  addInDiv(containerId, stream) {
+    const self = this;
+    const id = 'webcam-' + stream.getLabels().videoSourceLabel;
+    if (document.getElementById(id)) {
+      console.log('aborting the insert as this webcam is already there ', id);
+      return;
+    }
+    console.log('inserting element ', id);
+    const container = document.getElementById(containerId);
+
+    // Create media element
+    const div = document.createElement('div');
+    const mediaElement = document.createElement('video');
+
+    mediaElement.id = id;
+    mediaElement.width = 320;
+    mediaElement.height = 180;
+    mediaElement.className = 'local';
+    mediaElement.autoplay = true;
+    mediaElement.muted = true;
+
+    mediaElement.addEventListener('click', function () {
+      self.publishThisStream(stream);
+    });
+
+    // Add media element to media container
+    div.appendChild(mediaElement);
+    container.appendChild(div);
+
+    // Attach stream
+    stream.attachToElement(mediaElement);
+  }
+  displayWebCams(cam): void {
+    const self = this;
+    const createStreamOptions = { 'videoInputId': cam.id };
+    this.ua.createStream(createStreamOptions)
+      .then(function (stream) {
+        self.addInDiv('webcams', stream);
+        // self.currentLocalStream = stream;
+        self.currentLocalStream = stream;
+      })
+      .catch(function (err) {
+        console.error('create stream error', err);
+      });
+  }
   ngAfterViewInit(): void {
 
-    const canvas: HTMLElement = document.getElementById('cameo2');
+    const self = this;
     // const self = this;
-    const mpeg = new JSMpeg.Player('ws://' + location.hostname + ':2000/cameo', {
-      canvas: document.getElementById('cameo1'),
-      poster: '/assets/images/white-noise.jpg',
-      audio: false
+    this.cams.forEach(cam => {
+      const canvas = document.getElementById(cam.id);
+      const player = new JSMpeg.Player(cam.url, {
+        canvas: document.getElementById(cam.id),
+        poster: '/assets/images/white-noise.jpg',
+        audio: false
+      });
+      canvas.addEventListener('click', function () {
+        self.switchToCamera(cam.id);
+      });
+
     });
-    const mpeg2 = new JSMpeg.Player('ws://' + location.hostname + ':2001/cameo', {
-      canvas: document.getElementById('cameo2'),
-      poster: '/assets/images/white-noise.jpg',
-      audio: false
-    });
+
+
+
   }
   ngOnDestroy() {
     console.log('ondestroy');
@@ -110,35 +174,45 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   getCookieInfo(key: string): string {
     return localStorage.getItem(key);
   }
-  initConference() {
-    const self = this;
 
+  initWebCams() {
+    const self = this;
 
     self.ua.on('mediaDeviceChanged', function (updatedContacts) {
       console.log('mediaDeviceChanged');
-      self.videoinputs = [];
-      self.devices = self.ua.getUserMediaDevices();
-      for (let i = 0; i < Object.values(self.devices.videoinput).length; i++) {
-        self.videoinputs.push(Object.values(self.devices.videoinput)[i]);
+      const devices = self.ua.getUserMediaDevices();
+      if ( ! devices) {
+        console.log('No I/O User Media Devices');
       }
-      self.selectedvideo = self.videoinputs[0].id;
-
-      self.audioinputs = [];
-      for (let i = 0; i < Object.values(self.devices.audioinput).length; i++) {
-        self.audioinputs.push(Object.values(self.devices.audioinput)[i]);
+      if ( Object.values(devices.videoinput).length ) {
+        self.videoinputs = [];
+      
+        for (let i = 0; i < Object.values(devices.videoinput).length; i++) {
+          const wc = Object.values(devices.videoinput)[i];
+          self.videoinputs.push(wc);
+          self.displayWebCams(wc);
+        }
+        self.selectedvideo = self.videoinputs[0].id;
       }
-      self.selectedaudio = self.devices.audioinput.default.id;
-
-
-      self.audiooutputs = [];
-      for (let i = 0; i < Object.values(self.devices.audiooutput).length; i++) {
-        self.audiooutputs.push(Object.values(self.devices.audiooutput)[i]);
+      if ( Object.values(devices.audioinput).length){
+        self.audioinputs = [];
+        for (let i = 0; i < Object.values(devices.audioinput).length; i++) {
+          self.audioinputs.push(Object.values(devices.audioinput)[i]);
+        }
+        self.selectedaudio = self.audioinputs[0].id;
       }
-      self.selectedaudiooutput = self.devices.audiooutput.default.id;
+
+      if ( Object.values(devices.audiooutput).length) {
+        self.audiooutputs = [];
+        for (let i = 0; i < Object.values(devices.audiooutput).length; i++) {
+          self.audiooutputs.push(Object.values(devices.audiooutput)[i]);
+        }
+        self.selectedaudiooutput = self.audiooutputs[0].id;
+      }
     });
 
-
   }
+
   removeDiv(id: string): void {
     const elmt = document.getElementById(id);
     if (elmt) {
@@ -210,9 +284,9 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   hangup(): void {
-    if (this.localStream) {
-      this.localStream.release();
-      this.localStream = null;
+    if (this.currentLocalStream) {
+      this.currentLocalStream.release();
+      this.currentLocalStream = null;
     }
     if (this.connectedConversation) {
       this.connectedConversation
@@ -260,7 +334,6 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
       cloudFetchRetryDelay: 2000
     };
 
-    this.initConference();
 
     this.ua.register(registerInformation).then(function (session) {
       console.log('registered');
@@ -302,73 +375,77 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
       self.connectedConversation
         .on('streamAdded', function (stream) {
           self.currentStreamID = stream;
+
           stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
           document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
 
         }).on('streamRemoved', function (stream) {
-          document.getElementById('remote-container-placeholder').setAttribute('class', 'camera');
           stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
           self.currentStreamID = null;
         });
 
-      // ==============================
-      // CREATE LOCAL STREAM & JOIN CONVERSATION
-      // ==============================
+
       const createStreamOptions = {
+        audioInputId: self.selectedaudio,
+        videoInputId: self.selectedvideo,
         constraints: {
-          audio: true,
-          video: true
+          video: {
+            frameRate: { min: 5, max: 25, ideal: 20 },
+            width: { min: '160', max: '1080', ideal: '640' },
+            height: { min: '120', max: '720', ideal: '480' }
+          }
         }
       };
 
-      self.createWebcamAudioVideoStreams()
-        .then(function (stream) {
-
-          self.connectedConversation.join()
-            .then(function (response) {
-              self.isConnected = true;
-              self.joining = false;
-              console.log('joined');
-              const options = {};
-              // options.qos.videoForbidInactive = true;
-              // options.qos.videoMinQuality = 'medium';
-
-              self.connectedConversation.publish(stream, createStreamOptions);
-            });
-
-        }).catch(function (err) {
-          self.errorMsg = err;
-          self.isConnected = false;
+      self.connectedConversation.join()
+        .then(function (response) {
+          self.isConnected = true;
+          self.joining = false;
+          console.log('joined');
+          self.connectedConversation.publish(self.currentLocalStream, createStreamOptions);
         });
+
+    }).catch(function (err) {
+      self.errorMsg = err;
+      self.isConnected = false;
     });
+    // });
   }
 
-  changeVideoInput($event) {
-    this.selectedvideo = $event.value;
-    if (this.connectedConversation) {
-      this.createWebcamAudioVideoStreams();
-    }
-  }
   changeAudioInput($event) {
     this.selectedaudio = $event.value;
     if (this.connectedConversation) {
       this.createWebcamAudioVideoStreams();
     }
   }
-  onVideoInStream($event) {
-    console.log('video audio');
-    if ($event.checked) {
-      this.localStream.unmuteVideo();
+  onMutingVideo(mute) {
+    this.videoMuted = mute;
+    if ( !this.currentLocalStream) {
+      console.log('video muting aborted: no local stream');
+      return;
+    }
+
+    if (mute) {
+      console.log('muting video');
+      this.currentLocalStream.muteVideo();
     } else {
-      this.localStream.muteVideo();
+      console.log('unmuting video');
+      this.currentLocalStream.unmuteVideo();
     }
   }
-  onAudioInStream($event) {
-    console.log('push audio');
-    if ($event.checked) {
-      this.localStream.unmuteAudio();
+  onMutingAudio(mute) {
+    this.audioMuted = mute;
+    if ( !this.currentLocalStream) {
+      console.log('audio muting aborted: no local stream');
+      return;
+    }
+
+    if (mute) {
+      console.log('muting audio');
+      this.currentLocalStream.muteAudio();
     } else {
-      this.localStream.muteAudio();
+      console.log('unmuting audio');
+      this.currentLocalStream.unmuteAudio();
     }
   }
 
@@ -397,12 +474,19 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
         self.errorMsg = err;
       });
   }
-  changeUpStreamQuality($event) {
-    this.currentUpQoS = $event.value;
-  }
+  // changeUpStreamQuality($event) {
+  //   this.currentUpQoS = $event.value;
+  // }
 
-  changeDownStreamQuality($event) {
-    this.currentDownQoS = $event.value;
+  // changeDownStreamQuality($event) {
+  //   this.currentDownQoS = $event.value;
+  // }
+  onNetwork() {
+    const modalRef = this.modalService.open(BandwidthComponent, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true
+    });
   }
   recordInterview(recordingInterview) {
     console.log('record interview');
@@ -432,47 +516,61 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(event);
   }
 
-  releaseCallStream(ls):any {
-    if(null === this.connectedConversation) {
+  releaseCallStream(stream): any {
+    if (null === this.connectedConversation) {
       return null;
     }
-    if(null === ls){
+    if (null === stream) {
       return null;
     }
-    const call = this.connectedConversation.getConversationCall(ls);
+    const call = this.connectedConversation.getConversationCall(stream);
 
-    if (ls !== null) {
+    // if (stream !== null) {
 
-      ls.release();
-      ls = null;
-    }
+    //   stream.release();
+    //   stream = null;
+    // }
     return call;
   }
 
-  
+  publishThisStream(stream) {
+    this.selectedvideo = stream;
+    if (!this.connectedConversation) {
+      console.log('no conversation. Stream publication aborted', stream);
+      return;
+    }
+    const call = this.releaseCallStream(this.currentLocalStream);
+
+    if (call) {
+      // Switch the camera if call is ongoing
+      call.replacePublishedStream(stream);
+      this.currentLocalStream = stream;
+    }
+  }
+
   createWebcamAudioVideoStreams() {
-    const call = this.releaseCallStream(this.localStream);
+    const call = this.releaseCallStream(this.currentLocalStream);
     const callback = {
       getStream: () => {
         const self = this;
         return new Promise((resolve, reject) => {
           const createStreamOptions = {
-                 audioInputId: self.selectedaudio,
-                 videoInputId: self.selectedvideo,
-                 constraints: {
-                   video: {
-                     frameRate: { min: 5, max: 25, ideal: 20 },
-                     width: { min: '160', max: '1080', ideal: '640' },
-                     height: { min: '120', max: '720', ideal: '480' }
-                   }
-                 }
-               };
+            audioInputId: self.selectedaudio,
+            videoInputId: self.selectedvideo,
+            constraints: {
+              video: {
+                frameRate: { min: 5, max: 25, ideal: 20 },
+                width: { min: '160', max: '1080', ideal: '640' },
+                height: { min: '120', max: '720', ideal: '480' }
+              }
+            }
+          };
 
           self.ua
             .createStream(createStreamOptions)
             .then(function (stream) {
               // Save local stream
-              self.localStream = stream;
+              self.currentLocalStream = stream;
               self.removeDiv('local-container-placeholder');
               stream.removeFromDiv('local-container', 'local-media');
               stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
@@ -498,38 +596,43 @@ export class InterviewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   switchToCamera(cam: string) {
 
-    const call = this.releaseCallStream(this.localStream);
+    const call = this.releaseCallStream(this.currentLocalStream);
 
     const callback = {
       getStream: () => {
         const self = this;
         return new Promise((resolve, reject) => {
-   
-       const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
-       const videoToStream = videoToStreamElt.captureStream(30);
 
-       this.ua.createStreamFromMediaStream(videoToStream)
-            .then(function (stream) {
-              // Save local stream
-              self.localStream = stream;
-              self.removeDiv('local-container-placeholder');
-              stream.removeFromDiv('local-container', 'local-media');
-              stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
-              return resolve(stream);
-            })
-            .catch(function (err) {
-              self.errorMsg = 'create stream error' + err;
-              console.error(self.errorMsg);
+          const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
+          const fps = this.getLocalStorageNumber('localCameraCaptureFps', 25);
+          const cameraStream = <BPOStream> videoToStreamElt.captureStream(fps);
+          navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function (mediaStream) {
+              const audioTracks = mediaStream.getAudioTracks();
+              cameraStream.addTrack(audioTracks[0]);
+              self.ua.createStreamFromMediaStream(cameraStream)
+                .then(function (stream) {
+                  // Save local stream
+                  console.log('created stream from', cam);
+                  self.currentLocalStream = stream;
+                  return resolve(stream);
+                })
+                .catch(function (err) {
+                  self.errorMsg = 'create stream error' + err;
+                  console.error(self.errorMsg);
 
-              reject();
+                  reject();
+                });
             });
         });
       }
     };
 
     if (call) {
+      console.log('On call: replacing stream');
       return call.replacePublishedStream(null, callback);
     } else {
+      console.log('starting call');
       return callback.getStream();
     }
   }

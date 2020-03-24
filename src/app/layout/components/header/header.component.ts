@@ -37,6 +37,9 @@ export class HeaderComponent implements OnInit {
     tasks: ITask[];
     taskInError = 0;
     status = 0;
+    getCookieInfo(key: string): string {
+        return localStorage.getItem(key);
+      }
     ngOnInit()  {
         this.pushRightClass = 'push-right';
         const self = this;

@@ -132,7 +132,7 @@ export class QviewComponent implements OnInit {
   constructor(public http: HttpClient,
     public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
-    public dialog: MatDialog,
+    // public dialog: MatDialog,
     private modalService: NgbModal) {
 
   }

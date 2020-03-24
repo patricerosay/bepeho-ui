@@ -12,7 +12,7 @@ const routes: Routes = [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'mosaic', loadChildren: './mosaic/mosaic.module#MosaicModule' },
             { path: 'interview', loadChildren: './interview/interview.module#InterviewModule', canActivate: [AuthGuardHublo] },
-            { path: 'network', loadChildren: './network/network.module#NetworkModule' },
+            // { path: 'network', loadChildren: './network/network.module#NetworkModule' },
             { path: 'worker', loadChildren: './worker/worker.module#WorkerModule' },
             { path: 'search/map', loadChildren: './search/map/map.module#MapModule' },
             { path: 'search/video-list', loadChildren: './search/video-list/video-list.module#VideoListModule' },
