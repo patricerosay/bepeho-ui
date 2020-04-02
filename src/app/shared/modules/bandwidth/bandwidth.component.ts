@@ -23,7 +23,12 @@ export class BandwidthComponent implements OnInit {
   upload = 0;
   download = 0;
   latency = 0;
-
+  fps = 0;
+  upQoSs = [
+    { label: 'Low', kbps: 100 },
+    { label: 'Good', kbps: 700 },
+    { label: 'Very good', kbps: 2000 }
+  ];
   cloudUrl = 'https://cloud.apizee.com';
   apikey = 'apzkey:a56f6c0e185ada4f0b1abbe563c8a37a';
 
@@ -67,6 +72,20 @@ export class BandwidthComponent implements OnInit {
         self.download = netinfo.download.kbps;
         self.latency = netinfo.httpPing;
         self.networkTestStarted = false;
+        if( self.upload <= 100 ) {
+          self.fps = 5;
+        } else if (self.upload <= 200) {
+          self.fps = 10;
+        } else if (self.upload <= 400) {
+          self.fps = 15;
+        } else if (self.upload <= 600) {
+          self.fps = 20;
+        } else if (self.upload <= 800) {
+          self.fps = 25;
+        } else {
+          self.fps = 30;
+        }
+        localStorage.setItem('localCameraCaptureFps', self.fps.toString() );
         localStorage.setItem('upload-kbps', self.upload.toString() );
         localStorage.setItem('download-kbps', self.download.toString() );
     })

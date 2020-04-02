@@ -46,5 +46,10 @@
         <strong>Latency {{ latency }} ms</strong>
       </div>
     </div>
+    <div class="row">
+      <div *ngIf="fps" class="alert alert-primary " role="alert">
+        <strong>IP Video Camera Capture {{ fps }} frames per seconds</strong>
+      </div>
+    </div>
   </div>
 </div>

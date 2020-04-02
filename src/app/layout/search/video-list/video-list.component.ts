@@ -191,7 +191,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         } else {
           this.searchPrms.start_time = undefined;
         }
-        localStorage.set('timeRange', range.name);
+        localStorage.setItem('timeRange', range.name);
 
         this.loadData(this);
       }
@@ -199,12 +199,12 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       public onSearchOnHeelAngle(range) {
 
         this.searchPrms.nmea_d_heel_d = range.value;
-        localStorage.set('heelRange', range.name);
+        localStorage.setItem('heelRange', range.name);
         this.loadData(this);
       }
       public onSearchOnSpeed(range) {
         this.searchPrms.nmea_d_bgs_d = range.value;
-        localStorage.set('speedRange', range.name);
+        localStorage.setItem('speedRange', range.name);
         this.loadData(this);
       }
       onPageEvent(event) {
