@@ -26,8 +26,10 @@ export class InterviewComponent implements OnInit,
   errorMsg: string;
   document: any;
 
-  cams = [{ id: 'cameo1', url: 'ws://' + location.hostname + ':2000/cameo' },
-  { id: 'cameo2', url: 'ws://' + location.hostname + ':2001/cameo' }
+  cams = [{ id: 'cameo1', url: 'ws://' + location.hostname + ':2001/cameo' },
+  { id: 'cameo2', url: 'ws://' + location.hostname + ':2002/cameo' },
+  { id: 'cameo3', url: 'ws://' + location.hostname + ':2003/cameo' },
+  { id: 'cameo4', url: 'ws://' + location.hostname + ':2004/cameo' },
   ];
   webrtc: WebRTCService = null;
   constructor(
