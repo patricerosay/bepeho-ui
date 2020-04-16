@@ -450,7 +450,7 @@ export class MapComponent implements OnInit {
             }
 
             self.theMap.setView(center, 8);
-            self.theMap.addLayer(self.layers.Online);
+            self.theMap.addLayer(self.layers.Local);
             self.theMap.addLayer(self.traces);
             self.theMap.addLayer(self.events);
           }

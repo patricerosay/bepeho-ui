@@ -98,39 +98,46 @@ export class WebRTCService {
         // this.contactCount = 'Disconnected';
     }
     releaseCallStream(stream): any {
-        if (! this.connectedConversation) {
+        if (!this.connectedConversation) {
             return null;
         }
-        if (! stream) {
+        if (!stream) {
             return null;
         }
         const call = this.connectedConversation.getConversationCall(stream);
         return call;
     }
-    publishThisStream(stream) {
-        this.selectedvideo = stream;
+    publishThisStream(streamId) {
+        this.selectedvideo = streamId;
         if (!this.connectedConversation) {
-            console.log('no conversation. Stream publication aborted', stream);
+            console.log('no conversation. Stream publication aborted', streamId);
             return;
         }
         const call = this.releaseCallStream(this.currentLocalStream);
 
         if (call) {
             // Switch the camera if call is ongoing
-            call.replacePublishedStream(stream);
-            this.currentLocalStream = stream;
+
+            for (let i = 0; i < this.webcams.length; i++) {
+                if (this.webcams[i].id === streamId) {
+                    const stream = this.webcams[streamId];
+                    call.replacePublishedStream(streamId);
+                    this.currentLocalStream = stream;
+                    break;
+                }
+            }
         }
     }
 
     async displayWebCams(cam, elementId) {
         const self = this;
         const _id = 'webcam-' + cam.id;
-      
+
         await self.webcams.forEach(v => {
             if (v.id === _id) {
                 console.log('aborting the insert as this webcam is already there ', _id);
             }
-        });  
+        });
 
         const createStreamOptions = {
             audioInputId: false,
@@ -145,10 +152,10 @@ export class WebRTCService {
         };
         this.ua.createStream(createStreamOptions)
             .then(function (_stream) {
-                self.webcams.push({id: _id, stream: _stream}) ;
+                self.webcams.push({ id: _id, stream: _stream });
 
                 self.currentLocalStream = _stream;
-               
+
                 // const container = document.getElementById(elementId);
                 // // Create media element
                 // const mediaElement = document.createElement('video');
@@ -233,6 +240,7 @@ export class WebRTCService {
                         audioInputId: self.selectedaudio,
                         videoInputId: self.selectedvideo,
                         constraints: {
+                            audio: true,
                             video: {
                                 frameRate: { min: 5, max: 25, ideal: 20 },
                                 width: { min: '160', max: '1080', ideal: '640' },
@@ -331,7 +339,7 @@ export class WebRTCService {
             self.connectedSession
                 .on('contactListUpdate', function (updatedContacts) {
                     // console.log('MAIN - contactListUpdate', updatedContacts);
-                    if (self.connectedConversation !== undefined) {
+                    if (self.connectedConversation) {
                         const contactList = self.connectedConversation.getContacts();
                         self.isLive = 0 < Object.values(self.connectedConversation.getContacts()).length;
                         // self.contactCount ='Connected users: ' + Object.values(self.contactList).length;
@@ -366,7 +374,7 @@ export class WebRTCService {
 
                 }).on('streamRemoved', function (stream) {
                     stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
-                     self.currentStreamID = null;
+                    self.currentStreamID = null;
                 });
 
 
@@ -428,7 +436,7 @@ export class WebRTCService {
     shareScreen() {
         console.log('on sharescreen');
         const self = this;
-        if (self.screensharingStream === null) {
+        if (!self.screensharingStream) {
             let captureSourceType;
             if (self.apiRTC.browser === 'Firefox') {
                 captureSourceType = 'screen';
@@ -479,15 +487,15 @@ export class WebRTCService {
     }
     getCookieInfo(key: string): string {
         return localStorage.getItem(key);
-      }
+    }
     getLocalStorageNumber(k: string, def: number): number {
         const v = localStorage.getItem(k);
         if (!v) { return def; }
         let n = Number(v);
         if (isNaN(n)) {
-          n = def;
+            n = def;
         }
         return n;
-      }
+    }
 
 }
