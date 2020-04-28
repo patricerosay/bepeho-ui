@@ -1,0 +1,28 @@
+html,
+body {
+  margin: 10;
+  padding: 10;
+  overflow: hidden;
+}
+.row {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right:+15px;
+    margin-left: +15px;
+}
+.alert {
+    width: 100%;
+}
+.controls {
+
+  width: 64px;
+  height: 100%;
+  
+  top: 0;
+  left: 0;
+}
+.centered {
+  display: flex;
+  justify-content: center;
+}

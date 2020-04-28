@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -8,7 +8,8 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 
-import { Camera } from './camera-interface';
+import { Camera } from '../../shared/interfaces/camera-interface';
+import { Cameras } from '../../shared/services/parameters/cameras';
 import { DataSource } from '@angular/cdk/table';
 export interface IInstrument {
   speed: string;
@@ -129,8 +130,9 @@ export class CameraPropertiesModal {
   templateUrl: './mosaic.component.html',
   styleUrls: ['./mosaic.component.scss']
 })
-export class MosaicComponent implements OnInit {
+export class MosaicComponent implements OnInit, OnDestroy {
   worker: any;
+  public cameras: Cameras = null;
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
@@ -139,16 +141,16 @@ export class MosaicComponent implements OnInit {
     this.translate.setDefaultLang('en');
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
-
+    this.cameras = new Cameras(http);
   }
 
   displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
   dataSource: IInstrument[] = ELEMENT_DATA;
   // showInstrument: true;
   // dataSource2 = {};
-  private url = '/recorder/cams';
+  //private url = '/recorder/cams';
   isLoading = true;
-  cameras: Array<Camera> = new Array<Camera>();
+ // cameras: Array<Camera> = new Array<Camera>();
   mosaic: Array<Camera> = new Array<Camera>();
   camera: Camera;
   stream: string;
@@ -223,27 +225,16 @@ export class MosaicComponent implements OnInit {
 
 
   }
-
+  ngOnDestroy() {
+    console.log('ondestroy');
+    this.stopInstrumentWorker();
+  }
   ngOnInit() {
 
     const self = this;
     this.startInstrumentWorker();
-    // const self.cameras = new Camera[];
-    self.http.get(this.url).subscribe(data => {
-      // self.cameras
-      const tempCams = data as Camera[];
-      tempCams.forEach(function (cam) {
-        if ('CAM' === cam.type) {
-          self.cameras.push(cam);
-          if (cam.camPreviewUrl && cam.enabled) {
-            self.mosaic.push(cam);
-          }
-        }
-      });
-      self.cameras.reverse();
-      self.mosaic.reverse();
-      self.isLoading = false;
-    });
+
+    self.cameras.getCameras().then(mos => {self.mosaic = mos; self.isLoading = false; });
   }
   private postAction(body: string) {
     const prms = [this.camera.id, 'MIC0'];

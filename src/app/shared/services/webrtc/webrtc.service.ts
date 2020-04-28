@@ -12,9 +12,11 @@ export class WebRTCService {
     isConnected: boolean;
     public isLive: boolean;
     ua: any;
-    selectedvideo: unknown;
-    selectedaudio: unknown;
-    selectedaudiooutput: unknown;
+    selectedvideo: any;
+    selectedAudioInput: any;
+    audioInputs: any[];
+    audioOutputs: any[];
+    selectedaudiooutput: any;
     public audioMuted: any;
     public videoMuted: any;
     public joining: boolean;
@@ -40,6 +42,7 @@ export class WebRTCService {
                 self.apiRTC = window['apiRTC'];
 
                 self.apiRTC.setLogLevel(0);
+
 
                 const apikey = localStorage.getItem('apikey');
                 this.ua = new this.apiRTC.UserAgent({
@@ -92,10 +95,13 @@ export class WebRTCService {
                     console.error(error);
                 });
         }
+
+        // this.contactCount = 'Disconnected';
+    }
+    releaseWebCams() {
         this.webcams.forEach(element => {
             element.stream.release();
         });
-        // this.contactCount = 'Disconnected';
     }
     releaseCallStream(stream): any {
         if (!this.connectedConversation) {
@@ -107,27 +113,7 @@ export class WebRTCService {
         const call = this.connectedConversation.getConversationCall(stream);
         return call;
     }
-    publishThisStream(streamId) {
-        this.selectedvideo = streamId;
-        if (!this.connectedConversation) {
-            console.log('no conversation. Stream publication aborted', streamId);
-            return;
-        }
-        const call = this.releaseCallStream(this.currentLocalStream);
 
-        if (call) {
-            // Switch the camera if call is ongoing
-
-            for (let i = 0; i < this.webcams.length; i++) {
-                if (this.webcams[i].id === streamId) {
-                    const stream = this.webcams[streamId];
-                    call.replacePublishedStream(streamId);
-                    this.currentLocalStream = stream;
-                    break;
-                }
-            }
-        }
-    }
 
     async displayWebCams(cam, elementId) {
         const self = this;
@@ -156,33 +142,17 @@ export class WebRTCService {
 
                 self.currentLocalStream = _stream;
 
-                // const container = document.getElementById(elementId);
-                // // Create media element
-                // const mediaElement = document.createElement('video');
-                // mediaElement.id = 'remote-media-' + _stream.streamId;
-                // mediaElement.autoplay = true;
-                // mediaElement.muted = false;
-                // // Add media element to media container
-                // container.appendChild(mediaElement);
-                // // Attach stream
-                // _stream.attachToElement(mediaElement);
-
-                // _stream.addInDiv('locals', 'local-media', { width: '90%', height: '90%' }, true);
             })
             .catch(function (err) {
                 console.error('create stream error', err);
             });
     }
     assignWebcams(element) {
-
         const e = document.getElementById(element.id);
-
         this.webcams.forEach(v => {
-
             if (v.id === element.id) {
 
                 console.log('assignment of', v);
-
                 v.stream.attachToElement(e);
             }
         });
@@ -200,28 +170,27 @@ export class WebRTCService {
             }
             if (Object.values(devices.videoinput).length) {
                 // sevideoinputs ;
-
+                self.webcams = [];
                 for (let i = 0; i < Object.values(devices.videoinput).length; i++) {
                     const wc = Object.values(devices.videoinput)[i];
                     // self.videoinputs.push(wc);
                     self.displayWebCams(wc, 'webcams');
-                    self.selectedvideo = wc;
+                    self.setSelectedVideo(wc);
                 }
-                // self.selectedvideo = self.videoinputs[0].id;
             }
             if (Object.values(devices.audioinput).length) {
-                // self.audioinputs = [];
+                self.audioInputs = [];
                 for (let i = 0; i < Object.values(devices.audioinput).length; i++) {
-                    // self.audioinputs.push(Object.values(devices.audioinput)[i]);
-                    self.selectedaudio = Object.values(devices.audioinput)[i];
+                    self.audioInputs.push(Object.values(devices.audioinput)[i]);
+                    self.setSelectedAudio(Object.values(devices.audioinput)[i]);
                 }
-                // self.selectedaudio = self.audioinputs[0].id;
             }
 
+
             if (Object.values(devices.audiooutput).length) {
-                // self.audiooutputs = [];
+                self.audioOutputs = [];
                 for (let i = 0; i < Object.values(devices.audiooutput).length; i++) {
-                    // self.audiooutputs.push(Object.values(devices.audiooutput)[i]);
+                    self.audioOutputs.push(Object.values(devices.audiooutput)[i]);
                     self.selectedaudiooutput = Object.values(devices.audiooutput)[i];
                 }
                 // self.selectedaudiooutput = self.audiooutputs[0].id;
@@ -230,6 +199,7 @@ export class WebRTCService {
 
     }
 
+
     createWebcamAudioVideoStreams() {
         const call = this.releaseCallStream(this.currentLocalStream);
         const callback = {
@@ -237,8 +207,8 @@ export class WebRTCService {
                 const self = this;
                 return new Promise((resolve, reject) => {
                     const createStreamOptions = {
-                        audioInputId: self.selectedaudio,
-                        videoInputId: self.selectedvideo,
+                        audioInputId: self.getSelectedAudio(),
+                        videoInputId: self.getSelectedVideo(),
                         constraints: {
                             audio: true,
                             video: {
@@ -248,7 +218,7 @@ export class WebRTCService {
                             }
                         }
                     };
-
+                    console.log('######streamoptions', createStreamOptions);
                     self.ua
                         .createStream(createStreamOptions)
                         .then(function (stream) {
@@ -258,9 +228,10 @@ export class WebRTCService {
                             const elmt = document.getElementById('local-container-placeholder');
                             if (elmt) {
                                 elmt.remove();
+
+                                stream.removeFromDiv('local-container', 'local-media');
+                                stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
                             }
-                            stream.removeFromDiv('local-container', 'local-media');
-                            stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
                             return resolve(stream);
                         })
                         .catch(function (err) {
@@ -280,6 +251,7 @@ export class WebRTCService {
             return callback.getStream();
         }
     }
+
     onMutingVideo(mute) {
         this.videoMuted = mute;
         if (!this.currentLocalStream) {
@@ -310,8 +282,14 @@ export class WebRTCService {
             this.currentLocalStream.unmuteAudio();
         }
     }
-    changeAudioInput($event) {
-        this.selectedaudio = $event.value;
+    changeAudioInput() {
+        if (this.connectedConversation) {
+            this.createWebcamAudioVideoStreams();
+        }
+    }
+    changeWebcamInput(streamId) {
+        console.log(streamId);
+        this.setSelectedVideo(streamId);
         if (this.connectedConversation) {
             this.createWebcamAudioVideoStreams();
         }
@@ -334,6 +312,10 @@ export class WebRTCService {
             self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('upload-kbps', 100));
             self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('download-kbps', 100));
 
+            // const webRTCClient = self.apiRTC.session.createWebRTCClient({
+            //     status : 'status' // Optionnal
+            // });
+            // webRTCClient.setPreferVP9Codec(true);
             self.connectedSession = session;
             self.isConnected = true;
             self.connectedSession
@@ -368,34 +350,30 @@ export class WebRTCService {
             self.connectedConversation
                 .on('streamAdded', function (stream) {
                     self.currentStreamID = stream;
-
-                    stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
-                    document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
+                    const elmt = document.getElementById('remote-container');
+                    if (elmt) {
+                        stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
+                    }
+                    // document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
 
                 }).on('streamRemoved', function (stream) {
-                    stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
+                    const elmt = document.getElementById('remote-container');
+                    if (elmt) {
+                        stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
+                    }
                     self.currentStreamID = null;
                 });
-
-
-            const createStreamOptions = {
-                audioInputId: self.selectedaudio,
-                videoInputId: self.selectedvideo,
-                constraints: {
-                    video: {
-                        frameRate: { min: 5, max: 25, ideal: 20 },
-                        width: { min: '160', max: '1080', ideal: '640' },
-                        height: { min: '120', max: '720', ideal: '480' }
-                    }
-                }
-            };
 
             self.connectedConversation.join()
                 .then(function (response) {
                     self.isConnected = true;
                     self.joining = false;
                     console.log('joined');
-                    self.connectedConversation.publish(self.currentLocalStream, createStreamOptions);
+                    self.createWebcamAudioVideoStreams().then(s => {
+                        self.connectedConversation.publish(s, null);
+                    });
+
+                    // self.connectedConversation.publish(self.currentLocalStream, createStreamOptions);
                 });
 
         }).catch(function (err) {
@@ -485,8 +463,11 @@ export class WebRTCService {
         }
 
     }
-    getCookieInfo(key: string): string {
-        return localStorage.getItem(key);
+    getCookieInfo(key: string, defaultValue: string): string {
+
+        const res = localStorage.getItem(key);
+        return (res) ? res : defaultValue;
+
     }
     getLocalStorageNumber(k: string, def: number): number {
         const v = localStorage.getItem(k);
@@ -496,6 +477,30 @@ export class WebRTCService {
             n = def;
         }
         return n;
+    }
+    getSelectedVideo() {
+        return this.selectedvideo.id;
+    }
+    getSelectedAudio() {
+        const id = this.getCookieInfo('selectedAudioInput', 'default');
+        return id;
+        // for (let i = 0; i < this.audioInputs.length;i++)
+        // {
+        //     if (id === this.audioInputs[i].id ){
+        //         return this.audioInputs[i];
+        //     }
+        // }
+        // return null;
+        // this.audioInputs
+        // return this.selectedAudioInput;
+    }
+    setSelectedVideo(id: any) {
+        console.log('changing video id from ', this.selectedvideo);
+        this.selectedvideo = id;
+        console.log('changing video id to ', this.selectedvideo);
+    }
+    setSelectedAudio(id: any) {
+        this.selectedAudioInput = id;
     }
 
 }

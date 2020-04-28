@@ -4,106 +4,121 @@
 <div *ngIf="!isLoading">
   <div class="container">
     <div class="remote" id="remote-container">
-     <img *ngIf="!webrtc.currentStreamID"
-    id="remote-container-placeholder"
-    class="camera"
-    [lazyLoad]="'assets/images/white-noise.jpg'"
-    [defaultImage]="'assets/images/white-noise.jpg'"
-  /> 
+      <img
+        *ngIf="!webrtc.currentStreamID"
+        id="remote-container-placeholder"
+        class="camera"
+        [lazyLoad]="'assets/images/white-noise.jpg'"
+        [defaultImage]="'assets/images/white-noise.jpg'"
+      />
     </div>
-    <div id="locals" class="locals" >
-       <div *ngFor="let cam of cams">
-        <canvas #cameras class="local" id="{{ cam.id }}" (click)="switchToCamera(cam.id)"></canvas>
-      </div> 
-        <div  *ngFor="let webcam of webrtc.webcams ">
-        <video #webcams poster="assets/images/mire.jpg" width="320" height="180" muted="muted"  autoplay id="{{webcam.id}}" (click)="webrtc.publishThisStream(webcam.id)"></video>
-      </div>   
+    <div id="locals" class="locals">
+      <div *ngFor="let cam of cams">
+        <canvas
+          #cameras
+          class="local"
+          id="{{ cam.id }}"
+          (click)="switchToCamera(cam.id)"
+        ></canvas>
+      </div>
+      <div *ngFor="let webcam of webrtc.webcams">
+        <video
+          #webcams
+          poster="assets/images/mire.jpg"
+          width="320"
+          height="180"
+          muted="muted"
+          autoplay
+          id="{{ webcam.id }}"
+          (click)="webrtc.changeWebcamInput(webcam)"
+        ></video>
+      </div>
       <!-- <div id="webcams"></div> -->
     </div>
 
     <div class="controls">
-      
-        <div *ngIf="webrtc.joining">
-          <button
-            class="center-button"
-            color="accent"
-            mat-fab
-            (click)="webrtc.hangup()"
-          >
-            <i class="fa fa-2x fa-spin fa-spinner" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="! webrtc.joining">
-          <button
-            class="center-button"
-            *ngIf="!webrtc.connectedConversation"
-            color="primary"
-            mat-fab
-            (click)="webrtc.joinConference('Bepeho Media Room')"
-          >
-            <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
-          </button>
-          <button
-            class="center-button"
-            *ngIf="webrtc.connectedConversation"
-            color="primary"
-            mat-fab
-            (click)="webrtc.hangup()"
-            color="accent"
-          >
-          <i class="fa fa-fw fa-2x fa-stop"aria-hidden="true"></i>
+      <div *ngIf="webrtc.joining">
+        <button
+          class="center-button"
+          color="accent"
+          mat-fab
+          (click)="webrtc.hangup()"
+        >
+          <i class="fa fa-2x fa-spin fa-spinner" aria-hidden="true"></i>
         </button>
-          
-        </div>
-        <div *ngIf="!webrtc.screensharingStream">
-          <button color="primary" mat-fab (click)="webrtc.shareScreen()">
-            <i class="fa fa-2x  fa-desktop" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="webrtc.screensharingStream">
-          <button color="accent" mat-fab (click)="webrtc.shareScreen()">
-            <i class="fa fa-2x  fa-desktop" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="!webrtc.videoMuted">
-          <button color="primary" mat-fab (click)="webrtc.onMutingVideo(true)">
-            <i class="fa fa-2x  fa-video-camera" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="webrtc.videoMuted">
-          <button color="accent" mat-fab (click)="webrtc.onMutingVideo(false)">
-            <i class="fa fa-2x  fa-video-camera" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="!webrtc.audioMuted">
-          <button color="primary" mat-fab (click)="webrtc.onMutingAudio(true)">
-            <i class="fa fa-2x  fa-microphone" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="webrtc.audioMuted">
-          <button color="accent" mat-fab (click)="webrtc.onMutingAudio(false)">
-            <i class="fa fa-2x  fa-microphone" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div *ngIf="!webrtc.recordingInterview" >
-          <button color="primary" mat-fab (click)="webrtc.recordInterview(true)">
-            <i class="fa  fa-2x fa-file-video-o" aria-hidden="true"></i>
-          </button>
-          </div>
-          <div *ngIf="webrtc.recordingInterview" >
-          <button color="accent" mat-fab (click)="webrtc.recordInterview(false)">
-            <i class="fa  fa-2x fa-file-video-o" aria-hidden="true"></i>
-          </button>
-          </div>
-          <button color="primary" mat-fab [routerLink]="['/login-hublo']">
-            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-          </button>
-          <button color="primary" mat-fab (click)="onNetwork()">
-            <i class="fa fa-exchange" aria-hidden="true"></i>
-    
-          </button>
-     
- 
+      </div>
+      <div *ngIf="!webrtc.joining">
+        <button title="Start the call" 
+          class="center-button"
+          *ngIf="!webrtc.connectedConversation"
+          color="primary"
+          mat-fab
+          (click)="webrtc.joinConference('Bepeho Media Room')"
+        >
+          <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
+        </button>
+        <button title="Stop the call" 
+          class="center-button"
+          *ngIf="webrtc.connectedConversation"
+          color="primary"
+          mat-fab
+          (click)="webrtc.hangup()"
+          color="accent"
+        >
+          <i class="fa fa-fw fa-2x fa-stop" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="!webrtc.screensharingStream">
+        <button title="Start Sharing the screen"  color="primary" mat-fab (click)="webrtc.shareScreen()">
+          <i class="fa fa-2x fa-desktop" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="webrtc.screensharingStream">
+        <button title="Stop Sharing the screen"  color="accent" mat-fab (click)="webrtc.shareScreen()">
+          <i class="fa fa-2x fa-desktop" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="!webrtc.videoMuted">
+        <button title="Mute your camera" color="primary" mat-fab (click)="webrtc.onMutingVideo(true)">
+          <i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="webrtc.videoMuted">
+        <button title="Unmute your camera" color="accent" mat-fab (click)="webrtc.onMutingVideo(false)">
+          <i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="!webrtc.audioMuted">
+        <button title="Mute your microphone" color="primary" mat-fab (click)="webrtc.onMutingAudio(true)">
+          <i class="fa fa-2x fa-microphone" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="webrtc.audioMuted">
+        <button title="Unmute your microphone" color="accent" mat-fab (click)="webrtc.onMutingAudio(false)">
+          <i class="fa fa-2x fa-microphone" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="!webrtc.recordingInterview">
+        <button title="Start recording the interview" color="primary" mat-fab (click)="webrtc.recordInterview(true)">
+          <i class="fa fa-2x fa-file-video-o" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="webrtc.recordingInterview">
+        <button title="Stop recording the interview" color="accent" mat-fab (click)="webrtc.recordInterview(false)">
+          <i class="fa fa-2x fa-file-video-o" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <button title="Change connected user" color="primary" mat-fab [routerLink]="['/login-hublo']">
+        <i class="fa fa-2x fa-user-circle-o" aria-hidden="true"></i>
+      </button>
+      <button title="Analyse Bandwidth to optimise communication" color="primary" mat-fab (click)="onNetwork()">
+        <i class="fa fa-2x fa-exchange" aria-hidden="true"></i>
+      </button>
+
+      <button title="Audio input / output settings" color="primary" mat-fab (click)="onSettings()">
+        <i class="fa fa-2x fa-sliders" aria-hidden="true"></i>
+      </button>
     </div>
   </div>
 </div>

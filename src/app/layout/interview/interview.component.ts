@@ -4,7 +4,10 @@ import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
-
+import { WebrtcConfigComponent } from '../../shared/modules/webrtc-config/webrtc-config.component';
+import { Camera } from '../../shared/interfaces/camera-interface';
+import { Cameras } from '../../shared/services/parameters/cameras';
+import { HttpClient } from '@angular/common/http';
 interface BPOCanvasElement extends HTMLCanvasElement {
   captureStream(fps: number): BPOStream;
 }
@@ -26,17 +29,17 @@ export class InterviewComponent implements OnInit,
   errorMsg: string;
   document: any;
 
-  // cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + ':2001/cameo' },
-  // { id: 'cameo2', url: 'wss://' + location.hostname + ':2002/cameo' },
-  // ];
-  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
-  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
-  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
-  ];
+  //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
+  //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
+  //  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
+  //  ];
+   cams = [
+   ];
   webrtc: WebRTCService = null;
+  public cameraService: Cameras = null;
   constructor(
     private translate: TranslateService,
-
+    public http: HttpClient,
     private modalService: NgbModal) {
     const self = this;
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
@@ -46,6 +49,18 @@ export class InterviewComponent implements OnInit,
     this.webrtc = new WebRTCService();
     this.webrtc.load().then(r => {
       self.webrtc.initWebCams();
+      this.cameraService = new Cameras(http);
+      self.cameraService.getCameras().then(cams => {
+        let i = 1;
+          cams.forEach(element => {
+            self.cams.push ({
+              id: element.id,
+              url: 'wss://' + location.hostname + '/wss200' + i++
+            });
+          });
+          self.isLoading = false;
+        });
+
       self.isLoading = false;
     });
 
@@ -57,7 +72,7 @@ export class InterviewComponent implements OnInit,
     const self = this;
 
     this.cameras.changes.subscribe(c => {
-      console.log('camera event',c );
+      console.log('camera event', c);
       c.forEach((v, k) => {
         self.cams.forEach(e => {
           if (e.id === v.nativeElement.id) {
@@ -73,12 +88,12 @@ export class InterviewComponent implements OnInit,
     });
 
     this.webcams.changes.subscribe(wc => {
-      console.log('Webcam event',wc );
+      console.log('Webcam event', wc);
       wc.forEach((v, k) => {
         self.webcams.forEach(e => {
-           if (e.nativeElement.id === v.nativeElement.id) {
-            this.webrtc.assignWebcams (e.nativeElement);
-           }
+          if (e.nativeElement.id === v.nativeElement.id) {
+            this.webrtc.assignWebcams(e.nativeElement);
+          }
         });
       });
     });
@@ -87,6 +102,25 @@ export class InterviewComponent implements OnInit,
   ngOnDestroy() {
     console.log('ondestroy');
     this.webrtc.hangup();
+    this.webrtc.releaseWebCams();
+  }
+
+  onSettings() {
+    const self = this;
+    const modalRef = this.modalService.open(WebrtcConfigComponent, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true
+    });
+    modalRef.componentInstance.audioInputs = this.webrtc.audioInputs;
+    modalRef.componentInstance.audioOutputs = this.webrtc.audioOutputs;
+    modalRef.result.then((result) => {
+      console.log(result);
+      self.webrtc.changeAudioInput();
+  }, (reason) => {
+    console.log(reason);
+    self.webrtc.changeAudioInput();
+  });
   }
 
   onNetwork() {
@@ -96,6 +130,7 @@ export class InterviewComponent implements OnInit,
       centered: true
     });
   }
+
 
   switchToCamera(cam: string) {
 
@@ -139,7 +174,5 @@ export class InterviewComponent implements OnInit,
       return callback.getStream();
     }
   }
-
-
 }
 

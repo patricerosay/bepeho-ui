@@ -10,6 +10,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
 import { BandwidthModule } from '../../shared/modules/bandwidth/bandwidth.module';
+import { WebrtcConfigModule } from '../../shared/modules/webrtc-config/webrtc-config.module';
 
 import {
     MatAutocompleteModule,
@@ -34,6 +35,7 @@ import {
 @NgModule({
     imports: [
         BandwidthModule,
+        WebrtcConfigModule,
         TranslateModule,
         CommonModule, InterviewRoutingModule, PageHeaderModule, LazyLoadImageModule,
         HttpClientModule,
