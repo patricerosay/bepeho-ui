@@ -78,7 +78,7 @@ export interface NMEA {
 
 
 export class BuildSmartClipModal {
-  newClipName = 'clip ' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
+  newClipName = 'clip' + formatDate(new Date(), 'yyyy-MM-dd:HHMMSS', 'en');
 
   style = 1;
   invalidClipNameError: string = null;
@@ -265,7 +265,7 @@ export class QviewComponent implements OnInit {
       if ('' !== result) {
         [self.newClipName, self.style] = result.split('|');
 
-        const clipDuration = self.data['Duration'];
+        const clipDuration = Number(self.data['Duration']);
         const slashDuration = clipDuration / (self.segment.videos.length * this.style);
         const buildOrder: Clip = {
           beginEnd: [0, clipDuration],
