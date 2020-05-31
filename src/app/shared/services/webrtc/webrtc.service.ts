@@ -27,7 +27,7 @@ export class WebRTCService {
     isLoading: boolean;
     remoteContact: any;
     private scriptService: ScriptService;
-    currentStreamID: any;
+    currentRemoteStreamID: any;
     // public webcams = new Map<String, any>();
     public webcams = [];
 
@@ -117,8 +117,8 @@ export class WebRTCService {
 
     async displayWebCams(cam, elementId) {
         const self = this;
-        const _id = 'webcam-' + cam.id;
-
+        // const _id = 'webcam-' + cam.id;
+        const _id = cam.id;
         await self.webcams.forEach(v => {
             if (v.id === _id) {
                 console.log('aborting the insert as this webcam is already there ', _id);
@@ -208,7 +208,7 @@ export class WebRTCService {
                 return new Promise((resolve, reject) => {
                     const createStreamOptions = {
                         audioInputId: self.getSelectedAudio(),
-                        videoInputId: self.getSelectedVideo(),
+                        videoInputId: self.getSelectedCamera(),
                         constraints: {
                             audio: true,
                             video: {
@@ -246,6 +246,7 @@ export class WebRTCService {
 
         if (call) {
             // Switch the camera if call is ongoing
+            this.releaseScreenSharingStream();
             return call.replacePublishedStream(null, callback);
         } else {
             return callback.getStream();
@@ -349,7 +350,8 @@ export class WebRTCService {
 
             self.connectedConversation
                 .on('streamAdded', function (stream) {
-                    self.currentStreamID = stream;
+                    self.currentRemoteStreamID = stream;
+                    console.log('adding remote stream ', stream);
                     const elmt = document.getElementById('remote-container');
                     if (elmt) {
                         stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
@@ -361,7 +363,7 @@ export class WebRTCService {
                     if (elmt) {
                         stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
                     }
-                    self.currentStreamID = null;
+                    self.currentRemoteStreamID = null;
                 });
 
             self.connectedConversation.join()
@@ -411,58 +413,67 @@ export class WebRTCService {
         console.log(event);
     }
 
-    shareScreen() {
-        console.log('on sharescreen');
-        const self = this;
-        if (!self.screensharingStream) {
-            let captureSourceType;
-            if (self.apiRTC.browser === 'Firefox') {
-                captureSourceType = 'screen';
-            } else {
-                // Chrome
-                // captureSourceType = ["screen", "window", "tab", "audio"];
-                captureSourceType = ['screen'];
-            }
-
-            self.apiRTC.Stream.createScreensharingStream(captureSourceType)
-                .then(function (stream) {
-
-                    stream.on('stopped', function () {
-                        // Used to detect when user stop the screenSharing with Chrome DesktopCapture UI
-                        console.log('stopped event on stream');
-                        document.getElementById('local-screensharing').remove();
-                        self.screensharingStream = null;
-                    });
-
-                    self.screensharingStream = stream;
-                    self.connectedConversation.publish(self.screensharingStream);
-                    // Get media container
-                    const container = document.getElementById('local-container');
-
-                    // Create media element
-                    const mediaElement = document.createElement('video');
-                    mediaElement.id = 'local-screensharing';
-                    mediaElement.autoplay = true;
-                    mediaElement.muted = true;
-
-                    // Add media element to media container
-                    container.appendChild(mediaElement);
-
-                    // Attach stream
-                    self.screensharingStream.attachToElement(mediaElement);
-
-                })
-                .catch(function (err) {
-                    console.error('Could not create screensharing stream :', err);
-                });
-        } else {
-            self.connectedConversation.unpublish(self.screensharingStream);
-            self.screensharingStream.release();
-            self.screensharingStream = null;
-            document.getElementById('local-screensharing').remove();
+    
+    releaseScreenSharingStream(){
+        if( this.screensharingStream) {
+            console.log('releasing screen sharing stream');
+            this.connectedConversation.unpublish(this.screensharingStream);
+            this.screensharingStream.release();
+            this.screensharingStream = null;
         }
-
     }
+    switchToScreeen() {
+
+        const call = this.releaseCallStream(this.currentLocalStream);
+
+        const callback = {
+            getStream: () => {
+                const self = this;
+                return new Promise((resolve, reject) => {
+                    if (!self.screensharingStream) {
+                        let captureSourceType;
+                        if (self.apiRTC.browser === 'Firefox') {
+                            captureSourceType = 'screen';
+                        } else {
+                            // Chrome
+                            // captureSourceType = ["screen", "window", "tab", "audio"];
+                            captureSourceType = ['screen'];
+                        }
+
+                        self.apiRTC.Stream.createScreensharingStream(captureSourceType)
+                            .then(function (stream) {
+
+                                stream.on('stopped', function () {
+                                    // Used to detect when user stop the screenSharing with Chrome DesktopCapture UI
+                                    console.log('stopped event on stream');
+                                    // document.getElementById('local-screensharing').remove();
+                                    self.screensharingStream = null;
+                                });
+                                self.screensharingStream = stream;
+                                self.currentLocalStream = stream;
+                                return resolve(stream);
+                            })
+                            .catch(function (err) {
+                                console.error('Could not create screensharing stream :', err);
+                                reject();
+                            });
+                    } else {
+                        return resolve(self.screensharingStream);
+
+                    }
+                });
+            }
+        };
+
+        if (call) {
+            console.log('On call: replacing stream');
+            return call.replacePublishedStream(null, callback);
+        } else {
+            console.log('starting call');
+            return callback.getStream();
+        }
+    }
+
     getCookieInfo(key: string, defaultValue: string): string {
 
         const res = localStorage.getItem(key);
@@ -478,9 +489,15 @@ export class WebRTCService {
         }
         return n;
     }
-    getSelectedVideo() {
-        return this.selectedvideo.id;
-    }
+    selectCamera(id: string) {
+        localStorage.setItem('selectedCamera', id);
+      }
+      getSelectedCamera(): string {
+        return localStorage.getItem('selectedCamera');
+      }
+    // getSelectedVideo() {
+    //     return this.selectedvideo.id;
+    // }
     getSelectedAudio() {
         const id = this.getCookieInfo('selectedAudioInput', 'default');
         return id;
@@ -501,6 +518,17 @@ export class WebRTCService {
     }
     setSelectedAudio(id: any) {
         this.selectedAudioInput = id;
+    }
+    onFlipFlopRemoteVideoStream() {
+        localStorage.setItem('muteRemoteVideoStream', 'true');
+        console.log(this.currentRemoteStreamID);
+        if (this.currentRemoteStreamID) {
+            if (this.currentRemoteStreamID.isVideoMuted()) {
+                this.currentRemoteStreamID.unmuteVideo();
+            } else {
+                this.currentRemoteStreamID.muteVideo();
+            }
+        }
     }
 
 }

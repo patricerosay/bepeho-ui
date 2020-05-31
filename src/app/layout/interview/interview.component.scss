@@ -37,16 +37,35 @@
 
 .locals {
   z-index: 10;
-  /* width: 100%;
-  height: 100%; */
+
   position: absolute;
   top: 0;
   left: 0;
 }
 .local {
-  width: 320px;
-  height: 180px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 340px;
+   height: 200px;
+}
+
+
+.box {
+  // width: 100%;
+  // height: 100%;  
+  width: 340px;
+   height: 200px;
+
+  position: relative;
+
+  margin: auto;
+
 }
 .selected {
-  background-color: aqua;
+  position: absolute;
+  border-radius: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }

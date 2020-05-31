@@ -28,7 +28,7 @@ export class InterviewComponent implements OnInit,
   isLoading = true;
   errorMsg: string;
   document: any;
-
+  //selectedCamera: string;
   //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
   //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
   //  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
@@ -96,6 +96,9 @@ export class InterviewComponent implements OnInit,
           }
         });
       });
+      // if(wc.last){
+      //   this.selectCamera(wc.last.nativeElement.id);
+      // }
     });
   }
 
@@ -131,7 +134,7 @@ export class InterviewComponent implements OnInit,
     });
   }
 
-
+  
   switchToCamera(cam: string) {
 
     const call = this.webrtc.releaseCallStream(this.webrtc.currentLocalStream);
@@ -168,6 +171,7 @@ export class InterviewComponent implements OnInit,
 
     if (call) {
       console.log('On call: replacing stream');
+      this.webrtc.releaseScreenSharingStream();
       return call.replacePublishedStream(null, callback);
     } else {
       console.log('starting call');
