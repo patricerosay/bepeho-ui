@@ -42,7 +42,7 @@
     </div>
 
     <div class="controls">
-      <div *ngIf="webrtc.joining">
+      <div *ngIf="webrtc.joiningCall">
         <button
           class="center-button"
           color="accent"
@@ -52,19 +52,42 @@
           <i class="fa fa-2x fa-spin fa-spinner" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="!webrtc.joining">
+      <div *ngIf="!webrtc.joiningCall">
         <button
           title="Start the call"
           class="center-button"
           *ngIf="!webrtc.connectedConversation"
           color="primary"
           mat-fab
-          (click)="webrtc.joinConference('Bepeho Media Room')"
+          (click)="onCall()"
         >
           <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
         </button>
         <button
           title="Stop the call"
+          class="center-button"
+          *ngIf="webrtc.joiningVideoCall"
+          color="primary"
+          mat-fab
+          (click)="webrtc.hangup()"
+          color="accent"
+        >
+          <i class="fa fa-fw fa-2x fa-stop" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div *ngIf="!webrtc.joiningVideoCall">
+        <button
+          title="Start the video conference"
+          class="center-button"
+          *ngIf="!webrtc.connectedConversation"
+          color="primary"
+          mat-fab
+          (click)="webrtc.joinConference('Bepeho Media Room')"
+        >
+          <i class="fa fa-fw fa-2x fa-users" aria-hidden="true"></i>
+        </button>
+        <button
+          title="Stop the video conference"
           class="center-button"
           *ngIf="webrtc.connectedConversation"
           color="primary"
@@ -85,7 +108,7 @@
           <i class="fa fa-2x fa-desktop" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="webrtc.screensharingStream">
+      <!-- <div *ngIf="webrtc.screensharingStream">
         <button
           title="Stop Sharing the screen"
           color="accent"
@@ -104,7 +127,7 @@
         >
           <i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
         </button>
-      </div>
+      </div> -->
       <div *ngIf="webrtc.videoMuted">
         <button
           title="Unmute your camera"

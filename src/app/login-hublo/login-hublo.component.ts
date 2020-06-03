@@ -158,9 +158,9 @@ export class LoginHubloComponent implements OnInit {
             self.apiRTC.CloudApi.get('/api/getEnterpriseInfos', {}, header).then(response => {
                 localStorage.setItem('enterpriseId', response.enterpriseId  );
                 localStorage.setItem('enterpriseKey', response.enterpriseKey  );
+                localStorage.setItem('users', JSON.stringify(response.users));
 
 
-  
             }).catch(error => {console.error(error); self.isRegistering = false; });
 
             localStorage.setItem('isLoggedinHublo', 'true');

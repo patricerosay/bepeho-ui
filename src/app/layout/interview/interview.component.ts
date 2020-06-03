@@ -4,8 +4,8 @@ import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
+import { AdressbookComponent } from '../../shared/modules/adressbook/adressbook.component';
 import { WebrtcConfigComponent } from '../../shared/modules/webrtc-config/webrtc-config.component';
-import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
 import { HttpClient } from '@angular/common/http';
 interface BPOCanvasElement extends HTMLCanvasElement {
@@ -28,7 +28,7 @@ export class InterviewComponent implements OnInit,
   isLoading = true;
   errorMsg: string;
   document: any;
-  //selectedCamera: string;
+  // selectedCamera: string;
   //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
   //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
   //  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
@@ -134,7 +134,14 @@ export class InterviewComponent implements OnInit,
     });
   }
 
-  
+  onCall() {
+
+    const modalRef = this.modalService.open(AdressbookComponent, {
+      size: 'lg',
+      backdropClass: 'light-blue-backdrop',
+      centered: true
+    });
+  }
   switchToCamera(cam: string) {
 
     const call = this.webrtc.releaseCallStream(this.webrtc.currentLocalStream);

@@ -10,6 +10,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScriptService } from '../../shared/services/scripts/script.service';
 import { BandwidthModule } from '../../shared/modules/bandwidth/bandwidth.module';
+import { AdressbookModule } from '../../shared/modules/adressbook/adressbook.module';
 import { WebrtcConfigModule } from '../../shared/modules/webrtc-config/webrtc-config.module';
 
 import {
@@ -34,6 +35,7 @@ import {
     MatTabsModule} from '@angular/material';
 @NgModule({
     imports: [
+        AdressbookModule,
         BandwidthModule,
         WebrtcConfigModule,
         TranslateModule,

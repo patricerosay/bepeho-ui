@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Adress Book</h2>
+<mat-dialog-content>
+  <div *ngIf="isLoading">loading ....</div>
+
+  <div *ngIf="!isLoading">
+
+    <mat-list role="list">
+      <mat-list-item role="listitem"  *ngFor="let user of users "> {{user.fullname}}
+        <button
+        title="Start the call"
+        class="center-button"
+        color="primary"
+        mat-fab
+      >
+        <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
+      </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</mat-dialog-content>

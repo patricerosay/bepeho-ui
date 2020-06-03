@@ -19,7 +19,8 @@ export class WebRTCService {
     selectedaudiooutput: any;
     public audioMuted: any;
     public videoMuted: any;
-    public joining: boolean;
+    public joiningVideoCall: boolean;
+    public joiningCall: boolean;
     public recordingInterview: any;
     public screensharingStream: any;
     apiRTC: any;
@@ -295,11 +296,31 @@ export class WebRTCService {
             this.createWebcamAudioVideoStreams();
         }
     }
+    call(user) {
+        const self = this;
+        const registerInformation = {
+            token: localStorage.getItem('token'),
+            password: localStorage.getItem('apipass'),
+            cloudFetchRetries: 3,
+            cloudFetchRetryDelay: 2000
+        };
+        this.ua.register(registerInformation).then(function (session) {
+            // Save session
+            const connectedSession = session;
+            
+
+
+        }).catch(function (error) {
+            // error
+            console.error('User agent registration failed', error);
+        });
+    }
+
     joinConference(conferenceName: string): void {
 
         const self = this;
         console.log('joining');
-        self.joining = true;
+        self.joiningVideoCall = true;
         const registerInformation = {
             token: localStorage.getItem('token'),
             password: localStorage.getItem('apipass'),
@@ -369,7 +390,7 @@ export class WebRTCService {
             self.connectedConversation.join()
                 .then(function (response) {
                     self.isConnected = true;
-                    self.joining = false;
+                    self.joiningVideoCall = false;
                     console.log('joined');
                     self.createWebcamAudioVideoStreams().then(s => {
                         self.connectedConversation.publish(s, null);
@@ -413,9 +434,9 @@ export class WebRTCService {
         console.log(event);
     }
 
-    
-    releaseScreenSharingStream(){
-        if( this.screensharingStream) {
+
+    releaseScreenSharingStream() {
+        if ( this.screensharingStream) {
             console.log('releasing screen sharing stream');
             this.connectedConversation.unpublish(this.screensharingStream);
             this.screensharingStream.release();
