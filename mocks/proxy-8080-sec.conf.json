@@ -1,0 +1,14 @@
+{
+    "/recorder/*": {
+        "target": "http://localhost:8080",
+        "secure": true
+    },
+    "/media/*": {
+        "target": "https://localhost",
+        "secure": true
+    },
+    "/tile":{
+        "target": "https://localhost",
+        "secure": true
+    }
+}

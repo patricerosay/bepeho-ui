@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Inject} from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { TranslateService } from '@ngx-translate/core';
 import { ViewChild } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-adressbook',
@@ -14,23 +15,23 @@ import { ViewChild } from '@angular/core';
 export class AdressbookComponent implements OnInit {
   public error: string = null;
   public users: any = {};
- public isLoading= true;
-  constructor( private translate: TranslateService ) {
-        this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-        this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
-        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
-
-        
-}
+  public currentId: string;
+//  public selectedUserID: number;
+ constructor(
+  public dialogRef: MatDialogRef<AdressbookComponent>,
+  @Inject(MAT_DIALOG_DATA) public calleeID: number) {}
    @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
 
   ngOnInit() {
+    this.currentId = localStorage.getItem('id');
     this.users = JSON.parse(localStorage.getItem('users'));
-    this.isLoading = false;
   }
-
-
+  onChange(e ) {
+    this.calleeID = e.option.value;
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
 
 

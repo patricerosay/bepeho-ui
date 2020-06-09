@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {MatDialog} from '@angular/material/dialog';
 import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
 import { AdressbookComponent } from '../../shared/modules/adressbook/adressbook.component';
 import { WebrtcConfigComponent } from '../../shared/modules/webrtc-config/webrtc-config.component';
@@ -28,6 +28,7 @@ export class InterviewComponent implements OnInit,
   isLoading = true;
   errorMsg: string;
   document: any;
+  calleeID:number;
   // selectedCamera: string;
   //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
   //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
@@ -40,7 +41,7 @@ export class InterviewComponent implements OnInit,
   constructor(
     private translate: TranslateService,
     public http: HttpClient,
-    private modalService: NgbModal) {
+    private modalService: MatDialog) {
     const self = this;
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
@@ -111,13 +112,13 @@ export class InterviewComponent implements OnInit,
   onSettings() {
     const self = this;
     const modalRef = this.modalService.open(WebrtcConfigComponent, {
-      size: 'lg',
+      // size: 'lg',
       backdropClass: 'light-blue-backdrop',
-      centered: true
+      // centered: true
     });
     modalRef.componentInstance.audioInputs = this.webrtc.audioInputs;
     modalRef.componentInstance.audioOutputs = this.webrtc.audioOutputs;
-    modalRef.result.then((result) => {
+    modalRef.afterClosed().subscribe(result => {
       console.log(result);
       self.webrtc.changeAudioInput();
   }, (reason) => {
@@ -128,18 +129,24 @@ export class InterviewComponent implements OnInit,
 
   onNetwork() {
     const modalRef = this.modalService.open(BandwidthComponent, {
-      size: 'lg',
+      // size: 'lg',
       backdropClass: 'light-blue-backdrop',
-      centered: true
+      // centered: true
     });
   }
 
   onCall() {
 
     const modalRef = this.modalService.open(AdressbookComponent, {
-      size: 'lg',
+      // size: 'lg',
       backdropClass: 'light-blue-backdrop',
-      centered: true
+      data: this.calleeID
+
+      // centered: true
+    });
+    modalRef.afterClosed().subscribe(calleeID => {
+      console.log('Callee ID', calleeID);
+      this.webrtc.call(calleeID);
     });
   }
   switchToCamera(cam: string) {

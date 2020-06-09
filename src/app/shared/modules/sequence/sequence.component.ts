@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
-import { VgAPI } from 'videogular2/compiled/core';
+import { VgAPI } from 'ngx-videogular';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';

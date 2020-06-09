@@ -92,7 +92,7 @@ export class BandwidthComponent implements OnInit {
     .catch(function(err) {
       self.networkTestStarted = false;
       console.error('fetchNetworkInformationNew error', err);
-      self.errorMsg = err.label;
+      self.errorMsg = err;
     });
   }
 

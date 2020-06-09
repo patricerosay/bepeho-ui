@@ -1,20 +1,15 @@
-<h2 mat-dialog-title>Adress Book</h2>
+<h2 mat-dialog-title>Address Book</h2>
 <mat-dialog-content>
-  <div *ngIf="isLoading">loading ....</div>
-
-  <div *ngIf="!isLoading">
-
-    <mat-list role="list">
-      <mat-list-item role="listitem"  *ngFor="let user of users "> {{user.fullname}}
-        <button
-        title="Start the call"
-        class="center-button"
-        color="primary"
-        mat-fab
-      >
-        <i class="fa fa-fw fa-2x fa-phone" aria-hidden="true"></i>
-      </button>
-      </mat-list-item>
-    </mat-list>
-  </div>
+  <mat-selection-list #adress [multiple]="false" (selectionChange)="onChange($event)">
+    <div *ngFor="let user of users" >
+    <mat-list-option  *ngIf="(user.id !== currentId)" value ={{user.id}} >
+      {{user.fullname}}
+    </mat-list-option>
+    </div>
+  </mat-selection-list>
+  
 </mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="calleeID" cdkFocusInitial>Call</button>
+</div>

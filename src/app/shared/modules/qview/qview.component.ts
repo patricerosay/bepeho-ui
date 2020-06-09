@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { VgAPI } from 'videogular2/compiled/core';
+ import { VgAPI } from 'ngx-videogular';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
@@ -9,7 +9,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+// import { MatDialog } from '@angular/material/dialog';
 // import { FormControl, Validators } from '@angular/forms';
 
 export interface Video {
@@ -100,7 +100,7 @@ export class BuildSmartClipModal {
   selector: 'app-qview',
   templateUrl: './qview.component.html',
   styleUrls: ['./qview.component.scss',
-    '../../../../../node_modules/videogular2/fonts/videogular.css',
+    // '../../../../../node_modules/videogular2/fonts/videogular.css',
   ]
 })
 

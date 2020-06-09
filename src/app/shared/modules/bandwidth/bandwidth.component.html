@@ -2,7 +2,6 @@
   <h4 class="modal-title">
     Network Analysis
   </h4>
-  <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
 
   <button
     type="button"
@@ -27,7 +26,7 @@
     </div>
     <div class="row">
       <div *ngIf="errorMsg" class="alert alert-warning " role="alert">
-        <strong>errorMsg </strong>
+        <strong>{{errorMsg}} </strong>
       </div>
     </div>
     <div class="row">

@@ -7,96 +7,30 @@ import { VideoListRoutingModule } from './video-list-routing.module';
 import { VideoListComponent } from './video-list.component';
 import { PageHeaderModule } from '../../../shared';
 import { HttpClientModule } from '@angular/common/http';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkStepperModule} from '@angular/cdk/stepper';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { QviewModule } from '../../../shared/modules/qview/qview.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
-} from '@angular/material';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
     imports: [TranslateModule,
         CommonModule, VideoListRoutingModule, PageHeaderModule,
         HttpClientModule,
-        MatAutocompleteModule,
-        MatBadgeModule,
-        MatBottomSheetModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatStepperModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatNativeDateModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatTableModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        MatTreeModule,
-        MatCheckboxModule,
-        CdkStepperModule,
-        CdkTableModule,
-        CdkTreeModule,
-        ScrollingModule,
-        SequenceModule,
-        NgbAlertModule,
+
+         MatButtonToggleModule,
+
+         MatExpansionModule,
+
+         MatMenuModule,
+
+         MatPaginatorModule,
+       
+         MatTableModule,
+      
+         SequenceModule,
+
     NgbModule,
         QviewModule,],
     declarations: [VideoListComponent],

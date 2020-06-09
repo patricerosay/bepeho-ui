@@ -38,11 +38,11 @@ export class WebrtcConfigComponent implements OnInit {
     const val = localStorage.getItem(key);
     return (val) ? val : def;
   }
-  onSelectAudioInput(mic){
+  onSelectAudioInput(mic) {
     localStorage.setItem('selectedAudioInput', mic.id);
     console.log('select ', mic);
   }
-  onSelectAudioOutput(audioOut){
+  onSelectAudioOutput(audioOut) {
     localStorage.setItem('selectedAudioOutput', audioOut.id);
 
     console.log('select ', audioOut);

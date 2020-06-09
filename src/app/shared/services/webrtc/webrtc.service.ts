@@ -11,6 +11,7 @@ export class WebRTCService {
     connectedSession: any;
     isConnected: boolean;
     public isLive: boolean;
+    public currentCall: any;
     ua: any;
     selectedvideo: any;
     selectedAudioInput: any;
@@ -31,7 +32,7 @@ export class WebRTCService {
     currentRemoteStreamID: any;
     // public webcams = new Map<String, any>();
     public webcams = [];
-
+    public isVP9=false;
     constructor() {
     }
 
@@ -61,6 +62,10 @@ export class WebRTCService {
         });
     }
     hangup(): void {
+        if (this.currentCall) {
+            this.currentCall.hangUp();
+            this.currentCall = null;
+        }
         if (this.currentLocalStream) {
             this.currentLocalStream.release();
             this.currentLocalStream = null;
@@ -145,7 +150,7 @@ export class WebRTCService {
 
             })
             .catch(function (err) {
-                console.error('create stream error', err);
+                console.error('create stream error', err, cam);
             });
     }
     assignWebcams(element) {
@@ -238,7 +243,7 @@ export class WebRTCService {
                         .catch(function (err) {
                             //   self.errorMsg = 'create stream error' + err;
                             //   console.error(self.errorMsg);
-
+                            console.error(err);
                             reject(err);
                         });
                 });
@@ -296,7 +301,7 @@ export class WebRTCService {
             this.createWebcamAudioVideoStreams();
         }
     }
-    call(user) {
+    call(calleeID) {
         const self = this;
         const registerInformation = {
             token: localStorage.getItem('token'),
@@ -306,9 +311,54 @@ export class WebRTCService {
         };
         this.ua.register(registerInformation).then(function (session) {
             // Save session
-            const connectedSession = session;
-            
 
+            self.createWebcamAudioVideoStreams().then(s => {
+                const contact = session.getOrCreateContact(calleeID);
+
+                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9 });
+                if (self.currentCall !== null) {
+                    self.currentCall.on('localStreamAvailable', function (stream) {
+                        console.log('localStreamAvailable');
+                        // // document.getElementById('local-media').remove();
+                        // addStreamInDiv(stream, 'local-container', 'local-media-' + stream.getId(), {width : '160px', height : '120px'}, true);
+                        // stream
+                        //     .on('stopped', function () { // When client receives an screenSharing call from another user
+                        //         console.error('Stream stopped');
+                        //         $('#local-media-' + stream.getId()).remove();
+                        //     });
+                    })
+                        .on('streamAdded', function (stream) {
+                            self.displayRemoteStream(stream);
+                            // console.log('stream :', stream);
+                            // const elmt = document.getElementById('remote-container');
+                            // if (elmt) {
+                            //     stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
+                            // }
+                            //  addStreamInDiv(stream, 'remote-container', 'remote-media-' + stream.getId(), {width : '640px', height : '480px'}, false);
+                        })
+                        .on('streamRemoved', function (stream) {
+                            self.removeRemoteStream(stream);
+                            // Remove media element
+                            // document.getElementById('remote-media-' + stream.getId()).remove();
+                        })
+                        .on('userMediaError', function (e) {
+                            console.log('userMediaError detected : ', e);
+                            console.log('userMediaError detected with error : ', e.error);
+
+                            // Checking if tryAudioCallActivated
+                            // if (e.tryAudioCallActivated === false) {
+                            //     $('#hangup-' + self.currentCall.getId()).remove();
+                            // }
+                        })
+
+                        .on('hangup', function () {
+                            self.hangup();
+                        });
+
+                } else {
+                    console.warn('Cannot establish call');
+                }
+            });
 
         }).catch(function (error) {
             // error
@@ -371,20 +421,22 @@ export class WebRTCService {
 
             self.connectedConversation
                 .on('streamAdded', function (stream) {
-                    self.currentRemoteStreamID = stream;
-                    console.log('adding remote stream ', stream);
-                    const elmt = document.getElementById('remote-container');
-                    if (elmt) {
-                        stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
-                    }
+                    self.displayRemoteStream(stream);
+                    // self.currentRemoteStreamID = stream;
+                    // console.log('adding remote stream ', stream);
+                    // const elmt = document.getElementById('remote-container');
+                    // if (elmt) {
+                    //     stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
+                    // }
                     // document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
 
                 }).on('streamRemoved', function (stream) {
-                    const elmt = document.getElementById('remote-container');
-                    if (elmt) {
-                        stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
-                    }
-                    self.currentRemoteStreamID = null;
+                    self.removeRemoteStream(stream);
+                    // const elmt = document.getElementById('remote-container');
+                    // if (elmt) {
+                    //     stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
+                    // }
+                    // self.currentRemoteStreamID = null;
                 });
 
             self.connectedConversation.join()
@@ -436,7 +488,7 @@ export class WebRTCService {
 
 
     releaseScreenSharingStream() {
-        if ( this.screensharingStream) {
+        if (this.screensharingStream) {
             console.log('releasing screen sharing stream');
             this.connectedConversation.unpublish(this.screensharingStream);
             this.screensharingStream.release();
@@ -512,10 +564,10 @@ export class WebRTCService {
     }
     selectCamera(id: string) {
         localStorage.setItem('selectedCamera', id);
-      }
-      getSelectedCamera(): string {
+    }
+    getSelectedCamera(): string {
         return localStorage.getItem('selectedCamera');
-      }
+    }
     // getSelectedVideo() {
     //     return this.selectedvideo.id;
     // }
@@ -551,5 +603,19 @@ export class WebRTCService {
             }
         }
     }
-
+    displayRemoteStream(stream) {
+        this.currentRemoteStreamID = stream;
+        console.log('adding remote stream ', stream);
+        const elmt = document.getElementById('remote-container');
+        if (elmt) {
+            stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
+        }
+    }
+    removeRemoteStream(stream) {
+        const elmt = document.getElementById('remote-container');
+        if (elmt) {
+            stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
+        }
+        this.currentRemoteStreamID = null;
+    }
 }
