@@ -1,6 +1,6 @@
 <div class="modal-header modal-xl">
   <h4 class="modal-title">
-    Audio Settings
+    Settings
   </h4>
 
   <button type="button" class="close" aria-label="Close">
@@ -14,9 +14,9 @@
       *ngFor="let audioInput of audioInputs"
       [ngClass]="{
         'btn btn-primary':
-          audioInput.id != getCookieInfo('selectedAudioInput', 'default'),
+          audioInput.id !== getCookieInfo('selectedAudioInput', 'default'),
         'btn btn-success':
-          audioInput.id == getCookieInfo('selectedAudioInput', 'default')
+          audioInput.id === getCookieInfo('selectedAudioInput', 'default')
       }"
       mat-fab
       (click)="onSelectAudioInput(audioInput)"
@@ -34,9 +34,9 @@
       *ngFor="let audioOutput of audioOutputs"
       [ngClass]="{
         'btn btn-primary':
-          audioOutput.id != getCookieInfo('selectedAudioOutput', 'default'),
+          audioOutput.id !== getCookieInfo('selectedAudioOutput', 'default'),
         'btn btn-success':
-          audioOutput.id == getCookieInfo('selectedAudioOutput', 'default')
+          audioOutput.id === getCookieInfo('selectedAudioOutput', 'default')
       }"
       mat-fab
       (click)="onSelectAudioOutput(audioOutput)"
@@ -46,3 +46,23 @@
     </button>
   </div>
 </div>
+<div >
+  <h2 class="centered">Set your connection quality</h2>
+  <div class="centered">
+    <button
+      *ngFor="let cons of constraints"
+      [ngClass]="{
+        'btn btn-primary':
+          cons.label !== getCookieInfo('selectedConstraintSet', 'default: Very low bandwidth'),
+        'btn btn-success':
+          cons.label === getCookieInfo('selectedConstraintSet', 'default: Very low bandwidth')
+      }"
+      mat-fab
+      (click)="onConstraint(cons)"
+    >
+      <i class="fa fa-2x fa-wifi" aria-hidden="true"></i>
+      {{ cons.label }}
+    </button>
+  </div>
+</div>
+

@@ -10,7 +10,6 @@ import {
 
 import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
-import { DataSource } from '@angular/cdk/table';
 export interface IInstrument {
   speed: string;
   heading: string;
@@ -200,7 +199,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
         self.dataSource[0].blo = 'err';
       }
     },
-      err => {
+      () => {
       self.dataSource[0].speed = 'err';
         self.dataSource[0].heading = 'err';
         self.dataSource[0].twd = 'err';
@@ -234,10 +233,11 @@ export class MosaicComponent implements OnInit, OnDestroy {
     const self = this;
     this.startInstrumentWorker();
 
-    self.cameras.getCameras().then(mos => {self.mosaic = mos; self.isLoading = false; });
+    self.cameras.getCameras().then(mos => {
+      self.mosaic = mos; 
+      self.isLoading = false; });
   }
   private postAction(body: string) {
-    const prms = [this.camera.id, 'MIC0'];
     this.http
       .post<any>('/recorder', body, {
         headers: {

@@ -9,15 +9,16 @@
     </div>
     <!-- <div id="locals" class="locals selected" > -->
     <div id="locals" class="locals">
-      <div class="box" *ngFor="let cam of cams">
-        <canvas [ngClass]="cam.id === webrtc.getSelectedCamera() ?  'selected':'local'" #cameras id="{{ cam.id }}"
-          (click)="switchToCamera(cam.id); webrtc.selectCamera(cam.id);"></canvas>
-      </div>
       <div class="box" *ngFor="let webcam of webrtc.webcams">
         <video [ngClass]="webcam.id === webrtc.getSelectedCamera() ?  'selected':'local' " #webcams
           poster="assets/images/mire.jpg" width="320" height="180" muted="muted" autoplay id="{{ webcam.id }}"
           (click)="webrtc.changeWebcamInput(webcam); webrtc.selectCamera(webcam.id);"></video>
       </div>
+      <div class="box" *ngFor="let cam of cams">
+        <canvas [ngClass]="cam.id === webrtc.getSelectedCamera() ?  'selected':'local'" #cameras id="{{ cam.id }}"
+          (click)="switchToCamera(cam.id); webrtc.selectCamera(cam.id);"></canvas>
+      </div>
+      
       <!-- <div id="webcams"></div> -->
     </div>
 
@@ -90,9 +91,17 @@
       <button title="Audio input / output settings" color="primary" mat-fab (click)="onSettings()">
         <i class="fa fa-2x fa-sliders" aria-hidden="true"></i>
       </button>
+
+      <div *ngIf="webrtc.remoteVideoMuted">
+      <button title="Mute remote video stream" color="accent" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
+        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+      </button>
+      </div>
+      <div *ngIf="! webrtc.remoteVideoMuted">
       <button title="Mute remote video stream" color="primary" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
         <i class="fa fa-eye-slash" aria-hidden="true"></i>
       </button>
+      </div>
     </div>
   </div>
 </div>

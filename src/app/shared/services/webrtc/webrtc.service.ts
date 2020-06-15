@@ -18,10 +18,11 @@ export class WebRTCService {
     audioInputs: any[];
     audioOutputs: any[];
     selectedaudiooutput: any;
-    public audioMuted: any;
-    public videoMuted: any;
+    public remoteVideoMuted = false;
+    public audioMuted = false;
+    public videoMuted = false;
     public joiningVideoCall: boolean;
-    public joiningCall: boolean;
+    public joiningCall = false;
     public recordingInterview: any;
     public screensharingStream: any;
     apiRTC: any;
@@ -32,7 +33,7 @@ export class WebRTCService {
     currentRemoteStreamID: any;
     // public webcams = new Map<String, any>();
     public webcams = [];
-    public isVP9=false;
+    public isVP9 = true;
     constructor() {
     }
 
@@ -53,6 +54,10 @@ export class WebRTCService {
                 // self.initWebCams();
 
                 self.isLoading = false;
+                const muteRemoteVideoStream = localStorage.getItem('muteRemoteVideoStream');
+                if (muteRemoteVideoStream) {
+                    self.remoteVideoMuted = 'true' === muteRemoteVideoStream;
+                }
                 return resolve();
 
             }).catch(error => {
@@ -62,6 +67,7 @@ export class WebRTCService {
         });
     }
     hangup(): void {
+        this.joiningCall = false;
         if (this.currentCall) {
             this.currentCall.hangUp();
             this.currentCall = null;
@@ -130,13 +136,15 @@ export class WebRTCService {
                 console.log('aborting the insert as this webcam is already there ', _id);
             }
         });
+        const supported = navigator.mediaDevices.getSupportedConstraints();
+        console.log('supported constraints:', supported);
 
         const createStreamOptions = {
             audioInputId: false,
             videoInputId: cam.id,
             constraints: {
                 video: {
-                    frameRate: { min: 5, max: 25, ideal: 20 },
+                    //  frameRate: { min: 5, max: 25, ideal: 20 },
                     width: { min: '160', max: '1080', ideal: '640' },
                     height: { min: '120', max: '720', ideal: '480' }
                 }
@@ -212,18 +220,30 @@ export class WebRTCService {
             getStream: () => {
                 const self = this;
                 return new Promise((resolve, reject) => {
-                    const createStreamOptions = {
-                        audioInputId: self.getSelectedAudio(),
-                        videoInputId: self.getSelectedCamera(),
-                        constraints: {
-                            audio: true,
-                            video: {
-                                frameRate: { min: 5, max: 25, ideal: 20 },
-                                width: { min: '160', max: '1080', ideal: '640' },
-                                height: { min: '120', max: '720', ideal: '480' }
+                    const constraintsSet = localStorage.getItem('selectedConstraintSet');
+                    let createStreamOptions: any = {};
+                    if (constraintsSet) {
+                        createStreamOptions = {
+                            audioInputId: self.getSelectedAudio(),
+                            videoInputId: self.getSelectedCamera(),
+                            constraints: JSON.parse(constraintsSet).constraints
+
+                        };
+                    } else {
+                        createStreamOptions = {
+                            audioInputId: self.getSelectedAudio(),
+                            videoInputId: self.getSelectedCamera(),
+
+                            constraints: {
+                                audio: true,
+                                video: {
+                                    frameRate: { min: 5, max: 5, ideal: 5 },
+                                    width: { min: '160', max: '160', ideal: '160' },
+                                    height: { min: '120', max: '120', ideal: '120' }
+                                }
                             }
-                        }
-                    };
+                        };
+                    }
                     console.log('######streamoptions', createStreamOptions);
                     self.ua
                         .createStream(createStreamOptions)
@@ -259,14 +279,14 @@ export class WebRTCService {
         }
     }
 
-    onMutingVideo(mute) {
-        this.videoMuted = mute;
+    onMutingVideo() {
+
         if (!this.currentLocalStream) {
             console.log('video muting aborted: no local stream');
             return;
         }
-
-        if (mute) {
+        this.videoMuted = !this.videoMuted;
+        if (this.videoMuted) {
             console.log('muting video');
             this.currentLocalStream.muteVideo();
         } else {
@@ -303,6 +323,7 @@ export class WebRTCService {
     }
     call(calleeID) {
         const self = this;
+        self.joiningCall = true;
         const registerInformation = {
             token: localStorage.getItem('token'),
             password: localStorage.getItem('apipass'),
@@ -311,52 +332,34 @@ export class WebRTCService {
         };
         this.ua.register(registerInformation).then(function (session) {
             // Save session
-
+            console.log('### registered for call');
             self.createWebcamAudioVideoStreams().then(s => {
                 const contact = session.getOrCreateContact(calleeID);
 
-                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9 });
+                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9, record: true });
                 if (self.currentCall !== null) {
                     self.currentCall.on('localStreamAvailable', function (stream) {
                         console.log('localStreamAvailable');
-                        // // document.getElementById('local-media').remove();
-                        // addStreamInDiv(stream, 'local-container', 'local-media-' + stream.getId(), {width : '160px', height : '120px'}, true);
-                        // stream
-                        //     .on('stopped', function () { // When client receives an screenSharing call from another user
-                        //         console.error('Stream stopped');
-                        //         $('#local-media-' + stream.getId()).remove();
-                        //     });
+
                     })
                         .on('streamAdded', function (stream) {
                             self.displayRemoteStream(stream);
-                            // console.log('stream :', stream);
-                            // const elmt = document.getElementById('remote-container');
-                            // if (elmt) {
-                            //     stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
-                            // }
-                            //  addStreamInDiv(stream, 'remote-container', 'remote-media-' + stream.getId(), {width : '640px', height : '480px'}, false);
                         })
                         .on('streamRemoved', function (stream) {
                             self.removeRemoteStream(stream);
-                            // Remove media element
-                            // document.getElementById('remote-media-' + stream.getId()).remove();
                         })
                         .on('userMediaError', function (e) {
                             console.log('userMediaError detected : ', e);
                             console.log('userMediaError detected with error : ', e.error);
-
-                            // Checking if tryAudioCallActivated
-                            // if (e.tryAudioCallActivated === false) {
-                            //     $('#hangup-' + self.currentCall.getId()).remove();
-                            // }
                         })
 
                         .on('hangup', function () {
                             self.hangup();
                         });
-
+                    self.joiningCall = false;
                 } else {
                     console.warn('Cannot establish call');
+                    self.joiningCall = false;
                 }
             });
 
@@ -381,24 +384,23 @@ export class WebRTCService {
 
         this.ua.register(registerInformation).then(function (session) {
             console.log('registered');
-            self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('upload-kbps', 100));
-            self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('download-kbps', 100));
+            self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('uploadkbps', 100));
+            self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('downloadkbps', 100));
+            // const client = self.apiRTC.session.createWebRTCClient({
+            //     status : 'status' // Optionnal
+            // });
 
+            // const constraints = localStorage.getItem('constraints');
+            // if (constraints) {
+            //     client.setGetUserMediaConfig(JSON.parse(constraints));
+            // }
             // const webRTCClient = self.apiRTC.session.createWebRTCClient({
             //     status : 'status' // Optionnal
             // });
             // webRTCClient.setPreferVP9Codec(true);
             self.connectedSession = session;
             self.isConnected = true;
-            self.connectedSession
-                .on('contactListUpdate', function (updatedContacts) {
-                    // console.log('MAIN - contactListUpdate', updatedContacts);
-                    if (self.connectedConversation) {
-                        const contactList = self.connectedConversation.getContacts();
-                        self.isLive = 0 < Object.values(self.connectedConversation.getContacts()).length;
-                        // self.contactCount ='Connected users: ' + Object.values(self.contactList).length;
-                    }
-                });
+            self.isLive = true;
 
 
             self.connectedConversation = self.connectedSession.getConversation(conferenceName);
@@ -422,21 +424,11 @@ export class WebRTCService {
             self.connectedConversation
                 .on('streamAdded', function (stream) {
                     self.displayRemoteStream(stream);
-                    // self.currentRemoteStreamID = stream;
-                    // console.log('adding remote stream ', stream);
-                    // const elmt = document.getElementById('remote-container');
-                    // if (elmt) {
-                    //     stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
-                    // }
-                    // document.getElementById('remote-container-placeholder').setAttribute('class', 'minimized');
+
 
                 }).on('streamRemoved', function (stream) {
                     self.removeRemoteStream(stream);
-                    // const elmt = document.getElementById('remote-container');
-                    // if (elmt) {
-                    //     stream.removeFromDiv('remote-container', 'remote-media-' + stream.streamId);
-                    // }
-                    // self.currentRemoteStreamID = null;
+
                 });
 
             self.connectedConversation.join()
@@ -593,18 +585,29 @@ export class WebRTCService {
         this.selectedAudioInput = id;
     }
     onFlipFlopRemoteVideoStream() {
-        localStorage.setItem('muteRemoteVideoStream', 'true');
-        console.log(this.currentRemoteStreamID);
-        if (this.currentRemoteStreamID) {
-            if (this.currentRemoteStreamID.isVideoMuted()) {
-                this.currentRemoteStreamID.unmuteVideo();
-            } else {
-                this.currentRemoteStreamID.muteVideo();
-            }
+
+        this.remoteVideoMuted = !this.remoteVideoMuted;
+        localStorage.setItem('muteRemoteVideoStream', this.remoteVideoMuted.toString());
+        if (!this.currentRemoteStreamID) {
+            return;
         }
+        console.log(this.currentRemoteStreamID);
+        if (this.currentRemoteStreamID.isVideoMuted()) {
+            this.currentRemoteStreamID.unmuteVideo();
+
+        } else {
+            this.currentRemoteStreamID.muteVideo();
+
+        }
+
+
     }
     displayRemoteStream(stream) {
+
         this.currentRemoteStreamID = stream;
+        if (this.remoteVideoMuted) {
+            this.currentRemoteStreamID.muteVideo();
+        }
         console.log('adding remote stream ', stream);
         const elmt = document.getElementById('remote-container');
         if (elmt) {

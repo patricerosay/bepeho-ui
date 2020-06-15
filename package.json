@@ -4,8 +4,9 @@
   "license": "Apache",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "debug": "ng serve",
     "build": "ng build --prod --outputPath=dist/m --base-href=/m/",
+    "build-or": "ng build --prod --outputPath=../bepeho/source/com.pro.servlets/web/m --base-href=/m/",
     "copy": "cp -R dist/m /home/patrice/tempsandbox/rpi/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
@@ -58,12 +59,13 @@
     "ngx-videogular": "^9.0.1",
     "rxjs": "6.5.5",
     "tslib": "^1.11.1",
-    "typescript": "^3.6.5",
+    
     "videogular-themes-default": "^1.4.4",
     "yarn": "1.12.1",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
+    "typescript": "^3.6.5",
     "@angular/compiler-cli": "9.1.9",
     "@angular/language-service": "9.1.9",
     "@types/core-js": "^2.5.3",

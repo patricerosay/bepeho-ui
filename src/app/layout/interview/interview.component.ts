@@ -28,7 +28,7 @@ export class InterviewComponent implements OnInit,
   isLoading = true;
   errorMsg: string;
   document: any;
-  calleeID:number;
+  calleeID: number;
   // selectedCamera: string;
   //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
   //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
