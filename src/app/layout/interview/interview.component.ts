@@ -52,11 +52,12 @@ export class InterviewComponent implements OnInit,
       self.webrtc.initWebCams();
       this.cameraService = new Cameras(http);
       self.cameraService.getCameras().then(cams => {
-        let i = 1;
+        const i = 1;
           cams.forEach(element => {
             self.cams.push ({
               id: element.id,
-              url: 'wss://' + location.hostname + '/wss200' + i++
+              // url: 'wss://' + location.hostname + '/wss200' + i++
+              url: 'ws://' + location.hostname + ':2001/cameo'
             });
           });
           self.isLoading = false;
@@ -177,7 +178,11 @@ export class InterviewComponent implements OnInit,
                   console.error(self.errorMsg);
 
                   reject();
-                });
+                })
+                .catch(function(err) {
+                  console.log(err.name + ': ' + err.message);
+                }); // always check for errors at the end.
+
             });
         });
       }

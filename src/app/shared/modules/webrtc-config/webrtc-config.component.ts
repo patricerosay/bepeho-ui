@@ -23,6 +23,7 @@ export class WebrtcConfigComponent implements OnInit {
       label: 'default: Very low bandwidth',
       uploadkbps: '80',
       downloadkbps: '100',
+      localCameraCaptureFps: '5',
       constraints: {
         audio: true,
         video: {
@@ -36,6 +37,7 @@ export class WebrtcConfigComponent implements OnInit {
       label: 'Low Bandwidth configuration',
       uploadkbps: '150',
       downloadkbps: '300',
+      localCameraCaptureFps: '10',
       constraints: {
         audio: true,
         video: {
@@ -49,6 +51,7 @@ export class WebrtcConfigComponent implements OnInit {
       label: 'Fair Bandwidth configuration',
       uploadkbps: '300',
       downloadkbps: '600',
+      localCameraCaptureFps: '20',
       constraints: {
         audio: true,
         video: {
@@ -62,6 +65,7 @@ export class WebrtcConfigComponent implements OnInit {
       label: 'Good',
       uploadkbps: '300',
       downloadkbps: '600',
+      localCameraCaptureFps: '25',
       constraints: {
         audio: true,
         video: {
@@ -75,6 +79,7 @@ export class WebrtcConfigComponent implements OnInit {
       label: 'Very Good',
       uploadkbps: '300',
       downloadkbps: '600',
+      localCameraCaptureFps: '25',
       constraints: {
         audio: true,
         video: {
@@ -119,6 +124,14 @@ export class WebrtcConfigComponent implements OnInit {
     localStorage.setItem('download-kbps', cons.downloadkbps);
 
     localStorage.setItem('selectedConstraintSet', JSON.stringify(cons));
+  }
+  flipFlopIsVP9() {
+    const v = this.getCookieInfo('isVP9', 'false');
+    if ('true' === v) {
+      localStorage.setItem('isVP9', 'false');
+    } else {
+      localStorage.setItem('isVP9', 'true');
+    }
   }
 }
 

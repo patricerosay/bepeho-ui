@@ -65,4 +65,22 @@
     </button>
   </div>
 </div>
-
+<div >
+  <h2 class="centered">Use VP9 Codec </h2>
+  <h3 class="centered">Make sure your contacts have the same configuration</h3>
+  <div class="centered">
+    <button
+      [ngClass]="{
+        'btn btn-primary':
+          'true' !== getCookieInfo('isVP9', 'false'),
+        'btn btn-success':
+        'true' === getCookieInfo('isVP9', 'false')
+      }"
+      mat-fab
+      (click)="flipFlopIsVP9()"
+    >
+      <i class="fa fa-2x fa-cogs" aria-hidden="true"></i>
+      Use VP9 Codec
+    </button>
+  </div>
+</div>

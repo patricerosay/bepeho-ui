@@ -2211,8 +2211,8 @@
       "shouldRecord": false,
       "type": "CAM",
       "camPreviewUrl": "http://admin:admin@192.168.0.10/cgi-bin/mjpg/video.cgi?channel=0&subtype=1",
-      "active": false,
-      "enabled": false
+      "active": true,
+      "enabled": true
     },
     {
       "id": "CAM1",

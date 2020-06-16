@@ -33,10 +33,12 @@ export class WebRTCService {
     currentRemoteStreamID: any;
     // public webcams = new Map<String, any>();
     public webcams = [];
-    public isVP9 = true;
+    //public isVP9 = true;
     constructor() {
     }
-
+    isVP9(): boolean {
+        return  'true' === localStorage.getItem('isVP9');
+    }
     load(): Promise<any> {
         const self = this;
         return new Promise((resolve, reject) => {
@@ -336,7 +338,7 @@ export class WebRTCService {
             self.createWebcamAudioVideoStreams().then(s => {
                 const contact = session.getOrCreateContact(calleeID);
 
-                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9, record: true });
+                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9(), record: true });
                 if (self.currentCall !== null) {
                     self.currentCall.on('localStreamAvailable', function (stream) {
                         console.log('localStreamAvailable');
@@ -386,18 +388,7 @@ export class WebRTCService {
             console.log('registered');
             self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('uploadkbps', 100));
             self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('downloadkbps', 100));
-            // const client = self.apiRTC.session.createWebRTCClient({
-            //     status : 'status' // Optionnal
-            // });
-
-            // const constraints = localStorage.getItem('constraints');
-            // if (constraints) {
-            //     client.setGetUserMediaConfig(JSON.parse(constraints));
-            // }
-            // const webRTCClient = self.apiRTC.session.createWebRTCClient({
-            //     status : 'status' // Optionnal
-            // });
-            // webRTCClient.setPreferVP9Codec(true);
+ 
             self.connectedSession = session;
             self.isConnected = true;
             self.isLive = true;
