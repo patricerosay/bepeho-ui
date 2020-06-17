@@ -8,6 +8,7 @@ import { AdressbookComponent } from '../../shared/modules/adressbook/adressbook.
 import { WebrtcConfigComponent } from '../../shared/modules/webrtc-config/webrtc-config.component';
 import { Cameras } from '../../shared/services/parameters/cameras';
 import { HttpClient } from '@angular/common/http';
+import { isDevMode } from '@angular/core';
 interface BPOCanvasElement extends HTMLCanvasElement {
   captureStream(fps: number): BPOStream;
 }
@@ -29,13 +30,10 @@ export class InterviewComponent implements OnInit,
   errorMsg: string;
   document: any;
   calleeID: number;
-  // selectedCamera: string;
-  //  cams = [{ id: 'cameo1', url: 'wss://' + location.hostname + '/wss2001' },
-  //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
-  //  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
-  //  ];
-  cams = [
-  ];
+
+  
+  public cams = [ ];
+  public allCameras = [];
   webrtc: WebRTCService = null;
   public cameraService: Cameras = null;
   constructor(
@@ -52,13 +50,23 @@ export class InterviewComponent implements OnInit,
       self.webrtc.initWebCams();
       this.cameraService = new Cameras(http);
       self.cameraService.getCameras().then(cams => {
-        const i = 1;
+        let i = 1;
+        self.allCameras = cams;
         cams.forEach(element => {
-          self.cams.push({
-            id: element.id,
-            // url: 'wss://' + location.hostname + '/wss200' + i++
-            url: 'ws://' + location.hostname + ':2001/cameo'
-          });
+          if ( this.cameraService.showCamera(element.id )) {
+            if(isDevMode()) {
+              self.cams.push({
+                id: element.id,
+                // url: 'wss://' + location.hostname + '/wss200' + i++
+                 url: 'ws://' + location.hostname + ':2001/cameo'
+              });
+            } else{            self.cams.push({
+              id: element.id,
+              url: 'wss://' + location.hostname + '/wss200' + i++
+              // url: 'ws://' + location.hostname + ':2001/cameo'
+            });
+          }
+          }
         });
         self.isLoading = false;
       });
@@ -77,6 +85,7 @@ export class InterviewComponent implements OnInit,
       console.log('camera event', c);
       c.forEach((v, k) => {
         self.cams.forEach(e => {
+        
           if (e.id === v.nativeElement.id) {
             const url = e.url;
             const player = new JSMpeg.Player(url, {
@@ -85,6 +94,7 @@ export class InterviewComponent implements OnInit,
               audio: false
             });
           }
+        
         });
       });
     });
@@ -119,6 +129,7 @@ export class InterviewComponent implements OnInit,
     });
     modalRef.componentInstance.audioInputs = this.webrtc.audioInputs;
     modalRef.componentInstance.audioOutputs = this.webrtc.audioOutputs;
+    modalRef.componentInstance.cams = this.allCameras;
     modalRef.afterClosed().subscribe(result => {
       console.log(result);
       self.webrtc.changeAudioInput();
@@ -196,7 +207,7 @@ export class InterviewComponent implements OnInit,
         console.log('On call: replacing stream');
         this.webrtc.releaseScreenSharingStream();
         return this.webrtc.currentCall.replacePublishedStreams(null, callback).
-        then(res => { 
+        then(res => {
           console.log('replaced by ', res);
         })
           .catch(err => {

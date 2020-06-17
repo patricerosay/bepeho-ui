@@ -66,6 +66,23 @@
   </div>
 </div>
 <div >
+  <h2 class="centered">Use the camera</h2>
+  <div class="centered">
+    <button
+      *ngFor="let cam of cams"
+      [ngClass]="{
+        'btnbtn-secondary': ! showCamera(cam.id),
+        'btn btn-success': showCamera(cam.id)
+      }"
+      mat-fab
+      (click)="flipFlop(cam.id)"
+    >
+      <i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
+      {{ cam.name }}
+    </button>
+  </div>
+</div>
+<div >
   <h2 class="centered">Video codec for direct call </h2>
   <h4 class="centered">Make sure your contact is supporting the selected codec. VP8 is the supported by most browsers. VP9 is the best codec but not supported by every browsers </h4>
   <div class="centered">

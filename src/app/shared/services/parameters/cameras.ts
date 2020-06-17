@@ -25,10 +25,19 @@ export class Cameras {
                     }
                 });
 
-                ret.reverse();
+                // ret.reverse();
                 return (resolve(ret));
             });
 
         });
     }
+    showCamera(id) {
+        const b = localStorage.getItem(id);
+        if (! b) {
+          return true;
+        } else {
+          return 'true' === b;
+        }
+    
+      }
 }

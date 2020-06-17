@@ -18,7 +18,7 @@ export class WebrtcConfigComponent implements OnInit {
   isLoading = true;
   audioInputs: any[];
   audioOutputs: any[];
-
+  public cams: any[];
   constraints = [
     {
       label: 'default: Very low bandwidth',
@@ -106,7 +106,7 @@ export class WebrtcConfigComponent implements OnInit {
     console.log('audio inputs ', this.audioInputs);
     console.log('audio outputs ', this.audioOutputs);
 
-  }  
+  }
   getCookieInfo(key: string, def: string): string {
     const val = localStorage.getItem(key);
     return (val) ? val : def;
@@ -114,8 +114,8 @@ export class WebrtcConfigComponent implements OnInit {
   isSelectedConstraint(cons: any): boolean {
 
     const val: any = localStorage.getItem('selectedConstraintSet');
-    if(val) {
-      const o: any =JSON.parse(val);
+    if (val) {
+      const o: any = JSON.parse(val);
       return  o.label === cons.label;
     } else {
       return 'default: Very low bandwidth' === cons.label;
@@ -143,6 +143,15 @@ export class WebrtcConfigComponent implements OnInit {
     } else {
       localStorage.setItem(key, 'true');
     }
+  }
+  showCamera(id) {
+    const b = localStorage.getItem(id);
+    if (! b) {
+      return true;
+    } else {
+      return 'true' === b;
+    }
+
   }
 }
 
