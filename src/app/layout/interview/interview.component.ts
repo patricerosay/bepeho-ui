@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, QueryList } 
 import { TranslateService } from '@ngx-translate/core';
 import JSMpeg from '@cycjimmy/jsmpeg-player';
 import { WebRTCService } from '../../shared/services/webrtc/webrtc.service';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BandwidthComponent } from '../../shared/modules/bandwidth/bandwidth.component';
 import { AdressbookComponent } from '../../shared/modules/adressbook/adressbook.component';
 import { WebrtcConfigComponent } from '../../shared/modules/webrtc-config/webrtc-config.component';
@@ -34,8 +34,8 @@ export class InterviewComponent implements OnInit,
   //  { id: 'cameo2', url: 'wss://' + location.hostname + '/wss2002' },
   //  { id: 'cameo3', url: 'wss://' + location.hostname + '/wss2003' },
   //  ];
-   cams = [
-   ];
+  cams = [
+  ];
   webrtc: WebRTCService = null;
   public cameraService: Cameras = null;
   constructor(
@@ -53,15 +53,15 @@ export class InterviewComponent implements OnInit,
       this.cameraService = new Cameras(http);
       self.cameraService.getCameras().then(cams => {
         const i = 1;
-          cams.forEach(element => {
-            self.cams.push ({
-              id: element.id,
-              // url: 'wss://' + location.hostname + '/wss200' + i++
-              url: 'ws://' + location.hostname + ':2001/cameo'
-            });
+        cams.forEach(element => {
+          self.cams.push({
+            id: element.id,
+            // url: 'wss://' + location.hostname + '/wss200' + i++
+            url: 'ws://' + location.hostname + ':2001/cameo'
           });
-          self.isLoading = false;
         });
+        self.isLoading = false;
+      });
 
       self.isLoading = false;
     });
@@ -122,10 +122,10 @@ export class InterviewComponent implements OnInit,
     modalRef.afterClosed().subscribe(result => {
       console.log(result);
       self.webrtc.changeAudioInput();
-  }, (reason) => {
-    console.log(reason);
-    self.webrtc.changeAudioInput();
-  });
+    }, (reason) => {
+      console.log(reason);
+      self.webrtc.changeAudioInput();
+    });
   }
 
   onNetwork() {
@@ -151,50 +151,108 @@ export class InterviewComponent implements OnInit,
     });
   }
   switchToCamera(cam: string) {
+    if (this.webrtc.currentCall) {
+      // 1 to 1 call
+      const callback = {
+        getStream: () => {
+          const self = this;
+          return new Promise((resolve, reject) => {
 
-    const call = this.webrtc.releaseCallStream(this.webrtc.currentLocalStream);
+            const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
+            const fps = this.webrtc.getLocalStorageNumber('localCameraCaptureFps', 25);
+            const cameraStream = <BPOStream>videoToStreamElt.captureStream(fps);
+            const constraintsSet = localStorage.getItem('selectedConstraintSet');
+            let createStreamOptions: any = { audio: true };
+            if (constraintsSet) {
+              createStreamOptions = JSON.parse(constraintsSet);
+            }
+            navigator.mediaDevices.getUserMedia({ audio: true })
+              .then(function (mediaStream) {
+                const audioTracks = mediaStream.getAudioTracks();
+                cameraStream.addTrack(audioTracks[0]);
+                self.webrtc.ua.createStreamFromMediaStream(cameraStream)
+                  .then(function (stream) {
+                    // Save local stream
+                    console.log('created stream from', cam);
+                    self.webrtc.currentLocalStream = stream;
+                    return resolve(stream);
+                  })
+                  .catch(function (err) {
+                    self.errorMsg = 'create stream error' + err;
+                    console.error(self.errorMsg);
 
-    const callback = {
-      getStream: () => {
-        const self = this;
-        return new Promise((resolve, reject) => {
+                    reject();
+                  })
+                  .catch(function (err) {
+                    console.log(err.name + ': ' + err.message);
+                  });
 
-          const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
-          const fps = this.webrtc.getLocalStorageNumber('localCameraCaptureFps', 25);
-          const cameraStream = <BPOStream>videoToStreamElt.captureStream(fps);
-          navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(function (mediaStream) {
-              const audioTracks = mediaStream.getAudioTracks();
-              cameraStream.addTrack(audioTracks[0]);
-              self.webrtc.ua.createStreamFromMediaStream(cameraStream)
-                .then(function (stream) {
-                  // Save local stream
-                  console.log('created stream from', cam);
-                  self.webrtc.currentLocalStream = stream;
-                  return resolve(stream);
-                })
-                .catch(function (err) {
-                  self.errorMsg = 'create stream error' + err;
-                  console.error(self.errorMsg);
+              });
+          });
+        }
+      };
 
-                  reject();
-                })
-                .catch(function(err) {
-                  console.log(err.name + ': ' + err.message);
-                }); // always check for errors at the end.
-
-            });
-        });
+      if (this.webrtc.currentCall) {
+        console.log('On call: replacing stream');
+        this.webrtc.releaseScreenSharingStream();
+        return this.webrtc.currentCall.replacePublishedStreams(null, callback).
+        then(res => { 
+          console.log('replaced by ', res);
+        })
+          .catch(err => {
+            console.error('error while replacing stream ', err); }
+            );
+      } else {
+        console.log('starting call');
+        return callback.getStream();
       }
-    };
-
-    if (call) {
-      console.log('On call: replacing stream');
-      this.webrtc.releaseScreenSharingStream();
-      return call.replacePublishedStream(null, callback);
     } else {
-      console.log('starting call');
-      return callback.getStream();
+      const call = this.webrtc.releaseCallStream(this.webrtc.currentLocalStream);
+      // 1 to many video conf
+      const callback = {
+        getStream: () => {
+          const self = this;
+          return new Promise((resolve, reject) => {
+
+            const videoToStreamElt = <BPOCanvasElement>document.getElementById(cam);
+            const fps = this.webrtc.getLocalStorageNumber('localCameraCaptureFps', 25);
+            const cameraStream = <BPOStream>videoToStreamElt.captureStream(fps);
+            navigator.mediaDevices.getUserMedia({ audio: true })
+              .then(function (mediaStream) {
+                const audioTracks = mediaStream.getAudioTracks();
+                cameraStream.addTrack(audioTracks[0]);
+                self.webrtc.ua.createStreamFromMediaStream(cameraStream)
+                  .then(function (stream) {
+                    // Save local stream
+                    console.log('created stream from', cam);
+                    self.webrtc.currentLocalStream = stream;
+                    return resolve(stream);
+                  })
+                  .catch(function (err) {
+                    self.errorMsg = 'create stream error' + err;
+                    console.error(self.errorMsg);
+
+                    reject();
+                  })
+                  .catch(function (err) {
+                    console.log(err.name + ': ' + err.message);
+                  });
+
+              });
+          });
+        }
+      };
+
+      if (call) {
+        console.log('On call: replacing stream');
+        this.webrtc.releaseScreenSharingStream();
+        return call.replacePublishedStreams(null, callback).
+          then(res => console.log('replaced by ', res))
+          .catch(err => console.error('error while replacing stream ', err));
+      } else {
+        console.log('starting call');
+        return callback.getStream();
+      }
     }
   }
 }

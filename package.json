@@ -5,21 +5,18 @@
   "scripts": {
     "ng": "ng",
     "debug": "ng serve",
-    "build": "ng build --prod --outputPath=dist/m --base-href=/m/",
+    "build-release": "ng build --prod --outputPath=dist/m --base-href=/m/",
     "build-or": "ng build --prod --outputPath=../bepeho/source/com.pro.servlets/web/m --base-href=/m/",
     "copy": "cp -R dist/m /home/patrice/tempsandbox/rpi/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    // "start:dev": "npm run start:proxy | npm run start:mockers",
     "start:proxy8080": "ng serve --proxy-config ./mocks/proxy-8080.conf.json",
-    // "start:proxy8080-ssl": "ng serve --host 0.0.0.0 --ssl --ssl-key ./localhost.key  --ssl-cert ./localhost.crt --proxy-config ./mocks/proxy-8080-sec.conf.json",
     "start:proxyremote": "ng serve --proxy-config ./mocks/proxy-remote.conf.json",
-    // "start:proxy-local-docker": "ng serve --proxy-config ./mocks/proxy-local-docker.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
     "start:mockers": "json-server --port 4000 --watch ./mocks/mocks.json --routes ./mocks/routes.json",
-    "start:cam1": "node ../dockers/docker-rtsp-proxy/app.js 2001 \"/cameo\" \"rtsp://admin:Bepeho31@cameo1.boat:554\""
+    "start:cam1": "node ../dockers/docker-rtsp-proxy/app.js 2001 /cameo rtsp://admin:Bepeho31@192.168.1.50:554"
   },
   "private": true,
   "dependencies": {

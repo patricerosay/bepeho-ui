@@ -18,6 +18,7 @@ export class WebrtcConfigComponent implements OnInit {
   isLoading = true;
   audioInputs: any[];
   audioOutputs: any[];
+
   constraints = [
     {
       label: 'default: Very low bandwidth',
@@ -105,10 +106,20 @@ export class WebrtcConfigComponent implements OnInit {
     console.log('audio inputs ', this.audioInputs);
     console.log('audio outputs ', this.audioOutputs);
 
-  }
+  }  
   getCookieInfo(key: string, def: string): string {
     const val = localStorage.getItem(key);
     return (val) ? val : def;
+  }
+  isSelectedConstraint(cons: any): boolean {
+
+    const val: any = localStorage.getItem('selectedConstraintSet');
+    if(val) {
+      const o: any =JSON.parse(val);
+      return  o.label === cons.label;
+    } else {
+      return 'default: Very low bandwidth' === cons.label;
+    }
   }
   onSelectAudioInput(mic) {
     localStorage.setItem('selectedAudioInput', mic.id);
@@ -125,12 +136,12 @@ export class WebrtcConfigComponent implements OnInit {
 
     localStorage.setItem('selectedConstraintSet', JSON.stringify(cons));
   }
-  flipFlopIsVP9() {
-    const v = this.getCookieInfo('isVP9', 'false');
+  flipFlop(key) {
+    const v = this.getCookieInfo(key, 'false');
     if ('true' === v) {
-      localStorage.setItem('isVP9', 'false');
+      localStorage.setItem(key, 'false');
     } else {
-      localStorage.setItem('isVP9', 'true');
+      localStorage.setItem(key, 'true');
     }
   }
 }

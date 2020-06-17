@@ -31,13 +31,14 @@ export class WebRTCService {
     remoteContact: any;
     private scriptService: ScriptService;
     currentRemoteStreamID: any;
-    // public webcams = new Map<String, any>();
     public webcams = [];
-    //public isVP9 = true;
     constructor() {
     }
     isVP9(): boolean {
-        return  'true' === localStorage.getItem('isVP9');
+        return 'true' === localStorage.getItem('isVP9');
+    }
+    recordCall(): boolean {
+        return 'true' === localStorage.getItem('recordCall');
     }
     load(): Promise<any> {
         const self = this;
@@ -64,6 +65,7 @@ export class WebRTCService {
 
             }).catch(error => {
                 self.errorMsg = error;
+                console.warn(error);
                 reject();
             });
         });
@@ -129,7 +131,7 @@ export class WebRTCService {
     }
 
 
-    async displayWebCams(cam, elementId) {
+    async displayWebCams(cam) {
         const self = this;
         // const _id = 'webcam-' + cam.id;
         const _id = cam.id;
@@ -190,7 +192,7 @@ export class WebRTCService {
                 for (let i = 0; i < Object.values(devices.videoinput).length; i++) {
                     const wc = Object.values(devices.videoinput)[i];
                     // self.videoinputs.push(wc);
-                    self.displayWebCams(wc, 'webcams');
+                    self.displayWebCams(wc);
                     self.setSelectedVideo(wc);
                 }
             }
@@ -217,67 +219,146 @@ export class WebRTCService {
 
 
     createWebcamAudioVideoStreams() {
-        const call = this.releaseCallStream(this.currentLocalStream);
-        const callback = {
-            getStream: () => {
-                const self = this;
-                return new Promise((resolve, reject) => {
-                    const constraintsSet = localStorage.getItem('selectedConstraintSet');
-                    let createStreamOptions: any = {};
-                    if (constraintsSet) {
-                        createStreamOptions = {
-                            audioInputId: self.getSelectedAudio(),
-                            videoInputId: self.getSelectedCamera(),
-                            constraints: JSON.parse(constraintsSet).constraints
+        if (this.currentCall) {
+            const call = this.currentCall;
+            const callback = {
+                getStream: () => {
+                    const self = this;
+                    return new Promise((resolve, reject) => {
+                        const constraintsSet = localStorage.getItem('selectedConstraintSet');
+                        let createStreamOptions: any = {};
+                        if (constraintsSet) {
+                            createStreamOptions = {
+                                audioInputId: self.getSelectedAudio(),
+                                videoInputId: self.getSelectedCamera(),
+                                constraints: JSON.parse(constraintsSet).constraints
 
-                        };
-                    } else {
-                        createStreamOptions = {
-                            audioInputId: self.getSelectedAudio(),
-                            videoInputId: self.getSelectedCamera(),
+                            };
+                        } else {
+                            createStreamOptions = {
+                                audioInputId: self.getSelectedAudio(),
+                                videoInputId: self.getSelectedCamera(),
 
-                            constraints: {
-                                audio: true,
-                                video: {
-                                    frameRate: { min: 5, max: 5, ideal: 5 },
-                                    width: { min: '160', max: '160', ideal: '160' },
-                                    height: { min: '120', max: '120', ideal: '120' }
+                                constraints: {
+                                    audio: true,
+                                    video: {
+                                        frameRate: { min: 5, max: 5, ideal: 5 },
+                                        width: { min: '160', max: '160', ideal: '160' },
+                                        height: { min: '120', max: '120', ideal: '120' }
+                                    }
                                 }
-                            }
-                        };
-                    }
-                    console.log('######streamoptions', createStreamOptions);
-                    self.ua
-                        .createStream(createStreamOptions)
-                        .then(function (stream) {
-                            // Save local stream
-                            self.currentLocalStream = stream;
+                            };
+                        }
+                        console.log('######streamoptions', createStreamOptions);
+                        self.ua
+                            .createStream(createStreamOptions)
+                            .then(function (stream) {
+                                // Save local stream
+                                self.currentLocalStream = stream;
 
-                            const elmt = document.getElementById('local-container-placeholder');
-                            if (elmt) {
-                                elmt.remove();
+                                const elmt = document.getElementById('local-container-placeholder');
+                                if (elmt) {
+                                    elmt.remove();
 
-                                stream.removeFromDiv('local-container', 'local-media');
-                                stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
-                            }
-                            return resolve(stream);
-                        })
-                        .catch(function (err) {
-                            //   self.errorMsg = 'create stream error' + err;
-                            //   console.error(self.errorMsg);
-                            console.error(err);
-                            reject(err);
-                        });
-                });
+                                    stream.removeFromDiv('local-container', 'local-media');
+                                    stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
+                                }
+                                return resolve(stream);
+                            })
+                            .catch(function (err) {
+                                //   self.errorMsg = 'create stream error' + err;
+                                //   console.error(self.errorMsg);
+                                console.error(err);
+                                reject(err);
+                            });
+                    });
+                }
+            };
+
+            if (call) {
+                // Switch the camera if call is ongoing
+                this.releaseScreenSharingStream();
+
+                console.log('On call: replacing stream');
+                return call.replacePublishedStreams(null, callback).then(s =>
+                    console.log('stream replaced with', s)
+                ).
+                    catch(err =>
+                        console.error('error while replacing stream', err)
+                    );
+            } else {
+                return callback.getStream();
             }
-        };
-
-        if (call) {
-            // Switch the camera if call is ongoing
-            this.releaseScreenSharingStream();
-            return call.replacePublishedStream(null, callback);
         } else {
-            return callback.getStream();
+            const call = this.releaseCallStream(this.currentLocalStream);
+            const callback = {
+                getStream: () => {
+                    const self = this;
+                    return new Promise((resolve, reject) => {
+                        const constraintsSet = localStorage.getItem('selectedConstraintSet');
+                        let createStreamOptions: any = {};
+                        if (constraintsSet) {
+                            createStreamOptions = {
+                                audioInputId: self.getSelectedAudio(),
+                                videoInputId: self.getSelectedCamera(),
+                                constraints: JSON.parse(constraintsSet).constraints
+
+                            };
+                        } else {
+                            createStreamOptions = {
+                                audioInputId: self.getSelectedAudio(),
+                                videoInputId: self.getSelectedCamera(),
+
+                                constraints: {
+                                    audio: true,
+                                    video: {
+                                        frameRate: { min: 5, max: 5, ideal: 5 },
+                                        width: { min: '160', max: '160', ideal: '160' },
+                                        height: { min: '120', max: '120', ideal: '120' }
+                                    }
+                                }
+                            };
+                        }
+                        console.log('######streamoptions', createStreamOptions);
+                        self.ua
+                            .createStream(createStreamOptions)
+                            .then(function (stream) {
+                                // Save local stream
+                                self.currentLocalStream = stream;
+
+                                const elmt = document.getElementById('local-container-placeholder');
+                                if (elmt) {
+                                    elmt.remove();
+
+                                    stream.removeFromDiv('local-container', 'local-media');
+                                    stream.addInDiv('local-container', 'local-media', { width: '90%', height: '90%' }, true);
+                                }
+                                return resolve(stream);
+                            })
+                            .catch(function (err) {
+                                //   self.errorMsg = 'create stream error' + err;
+                                //   console.error(self.errorMsg);
+                                console.error(err);
+                                reject(err);
+                            });
+                    });
+                }
+            };
+
+            if (call) {
+                // Switch the camera if call is ongoing
+                this.releaseScreenSharingStream();
+
+                console.log('On call: replacing stream');
+                return call.replacePublishedStream(null, callback).then(s =>
+                    console.log('stream replaced with', s)
+                ).
+                    catch(err =>
+                        console.error('error while replacing stream', err)
+                    );
+            } else {
+                return callback.getStream();
+            }
         }
     }
 
@@ -319,7 +400,9 @@ export class WebRTCService {
     changeWebcamInput(streamId) {
         console.log(streamId);
         this.setSelectedVideo(streamId);
-        if (this.connectedConversation) {
+        if (this.currentCall) {
+            this.createWebcamAudioVideoStreams();
+        } else if (this.connectedConversation) {
             this.createWebcamAudioVideoStreams();
         }
     }
@@ -338,7 +421,7 @@ export class WebRTCService {
             self.createWebcamAudioVideoStreams().then(s => {
                 const contact = session.getOrCreateContact(calleeID);
 
-                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9(), record: true });
+                self.currentCall = contact.call(s, { preferVP9Codec: self.isVP9(), record: self.recordCall() });
                 if (self.currentCall !== null) {
                     self.currentCall.on('localStreamAvailable', function (stream) {
                         console.log('localStreamAvailable');
@@ -351,8 +434,13 @@ export class WebRTCService {
                             self.removeRemoteStream(stream);
                         })
                         .on('userMediaError', function (e) {
-                            console.log('userMediaError detected : ', e);
-                            console.log('userMediaError detected with error : ', e.error);
+                            console.warn('userMediaError detected : ', e);
+                            console.warn('userMediaError detected with error : ', e.error);
+                            self.errorMsg = e.error;
+                        })
+                        .on('statsUpdate', function (stats) {
+                            console.warn('stats: ', stats);
+                            // self.errorMsg = e.error;
                         })
 
                         .on('hangup', function () {
@@ -368,6 +456,7 @@ export class WebRTCService {
         }).catch(function (error) {
             // error
             console.error('User agent registration failed', error);
+            self.hangup();
         });
     }
 
@@ -388,7 +477,7 @@ export class WebRTCService {
             console.log('registered');
             self.ua.setOverallOutgoingVideoBandwidth(self.getLocalStorageNumber('uploadkbps', 100));
             self.ua.setOverallIncomingVideoBandwidth(self.getLocalStorageNumber('downloadkbps', 100));
- 
+
             self.connectedSession = session;
             self.isConnected = true;
             self.isLive = true;
@@ -405,7 +494,7 @@ export class WebRTCService {
                                 .then(function () {
                                     console.log('subscribeToMedia success');
                                 }).catch(function (err) {
-                                    console.log(err);
+                                    console.warn(err);
                                     self.errorMsg = err;
                                 });
                         }
@@ -420,6 +509,12 @@ export class WebRTCService {
                 }).on('streamRemoved', function (stream) {
                     self.removeRemoteStream(stream);
 
+                }).on('slowLink', function (callid, advice) {
+                    console.warn('SLOWLINK', callid, advice);
+
+                }).on('callStatsUpdate', function (id, callStats) {
+                    console.log(callStats);
+
                 });
 
             self.connectedConversation.join()
@@ -430,14 +525,19 @@ export class WebRTCService {
                     self.createWebcamAudioVideoStreams().then(s => {
                         self.connectedConversation.publish(s, null);
                     });
-
+                    self.recordInterview(self.recordCall());
                     // self.connectedConversation.publish(self.currentLocalStream, createStreamOptions);
+                }).
+                catch(error => {
+                    console.error(error);
+                    self.errorMsg = error;
                 });
 
         }).catch(function (err) {
             console.error(err);
             self.errorMsg = err;
             self.isConnected = false;
+            self.hangup();
         });
         // });
     }
@@ -455,14 +555,14 @@ export class WebRTCService {
             this.connectedConversation.startRecording(option).then(function (info) {
                 console.log(info);
             }).catch(function (err) {
-                console.log(err);
+                console.error(err);
                 self.errorMsg = err;
             });
         } else {
             this.connectedConversation.stopRecording().then(function (info) {
                 console.log(info);
             }).catch(function (err) {
-                console.log(err);
+                console.error(err);
                 self.errorMsg = err;
             });
         }
@@ -523,7 +623,12 @@ export class WebRTCService {
 
         if (call) {
             console.log('On call: replacing stream');
-            return call.replacePublishedStream(null, callback);
+            return call.replacePublishedStream(null, callback).then(s =>
+                console.log('stream replaced with', s)
+            ).
+                catch(err =>
+                    console.error('error while replacing stream', err)
+                );
         } else {
             console.log('starting call');
             return callback.getStream();
@@ -551,21 +656,11 @@ export class WebRTCService {
     getSelectedCamera(): string {
         return localStorage.getItem('selectedCamera');
     }
-    // getSelectedVideo() {
-    //     return this.selectedvideo.id;
-    // }
+
     getSelectedAudio() {
         const id = this.getCookieInfo('selectedAudioInput', 'default');
         return id;
-        // for (let i = 0; i < this.audioInputs.length;i++)
-        // {
-        //     if (id === this.audioInputs[i].id ){
-        //         return this.audioInputs[i];
-        //     }
-        // }
-        // return null;
-        // this.audioInputs
-        // return this.selectedAudioInput;
+
     }
     setSelectedVideo(id: any) {
         console.log('changing video id from ', this.selectedvideo);
@@ -576,21 +671,17 @@ export class WebRTCService {
         this.selectedAudioInput = id;
     }
     onFlipFlopRemoteVideoStream() {
-
+        if (this.currentRemoteStreamID) {
+            if (this.remoteVideoMuted) {
+                console.log('unmuting', this.currentRemoteStreamID);
+                this.currentRemoteStreamID.unmuteVideo();
+            } else {
+                console.log('muting', this.currentRemoteStreamID);
+                this.currentRemoteStreamID.muteVideo();
+            }
+        }
         this.remoteVideoMuted = !this.remoteVideoMuted;
         localStorage.setItem('muteRemoteVideoStream', this.remoteVideoMuted.toString());
-        if (!this.currentRemoteStreamID) {
-            return;
-        }
-        console.log(this.currentRemoteStreamID);
-        if (this.currentRemoteStreamID.isVideoMuted()) {
-            this.currentRemoteStreamID.unmuteVideo();
-
-        } else {
-            this.currentRemoteStreamID.muteVideo();
-
-        }
-
 
     }
     displayRemoteStream(stream) {

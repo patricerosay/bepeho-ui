@@ -1,4 +1,4 @@
-<mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+<mat-error *ngIf="webrtc.errorMsg">{{ errorMsg }}</mat-error>
 
 <div *ngIf="isLoading">loading ....</div>
 <div *ngIf="!isLoading">
@@ -70,7 +70,7 @@
           <i class="fa fa-2x fa-microphone" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="!webrtc.recordingInterview">
+      <!-- <div *ngIf="!webrtc.recordingInterview">
         <button title="Start recording the interview" color="primary" mat-fab (click)="webrtc.recordInterview(true)">
           <i class="fa fa-2x fa-file-video-o" aria-hidden="true"></i>
         </button>
@@ -79,16 +79,16 @@
         <button title="Stop recording the interview" color="accent" mat-fab (click)="webrtc.recordInterview(false)">
           <i class="fa fa-2x fa-file-video-o" aria-hidden="true"></i>
         </button>
-      </div>
+      </div> -->
 
       <button title="Change connected user" color="primary" mat-fab [routerLink]="['/login-hublo']">
         <i class="fa fa-2x fa-user-circle-o" aria-hidden="true"></i>
       </button>
-      <button title="Analyse Bandwidth to optimise communication" color="primary" mat-fab (click)="onNetwork()">
+      <button title="Analyse bandwidth to optimise communication" color="primary" mat-fab (click)="onNetwork()">
         <i class="fa fa-2x fa-exchange" aria-hidden="true"></i>
       </button>
 
-      <button title="Audio input / output settings" color="primary" mat-fab (click)="onSettings()">
+      <button title="Audio video settings" color="primary" mat-fab (click)="onSettings()">
         <i class="fa fa-2x fa-sliders" aria-hidden="true"></i>
       </button>
 
