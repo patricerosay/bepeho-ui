@@ -14,6 +14,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
 @NgModule({
     imports: [TranslateModule,
         CommonModule, VideoListRoutingModule, PageHeaderModule,
@@ -24,7 +25,7 @@ import { MatTableModule } from '@angular/material/table';
          MatExpansionModule,
 
          MatMenuModule,
-
+         MatSortModule,
          MatPaginatorModule,
        
          MatTableModule,

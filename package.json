@@ -6,7 +6,7 @@
     "ng": "ng",
     "debug": "ng serve",
     "build-release": "ng build --prod --outputPath=dist/m --base-href=/m/",
-    "build-or": "ng build --prod --outputPath=../bepeho/source/com.pro.servlets/web/m --base-href=/m/",
+    "build-release-or": "ng build --prod --outputPath=../bepeho/source/com.pro.servlets/web/m --base-href=/m/",
     "copy": "cp -R dist/m /home/patrice/tempsandbox/rpi/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
@@ -55,7 +55,6 @@
     "ngx-videogular": "^9.0.1",
     "rxjs": "6.5.5",
     "tslib": "^1.11.1",
-    
     "videogular-themes-default": "^1.4.4",
     "yarn": "1.12.1",
     "zone.js": "0.10.3"

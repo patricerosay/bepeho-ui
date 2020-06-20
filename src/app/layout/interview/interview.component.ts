@@ -31,7 +31,7 @@ export class InterviewComponent implements OnInit,
   document: any;
   calleeID: number;
 
-  
+
   public cams = [ ];
   public allCameras = [];
   webrtc: WebRTCService = null;
@@ -54,13 +54,13 @@ export class InterviewComponent implements OnInit,
         self.allCameras = cams;
         cams.forEach(element => {
           if ( this.cameraService.showCamera(element.id )) {
-            if(isDevMode()) {
+            if (isDevMode()) {
               self.cams.push({
                 id: element.id,
                 // url: 'wss://' + location.hostname + '/wss200' + i++
                  url: 'ws://' + location.hostname + ':2001/cameo'
               });
-            } else{            self.cams.push({
+            } else {            self.cams.push({
               id: element.id,
               url: 'wss://' + location.hostname + '/wss200' + i++
               // url: 'ws://' + location.hostname + ':2001/cameo'
@@ -85,7 +85,7 @@ export class InterviewComponent implements OnInit,
       console.log('camera event', c);
       c.forEach((v, k) => {
         self.cams.forEach(e => {
-        
+
           if (e.id === v.nativeElement.id) {
             const url = e.url;
             const player = new JSMpeg.Player(url, {
@@ -94,7 +94,7 @@ export class InterviewComponent implements OnInit,
               audio: false
             });
           }
-        
+
         });
       });
     });
@@ -157,8 +157,10 @@ export class InterviewComponent implements OnInit,
       // centered: true
     });
     modalRef.afterClosed().subscribe(calleeID => {
-      console.log('Callee ID', calleeID);
-      this.webrtc.call(calleeID);
+      if(calleeID){
+        console.log('Callee ID', calleeID);
+        this.webrtc.call(calleeID);
+      }
     });
   }
   switchToCamera(cam: string) {

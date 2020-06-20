@@ -654,7 +654,15 @@ export class WebRTCService {
         localStorage.setItem('selectedCamera', id);
     }
     getSelectedCamera(): string {
-        return localStorage.getItem('selectedCamera');
+        let id= localStorage.getItem('selectedCamera');
+        if(! id)
+        {
+            const wc= this.webcams[0];
+            if( wc){
+             id = this.webcams[0].id;
+            }
+        }
+        return id;
     }
 
     getSelectedAudio() {

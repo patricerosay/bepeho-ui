@@ -33,11 +33,10 @@ export class Cameras {
     }
     showCamera(id) {
         const b = localStorage.getItem(id);
-        if (! b) {
-          return true;
+        if (!b) {
+            return true;
         } else {
-          return 'true' === b;
+            return 'true' === b;
         }
-    
-      }
+    }
 }

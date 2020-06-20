@@ -18,7 +18,7 @@ export class WebrtcConfigComponent implements OnInit {
   isLoading = true;
   audioInputs: any[];
   audioOutputs: any[];
-  public cams: any[];
+  cams: any[];
   constraints = [
     {
       label: 'default: Very low bandwidth',
@@ -29,11 +29,28 @@ export class WebrtcConfigComponent implements OnInit {
         audio: true,
         video: {
           frameRate: { min: 5, max: 5, ideal: 5 },
-          width: { min: '160', max: '160', ideal: '160' },
-          height: { min: '120', max: '120', ideal: '120' }
+          width: { min: '80', max: '80', ideal: '80' },
+          height: { min: '60', max: '60', ideal: '60' }
         }
       }
     },
+    // {
+    //   label: 'default: Very low bandwidth',
+    //   uploadkbps: '80',
+    //   downloadkbps: '100',
+    //   localCameraCaptureFps: '5',
+    //   constraints: {
+    //     audio: {
+    //       sampleSize: 16,
+    //       channelCount: 2
+    //     },
+    //     video: {
+    //       frameRate: { min: 5, max: 5, ideal: 5 },
+    //       width: { min: '80', max: '80', ideal: '80' },
+    //       height: { min: '60', max: '60', ideal: '60' }
+    //     }
+    //   }
+    // },
     {
       label: 'Low Bandwidth configuration',
       uploadkbps: '150',
@@ -116,7 +133,7 @@ export class WebrtcConfigComponent implements OnInit {
     const val: any = localStorage.getItem('selectedConstraintSet');
     if (val) {
       const o: any = JSON.parse(val);
-      return  o.label === cons.label;
+      return o.label === cons.label;
     } else {
       return 'default: Very low bandwidth' === cons.label;
     }
@@ -146,12 +163,11 @@ export class WebrtcConfigComponent implements OnInit {
   }
   showCamera(id) {
     const b = localStorage.getItem(id);
-    if (! b) {
+    if (!b) {
       return true;
     } else {
       return 'true' === b;
     }
-
   }
 }
 
