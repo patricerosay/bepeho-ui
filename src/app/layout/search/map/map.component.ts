@@ -47,7 +47,7 @@ export class MapComponent implements OnInit {
   public pageSizeOptions: number[] = [100, 500, 1000, 10000];
   public layers = {
     'Local': L.tileLayer(
-      window.location.protocol + '//' + window.location.hostname + '/tile/{z}/{x}/{y}.png'
+      window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/tile/{z}/{x}/{y}.png'
     ),
     'Online': L.tileLayer(
       'https://{s}.tile.osm.org/{z}/{x}/{y}.png'
