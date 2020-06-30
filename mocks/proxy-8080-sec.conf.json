@@ -7,7 +7,7 @@
         "target": "https://localhost",
         "secure": true
     },
-    "/tile":{
+    "/tile/*":{
         "target": "https://localhost",
         "secure": true
     }

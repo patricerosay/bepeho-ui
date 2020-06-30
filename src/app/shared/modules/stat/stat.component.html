@@ -16,7 +16,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-footer">
+	<div *ngIf="viewName !== undefined" class="card-footer">
 		<h5>
 		<span class="float-left">{{ viewName }}  {{data}}</span>
 	</h5>

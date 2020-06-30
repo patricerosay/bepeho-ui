@@ -62,7 +62,7 @@ export class InterviewComponent implements OnInit,
               });
             } else {            self.cams.push({
               id: element.id,
-              url: 'wss://' + location.hostname + '/wss200' + i++
+              url: 'wss://' + + window.location.hostname + ':' + window.location.port + '/wss200' + i++
               // url: 'ws://' + location.hostname + ':2001/cameo'
             });
           }

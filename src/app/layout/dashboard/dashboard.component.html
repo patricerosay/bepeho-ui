@@ -22,9 +22,21 @@
                     [label]="'Background tasks'|translate" [gotoUrl]="'worker'" [viewName]="'Look out'|translate">
                 </app-stat>
             </div>
+           
         </div>
-        <!-- <div class="row">
-            <div class="col-xl-3 col-lg-6">
+        <br/>
+         <div class="row">
+            <div class="col-xl-3 col-lg-6 stat">
+                <app-stat [bgClass]="'primary'" [icon]="'fa-hdd-o'" [count]="stats.storageUsage"
+                    [label]="'% Disk Used'|translate" >
+                </app-stat>
+            </div>
+            <div class="col-xl-3 col-lg-6 stat">
+                <app-stat [bgClass]="'primary'" [icon]="'fa-hdd-o'" [count]="stats.storageLimit"
+                    [label]="'% Storage Limit'|translate" >
+                </app-stat>
+            </div>
+            <!-- <div class="col-xl-3 col-lg-6">
                 <div class="card-header">
                     {{'Recording Storage Space'|translate}}
                 </div>
@@ -33,8 +45,8 @@
                         [chartType]="doughnutChartType">
                     </canvas>
                 </div>
-            </div>
+            </div> -->
 
-        </div> -->
+        </div> 
     </div>
 </div>
