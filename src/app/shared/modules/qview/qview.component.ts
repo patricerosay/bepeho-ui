@@ -126,7 +126,7 @@ export class QviewComponent implements OnInit {
   newClipNamePlaceHolder: string;
   newClipName: string;
   style: number;
-  nmea: NMEA [] ;
+  public nmea: NMEA [] ;
   displayedColumns = ['bgs', 'bgd'];
 
   constructor(public http: HttpClient,
