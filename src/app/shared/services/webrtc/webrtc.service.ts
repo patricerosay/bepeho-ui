@@ -339,6 +339,7 @@ export class WebRTCService {
                                 //   self.errorMsg = 'create stream error' + err;
                                 //   console.error(self.errorMsg);
                                 console.error(err);
+                                self.errorMsg = err.message;
                                 reject(err);
                             });
                     });
@@ -654,11 +655,10 @@ export class WebRTCService {
         localStorage.setItem('selectedCamera', id);
     }
     getSelectedCamera(): string {
-        let id= localStorage.getItem('selectedCamera');
-        if(! id)
-        {
-            const wc= this.webcams[0];
-            if( wc){
+        let id = localStorage.getItem('selectedCamera');
+        if (! id) {
+            const wc = this.webcams[0];
+            if ( wc) {
              id = this.webcams[0].id;
             }
         }

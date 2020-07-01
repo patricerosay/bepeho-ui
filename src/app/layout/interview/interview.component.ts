@@ -32,7 +32,7 @@ export class InterviewComponent implements OnInit,
   calleeID: number;
 
 
-  public cams = [ ];
+  public cams = [];
   public allCameras = [];
   webrtc: WebRTCService = null;
   public cameraService: Cameras = null;
@@ -53,21 +53,23 @@ export class InterviewComponent implements OnInit,
         let i = 1;
         self.allCameras = cams;
         cams.forEach(element => {
-          if ( this.cameraService.showCamera(element.id )) {
-            if (isDevMode()) {
-              self.cams.push({
-                id: element.id,
-                // url: 'wss://' + location.hostname + '/wss200' + i++
-                 url: 'ws://' + location.hostname + ':2001/cameo'
-              });
-            } else {            self.cams.push({
-              id: element.id,
-              url: 'wss://' + + window.location.hostname + ':' + window.location.port + '/wss200' + i++
-              // url: 'ws://' + location.hostname + ':2001/cameo'
-            });
-          }
-          }
-        });
+          if (this.cameraService.showCamera(element.id)) {
+           // if (isDevMode()) {
+              if (false) {
+                self.cams.push({
+                  id: element.id,
+                  // url: 'wss://' + location.hostname + '/wss200' + i++
+                  url: 'ws://' + location.hostname + ':2001/cameo'
+                });
+              } else {
+                self.cams.push({
+                  id: element.id,
+                  url: 'wss://' + window.location.hostname + ':' + window.location.port + '/wss200' + i++
+                  // url: 'ws://' + location.hostname + ':2001/cameo'
+                });
+              }
+            }
+          });
         self.isLoading = false;
       });
 
@@ -157,7 +159,7 @@ export class InterviewComponent implements OnInit,
       // centered: true
     });
     modalRef.afterClosed().subscribe(calleeID => {
-      if(calleeID){
+      if (calleeID) {
         console.log('Callee ID', calleeID);
         this.webrtc.call(calleeID);
       }
@@ -209,12 +211,13 @@ export class InterviewComponent implements OnInit,
         console.log('On call: replacing stream');
         this.webrtc.releaseScreenSharingStream();
         return this.webrtc.currentCall.replacePublishedStreams(null, callback).
-        then(res => {
-          console.log('replaced by ', res);
-        })
+          then(res => {
+            console.log('replaced by ', res);
+          })
           .catch(err => {
-            console.error('error while replacing stream ', err); }
-            );
+            console.error('error while replacing stream ', err);
+          }
+          );
       } else {
         console.log('starting call');
         return callback.getStream();
