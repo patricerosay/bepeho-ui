@@ -1,14 +1,29 @@
 {
     "/recorder/*": {
-        "target": "http://localhost:8080",
-        "secure": true
+        "target": {
+            "host": "localhost",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
     },
     "/media/*": {
-        "target": "https://localhost",
-        "secure": true
+        "target": {
+            "host": "localhost",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
     },
-    "/tile/*":{
-        "target": "https://localhost",
-        "secure": true
+    "/tile/*": {
+        "target": {
+            "host": "localhost",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
     }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClipComponent } from './clip.component';
-import {VgCoreModule, VgControlsModule, VgOverlayPlayModule, VgBufferingModule} from 'ngx-videogular';
+import {VgCoreModule, VgControlsModule, VgOverlayPlayModule, VgBufferingModule, } from 'ngx-videogular';
 @NgModule({
     imports: [CommonModule, VgCoreModule,
         VgControlsModule, VgOverlayPlayModule,

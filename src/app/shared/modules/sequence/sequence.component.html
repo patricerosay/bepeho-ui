@@ -8,9 +8,10 @@
           (onPlayerReady)="onVideoPlayerReady($event)"
           onUpdateState="onUpdateState($state)"
         >
+        <vg-overlay-play></vg-overlay-play>
           <vg-buffering></vg-buffering>
           <vg-controls [vgAutohide]="true" vg-autoplay="false" [vgAutohideTime]="1.5">
-            <vg-play-pause></vg-play-pause>
+            <!-- <vg-play-pause></vg-play-pause> -->
             <vg-playback-button></vg-playback-button>
 
             <vg-time-display

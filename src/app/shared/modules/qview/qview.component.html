@@ -53,11 +53,13 @@
   >
     <div>
       <div class="videogular-container">
+        
         <vg-player (onPlayerReady)="onVideoPlayerReady($event)"
         onUpdateState="onUpdateState($state)">
           <vg-buffering></vg-buffering>
+          <vg-overlay-play></vg-overlay-play>
           <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
-              <vg-play-pause></vg-play-pause>
+              <!-- <vg-play-pause></vg-play-pause> -->
               <vg-playback-button></vg-playback-button>
 
               <vg-time-display
