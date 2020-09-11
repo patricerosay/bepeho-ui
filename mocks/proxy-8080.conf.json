@@ -10,5 +10,9 @@
     "/tile":{
         "target": "http://localhost",
         "secure": false
+    },
+    "/CAM0":{
+        "target": "http://localhost:8080/CAM0",
+        "secure": false
     }
 }

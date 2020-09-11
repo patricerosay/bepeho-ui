@@ -153,7 +153,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   mosaic: Array<Camera> = new Array<Camera>();
   camera: Camera;
   stream: string;
-  microphone = 'CAM0';
+  microphone = 'MIC0';
   withData: boolean;
   errorMsg: string;
 

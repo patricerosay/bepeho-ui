@@ -1,22 +1,27 @@
 {
     "/recorder/*": {
-        "target": "http://192.168.1.1:8080",
+        "target": "https://mediaman.home",
         "secure": false
     },
     "/media/*": {
-        "target": "http://192.168.1.1:8080",
+        "target": "https://mediaman.home",
         "secure": false
     },
     "/tile":{
-        "target": "http://http://192.168.1.18",
+        "target": "https://mediaman.home",
         "secure": false
     },
     "/CAM1":{
-        "target": "http://http://192.168.1.18",
+        "target": "https://mediaman.home",
         "secure": false
     },
     "/wifi":{
         "target": "http://http://192.168.1.18",
         "secure": false
-    }
+    },
+    "/wss2001": {
+        "target": "https://mediaman.home",
+        "secure": true,
+        "ws": true
+      }
 }

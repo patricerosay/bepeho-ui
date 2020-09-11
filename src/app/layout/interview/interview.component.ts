@@ -33,6 +33,7 @@ export class InterviewComponent implements OnInit,
 
 
   public cams = [];
+  jsmpegPlayers = [];
   public allCameras = [];
   webrtc: WebRTCService = null;
   public cameraService: Cameras = null;
@@ -54,21 +55,21 @@ export class InterviewComponent implements OnInit,
         self.allCameras = cams;
         cams.forEach(element => {
           if (this.cameraService.showCamera(element.id)) {
-           // if (isDevMode()) {
-              if (false) {
-                self.cams.push({
-                  id: element.id,
-                  // url: 'wss://' + location.hostname + '/wss200' + i++
-                  url: 'ws://' + location.hostname + ':2001/cameo'
-                });
-              } else {
+          //   if (isDevMode()) {
+          //  //   if (false) {
+          //       self.cams.push({
+          //         id: element.id,
+          //         // url: 'wss://' + location.hostname + '/wss200' + i++
+          //         url: 'ws://' + location.hostname + ':2001/cameo'
+          //       });
+          //     } else {
                 self.cams.push({
                   id: element.id,
                   url: 'wss://' + window.location.hostname + ':' + window.location.port + '/wss200' + i++
                   // url: 'ws://' + location.hostname + ':2001/cameo'
                 });
               }
-            }
+            // }
           });
         self.isLoading = false;
       });
@@ -89,12 +90,13 @@ export class InterviewComponent implements OnInit,
         self.cams.forEach(e => {
 
           if (e.id === v.nativeElement.id) {
-            const url = e.url;
-            const player = new JSMpeg.Player(url, {
+
+            const player = new JSMpeg.Player(e.url, {
               canvas: v.nativeElement,
               poster: 'assets/images/white-noise.jpg',
               audio: false
             });
+            self.jsmpegPlayers.push(player);
           }
 
         });
@@ -120,6 +122,9 @@ export class InterviewComponent implements OnInit,
     console.log('ondestroy');
     this.webrtc.hangup();
     this.webrtc.releaseWebCams();
+    this.jsmpegPlayers.forEach(player => {
+      player.destroy();
+    });
   }
 
   onSettings() {
