@@ -3,15 +3,15 @@
 <div *ngIf="isLoading">loading ....</div>
 <div *ngIf="!isLoading">
   <div class="container">
-    <div class="remote" id="remote-container">
-      <img *ngIf="!webrtc.currentRemoteStreamID" id="remote-container-placeholder" class="camera"
-        src="assets/images/white-noise.jpg"/>
-    </div>
-    <!-- <div id="locals" class="locals selected" > -->
-    <div id="locals" class="locals">
+
+    <localcontainer id="locals">
+      <div class="box" id="remote-container">
+        <img *ngIf="!webrtc.currentRemoteStreamID" id="remote-container-placeholder" class="camera"
+          src="assets/images/white-noise.jpg"/>
+      </div>
       <div class="box" *ngFor="let webcam of webrtc.webcams">
         <video [ngClass]="webcam.id === webrtc.getSelectedCamera() ?  'selected':'local' " #webcams
-          poster="assets/images/mire.jpg" width="320" height="180" muted="muted" autoplay id="{{ webcam.id }}"
+          muted="muted" autoplay id="{{ webcam.id }}"
           (click)="webrtc.changeWebcamInput(webcam); webrtc.selectCamera(webcam.id);"></video>
       </div>
       <div class="box" *ngFor="let cam of cams">
@@ -19,8 +19,8 @@
           (click)="switchToCamera(cam.id); webrtc.selectCamera(cam.id);"></canvas>
       </div>
       
-      <!-- <div id="webcams"></div> -->
-    </div>
+
+    </localcontainer>
 
     <div class="controls">
       <div *ngIf="webrtc.joiningCall">
