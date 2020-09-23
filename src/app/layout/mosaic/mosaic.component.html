@@ -93,9 +93,18 @@
 				</mat-slide-toggle>
 			</div>
 			<div class="configuration-container ">
-				{{'Include audio in the stream'|translate}}
-				<mat-slide-toggle id="microphone" [checked]="true" (change)="onMicChanged( $event )">
-				</mat-slide-toggle>
+				<div *ngIf="0 < mics.length" >
+					<div *ngFor="let mic of mics">
+					{{'Include audio in the stream '|translate}} <b>{{mic.name}}</b>
+					<mat-slide-toggle [id]="mic.id" [checked]="false" (change)="onMicChanged( $event, mic.id )">
+					</mat-slide-toggle>
+					</div>
+
+				</div>
+				<div *ngIf=" 0 === mics.length">
+					{{'No microphone to select'|translate}} 
+					
+				</div>
 			</div>
 			<ngb-alert [dismissible]="false" *ngIf="camera && group.value " class="example-selected-value">Livestreaming
 				now {{camera.name}} to {{group.value}}

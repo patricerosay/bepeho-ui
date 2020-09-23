@@ -7,18 +7,18 @@
     <localcontainer id="locals">
       <div class="box" id="remote-container">
         <img *ngIf="!webrtc.currentRemoteStreamID" id="remote-container-placeholder" class="camera"
-          src="assets/images/white-noise.jpg"/>
+          src="assets/images/white-noise.jpg" />
       </div>
       <div class="box" *ngFor="let webcam of webrtc.webcams">
-        <video [ngClass]="webcam.id === webrtc.getSelectedCamera() ?  'selected':'local' " #webcams
-          muted="muted" autoplay id="{{ webcam.id }}"
+        <video [ngClass]="webcam.id === webrtc.getSelectedCamera() ?  'selected':'local' " #webcams muted="muted"
+          autoplay id="{{ webcam.id }}"
           (click)="webrtc.changeWebcamInput(webcam); webrtc.selectCamera(webcam.id);"></video>
       </div>
       <div class="box" *ngFor="let cam of cams">
         <canvas [ngClass]="cam.id === webrtc.getSelectedCamera() ?  'selected':'local'" #cameras id="{{ cam.id }}"
           (click)="switchToCamera(cam.id); webrtc.selectCamera(cam.id);"></canvas>
       </div>
-      
+
 
     </localcontainer>
 
@@ -39,8 +39,8 @@
         </button>
       </div>
       <div *ngIf="webrtc.joiningVideoCall">
-        <button title="Stop the video conference" class="center-button" 
-          color="primary" mat-fab (click)="webrtc.hangup()" color="accent">
+        <button title="Stop the video conference" class="center-button" color="primary" mat-fab
+          (click)="webrtc.hangup()" color="accent">
           <i class="fa fa-fw fa-spin fa-spinner" aria-hidden="true"></i>
         </button>
       </div>
@@ -54,7 +54,7 @@
           <i class="fa fa-fw fa-2x fa-stop" aria-hidden="true"></i>
         </button>
       </div>
-     
+
       <div *ngIf="webrtc.videoMuted">
         <button title="Unmute your camera" color="accent" mat-fab (click)="webrtc.onMutingVideo(false)">
           <i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
@@ -92,16 +92,16 @@
         <i class="fa fa-2x fa-sliders" aria-hidden="true"></i>
       </button>
 
-      <div *ngIf="webrtc.remoteVideoMuted">
-      <button title="Mute remote video stream" color="accent" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
-        <i class="fa fa-eye-slash" aria-hidden="true"></i>
-      </button>
+      <!-- <div *ngIf="webrtc.remoteVideoMuted">
+        <button title="Mute remote video stream" color="accent" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+        </button>
       </div>
       <div *ngIf="! webrtc.remoteVideoMuted">
-      <button title="Mute remote video stream" color="primary" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
-        <i class="fa fa-eye-slash" aria-hidden="true"></i>
-      </button>
-      </div>
+        <button title="Mute remote video stream" color="primary" mat-fab (click)="webrtc.onFlipFlopRemoteVideoStream()">
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+        </button>
+      </div> -->
     </div>
   </div>
 </div>

@@ -119,12 +119,18 @@ export class InterviewComponent implements OnInit,
   }
 
   ngOnDestroy() {
-    console.log('ondestroy');
-    this.webrtc.hangup();
-    this.webrtc.releaseWebCams();
-    this.jsmpegPlayers.forEach(player => {
-      player.destroy();
-    });
+    try {
+      console.log('ondestroy');
+      this.webrtc.hangup();
+      this.webrtc.releaseWebCams();
+      for ( let i = 0; i <= this.jsmpegPlayers.length; i++) {
+        this.jsmpegPlayers[i].destroy();
+        this.jsmpegPlayers[i] = null;
+      }
+      this.jsmpegPlayers = null;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   onSettings() {
@@ -259,6 +265,8 @@ export class InterviewComponent implements OnInit,
                     console.log(err.name + ': ' + err.message);
                   });
 
+              }).catch(err => {
+                console.log(err.name + ': ' + err.message);
               });
           });
         }
@@ -267,9 +275,16 @@ export class InterviewComponent implements OnInit,
       if (call) {
         console.log('On call: replacing stream');
         this.webrtc.releaseScreenSharingStream();
+        if ( call.replacePublishedStreams ) {
         return call.replacePublishedStreams(null, callback).
           then(res => console.log('replaced by ', res))
           .catch(err => console.error('error while replacing stream ', err));
+        } else {
+          return call.replacePublishedStream(null, callback, null).
+          then(res => console.log('replaced by ', res))
+          .catch(err => console.error('error while replacing stream ', err));
+        }
+
       } else {
         console.log('starting call');
         return callback.getStream();

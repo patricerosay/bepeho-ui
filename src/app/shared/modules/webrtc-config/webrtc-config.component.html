@@ -14,9 +14,9 @@
       *ngFor="let audioInput of audioInputs"
       [ngClass]="{
         'btnbtn-secondary':
-          audioInput.id !== getCookieInfo('selectedAudioInput', 'default'),
+          audioInput.id != getCookieInfo('selectedAudioInput', 'default'),
         'btn btn-success':
-          audioInput.id === getCookieInfo('selectedAudioInput', 'default')
+          audioInput.id == getCookieInfo('selectedAudioInput', 'default')
       }"
       mat-fab
       (click)="onSelectAudioInput(audioInput)"
@@ -35,9 +35,9 @@
       *ngFor="let audioOutput of audioOutputs"
       [ngClass]="{
         'btnbtn-secondary':
-          audioOutput.id !== getCookieInfo('selectedAudioOutput', 'default'),
+          audioOutput.id != getCookieInfo('selectedAudioOutput', 'default'),
         'btn btn-success':
-          audioOutput.id === getCookieInfo('selectedAudioOutput', 'default')
+          audioOutput.id == getCookieInfo('selectedAudioOutput', 'default')
       }"
       title="{{ audioOutput.label }}"
       mat-fab

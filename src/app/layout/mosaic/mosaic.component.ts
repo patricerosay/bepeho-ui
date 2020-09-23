@@ -10,6 +10,8 @@ import {
 
 import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
+import { Microphone } from '../../shared/interfaces/microphone-interface';
+import { Microphones } from '../../shared/services/parameters/microphones';
 export interface IInstrument {
   speed: string;
   heading: string;
@@ -132,6 +134,7 @@ export class CameraPropertiesModal {
 export class MosaicComponent implements OnInit, OnDestroy {
   worker: any;
   public cameras: Cameras = null;
+  public microphones: Microphones = null;
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
@@ -141,19 +144,18 @@ export class MosaicComponent implements OnInit, OnDestroy {
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
     this.cameras = new Cameras(http);
+    this.microphones = new Microphones(http);
   }
 
   displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
   dataSource: IInstrument[] = ELEMENT_DATA;
-  // showInstrument: true;
-  // dataSource2 = {};
-  //private url = '/recorder/cams';
+
   isLoading = true;
- // cameras: Array<Camera> = new Array<Camera>();
   mosaic: Array<Camera> = new Array<Camera>();
+  mics: Array<Microphone> = new Array<Microphone>();
   camera: Camera;
   stream: string;
-  microphone = 'MIC0';
+  microphone = null;
   withData: boolean;
   errorMsg: string;
 
@@ -179,9 +181,9 @@ export class MosaicComponent implements OnInit, OnDestroy {
             self.dataSource[0].tws = ins.value;
           } else if ('gpsTime' === ins.id) {
             const n = Math.round(parseInt(ins.value, 10));
-            //164023.00	
-            const h = Math.floor(n / 10000) ;
-            const m = Math.floor((n - (h * 10000)) / 100 );
+            // 164023.00
+            const h = Math.floor(n / 10000);
+            const m = Math.floor((n - (h * 10000)) / 100);
             const s = n - ((h * 10000) + (m * 100));
             self.dataSource[0].time = h + ':' + m + ':' + s;
           } else if ('blo' === ins.id) {
@@ -200,7 +202,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
       }
     },
       () => {
-      self.dataSource[0].speed = 'err';
+        self.dataSource[0].speed = 'err';
         self.dataSource[0].heading = 'err';
         self.dataSource[0].twd = 'err';
         self.dataSource[0].tws = 'err';
@@ -234,8 +236,14 @@ export class MosaicComponent implements OnInit, OnDestroy {
     this.startInstrumentWorker();
 
     self.cameras.getCameras().then(mos => {
-      self.mosaic = mos; 
-      self.isLoading = false; });
+      self.mosaic = mos;
+      self.microphones.getMicrophones().then(mic => {
+        self.mics = mic;
+        console.log(self.mics);
+        self.isLoading = false;
+      });
+    });
+
   }
   private postAction(body: string) {
     this.http
@@ -255,8 +263,8 @@ export class MosaicComponent implements OnInit, OnDestroy {
         }
       );
   }
-  onMicChanged(e): void {
-    this.microphone = e.checked ? 'MIC0' : null;
+  onMicChanged(e, id): void {
+    this.microphone = e.checked ? id : null;
   }
   onDataChanged(e): void {
     this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));

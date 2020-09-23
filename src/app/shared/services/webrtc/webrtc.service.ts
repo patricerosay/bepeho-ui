@@ -98,7 +98,7 @@ export class WebRTCService {
         this.isLive = false;
         this.isConnected = false;
 
-        if (this.ua) {
+        if (this.ua && this.ua.isRegistered()) {
             this.ua
                 .unregister({
                     cloudUrl: this.cloudUrl
@@ -656,10 +656,10 @@ export class WebRTCService {
     }
     getSelectedCamera(): string {
         let id = localStorage.getItem('selectedCamera');
-        if (! id) {
+        if (!id) {
             const wc = this.webcams[0];
-            if ( wc) {
-             id = this.webcams[0].id;
+            if (wc) {
+                id = this.webcams[0].id;
             }
         }
         return id;
@@ -700,8 +700,15 @@ export class WebRTCService {
         }
         console.log('adding remote stream ', stream);
         const elmt = document.getElementById('remote-container');
+
         if (elmt) {
-            stream.addInDiv('remote-container', 'remote-media-' + stream.streamId, { width: '100%', height: '100%' }, false);
+            const newRemoteMediaID = 'remote-media-' + stream.streamId;
+
+            if (document.getElementById(newRemoteMediaID)) {
+                console.log('%s already exists', newRemoteMediaID);
+            } else {
+                stream.addInDiv('remote-container', newRemoteMediaID, { width: '100%', height: '100%' }, false);
+            }
         }
     }
     removeRemoteStream(stream) {
