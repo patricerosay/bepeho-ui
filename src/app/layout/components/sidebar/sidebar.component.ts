@@ -16,7 +16,11 @@ export class SidebarComponent implements OnInit {
     status = 1;
     @Output() collapsedEvent = new EventEmitter<boolean>();
     searchViewMode = '/map';
-
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
     constructor(private translate: TranslateService,
         public router: Router
         // private cookieService: CookieService
@@ -24,7 +28,7 @@ export class SidebarComponent implements OnInit {
 
         this.translate.addLangs(['en', 'fr', 'jp', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
+        const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de/) ? browserLang : 'en');
 
         this.router.events.subscribe(val => {
@@ -87,6 +91,6 @@ export class SidebarComponent implements OnInit {
     }
 
     onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+        sessionStorage.removeItem('isLoggedin');
     }
 }

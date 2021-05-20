@@ -56,13 +56,18 @@ export class ConfigurationComponent implements OnInit {
     isLoadingControls = true;
     errorMsg: string;
 
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
     controls = new Controls;
     constructor(public http: HttpClient,
         private modalService: NgbModal,
         private translate: TranslateService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
+        const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
      }
     private url = '/recorder/parameters';

@@ -12,11 +12,17 @@ import { HttpClient } from '@angular/common/http';
 export class HeaderComponent implements OnInit {
     public pushRightClass: string;
 
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
+
     constructor(private translate: TranslateService, public router: Router, public http: HttpClient) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
+        const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
         this.router.events.subscribe(val => {
@@ -81,10 +87,11 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+        sessionStorage.removeItem('isLoggedin');
     }
 
     changeLang(language: string) {
         this.translate.use(language);
+        localStorage.setItem("langage", language);
     }
 }

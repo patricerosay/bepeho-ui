@@ -26,11 +26,15 @@ export class VideoRecordsComponent implements AfterViewInit {
     searchPrms: ISearchParams = new ISearchParams();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
     constructor(private _httpClient: HttpClient, private translate: TranslateService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
+        const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
       }
     public getImg(row: []): string {

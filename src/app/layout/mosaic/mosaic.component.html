@@ -3,7 +3,7 @@
 
 	<div class="configuration-container ">
 		{{'Show Instruments'|translate}}
-		<mat-slide-toggle id="showInstrument" [checked]="true" (change)="onDisplayInstrument( $event )">
+		<mat-slide-toggle id="showInstrument" [checked]="false" (change)="onDisplayInstrument( $event )">
 		</mat-slide-toggle>
 	</div>
 	<div *ngIf="worker">
@@ -68,15 +68,11 @@
 			</mat-tab-group>
 		</mat-tab>
 		<mat-tab label="Mosaic">
-			<mat-button-toggle-group #group="matButtonToggleGroup" value="stop">
+			<!-- <mat-button-toggle-group #group="matButtonToggleGroup" value="stop">
 				<mat-button-toggle (click)="onStream('STREAM_COMMAND_3')" value="Facebook" aria-label="Text align center">
 					<i class="fa fa-fw  fa-facebook-f"></i>
 					Social Networks
 				</mat-button-toggle>
-				<!-- <mat-button-toggle (click)="onStream('STREAM_PLAY')" value="Youtube" aria-label="Text align center">
-					<i class="fa fa-fw fa-youtube"></i>
-					Youtube
-				</mat-button-toggle> -->
 				<mat-button-toggle (click)="onStream('LIVERECORD')" value="record" aria-label="Text align right">
 					<i class="fa fa-fw fa-film"></i>
 					Record
@@ -105,7 +101,7 @@
 					{{'No microphone to select'|translate}} 
 					
 				</div>
-			</div>
+			</div> -->
 			<ngb-alert [dismissible]="false" *ngIf="camera && group.value " class="example-selected-value">Livestreaming
 				now {{camera.name}} to {{group.value}}
 			</ngb-alert>
@@ -116,12 +112,12 @@
 				<mat-grid-list cols="2" rowHeight="2:1">
 					<div *ngFor="let cam of mosaic">
 						<mat-grid-tile>
+							<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
+<!-- 
 							<mat-radio-button class="example-radio-button" [value]="cam">{{cam.name}}
-								<!-- <img class="camera-mosaic" src="{{cam.camPreviewUrl}}"
-									onerror="this.src='assets/images/mire.jpg'"> -->
-								<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
-
-							</mat-radio-button>
+							
+							
+							</mat-radio-button> -->
 						</mat-grid-tile>
 					</div>
 				</mat-grid-list>

@@ -135,13 +135,18 @@ export class MosaicComponent implements OnInit, OnDestroy {
   worker: any;
   public cameras: Cameras = null;
   public microphones: Microphones = null;
+  getlangage(): string {    
+    const langage = localStorage.getItem("langage");
+    if (! langage) return this.translate.getBrowserLang();
+    return langage;
+}
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
     private translate: TranslateService) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
-    const browserLang = this.translate.getBrowserLang();
+    const browserLang = this.getlangage();
     this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
     this.cameras = new Cameras(http);
     this.microphones = new Microphones(http);
@@ -233,7 +238,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const self = this;
-    this.startInstrumentWorker();
+    //this.startInstrumentWorker();
 
     self.cameras.getCameras().then(mos => {
       self.mosaic = mos;

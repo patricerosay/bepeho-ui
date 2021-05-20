@@ -7,7 +7,7 @@ export class AuthGuardHublo implements CanActivate {
     constructor(private router: Router) {}
 
     canActivate() {
-        if (localStorage.getItem('isLoggedinHublo')) {
+        if (sessionStorage.getItem('isLoggedinHublo')) {
             return true;
         }
 

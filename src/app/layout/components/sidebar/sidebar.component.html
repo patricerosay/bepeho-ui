@@ -37,14 +37,14 @@
       <i class="fa fa-fw fa-television"></i>&nbsp;
       <span>{{ "Live" | translate }}</span>
     </a>
-    <a
+    <!-- <a
     [routerLink]="['/interview']"
     [routerLinkActive]="['router-link-active']"
     class="list-group-item"
   >
     <i class="fa fa-fw fa-commenting-o"></i>&nbsp;
     <span>{{ "Hublo" | translate }}</span>
-  </a>
+  </a> -->
     <div class="nested-menu">
       <a class="list-group-item" (click)="addExpandClass('pages')">
         <i class="fa fa-plus"></i>&nbsp;
@@ -63,7 +63,7 @@
             </a>
           </li>
 
-          <li>
+          <!-- <li>
             <a
               [routerLink]="['/version']"
               [routerLinkActive]="['router-link-active']"
@@ -72,7 +72,7 @@
               <i class="fa fa-code-fork"></i>&nbsp;
               <span>{{ "Version" | translate }}</span>
             </a>
-          </li>
+          </li> -->
           
           <li>
             <a (click)="gotoWIFI()" class="list-group-item">

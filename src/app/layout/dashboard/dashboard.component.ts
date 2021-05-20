@@ -21,6 +21,11 @@ export class DashboardComponent implements OnInit {
         'Left',
         'Reserved'
     ];
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
     public doughnutChartData: number[] = [350, 450, 100];
     private url = '/recorder/stats';
     isLoading = true;
@@ -29,7 +34,7 @@ export class DashboardComponent implements OnInit {
         public http: HttpClient) {
             this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
             this.translate.setDefaultLang('en');
-            const browserLang = this.translate.getBrowserLang();
+            const browserLang = this.getlangage();
             this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
         this.doughnutChartType = 'doughnut';

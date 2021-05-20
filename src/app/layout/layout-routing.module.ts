@@ -8,7 +8,7 @@ const routes: Routes = [
         path: '',
         component: LayoutComponent,
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
+            { path: '', redirectTo: 'mosaic', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'mosaic', loadChildren: './mosaic/mosaic.module#MosaicModule' },
             { path: 'interview', loadChildren: './interview/interview.module#InterviewModule', canActivate: [AuthGuardHublo] },

@@ -2,7 +2,7 @@
 <div *ngIf="error"> Error while connecting to server </div>
 
 <div *ngIf="!isLoading && ! error">
-    <div [@routerTransition]>
+
 
         <div class="row">
 
@@ -25,7 +25,7 @@
            
         </div>
         <br/>
-         <div class="row">
+         <!-- <div class="row">
             <div class="col-xl-3 col-lg-6 stat">
                 <app-stat [bgClass]="'primary'" [icon]="'fa-hdd-o'" [count]="stats.storageUsage"
                     [label]="'% Disk Used'|translate" >
@@ -36,17 +36,8 @@
                     [label]="'% Storage Limit'|translate" >
                 </app-stat>
             </div>
-            <!-- <div class="col-xl-3 col-lg-6">
-                <div class="card-header">
-                    {{'Recording Storage Space'|translate}}
-                </div>
-                <div class="card-body ">
-                    <canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels"
-                        [chartType]="doughnutChartType">
-                    </canvas>
-                </div>
-            </div> -->
 
-        </div> 
-    </div>
+
+        </div>  -->
+  
 </div>

@@ -75,9 +75,17 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       {'name': '30 to 40', 'value' : [30, 40]},
       {'name': '40 To More', 'value' : [40, 100]},
     ];
+
     currentSpeedRangeName: string;
     currentHeelRangeName: string;
     currentTimeRangeName: string;
+    
+    getlangage(): string {    
+        const langage = localStorage.getItem("langage");
+        if (! langage) return this.translate.getBrowserLang();
+        return langage;
+    }
+    
     constructor(private _httpClient: HttpClient,
         private modalService: NgbModal,
          private translate: TranslateService,
@@ -85,7 +93,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         ) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
+        const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
       }
       getCookieInfo(key: string, def: string): string {
