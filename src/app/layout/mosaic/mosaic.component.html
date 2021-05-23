@@ -58,7 +58,7 @@
 				<div *ngFor="let cam of mosaic">
 					<mat-tab label="{{cam.name}}">
 					
-						<img class="camera" src ="getPreviewUrl(cam)"   >
+						<img class="camera" (src) ="getPreviewUrl(cam)"   >
 					</mat-tab>
 				</div>
 			</mat-tab-group>
@@ -71,7 +71,7 @@
 				<mat-grid-list cols="2" rowHeight="2:1">
 					<div *ngFor="let cam of mosaic">
 						<mat-grid-tile>
-							<img class="camera" src= "getPreviewUrl(cam)" >
+							<img class="camera" (src)= "getPreviewUrl(cam)" >
 						</mat-grid-tile>
 					</div>
 				</mat-grid-list>
