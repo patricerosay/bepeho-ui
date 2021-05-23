@@ -12,6 +12,7 @@ import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
 import { Microphone } from '../../shared/interfaces/microphone-interface';
 import { Microphones } from '../../shared/services/parameters/microphones';
+import { random } from 'core-js/core/number';
 export interface IInstrument {
   speed: string;
   heading: string;
@@ -276,7 +277,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   getPreviewUrl(cam: Camera): string {
     if (cam) {
-      return '/' + cam.id;
+      return '/' + cam.id ;
     } else {
       return undefined;
     }

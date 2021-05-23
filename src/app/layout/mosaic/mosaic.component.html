@@ -57,25 +57,66 @@
 			<mat-tab-group>
 				<div *ngFor="let cam of mosaic">
 					<mat-tab label="{{cam.name}}">
-					
-						<img class="camera" (src) ="getPreviewUrl(cam)"   >
+						<!-- <ul class=" nav navbar-nav  flex-nowrap ml-auto">
+							<li>
+								<button mat-raised-button color="primary" (click)="openDialog(cam)"> Parameters</button>
+							</li>
+						</ul> -->
+						<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
 					</mat-tab>
 				</div>
 			</mat-tab-group>
 		</mat-tab>
 		<mat-tab label="Mosaic">
+			<!-- <mat-button-toggle-group #group="matButtonToggleGroup" value="stop">
+				<mat-button-toggle (click)="onStream('STREAM_COMMAND_3')" value="Facebook" aria-label="Text align center">
+					<i class="fa fa-fw  fa-facebook-f"></i>
+					Social Networks
+				</mat-button-toggle>
+				<mat-button-toggle (click)="onStream('LIVERECORD')" value="record" aria-label="Text align right">
+					<i class="fa fa-fw fa-film"></i>
+					Record
+				</mat-button-toggle>
+				<mat-button-toggle (click)="onStopStream()" value="stop" aria-label="Text align right">
+					<i class="fa fa-fw fa-stop"></i>
+					Stop
+				</mat-button-toggle>
+			</mat-button-toggle-group>
+
+			<div class="configuration-container ">
+				 {{'Include navigation data in the stream'|translate}}
+				<mat-slide-toggle id="datainstream" [checked]="true" (change)="onDataChanged( $event )">
+				</mat-slide-toggle>
+			</div>
+			<div class="configuration-container ">
+				<div *ngIf="0 < mics.length" >
+					<div *ngFor="let mic of mics">
+					{{'Include audio in the stream '|translate}} <b>{{mic.name}}</b>
+					<mat-slide-toggle [id]="mic.id" [checked]="false" (change)="onMicChanged( $event, mic.id )">
+					</mat-slide-toggle>
+					</div>
+
+				</div>
+				<div *ngIf=" 0 === mics.length">
+					{{'No microphone to select'|translate}} 
+					
+				</div>
+			</div> -->
 			<ngb-alert [dismissible]="false" *ngIf="camera && group.value " class="example-selected-value">Livestreaming
 				now {{camera.name}} to {{group.value}}
 			</ngb-alert>
 			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+
+			<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+				[(ngModel)]="camera">
 				<mat-grid-list cols="2" rowHeight="2:1">
 					<div *ngFor="let cam of mosaic">
 						<mat-grid-tile>
-							<img class="camera" (src)= "getPreviewUrl(cam)" >
+							<img class="camera" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' >
 						</mat-grid-tile>
 					</div>
 				</mat-grid-list>
-
+			</mat-radio-group>
 		</mat-tab>
 		
 	</mat-tab-group>
