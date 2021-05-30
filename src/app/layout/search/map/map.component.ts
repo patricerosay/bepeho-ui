@@ -387,7 +387,8 @@ export class MapComponent implements OnInit {
                       data: firstSegment,
                       jsonPayload: jsonPayload,
                       icon: self.iconDetect,
-                      title: firstSegment.anomaly_score_d
+                      //title: firstSegment.anomaly_score_d
+                      title: new Date(firstSegment.end_time_data * 1000).toUTCString()
                     };
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
@@ -452,7 +453,7 @@ export class MapComponent implements OnInit {
             L.polyline(linePoints, { color: 'red' }).addTo(self.theMap);
             let center = new L.LatLng(0.0, 0.0);
 
-            if (groups.length) {
+            if (groups.length && lastDisplayedSegment) {
               center = self.getLatLon(lastDisplayedSegment);
             }
 

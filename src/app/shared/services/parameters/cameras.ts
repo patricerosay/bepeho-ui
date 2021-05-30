@@ -25,7 +25,7 @@ export class Cameras {
                     }
                 });
 
-                // ret.reverse();
+                ret.reverse();
                 return (resolve(ret));
             });
 

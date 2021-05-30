@@ -153,7 +153,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
     this.microphones = new Microphones(http);
   }
 
-  displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla', 'tws', 'twd'];
+  displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla'];
   dataSource: IInstrument[] = ELEMENT_DATA;
 
   isLoading = true;

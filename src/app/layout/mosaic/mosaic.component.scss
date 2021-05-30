@@ -5,14 +5,21 @@ html, body {
 }
 
 
- img.camera-mosaic {
- 		// width: 640px;
- 		width: 90%;
- 	}
+//  img.camera-mosaic {
+//  		// width: 640px;
+//  		width: 90%;
+//  	}
 .camera {
 		margin: auto;
-		width: 80%;
+		height: auto;
+		min-height: 80vh
 	}
+.cameraMosaic {
+	margin: 0%;
+	width: 100%;
+
+}
+
 // @media (min-width: 992px)  {
 // 	.camera {
 // 		width: 100%;

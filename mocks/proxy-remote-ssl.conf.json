@@ -1,0 +1,122 @@
+{
+    "/recorder/*": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/media/*": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/tile/*": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM0":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM1":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM2":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM3":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM4":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM5":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM6":{
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/wss2001": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info",
+        "ws":true
+    },
+    "/wss2002": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info",
+        "ws":true
+    },
+    "/wss2003": {
+        "target": {
+            "host": "mediaman.home",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "info",
+        "ws":true
+    }
+}
