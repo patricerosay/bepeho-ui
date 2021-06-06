@@ -29,7 +29,15 @@ export class DashboardComponent implements OnInit {
     public doughnutChartData: number[] = [350, 450, 100];
     private url = '/recorder/stats';
     isLoading = true;
-    stats: IStats;
+    stats ={storageUsage: 0,
+    documentCount:0,
+    totalrecorderTime: 0,
+    remainingVideoTime: 0,
+    storageLimit: 0,
+    clipCount: 0,
+    eventCount:0,
+    workerCount: 0
+    }
     constructor( private translate: TranslateService,
         public http: HttpClient) {
             this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
@@ -77,7 +85,9 @@ export class DashboardComponent implements OnInit {
         );
     }
     ngOnInit() {
-        this.getStats(this);
+        
+        this.getWorkers (this);
+//this.getStats(this);
     }
     logError(error: object): void {
         this.error = 'error';

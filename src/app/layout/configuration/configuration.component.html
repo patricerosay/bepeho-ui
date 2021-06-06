@@ -52,7 +52,7 @@
 									IP Cameras
 								</ng-template>
 								<div class="configuration-container ">
-									<button mat-stroked-button color="accent" (click)="saveDevice(cameras)">{{'Save'|translate}}</button>
+									<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
 									<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 									<app-property [id]="cameras" [properties]="cameras"></app-property>
 								</div>
@@ -63,7 +63,7 @@
 											<i class="fa fa-microphone"></i>&nbsp;
 											IP Microphones
 										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveDevice(microphones)">{{'Save'|translate}}</button>
+										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
 										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 										<app-property [id]="microphones" [properties]="microphones">
 										</app-property>
@@ -75,7 +75,7 @@
 											<i class="fa fa-video-camera"></i>&nbsp;
 											Integrated Cameras
 										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveDevice(webCameras)">{{'Save'|translate}}</button>
+										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
 										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 										<app-property [id]="webCameras" [properties]="webCameras"></app-property>
 									</div>
@@ -87,7 +87,7 @@
 											<i class="fa fa-microphone"></i>&nbsp;
 											Integrated Microphones
 										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveDevice(webMicrophones)">{{'Save'|translate}}</button>
+										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
 										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 										<app-property [id]="webMicrophones" [properties]="webMicrophones"> </app-property>
 								</div>
@@ -106,7 +106,7 @@
 			</ng-template>
 			<mat-accordion>
 				<div class="configuration-container ">
-					<button mat-stroked-button color="accent" (click)="saveProperties(general)">{{'Save'|translate}}</button>
+					<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>
