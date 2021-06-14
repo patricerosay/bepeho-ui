@@ -2237,6 +2237,32 @@
       "enabled": true
     }
   ],
+
+  "mics": [
+    {
+      "url":"",
+      "id":"MIC0",
+      "address":"-i http://icecast-soundstream:8000/mic.mp3",
+      "name":"outside",
+      "prop":"",
+      "shouldRecord":true,
+      "type":"MIC",
+      "camPreviewUrl":null,
+      "enabled":true,
+      "active":false
+    }, {
+      "url":"",
+      "id":"MIC1",
+      "address":"-i http://icecast-soundstream:8000/mic.mp3",
+      "name":"outside",
+      "prop":"",
+      "shouldRecord":true,
+      "type":"MIC",
+      "camPreviewUrl":null,
+      "enabled":true,
+      "active":false
+    }
+  ],
   "controls": {
     "control": [
       {

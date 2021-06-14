@@ -29,6 +29,8 @@ export class Microphones {
                 return (resolve(ret));
             });
 
+        }).catch(e=>{
+            console.log('getCameras', e.errorMsg);
         });
     }
     showMicrophone(id) {

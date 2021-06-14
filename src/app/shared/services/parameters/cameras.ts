@@ -29,6 +29,8 @@ export class Cameras {
                 return (resolve(ret));
             });
 
+        }).catch(e=>{
+            console.log('getCameras', e.errorMsg);
         });
     }
     showCamera(id) {

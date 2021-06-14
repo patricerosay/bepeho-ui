@@ -12,7 +12,7 @@ import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
 import { Microphone } from '../../shared/interfaces/microphone-interface';
 import { Microphones } from '../../shared/services/parameters/microphones';
-import { random } from 'core-js/core/number';
+// import { random } from 'core-js/core/number';
 export interface IInstrument {
   speed: string;
   heading: string;
@@ -22,11 +22,24 @@ export interface IInstrument {
   blo: string;
   bla: string;
 }
+export interface IInstrument2 {
+  heave_motion: string;
 
+  accx:string;
+  accy:string;
+  accz:string;
+  gyrox:string;
+  gyroy:string;
+  gyroz:string;
+  heel:string;
+  trim:string;
+}
 const ELEMENT_DATA: IInstrument[] = [
   { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' }
 ];
-
+const ELEMENT_DATA2: IInstrument2[] = [
+  {  accx:'n/a',accy:'n/a', accz:'n/a', gyrox:'n/a', gyroy:'n/a', gyroz:'n/a', heel: 'n/a', trim:'n/a', heave_motion:'n/a' }
+];
 @Component({
   template: `
     <div class="container">
@@ -153,8 +166,11 @@ export class MosaicComponent implements OnInit, OnDestroy {
     this.microphones = new Microphones(http);
   }
 
-  displayedColumns: string[] = ['heading', 'speed', 'time', 'blo', 'bla'];
-  dataSource: IInstrument[] = ELEMENT_DATA;
+  displayedColumns1: string[] = ['heading', 'speed', 'time', 'blo', 'bla'];
+  displayedColumns2: string[] = ['accx', 'accy', 'accz', 'heel', 'trim'];
+
+  dataSource1: IInstrument[] = ELEMENT_DATA;
+  dataSource2: IInstrument2[] = ELEMENT_DATA2;
 
   isLoading = true;
   mosaic: Array<Camera> = new Array<Camera>();
@@ -178,50 +194,76 @@ export class MosaicComponent implements OnInit, OnDestroy {
       if (null !== instruments) {
         instruments.forEach(function (ins) {
           if ('bgs_d' === ins.id) {
-            self.dataSource[0].speed = ins.value;
+            self.dataSource1[0].speed = ins.value;
           } else if ('bgt_d' === ins.id) {
-            self.dataSource[0].heading = ins.value;
+            self.dataSource1[0].heading = ins.value;
           } else if ('twa_d' === ins.id) {
-            self.dataSource[0].twd = ins.value;
+            self.dataSource1[0].twd = ins.value;
           } else if ('tws_d' === ins.id) {
-            self.dataSource[0].tws = ins.value;
+            self.dataSource1[0].tws = ins.value;
           } else if ('gpsTime' === ins.id) {
             const n = Math.round(parseInt(ins.value, 10));
             // 164023.00
             const h = Math.floor(n / 10000);
             const m = Math.floor((n - (h * 10000)) / 100);
             const s = n - ((h * 10000) + (m * 100));
-            self.dataSource[0].time = h + ':' + m + ':' + s;
+            self.dataSource1[0].time = h + ':' + m + ':' + s;
           } else if ('blo' === ins.id) {
-            self.dataSource[0].blo = ins.value;
+            self.dataSource1[0].blo = ins.value;
           } else if ('bla' === ins.id) {
-            self.dataSource[0].bla = ins.value;
+            self.dataSource1[0].bla = ins.value;
           }
+          else if ('xac_d' === ins.id) {
+          self.dataSource2[0].accx = ins.value;
+        }
+        else if ('yac_d' === ins.id) {
+          self.dataSource2[0].accy = ins.value;
+        }
+        else if ('zac_d' === ins.id) {
+          self.dataSource2[0].accz = ins.value;
+        }
+        else if ('hee_d' === ins.id) {
+          self.dataSource2[0].heel = ins.value;
+        }else if ('trm_d' === ins.id) {
+          self.dataSource2[0].trim = ins.value;
+        }else if ('hmn_d' === ins.id) {
+          self.dataSource2[0].heave_motion = ins.value;
+        }
+        
         });
       } else {
-        self.dataSource[0].speed = 'err';
-        self.dataSource[0].heading = 'err';
-        self.dataSource[0].twd = 'err';
-        self.dataSource[0].tws = 'err';
-        self.dataSource[0].time = 'err';
-        self.dataSource[0].blo = 'err';
+        self.dataSource1[0].speed = 'err';
+        self.dataSource1[0].heading = 'err';
+        self.dataSource1[0].twd = 'err';
+        self.dataSource1[0].tws = 'err';
+        self.dataSource1[0].time = 'err';
+        self.dataSource1[0].blo = 'err';
+        self.dataSource2[0].accx = 'err';
+        self.dataSource2[0].accy = 'err';
+        self.dataSource2[0].accz = 'err';
+
+
       }
     },
       () => {
-        self.dataSource[0].speed = 'err';
-        self.dataSource[0].heading = 'err';
-        self.dataSource[0].twd = 'err';
-        self.dataSource[0].tws = 'err';
-        self.dataSource[0].time = 'err';
-        self.dataSource[0].blo = 'err';
-
+        self.dataSource1[0].speed = 'err';
+        self.dataSource1[0].heading = 'err';
+        self.dataSource1[0].twd = 'err';
+        self.dataSource1[0].tws = 'err';
+        self.dataSource1[0].time = 'err';
+        self.dataSource1[0].blo = 'err';
+        self.dataSource2[0].accx = 'err';
+        self.dataSource2[0].accy = 'err';
+        self.dataSource2[0].accz = 'err';
       });
   }
   stopInstrumentWorker(): void {
     if (null !== this.worker) {
       clearInterval(this.worker);
       this.worker = null;
-      this.dataSource[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' };
+      this.dataSource1[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a'};
+      this.dataSource2[0] = { accx:'n/a',accy:'n/a',accz:'n/a', gyrox:'n/a', gyroy:'n/a',gyroz:'n/a', heel:'n/a', trim:'n/a', heave_motion:'n/a' };
+
     }
   }
   startInstrumentWorker(): void {
@@ -248,7 +290,9 @@ export class MosaicComponent implements OnInit, OnDestroy {
         console.log(self.mics);
         self.isLoading = false;
       });
-    });
+    }).catch( e =>{
+      console.log('ngOnInit', e.errorMsg);
+    })
 
   }
   private postAction(body: string) {

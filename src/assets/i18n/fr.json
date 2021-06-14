@@ -1,5 +1,8 @@
 {
     "Dashboard": "Tableau de bord",
+    "Delete all records":"Supprimer tous les enregistrements",
+    "Cleanup export folder":"Nettoyer le répertoire d'export",
+    "Network":"Réseau",
     "Records":"Enregistrements",
     "Detected events":"Evenements",
     "General Settings":"Configuration generale",

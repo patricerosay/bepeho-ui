@@ -22,7 +22,7 @@ import { getUrlScheme } from '@angular/compiler';
 
 export class VideoListComponent implements AfterViewInit, OnInit {
     public searchViewMode = 'video-list';
-    displayedColumns: string[] = ['created', 'speed',  'direction', 'img', 'state'];
+    displayedColumns: string[] = ['created', 'speed',  'direction', 'state', 'img'];
     searchDatabase: SearchDatabase | null;
     data: IGroup[] = [];
     resultsLength = 0;

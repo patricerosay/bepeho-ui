@@ -7,7 +7,7 @@
 		</mat-slide-toggle>
 	</div>
 	<div *ngIf="worker">
-		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+		<table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
 
 			<!--- Note that these columns can be defined in any order.
 					  The actual rendered columns are set as a property on the row definition" -->
@@ -36,10 +36,56 @@
 				<th mat-header-cell *matHeaderCellDef>{{'Latitude'|translate}} </th>
 				<td mat-cell *matCellDef="let element"> {{element.bla}} </td>
 			</ng-container>
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
 		</table>
-	</div>
+		 <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+
+			<ng-container matColumnDef="accx">
+				<th mat-header-cell *matHeaderCellDef> {{'Acc X'|translate}}</th>
+				<td mat-cell *matCellDef="let element"> {{element.accx}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="accy">
+				<th mat-header-cell *matHeaderCellDef> {{'Acc Y'|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.accy}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="accz">
+				<th mat-header-cell *matHeaderCellDef>{{'Acc Z '|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.accz}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="gyrox">
+				<th mat-header-cell *matHeaderCellDef> {{'giro X °/s'|translate}}</th>
+				<td mat-cell *matCellDef="let element"> {{element.girox}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="gyroy">
+				<th mat-header-cell *matHeaderCellDef> {{'giro Y °/s'|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.giroy}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="gyroz">
+				<th mat-header-cell *matHeaderCellDef>{{'gyro Z °/s'|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.giroz}} </td>
+			</ng-container>
+			<ng-container matColumnDef="heel">
+				<th mat-header-cell *matHeaderCellDef>{{'Heel'|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.heel}} </td>
+			</ng-container>
+			<ng-container matColumnDef="trim">
+				<th mat-header-cell *matHeaderCellDef>{{'Trim'|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.trim}} </td>
+			</ng-container>
+			<ng-container matColumnDef="heavemotion">
+				<th mat-header-cell *matHeaderCellDef>{{'heave '|translate}} </th>
+				<td mat-cell *matCellDef="let element"> {{element.heave_motion}} </td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+		</table> 
+	</div> 
 	<mat-tab-group>
 
 		<mat-tab label="Mosaic">
