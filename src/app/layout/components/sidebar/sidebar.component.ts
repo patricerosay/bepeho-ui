@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
     status = 1;
     @Output() collapsedEvent = new EventEmitter<boolean>();
     searchViewMode = '/map';
+    isSideBarCollapsed=false;
     getlangage(): string {    
         const langage = localStorage.getItem("langage");
         if (! langage) return this.translate.getBrowserLang();
@@ -48,7 +49,8 @@ export class SidebarComponent implements OnInit {
         this.showMenu = '';
         this.pushRightClass = 'push-right';
         this.searchViewMode = '/' + localStorage.getItem('searchViewMode');
-
+        this.collapsed ='true' === localStorage.getItem('collapsed');
+        this.collapsedEvent.emit(this.collapsed);
     }
 
     gotoWIFI() {
@@ -68,6 +70,8 @@ export class SidebarComponent implements OnInit {
 
     toggleCollapsed() {
         this.collapsed = !this.collapsed;
+        localStorage.setItem('collapsed', this.collapsed?'true':'false');
+
         this.collapsedEvent.emit(this.collapsed);
     }
 

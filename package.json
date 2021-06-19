@@ -12,7 +12,7 @@
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:proxyremote": "ng serve --proxy-config ./mocks/proxy-remote.conf.json",
+    "start:proxyremote": "ng serve --proxy-config ./mocks/proxy-remote-ssl.conf.json",
     "start:proxyremote-ssl": "ng serve --host 0.0.0.0 --ssl --ssl-key ./localhost.key  --ssl-cert ./localhost.crt --proxy-config ./mocks/proxy-remote-ssl.conf.json",
     "start:proxy8080-ssl": "ng serve --host 0.0.0.0 --ssl --ssl-key ./localhost.key  --ssl-cert ./localhost.crt --proxy-config ./mocks/proxy-8080-sec.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
