@@ -1,0 +1,74 @@
+{
+    "/recorder/*": {
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/media/*": {
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/tile/*": {
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM0":{
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM1":{
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM2":{
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM3":{
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM4":{
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    }
+}

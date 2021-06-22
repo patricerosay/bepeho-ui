@@ -6,7 +6,7 @@
 		<mat-slide-toggle id="showInstrument" [checked]="false" (change)="onDisplayInstrument( $event )">
 		</mat-slide-toggle>
 	</div>
-	<div *ngIf="worker">
+	<div class="cardList" *ngIf="worker">
 		<table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
 
 			<!--- Note that these columns can be defined in any order.
@@ -39,7 +39,7 @@
 			<tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
 		</table>
-		 <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+		<table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
 
 			<ng-container matColumnDef="accx">
 				<th mat-header-cell *matHeaderCellDef> {{'Acc X'|translate}}</th>
@@ -84,36 +84,22 @@
 			</ng-container>
 			<tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-		</table> 
-	</div> 
+		</table>
+	</div>
 	<mat-tab-group>
 
 		<mat-tab label="Mosaic">
 			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-			<div>
-				<div *ngIf="mosaic?.length < 5">
-				<mat-grid-list cols="2" rowHeight="2:1" >
-					<div *ngFor="let cam of mosaic">
-						<mat-grid-tile >
-							<img class="cameraMosaic" [lazyLoad]="getPreviewUrl(cam)"
-								[errorImage]='"assets/images/white-noise.jpg"'
-								[defaultImage]='"assets/images/mire.jpg"'>
-						</mat-grid-tile>
-					</div>
-				</mat-grid-list>
-				</div>
-				<div *ngIf="mosaic?.length >= 5">
-					<mat-grid-list cols="3" rowHeight="2:1" >
-						<div *ngFor="let cam of mosaic">
-							<mat-grid-tile >
-								<img class="cameraMosaic" [lazyLoad]="getPreviewUrl(cam)"
-									[errorImage]='"assets/images/white-noise.jpg"'
-									[defaultImage]='"assets/images/mire.jpg"'>
-							</mat-grid-tile>
-						</div>
-					</mat-grid-list>
-					</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+			<div class="cardList">
+				<ng-container *ngFor="let cam of mosaic">
+					<app-card class="cardListItem"><img class="cameraMosaic" [lazyLoad]="getPreviewUrl(cam)"
+							[errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"'>
+					</app-card>
+				</ng-container>
 			</div>
+			
+
 		</mat-tab>
 		<mat-tab label="Cameras">
 			<mat-tab-group>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MosaicRoutingModule } from './mosaic-routing.module';
-import { MosaicComponent, CameraPropertiesModal } from './mosaic.component';
+import { MosaicComponent } from './mosaic.component';
 import { PageHeaderModule } from '../../shared';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -43,6 +43,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 @NgModule({
     imports: [TranslateModule,
         CommonModule, MosaicRoutingModule, PageHeaderModule, LazyLoadImageModule,
@@ -84,12 +86,13 @@ import { MatTreeModule } from '@angular/material/tree';
         MatTreeModule,
         MatCheckboxModule,
         FormsModule,
-        NgbModule
+        NgbModule,
+        FlexLayoutModule
         // NgbCarouselModule
         ],
-    declarations: [MosaicComponent, CameraPropertiesModal],
-    entryComponents: [MosaicComponent, CameraPropertiesModal],
-        exports: [MosaicComponent, CameraPropertiesModal]
+    declarations: [MosaicComponent],
+    entryComponents: [MosaicComponent],
+        exports: [MosaicComponent]
 
 
 })
