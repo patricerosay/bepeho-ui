@@ -51,6 +51,9 @@ html, body {
   .cardListItem {
 	flex: 0 1 calc(33.3% - 32px);
   }
+  .cardCameraListItem {
+	flex: 0 1 calc(75% - 10px);
+  }
 // @media (min-width: 992px)  {
 // 	.camera {
 // 		width: 100%;

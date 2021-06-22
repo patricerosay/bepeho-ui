@@ -6,7 +6,7 @@
 		<mat-slide-toggle id="showInstrument" [checked]="false" (change)="onDisplayInstrument( $event )">
 		</mat-slide-toggle>
 	</div>
-	<div class="cardList" *ngIf="worker">
+	<div *ngIf="worker">
 		<table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
 
 			<!--- Note that these columns can be defined in any order.
@@ -90,7 +90,7 @@
 
 		<mat-tab label="Mosaic">
 			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
 			<div class="cardList">
 				<ng-container *ngFor="let cam of mosaic">
 					<app-card class="cardListItem"><img class="cameraMosaic" [lazyLoad]="getPreviewUrl(cam)"
@@ -98,16 +98,20 @@
 					</app-card>
 				</ng-container>
 			</div>
-			
+
 
 		</mat-tab>
 		<mat-tab label="Cameras">
 			<mat-tab-group>
 				<div *ngFor="let cam of mosaic">
 					<mat-tab label="{{cam.name}}">
+						<div class="cardList">
+							<app-card class="cardCameraListItem"><img [lazyLoad]="getPreviewUrl(cam)"
+									[errorImage]='"assets/images/white-noise.jpg"'
+									[defaultImage]='"assets/images/mire.jpg"'>
+							</app-card>
+						</div>
 
-						<img class="camera" [lazyLoad]="getPreviewUrl(cam)"
-							[errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"'>
 					</mat-tab>
 				</div>
 			</mat-tab-group>
