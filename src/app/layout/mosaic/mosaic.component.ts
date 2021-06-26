@@ -91,7 +91,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   getInstruments() {
     const self = this;
-    self.http.get('/recorder/data').subscribe(data => {
+    self.http.get('/recorder/data?'+Math.random()).subscribe(data => {
       const instruments = data as { id: string; value: string }[];
       if (null !== instruments) {
         instruments.forEach(function (ins) {
