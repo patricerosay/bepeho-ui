@@ -2,6 +2,20 @@ $topnav-background-color: #222;
 :host {
     display: block;
 }
+// body {
+//     font-family: sans-serif;
+//     display: grid;
+//     height: 100%;
+//     place-items: center;
+//     overflow: hidden;
+//     /* Hide scrollbars */
+//     background-color: black;
+//     background-image: url(assets/images/starting-lines.svg) ;
+//     -webkit-background-size: cover;
+//     -moz-background-size: cover;
+//     -o-background-size: cover;
+//     background-size: cover;
+//   }
 .login-page {
     position: absolute;
     top: 0;
@@ -10,9 +24,21 @@ $topnav-background-color: #222;
     bottom: 0;
     overflow: auto;
     background: $topnav-background-color;
+    background-image: url(/assets/images/starting-lines.svg) ;
     text-align: center;
     color: #fff;
     padding: 3em;
+    font-family: sans-serif;
+    // display: grid;
+    height: 100%;
+    place-items: center;
+    overflow: hidden;
+    /* Hide scrollbars */
+    background-color: black;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     .col-lg-4 {
         padding: 0;
     }
