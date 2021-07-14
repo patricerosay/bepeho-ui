@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "debug": "ng serve",
+    "build-release": "ng build --prod --outputPath=dist/m --base-href=/m/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
