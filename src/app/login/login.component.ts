@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         const self = this;
-        this.http.get('/recorder/parameters')
+        this.http.get('/recorder/parameters'+'?'+Math.random())
             .subscribe(
                 data => {
                     const configurations = data as Configuration[];

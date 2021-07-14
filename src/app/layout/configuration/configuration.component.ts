@@ -272,7 +272,7 @@ export class ConfigurationComponent implements OnInit {
     }
     ngOnInit() {
         const self = this;
-        this.http.get('/recorder/controls')
+        this.http.get('/recorder/controls'+'?'+Math.random())
             .subscribe(
                 data => {
                     const t = data as { control: { name: string, state: boolean }[] };
@@ -291,7 +291,7 @@ export class ConfigurationComponent implements OnInit {
                 },
                 err => this.logError(err),
             );
-        this.http.get('/recorder/parameters')
+        this.http.get('/recorder/parameters'+'?'+Math.random())
             .subscribe(
                 data => {
                     const configurations = data as Configuration[];

@@ -37,7 +37,7 @@ export class WorkerComponent implements OnInit {
   }
   ngOnInit() {
     const self = this;
-    this.http.get('/recorder/tasksTag')
+    this.http.get('/recorder/tasksTag'+'?'+Math.random())
       .subscribe(
         data => {
           self.workers = data['tasks'] as IWorker[];

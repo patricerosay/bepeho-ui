@@ -1,6 +1,6 @@
 html, body {
-	margin: 0;
-	padding: 0;
+	margin: -10;
+	padding: -10;
 	overflow: hidden;
 }
 
@@ -16,7 +16,7 @@ html, body {
 	}
 
 .cameraMosaic {
-	max-width: 1200px;
+	// max-width: 1200px;
 	display: flex;
 	align-items: center;
 	-webkit-justify-content: center;
@@ -24,9 +24,9 @@ html, body {
 	justify-content: center;
   }
   
-  .item {
-	padding: 5px;
-  }
+//   .item {
+// 	padding: 5px;
+//   }
   
   img {
 	width: 100%;
@@ -49,7 +49,8 @@ html, body {
   }
   /* Item sizing */
   .cardListItem {
-	flex: 0 1 calc(33.3% - 32px);
+	flex: 0 1 calc(33.3% - 35px);
+	flex-grow: 4;
   }
   .cardCameraListItem {
 	flex: 0 1 calc(75% - 10px);

@@ -1,31 +1,32 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit,OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-// import {CookieService} from 'ngx-cookie-service';
-
+import { HttpClient } from '@angular/common/http';
+import { ITask } from '../../../shared/interfaces/task-interface';
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
     isActive: boolean;
     collapsed: boolean;
     showMenu: string;
     pushRightClass: string;
-    status = 1;
+    recapProgressStatus = true;
     @Output() collapsedEvent = new EventEmitter<boolean>();
     searchViewMode = '/map';
-    isSideBarCollapsed=false;
-    getlangage(): string {    
+    isSideBarCollapsed = false;
+    getlangage(): string {
         const langage = localStorage.getItem("langage");
-        if (! langage) return this.translate.getBrowserLang();
+        if (!langage) return this.translate.getBrowserLang();
         return langage;
     }
     constructor(private translate: TranslateService,
-        public router: Router
+        public router: Router,
+        public http: HttpClient
         // private cookieService: CookieService
-        ) {
+    ) {
 
         this.translate.addLangs(['en', 'fr', 'jp', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.setDefaultLang('en');
@@ -42,19 +43,55 @@ export class SidebarComponent implements OnInit {
             }
         });
     }
-
+    private urlProcess = '/recorder/processStates';
+    private urlStatus = '/recorder/recapProcessStates';
+    tasks: ITask[];
+    taskInError = 0;
+    isLoading = true;
     ngOnInit() {
+        const self = this;
         this.isActive = false;
         this.collapsed = false;
         this.showMenu = '';
         this.pushRightClass = 'push-right';
         this.searchViewMode = '/' + localStorage.getItem('searchViewMode');
-        this.collapsed ='true' === localStorage.getItem('collapsed');
+        this.collapsed = 'true' === localStorage.getItem('collapsed');
         this.collapsedEvent.emit(this.collapsed);
+
+        this.startStatusWorker()
+
+    }
+    worker: any;
+    stopStatusWorker(): void {
+        if (null !== this.worker) {
+          clearInterval(this.worker);
+       
+        }
+      }
+    getStatus(): void {
+        const self = this;
+        this.http.get(this.urlStatus + '?' + Math.random())
+            .subscribe(
+                data => {
+                    self.recapProgressStatus = 1 === data['RecapProgressStatus'];
+                },
+            );
     }
 
+    startStatusWorker(): void {
+        this.getStatus();
+        this.worker = setInterval(() => {
+            this.getStatus();
+        }, 2500);
+
+
+    }
+    ngOnDestroy() {
+        console.log('ondestroy');
+        this.stopStatusWorker();
+      }
     gotoWIFI() {
-            window.location.href = '/wifi';
+        window.location.href = '/wifi';
     }
     eventCalled() {
         this.isActive = !this.isActive;
@@ -70,7 +107,7 @@ export class SidebarComponent implements OnInit {
 
     toggleCollapsed() {
         this.collapsed = !this.collapsed;
-        localStorage.setItem('collapsed', this.collapsed?'true':'false');
+        localStorage.setItem('collapsed', this.collapsed ? 'true' : 'false');
 
         this.collapsedEvent.emit(this.collapsed);
     }
@@ -92,6 +129,7 @@ export class SidebarComponent implements OnInit {
 
     changeLang(language: string) {
         this.translate.use(language);
+        localStorage.setItem("langage", language);
     }
 
     onLoggedout() {

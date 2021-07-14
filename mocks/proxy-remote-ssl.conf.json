@@ -1,7 +1,7 @@
 {
     "/recorder/*": {
         "target": {
-            "host": "hublo.home",
+            "host": "192.168.1.12",
             "protocol": "http:",
             "port": 80
         },
@@ -10,7 +10,7 @@
     },
     "/media/*": {
         "target": {
-            "host": "hublo.home",
+            "host": "192.168.1.12",
             "protocol": "http:",
             "port": 80
         },
@@ -19,7 +19,7 @@
     },
     "/tile/*": {
         "target": {
-            "host": "hublo.home",
+            "host": "192.168.1.12",
             "protocol": "http:",
             "port": 80
         },
@@ -28,7 +28,7 @@
     },
     "/CAM0":{
         "target": {
-            "host": "hublo.home",
+            "host": "192.168.1.12",
             "protocol": "http:",
             "port": 80
         },

@@ -13,7 +13,7 @@ export class Microphones {
     getMicrophones(): Promise<any> {
         const self = this;
         return new Promise((resolve, reject) => {
-            self.http.get(this.url).subscribe(data => {
+            self.http.get(this.url+'?'+Math.random()).subscribe(data => {
                 const ret: Microphone[] = [];
                 const tempCams = data as Microphone[];
                 tempCams.forEach(function (cam) {

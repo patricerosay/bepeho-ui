@@ -49,13 +49,13 @@ export class HeaderComponent implements OnInit {
     ngOnInit()  {
         this.pushRightClass = 'push-right';
         const self = this;
-        this.http.get(this.urlStatus)
+        this.http.get(this.urlStatus+'?'+Math.random())
         .subscribe(
             data => {
                 self.status = data['RecapProgressStatus'] as number;
             },
         );
-        this.http.get(this.urlProcess)
+        this.http.get(this.urlProcess+'?'+Math.random())
             .subscribe(
                 data => {
                     self.tasks = data['ProgressStatus'] as ITask[];

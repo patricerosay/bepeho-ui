@@ -13,7 +13,7 @@ export class Cameras {
     getCameras(): Promise<any> {
         const self = this;
         return new Promise((resolve, reject) => {
-            self.http.get(this.url).subscribe(data => {
+            self.http.get(this.url+'?'+Math.random()).subscribe(data => {
                 const ret: Camera[] = [];
                 const tempCams = data as Camera[];
                 tempCams.forEach(function (cam) {

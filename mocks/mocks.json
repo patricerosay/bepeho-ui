@@ -1,6 +1,6 @@
 {
   "recapProcessStates": {
-    "RecapProgressStatus": -1
+    "RecapProgressStatus": 1
   },
   "search": {
     "groups": [
@@ -1048,6 +1048,35 @@
     {
       "id": "tws_d",
       "value": "14.97"
+    },
+    {
+      "id": "xac_d",
+      "value": "1.97"
+    }
+    ,
+    {
+      "id": "yac_d",
+      "value": "2.71"
+    }
+    ,
+    {
+      "id": "zac_d",
+      "value": "0.21"
+    }
+    ,
+    {
+      "id": "hee_d",
+      "value": "25.13"
+    }
+    ,
+    {
+      "id": "trm_d",
+      "value": "5.55"
+    }
+    ,
+    {
+      "id": "hmn_d",
+      "value": "10.15"
     }
   ],
   "parameters": [
