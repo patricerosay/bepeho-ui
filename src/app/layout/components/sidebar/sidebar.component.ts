@@ -82,7 +82,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.getStatus();
         this.worker = setInterval(() => {
             this.getStatus();
-        }, 2500);
+        }, 60000);
 
 
     }
