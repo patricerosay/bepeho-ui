@@ -273,12 +273,15 @@ export class QviewComponent implements OnInit {
           clipName: self.newClipName,
           clipDuration: clipDuration,
           videos: [],
-          audios: [{
+          audios:[]
+          
+        };
+        if (0 < self.segment.audios.length){
+          buildOrder.audios= [{
             position: 0, segment: '', duration: clipDuration, id: self.segment.audios[0].id,
             url: self.segment.audios[0].src
           }]
-        };
-
+        }
         let inc = 0;
         for (let style = 0; style < self.style; style++) {
           self.segment.videos.forEach(video => {
