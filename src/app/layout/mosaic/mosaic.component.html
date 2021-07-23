@@ -91,9 +91,10 @@
 		<mat-tab label="Mosaic">
 			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
-			<div class="cardList">
+			<div class="image-mosaic">
 				<ng-container *ngFor="let cam of mosaic">
-					<app-card class="cardListItem"><img class="cameraMosaic" [lazyLoad]="getPreviewUrl(cam)"
+					<app-card >
+						<img class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)"
 							[errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"'>
 					</app-card>
 				</ng-container>
@@ -105,12 +106,10 @@
 			<mat-tab-group>
 				<div *ngFor="let cam of cams">
 					<mat-tab label="{{cam.name}}">
-						<div class="cardList">
-							<app-card class="cardCameraListItem"><img [lazyLoad]="getPreviewUrl(cam)"
+							<app-card class="card"><img class="cameo" [lazyLoad]="getPreviewUrl(cam)"
 									[errorImage]='"assets/images/white-noise.jpg"'
 									[defaultImage]='"assets/images/mire.jpg"'>
 							</app-card>
-						</div>
 
 					</mat-tab>
 				</div>
