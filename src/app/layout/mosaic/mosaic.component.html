@@ -103,7 +103,7 @@
 		</mat-tab>
 		<mat-tab label="Cameras">
 			<mat-tab-group>
-				<div *ngFor="let cam of mosaic">
+				<div *ngFor="let cam of cams">
 					<mat-tab label="{{cam.name}}">
 						<div class="cardList">
 							<app-card class="cardCameraListItem"><img [lazyLoad]="getPreviewUrl(cam)"

@@ -1,38 +1,38 @@
 {
     "/recorder/*": {
-        "target": "http://hublo.home:8080",
+        "target": "http://hublo-1.home:8080",
         "secure": false
     },
     "/media/*": {
-        "target": "http://hublo.home:8080",
+        "target": "http://hublo-1.home:8080",
         "secure": false
     },
     "/tile":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM0":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM1":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM2":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM3":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM4":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     },
     "/CAM5":{
-        "target": "http://hublo.home",
+        "target": "http://hublo-1.home",
         "secure": false
     }
 

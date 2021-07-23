@@ -25,20 +25,20 @@ export interface IInstrument {
 export interface IInstrument2 {
   heave_motion: string;
 
-  accx:string;
-  accy:string;
-  accz:string;
-  gyrox:string;
-  gyroy:string;
-  gyroz:string;
-  heel:string;
-  trim:string;
+  accx: string;
+  accy: string;
+  accz: string;
+  gyrox: string;
+  gyroy: string;
+  gyroz: string;
+  heel: string;
+  trim: string;
 }
 const ELEMENT_DATA: IInstrument[] = [
   { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' }
 ];
 const ELEMENT_DATA2: IInstrument2[] = [
-  {  accx:'n/a',accy:'n/a', accz:'n/a', gyrox:'n/a', gyroy:'n/a', gyroz:'n/a', heel: 'n/a', trim:'n/a', heave_motion:'n/a' }
+  { accx: 'n/a', accy: 'n/a', accz: 'n/a', gyrox: 'n/a', gyroy: 'n/a', gyroz: 'n/a', heel: 'n/a', trim: 'n/a', heave_motion: 'n/a' }
 ];
 
 
@@ -51,11 +51,11 @@ export class MosaicComponent implements OnInit, OnDestroy {
   worker: any;
   public cameras: Cameras = null;
   public microphones: Microphones = null;
-  getlangage(): string {    
+  getlangage(): string {
     const langage = localStorage.getItem("langage");
-    if (! langage) return this.translate.getBrowserLang();
+    if (!langage) return this.translate.getBrowserLang();
     return langage;
-}
+  }
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
@@ -76,6 +76,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
 
   isLoading = true;
   mosaic: Array<Camera> = new Array<Camera>();
+  cams: Array<Camera> = new Array<Camera>();
   mics: Array<Microphone> = new Array<Microphone>();
   camera: Camera;
   stream: string;
@@ -91,7 +92,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   getInstruments() {
     const self = this;
-    self.http.get('/recorder/data?'+Math.random()).subscribe(data => {
+    self.http.get('/recorder/data?' + Math.random()).subscribe(data => {
       const instruments = data as { id: string; value: string }[];
       if (null !== instruments) {
         instruments.forEach(function (ins) {
@@ -116,22 +117,22 @@ export class MosaicComponent implements OnInit, OnDestroy {
             self.dataSource1[0].bla = ins.value;
           }
           else if ('xac_d' === ins.id) {
-          self.dataSource2[0].accx = ins.value;
-        }
-        else if ('yac_d' === ins.id) {
-          self.dataSource2[0].accy = ins.value;
-        }
-        else if ('zac_d' === ins.id) {
-          self.dataSource2[0].accz = ins.value;
-        }
-        else if ('hee_d' === ins.id) {
-          self.dataSource2[0].heel = ins.value;
-        }else if ('trm_d' === ins.id) {
-          self.dataSource2[0].trim = ins.value;
-        }else if ('hmn_d' === ins.id) {
-          self.dataSource2[0].heave_motion = ins.value;
-        }
-        
+            self.dataSource2[0].accx = ins.value;
+          }
+          else if ('yac_d' === ins.id) {
+            self.dataSource2[0].accy = ins.value;
+          }
+          else if ('zac_d' === ins.id) {
+            self.dataSource2[0].accz = ins.value;
+          }
+          else if ('hee_d' === ins.id) {
+            self.dataSource2[0].heel = ins.value;
+          } else if ('trm_d' === ins.id) {
+            self.dataSource2[0].trim = ins.value;
+          } else if ('hmn_d' === ins.id) {
+            self.dataSource2[0].heave_motion = ins.value;
+          }
+
         });
       } else {
         self.dataSource1[0].speed = 'err';
@@ -163,8 +164,8 @@ export class MosaicComponent implements OnInit, OnDestroy {
     if (null !== this.worker) {
       clearInterval(this.worker);
       this.worker = null;
-      this.dataSource1[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a'};
-      this.dataSource2[0] = { accx:'n/a',accy:'n/a',accz:'n/a', gyrox:'n/a', gyroy:'n/a',gyroz:'n/a', heel:'n/a', trim:'n/a', heave_motion:'n/a' };
+      this.dataSource1[0] = { heading: 'n/a', speed: 'n/a', tws: 'n/a', twd: 'n/a', time: 'n/a', bla: 'n/a', blo: 'n/a' };
+      this.dataSource2[0] = { accx: 'n/a', accy: 'n/a', accz: 'n/a', gyrox: 'n/a', gyroy: 'n/a', gyroz: 'n/a', heel: 'n/a', trim: 'n/a', heave_motion: 'n/a' };
 
     }
   }
@@ -186,13 +187,18 @@ export class MosaicComponent implements OnInit, OnDestroy {
     //this.startInstrumentWorker();
 
     self.cameras.getCameras().then(mos => {
-      self.mosaic = mos;
+
+      mos.forEach(element => {
+        if ('nomos' !== element.camPreviewUrl )
+          self.mosaic.push(element);
+      });
+      self.cams = mos;
       self.microphones.getMicrophones().then(mic => {
         self.mics = mic;
         console.log(self.mics);
         self.isLoading = false;
       });
-    }).catch( e =>{
+    }).catch(e => {
       console.log('ngOnInit', e.errorMsg);
     })
 
@@ -223,7 +229,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   getPreviewUrl(cam: Camera): string {
     if (cam) {
-      return '/' + cam.id ;
+      return '/' + cam.id;
     } else {
       return undefined;
     }

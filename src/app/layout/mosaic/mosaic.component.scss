@@ -49,7 +49,7 @@ html, body {
   }
   /* Item sizing */
   .cardListItem {
-	flex: 0 1 calc(33.3% - 35px);
+	flex: 0 1 calc(50% - 20px);
 	flex-grow: 4;
   }
   .cardCameraListItem {
