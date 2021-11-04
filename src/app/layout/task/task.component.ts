@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { ITask } from '../../shared/interfaces/task-interface';
 import { HttpClient } from '@angular/common/http';
-import { element } from 'protractor';
+// import { element } from 'protractor';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
