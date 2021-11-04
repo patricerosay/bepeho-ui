@@ -1,28 +1,18 @@
 <div *ngIf="isLoading"> loading .... </div>
 <div *ngIf="!isLoading">
 	<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-
 	<mat-tab-group [selectedIndex]="group" [selectedIndex]="selectedCamera" (selectedIndexChange)="group=($event)">
 		<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 		<mat-tab label="Mosaic">
 			<ng-container *ngFor="let cam of mosaic; let index = index">
-				<!-- <app-card > -->
-					<img class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)"
-						[errorImage]='"assets/images/white-noise.jpg"' [defaultImage]='"assets/images/mire.jpg"' (click)="onClickVideo( 1+ index)">
-				<!-- </app-card> -->
+				<img class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
+					[defaultImage]='"assets/images/mire.jpg"' (click)="onClickVideo( 1+ index)">
 			</ng-container>
-
-
-		<mat-tab *ngFor="let cam of cams " label="{{cam.name}}">
-				<!-- <app-card class="card"> -->
-					<img class="cameo" [lazyLoad]="getPreviewUrl(cam)"
-						[errorImage]='"assets/images/white-noise.jpg"'
-						[defaultImage]='"assets/images/mire.jpg"'>
-				<!-- </app-card> -->
-
+			<mat-tab *ngFor="let cam of cams " label="{{cam.name}}">
+				<img class="cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
+					[defaultImage]='"assets/images/mire.jpg"' (click)="onClickVideo( 0)">
+			</mat-tab>
 		</mat-tab>
-
-		</mat-tab> 
 		<mat-tab label="Instruments">
 			<div class="configuration-container ">
 				{{'Show Instruments'|translate}}
@@ -31,22 +21,22 @@
 			</div>
 			<div *ngIf="worker">
 				<table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
-		
+
 					<!--- Note that these columns can be defined in any order.
 							  The actual rendered columns are set as a property on the row definition" -->
-		
+
 					<!-- Position Column -->
 					<ng-container matColumnDef="heading">
 						<th mat-header-cell *matHeaderCellDef> {{'Geo Heading'|translate}}</th>
 						<td mat-cell *matCellDef="let element"> {{element.heading}} </td>
 					</ng-container>
-		
+
 					<!-- Name Column -->
 					<ng-container matColumnDef="speed">
 						<th mat-header-cell *matHeaderCellDef> {{'Ground Speed (knts)'|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.speed}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="time">
 						<th mat-header-cell *matHeaderCellDef>{{'GPS Time'|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.time}} </td>
@@ -63,32 +53,32 @@
 					<tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
 				</table>
 				<table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
-		
+
 					<ng-container matColumnDef="accx">
 						<th mat-header-cell *matHeaderCellDef> {{'Acc X'|translate}}</th>
 						<td mat-cell *matCellDef="let element"> {{element.accx}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="accy">
 						<th mat-header-cell *matHeaderCellDef> {{'Acc Y'|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.accy}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="accz">
 						<th mat-header-cell *matHeaderCellDef>{{'Acc Z '|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.accz}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="gyrox">
 						<th mat-header-cell *matHeaderCellDef> {{'giro X °/s'|translate}}</th>
 						<td mat-cell *matCellDef="let element"> {{element.girox}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="gyroy">
 						<th mat-header-cell *matHeaderCellDef> {{'giro Y °/s'|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.giroy}} </td>
 					</ng-container>
-		
+
 					<ng-container matColumnDef="gyroz">
 						<th mat-header-cell *matHeaderCellDef>{{'gyro Z °/s'|translate}} </th>
 						<td mat-cell *matCellDef="let element"> {{element.giroz}} </td>

@@ -2,7 +2,7 @@ FROM node:12-slim
 RUN mkdir -p /tmp
 WORKDIR /tmp
 COPY package.json /tmp
-RUN npm install 
+RUN yarn install --production=true
 COPY . /tmp
 RUN npm run build-release
 RUN mkdir -p /build

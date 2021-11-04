@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
+  MatDialog
 } from '@angular/material/dialog';
 
 import { Camera } from '../../shared/interfaces/camera-interface';
@@ -61,8 +59,6 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   constructor(
     public http: HttpClient,
-    public dialog: MatDialog,
-    private modalService: NgbModal,
     private translate: TranslateService) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
@@ -213,30 +209,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
     this.group=1;
     this.selectedCamera=index;
   }
-  // private postAction(body: string) {
-  //   this.http
-  //     .post<any>('/recorder', body, {
-  //       headers: {
-  //         'content-type': 'application/x-www-form-urlencoded'
-  //       }
-  //     })
-  //     .subscribe(
-  //       res => {
-  //         console.log(res);
-  //         this.errorMsg = 'Success';
-  //       },
-  //       err => {
-  //         console.log(err);
-  //         this.errorMsg = err.message;
-  //       }
-  //     );
-  // }
-  // onMicChanged(e, id): void {
-  //   this.microphone = e.checked ? id : null;
-  // }
-  // onDataChanged(e): void {
-  //   this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));
-  // }
+
   getPreviewUrl(cam: Camera): string {
     if (cam) {
       return '/' + cam.id;
@@ -244,63 +217,6 @@ export class MosaicComponent implements OnInit, OnDestroy {
       return undefined;
     }
   }
-  // onStream(stream: string) {
-  //   this.stream = stream;
-  //   if ('LIVERECORD' !== this.stream) {
-  //     const prms = [this.camera.id, this.microphone];
-  //     this.http
-  //       .post<any>(
-  //         '/recorder',
-  //         'action=CamButtons&verb=merge&' + 'stream=' + stream + '&prm=' + prms,
-  //         {
-  //           headers: {
-  //             'content-type': 'application/x-www-form-urlencoded'
-  //           }
-  //         }
-  //       )
-  //       .subscribe(
-  //         res => {
-  //           console.log(res);
-  //           this.errorMsg = 'Success';
-  //         },
-  //         err => {
-  //           console.log(err);
-  //           this.errorMsg = err.message;
-  //         }
-  //       );
-  //   } else {
-  //     const prms = [this.camera.id, this.microphone];
-  //     this.http
-  //       .post<any>(
-  //         '/recorder',
-  //         'action=RecordButtons&verb=startRec&prm=' + prms,
-  //         {
-  //           headers: {
-  //             'content-type': 'application/x-www-form-urlencoded'
-  //           }
-  //         }
-  //       )
-  //       .subscribe(
-  //         res => {
-  //           console.log(res);
-  //           this.errorMsg = 'Success';
-  //         },
-  //         err => {
-  //           console.log(err);
-  //           this.errorMsg = err.message;
-  //         }
-  //       );
-  //   }
-  // }
-
-  // onStopStream(): void {
-  //   if ('LIVERECORD' !== this.stream) {
-  //     this.postAction('action=CamButtons&verb=stop');
-  //   } else {
-  //     this.postAction('action=RecordButtons&verb=stop');
-  //   }
-  //   this.stream = null;
-  // }
 
 
 }
