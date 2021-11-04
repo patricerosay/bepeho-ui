@@ -1,0 +1,20 @@
+version: "3.3"
+volumes:
+  assets:
+services:
+  ui:
+    image: bepeho/docker-bepeho-ui-local
+    container_name: ui
+    build: .
+    volumes:
+        - assets:/dist/dist
+
+  ngnix:
+    image: nginx:1.20.1
+    container_name: ngnix
+    ports:
+        - 80:80
+    links:
+        - ui
+    volumes:
+        - assets:/usr/share/nginx/html

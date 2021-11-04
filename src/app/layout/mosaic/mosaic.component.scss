@@ -15,7 +15,7 @@ table {
 	/* Safari */
 	justify-content: center;
 }
-.card{
+card{
 	align-items: flex-start; 
 	display: flex;
 	flex-wrap: wrap;
@@ -51,8 +51,8 @@ table {
 	//  height:100vh; /* <-- Height is full height of the viewport */
 	}
 	.cameo{
-		
-		width: 60%;
+		height:90vh;
+		//width: 100%;
 		-webkit-justify-content: center;
 		/* Safari */
 		justify-content: center;

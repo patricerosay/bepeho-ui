@@ -426,11 +426,13 @@ export class MapComponent implements OnInit {
 
 
                   marker.on('click', function (e) {
+                    
                     const modalRef = who.modalService.open(QviewComponent, {
                       size: 'lg',
                       backdropClass: 'light-blue-backdrop',
                       centered: true
                     });
+                    
                     modalRef.componentInstance.json =
                       e.target.options.jsonPayload;
                     modalRef.componentInstance.data = e.target.options.data;

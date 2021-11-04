@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   MatDialog,
   MatDialogRef,
@@ -12,7 +12,8 @@ import { Camera } from '../../shared/interfaces/camera-interface';
 import { Cameras } from '../../shared/services/parameters/cameras';
 import { Microphone } from '../../shared/interfaces/microphone-interface';
 import { Microphones } from '../../shared/services/parameters/microphones';
-// import { random } from 'core-js/core/number';
+
+
 export interface IInstrument {
   speed: string;
   heading: string;
@@ -51,6 +52,8 @@ export class MosaicComponent implements OnInit, OnDestroy {
   worker: any;
   public cameras: Cameras = null;
   public microphones: Microphones = null;
+  public selectedCamera=0;
+  public group=0;
   getlangage(): string {
     const langage = localStorage.getItem("langage");
     if (!langage) return this.translate.getBrowserLang();
@@ -59,6 +62,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
+    private modalService: NgbModal,
     private translate: TranslateService) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
@@ -203,30 +207,36 @@ export class MosaicComponent implements OnInit, OnDestroy {
     })
 
   }
-  private postAction(body: string) {
-    this.http
-      .post<any>('/recorder', body, {
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
-        }
-      })
-      .subscribe(
-        res => {
-          console.log(res);
-          this.errorMsg = 'Success';
-        },
-        err => {
-          console.log(err);
-          this.errorMsg = err.message;
-        }
-      );
+
+  onClickVideo(index)
+  {
+    this.group=1;
+    this.selectedCamera=index;
   }
-  onMicChanged(e, id): void {
-    this.microphone = e.checked ? id : null;
-  }
-  onDataChanged(e): void {
-    this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));
-  }
+  // private postAction(body: string) {
+  //   this.http
+  //     .post<any>('/recorder', body, {
+  //       headers: {
+  //         'content-type': 'application/x-www-form-urlencoded'
+  //       }
+  //     })
+  //     .subscribe(
+  //       res => {
+  //         console.log(res);
+  //         this.errorMsg = 'Success';
+  //       },
+  //       err => {
+  //         console.log(err);
+  //         this.errorMsg = err.message;
+  //       }
+  //     );
+  // }
+  // onMicChanged(e, id): void {
+  //   this.microphone = e.checked ? id : null;
+  // }
+  // onDataChanged(e): void {
+  //   this.postAction('action=data&verb=' + (e.checked ? 'start' : 'stop'));
+  // }
   getPreviewUrl(cam: Camera): string {
     if (cam) {
       return '/' + cam.id;
@@ -234,63 +244,63 @@ export class MosaicComponent implements OnInit, OnDestroy {
       return undefined;
     }
   }
-  onStream(stream: string) {
-    this.stream = stream;
-    if ('LIVERECORD' !== this.stream) {
-      const prms = [this.camera.id, this.microphone];
-      this.http
-        .post<any>(
-          '/recorder',
-          'action=CamButtons&verb=merge&' + 'stream=' + stream + '&prm=' + prms,
-          {
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded'
-            }
-          }
-        )
-        .subscribe(
-          res => {
-            console.log(res);
-            this.errorMsg = 'Success';
-          },
-          err => {
-            console.log(err);
-            this.errorMsg = err.message;
-          }
-        );
-    } else {
-      const prms = [this.camera.id, this.microphone];
-      this.http
-        .post<any>(
-          '/recorder',
-          'action=RecordButtons&verb=startRec&prm=' + prms,
-          {
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded'
-            }
-          }
-        )
-        .subscribe(
-          res => {
-            console.log(res);
-            this.errorMsg = 'Success';
-          },
-          err => {
-            console.log(err);
-            this.errorMsg = err.message;
-          }
-        );
-    }
-  }
+  // onStream(stream: string) {
+  //   this.stream = stream;
+  //   if ('LIVERECORD' !== this.stream) {
+  //     const prms = [this.camera.id, this.microphone];
+  //     this.http
+  //       .post<any>(
+  //         '/recorder',
+  //         'action=CamButtons&verb=merge&' + 'stream=' + stream + '&prm=' + prms,
+  //         {
+  //           headers: {
+  //             'content-type': 'application/x-www-form-urlencoded'
+  //           }
+  //         }
+  //       )
+  //       .subscribe(
+  //         res => {
+  //           console.log(res);
+  //           this.errorMsg = 'Success';
+  //         },
+  //         err => {
+  //           console.log(err);
+  //           this.errorMsg = err.message;
+  //         }
+  //       );
+  //   } else {
+  //     const prms = [this.camera.id, this.microphone];
+  //     this.http
+  //       .post<any>(
+  //         '/recorder',
+  //         'action=RecordButtons&verb=startRec&prm=' + prms,
+  //         {
+  //           headers: {
+  //             'content-type': 'application/x-www-form-urlencoded'
+  //           }
+  //         }
+  //       )
+  //       .subscribe(
+  //         res => {
+  //           console.log(res);
+  //           this.errorMsg = 'Success';
+  //         },
+  //         err => {
+  //           console.log(err);
+  //           this.errorMsg = err.message;
+  //         }
+  //       );
+  //   }
+  // }
 
-  onStopStream(): void {
-    if ('LIVERECORD' !== this.stream) {
-      this.postAction('action=CamButtons&verb=stop');
-    } else {
-      this.postAction('action=RecordButtons&verb=stop');
-    }
-    this.stream = null;
-  }
+  // onStopStream(): void {
+  //   if ('LIVERECORD' !== this.stream) {
+  //     this.postAction('action=CamButtons&verb=stop');
+  //   } else {
+  //     this.postAction('action=RecordButtons&verb=stop');
+  //   }
+  //   this.stream = null;
+  // }
 
 
 }
