@@ -6,15 +6,6 @@ html, body {
 table {
 	width: 100%;
   }
-  .image-mosaic{
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-	z-index: 10;
-	-webkit-justify-content: center;
-	/* Safari */
-	justify-content: center;
-}
 
 .cameo{
 	-webkit-justify-content: center;
@@ -25,33 +16,99 @@ table {
 	/* Safari */
 	justify-content: center;
 }
-@media (max-width: 736px){
+@media (min-width: 320px) and (max-width: 480px){
 	.mosaic-cameo{    
 		background-position: center ;
 		background-size: cover;
-		width: 250px;
-
-	//  height:100vh; /* <-- Height is full height of the viewport */
+		width: 120px;
+		position: relative;
+		margin-left: 0%
 	}
   }
-  @media (min-width: 737px) and (max-width: 1024px){
-
+  @media (min-width: 481px) and (max-width: 468px){
 	.mosaic-cameo{    
 		background-position: center ;
 		background-size: cover;
-		width: 470px;
-
+		width: 200px;
+		position: relative;
+		margin-left: 0%
 	}
   }
 
-  @media (min-width: 1280px) {
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
 	.mosaic-cameo{    
 		background-position: center ;
 		background-size: cover;
-		width: 470px;
-		-webkit-justify-content: center;
-		/* Safari */
-		justify-content: center;
-
+		width: 190px;
+		position: relative;
+		margin-left: 5%
 	}
-  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.mosaic-cameo{    
+		background-position: center ;
+		background-size: cover;
+		width: 230px;
+		position: relative;
+		margin-left: 5%
+	}
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	.mosaic-cameo{    
+		background-position: center ;
+		background-size: cover;
+		width: 230px;
+		position: relative;
+		margin-left: 10%
+	}}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+	.mosaic-cameo{    
+		background-position: center ;
+		background-size: cover;
+		width: 435px;
+		position: relative;
+		margin-left: 5%
+	}
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+	.mosaic-cameo{    
+		background-position: center ;
+		background-size: cover;
+		width: 640px;
+		position: relative;
+		margin-left: 0%
+	}}
+@media only screen and (min-width: 1280px) {
+	.mosaic-cameo{    
+		background-position: center ;
+		background-size: cover;
+		width: 640px;
+		position: relative;
+		margin-left: 0%
+	}}
+
+// @media (min-width: 736px)and (max-width: 735px){
+// 	.mosaic-cameo{    
+// 		background-position: center ;
+// 		background-size: cover;
+// 		width: 250px;
+// 		position: relative;
+// 		margin-left: 5%
+// 	}
+//   }
+//   @media (min-width: 737px) {
+// 	// @media (min-width: 737px) and (max-width: 1279px){
+
+// 	.mosaic-cameo{    
+// 		background-position: center ;
+// 		background-size: cover;
+// 		width: 470px;
+// 		position: relative;
+// 		margin-left: 5%
+// 	}
+//   }
