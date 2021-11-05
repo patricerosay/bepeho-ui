@@ -44,14 +44,14 @@ table {
 	}
   }
 
-  @media (min-width: 1025px) {
-
+  @media (min-width: 1280px) {
 	.mosaic-cameo{    
 		background-position: center ;
 		background-size: cover;
-		width: 650px;
+		width: 470px;
 		-webkit-justify-content: center;
 		/* Safari */
 		justify-content: center;
+
 	}
   }
