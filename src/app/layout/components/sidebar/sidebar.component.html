@@ -2,36 +2,36 @@
 <nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
   <div class="list-group">
     <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-dashboard"></i>&nbsp;
       <span>{{ "Dashboard" | translate }}</span>
     </a>
     <a [routerLink]="['/search/map']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-map-marker"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-map-marker"></i>&nbsp;
       <span>{{ "Records" | translate }} </span>
     </a>
 
 
     <a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-film"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-film"></i>&nbsp;
       <span>{{ "Video Bank" | translate }}</span>
     </a>
     <a [routerLink]="['/mosaic']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-television"></i>&nbsp;
+      <i class="fa fa-2x fa-fw  fa-television"></i>&nbsp;
       <span>{{ "Mosaic" | translate }}</span>
     </a>
     <a [routerLink]="['/configuration']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-edit"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-edit"></i>&nbsp;
       <span>{{ "Configuration" | translate }}</span>
     </a>
 
     <a [routerLink]="['/task']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <div *ngIf="!recapProgressStatus">
-        <i  class="fa fa-bell "></i>
+        <i  class="fa fa-2x fa-fw fa-bell "></i>
         <b class="caret"></b>
         <span>{{ "Status" | translate }}</span>
       </div>
       <div *ngIf="recapProgressStatus">
-        <i  class="fa fa-check "></i>
+        <i  class="fa fa-2x fa-fw fa-check "></i>
         <b class="caret"></b>
         <span>{{ "Status" | translate }}</span>
       </div>
@@ -39,75 +39,13 @@
      
     </a>
 
-    <!-- <li class="nav-item dropdown" ngbDropdown>
-    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle [ngSwitch]="status">
-      <i *ngSwitchCase="-1" class="fa fa-bell "></i> <b class="caret"></b><span
-                        class="sr-only">(current)</span>
-      <i *ngSwitchCase="1" class="fa fa-check"></i> <b class="caret"></b><span
-                        class="sr-only">(current)</span>
-    </a>
-    <div class="dropdown-menu-right" ngbDropdownMenu>
-
-      <a [routerLink]="['/task']" class="dropdown-item">
-        {{ 'See Errors  ' | translate }} <span class="badge badge-info"> {{taskInError}}</span>
-      </a>
-    </div>
-  </li> -->
-    <!-- <a
-    [routerLink]="['/interview']"
-    [routerLinkActive]="['router-link-active']"
-    class="list-group-item"
-  >
-    <i class="fa fa-fw fa-commenting-o"></i>&nbsp;
-    <span>{{ "Hublo" | translate }}</span>
-  </a> -->
-    <!-- <div class="nested-menu">
-      <a class="list-group-item" (click)="addExpandClass('pages')">
-        <i class="fa fa-plus"></i>&nbsp;
-        <span>{{ "System" | translate }}</span>
-      </a>
-      <li class="nested" [class.expand]="showMenu === 'pages'">
-        <ul class="submenu">
-          <li>
-            <a
-              [routerLink]="['/configuration']"
-              [routerLinkActive]="['router-link-active']"
-              class="list-group-item"
-            >
-              <i class="fa fa-edit"></i>&nbsp;
-              <span>{{ "Configuration" | translate }}</span>
-            </a>
-          </li> -->
-
-    <!-- <li>
-            <a
-              [routerLink]="['/version']"
-              [routerLinkActive]="['router-link-active']"
-              class="list-group-item"
-            >
-              <i class="fa fa-code-fork"></i>&nbsp;
-              <span>{{ "Version" | translate }}</span>
-            </a>
-          </li> -->
-
-    <!-- <li>
-            <a (click)="gotoWIFI()" class="list-group-item">
-              <i class="fa fa-wifi"></i>&nbsp;
-              <span>{{ "Network" | translate }}</span></a
-            >
-          </li> -->
-    <!-- </ul>
-      </li>
-    </div> -->
 
     <div>
-      <!-- <a (click)="rltAndLtr()" class="list-group-item">
-        <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
-      </a> -->
+
 
       <div class="nested-menu">
         <a class="list-group-item" (click)="addExpandClass('languages')">
-          <span><i class="fa fa-language"></i>&nbsp; {{ "Language" | translate }}
+          <span><i class="fa fa-2x fa-fw fa-language"></i>&nbsp; {{ "Language" | translate }}
             <b class="caret"></b></span>
         </a>
         <li class="nested" [class.expand]="showMenu === 'languages'">
@@ -128,7 +66,7 @@
     </div>
   </div>
   <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
-    <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+    <i class="fa fa-2x fa-fw fa-angle-double-left"></i>&nbsp;
     <span>{{ "Collapse Sidebar" | translate }}</span>
   </div>
 </nav>
