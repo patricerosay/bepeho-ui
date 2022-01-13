@@ -9,8 +9,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
-// import { MatDialog } from '@angular/material/dialog';
-// import { FormControl, Validators } from '@angular/forms';
+import {saveAs as importedSaveAs} from 'file-saver';
 
 export interface Video {
   position: number;
@@ -366,6 +365,23 @@ export class QviewComponent implements OnInit {
         });
   }
 
+  
+  public downloadThisFile() {
+    const self = this;
+    const rootName= self.data['start_time']+'-';
+    self.segment.audios.forEach(audio => {
+      importedSaveAs('/media/'+audio.src, rootName);
+    });
+    self.segment.videos.forEach(video => {
+      importedSaveAs('/media/' + video.src, rootName+video.channel);
+    });
+
+    // const vtt= '/media/subtitles/'+rootName+self.data['GroupID'];
+    // importedSaveAs(vtt, 'vtt');
+
+    this.headerMessage = 'downloaded';
+
+}
 }
 
 

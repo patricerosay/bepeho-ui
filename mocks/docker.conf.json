@@ -1,7 +1,7 @@
 {
     "/recorder/*": {
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -10,7 +10,7 @@
     },
     "/media/*": {
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -19,7 +19,7 @@
     },
     "/tile/*": {
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -28,7 +28,7 @@
     },
     "/CAM0":{
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -37,7 +37,7 @@
     },
     "/CAM1":{
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -46,7 +46,7 @@
     },
     "/CAM2":{
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -55,7 +55,7 @@
     },
     "/CAM3":{
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },
@@ -64,7 +64,7 @@
     },
     "/CAM4":{
         "target": {
-            "host": "localhost",
+            "host": "192.168.1.54",
             "protocol": "http:",
             "port": 80
         },

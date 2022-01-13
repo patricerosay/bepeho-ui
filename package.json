@@ -14,7 +14,7 @@
     "start:hublo": "ng serve --proxy-config ./mocks/proxy-hublo.conf.json",
     "start:proxy8080-ssl": "ng serve --host 0.0.0.0 --ssl --ssl-key ./localhost.key  --ssl-cert ./localhost.crt --proxy-config ./mocks/proxy-8080-sec.conf.json",
     "start:proxy": "ng serve --proxy-config ./mocks/proxy.conf.json",
-    "start:docker": "ng serve --proxy-config ./mocks/docker.conf.json",
+    "start:docker": "ng serve --proxy-config ./mocks/proxy-local-docker.conf.json",
     "start:mockers": "json-server --port 8080 --watch ./mocks/mocks.json --routes ./mocks/routes.json",
     "start:cam1": "node ../dockers/docker-rtsp-proxy/app.js 2001 /cameo rtsp://admin:Bepeho31@192.168.1.50:554"
   },

@@ -167,7 +167,9 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     }
     public downloadThisFile(rows) {
         rows.forEach(element => {
-            importedSaveAs(this.getUrl(element), element.mime);
+
+            const rootName= element['start_time']+'-'+element['Channel'] ;
+            importedSaveAs(this.getUrl(element), rootName);
         });
 
         this.resultMessage = 'downloaded';

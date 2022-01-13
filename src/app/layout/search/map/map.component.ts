@@ -440,10 +440,12 @@ export class MapComponent implements OnInit {
                 } else {
                   self.searchStats[0].error++;
                   self.searchStats[0].videoLess++;
+                  console.log('videoless');
                 }
               } else {
                 self.searchStats[0].error++;
                 self.searchStats[0].positionLess++;
+                console.log('positionless');
               }
             });
 
