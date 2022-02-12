@@ -127,7 +127,7 @@ export class QviewComponent implements OnInit {
   style: number;
   public nmea: NMEA [] ;
   displayedColumns = ['bgs', 'bgd'];
-
+  private mediaroot = '/media/master_records/oceanrecorder/';
   constructor(public http: HttpClient,
     public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
@@ -252,12 +252,6 @@ export class QviewComponent implements OnInit {
     // this.seekToCurrentTime();
   }
 
-  // triggerResize() {
-  //   // Wait for changes to be applied, then trigger textarea resize.
-  //   this._ngZone.onStable.pipe(take(1))
-  //     .subscribe(() => this.autosize.resizeToFitContent(true));
-  // }
-
   onBuildClip() {
     const self = this;
     this.modalService.open(BuildSmartClipModal, { centered: true }).result.then((result) => {
@@ -288,7 +282,7 @@ export class QviewComponent implements OnInit {
             inc = inc + 1;
           });
         }
-        self.http.post<any>('/recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
+        self.http.post<any>('/api/jobs/', 'verb=build&prm=' + JSON.stringify(buildOrder),
           {
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -321,7 +315,7 @@ export class QviewComponent implements OnInit {
     });
     ids.push (this.data['GroupID']);
 
-    this.http.post<any>('/recorder', 'action=FileSystem&verb=keep&prm=' + ids.join(','),
+    this.http.post<any>('/api/storage', 'verb=keep&prm=' + ids.join(','),
       {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -348,7 +342,7 @@ export class QviewComponent implements OnInit {
     });
     ids.push (this.data['GroupID']);
 
-    this.http.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
+    this.http.post<any>('/api/storage', 'verb=get&prm=' + ids.join(','),
       {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -365,23 +359,28 @@ export class QviewComponent implements OnInit {
         });
   }
 
-  
+
   public downloadThisFile() {
     const self = this;
     const rootName= self.data['start_time']+'-';
+    if (self.segment.audios && self.segment.audios[0 ])
+      importedSaveAs(this.mediaroot+self.segment.audios[0].src, rootName);
+    if (self.segment.videos && self.segment.videos[this.currentIndex ])
+      importedSaveAs(this.mediaroot + self.segment.videos[this.currentIndex ].src, rootName+self.segment.videos[this.currentIndex ].channel);
+    this.headerMessage = 'Downloaded';
+  }
+  public downloadAll() {
+    const self = this;
+    const rootName= self.data['start_time']+'-';
     self.segment.audios.forEach(audio => {
-      importedSaveAs('/media/'+audio.src, rootName);
+      importedSaveAs(this.mediaroot+audio.src, rootName);
     });
     self.segment.videos.forEach(video => {
-      importedSaveAs('/media/' + video.src, rootName+video.channel);
+      importedSaveAs(this.mediaroot + video.src, rootName+video.channel);
     });
+    this.headerMessage = 'Downloaded';
 
-    // const vtt= '/media/subtitles/'+rootName+self.data['GroupID'];
-    // importedSaveAs(vtt, 'vtt');
-
-    this.headerMessage = 'downloaded';
-
-}
+  }
 }
 
 

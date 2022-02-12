@@ -5,7 +5,7 @@ declare var document: any;
 
 @Injectable()
 export class Cameras {
-    private url = '/recorder/cams';
+    private url = '/api/devices/cameras/';
 
 
     constructor(public http: HttpClient) { }

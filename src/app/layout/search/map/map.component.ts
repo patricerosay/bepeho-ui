@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
   public isLoading = true;
   public searchViewMode = '/map';
   public error: object = null;
-  private mediaroot = '/media/';
+
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
@@ -192,7 +192,8 @@ export class MapComponent implements OnInit {
   public getLatLon(o: any) {
     // console.log(o);
     let res = null;
-    const s = o['nmea_s_boatpos'];
+    //const s = o['nmea_s_boatpos'];
+    const s = o['nmea_loc_boatspatialpos'];
     if (s) {
       const a = s.split(',');
       res = new L.LatLng(a[0], a[1]);
@@ -329,7 +330,7 @@ export class MapComponent implements OnInit {
     self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
     self.http
-      .get('/recorder/search?' + params)
+      .get('/api/records/search/?' + params)
       .toPromise()
       .then(
         data => {

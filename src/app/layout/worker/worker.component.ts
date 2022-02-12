@@ -37,10 +37,10 @@ export class WorkerComponent implements OnInit {
   }
   ngOnInit() {
     const self = this;
-    this.http.get('/recorder/tasksTag'+'?'+Math.random())
+    this.http.get('/api/services/states/'+'?'+Math.random())
       .subscribe(
         data => {
-          self.workers = data['tasks'] as IWorker[];
+          self.workers = data['ProgressStatus'] as IWorker[];
         },
       );
       this.isLoading = false;

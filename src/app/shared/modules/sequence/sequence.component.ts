@@ -71,15 +71,16 @@ export class SequenceComponent implements OnInit {
       this.isLoading = false;
 
     }
+    private mediaroot = '/media/master_records/oceanrecorder/';
     getCurrentVideoSrc(): string {
-        return '/media/' + this.currentVideo['filename_p_file'];
+        return this.mediaroot  + this.currentVideo['filename_p_file'];
     }
     getCurrentPoster(): string {
-        return '/media/' + this.currentVideo['filename_i_file'];
+        return this.mediaroot + this.currentVideo['filename_i_file'];
 
     }
     getCurrentAudioSrc(): string{
-        return '/media/' + this.currentAudio['filename_m_file'];
+        return this.mediaroot + this.currentAudio['filename_m_file'];
 
     }
     onPlayedVideo(event: any) {

@@ -48,7 +48,10 @@
     Save
   </button>
   <button mat-raised-button color="primary" (click)="downloadThisFile()">
-    Download
+    Download This
+  </button>
+  <button mat-raised-button color="primary" (click)="downloadAll()">
+    Download All
   </button>
   <nav
     class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top"
@@ -89,7 +92,7 @@
           <video
             #mediaV
             [vgMedia]="mediaV"
-            src="/media/{{ currentVideo.src }}"
+            src="{{ mediaroot }}/{{ currentVideo.src }}"
             id="singleVideo"
             preload="auto"
             crossorigin
@@ -97,7 +100,7 @@
             <track
               kind="subtitles"
               label="Data"
-              src="/media/subtitles/{{ data['GroupID'] }}.vtt"
+              src="{{ mediaroot }}/subtitles/{{ data['GroupID'] }}.vtt"
               srclang="en"
               default
             />

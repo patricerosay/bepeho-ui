@@ -70,7 +70,7 @@ export class ConfigurationComponent implements OnInit {
         const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
      }
-    private url = '/recorder/parameters';
+    private url = '/api/parameters/';
     deleteAll() {
         const self = this;
         this.modalService.open(ConfirmationModalDialog, { centered: true }).result.then((result) => {
@@ -219,7 +219,7 @@ export class ConfigurationComponent implements OnInit {
                 });
             }
         });
-        this.http.post<any>('/recorder', 'action=Parameter&verb=save&' + params,
+        this.http.post<any>('/api/parameters/', 'action=Parameter&verb=save&' + params,
             {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -237,7 +237,7 @@ export class ConfigurationComponent implements OnInit {
 
     }
     setStartProcess(e) {
-        this.http.post<any>('/recorder', 'action=Process&verb=' + (e.checked ? 'resume' : 'pause'),
+        this.http.post<any>('/api/services/startstop/', 'verb=' + (e.checked ? 'resume' : 'pause'),
             {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -255,7 +255,7 @@ export class ConfigurationComponent implements OnInit {
     }
     setRecordDevices(prm: string, e) {
         // console.log(prm);
-        this.http.post<any>('/recorder', 'action=Recorder&verb=' + ((e.checked ? 'resume' : 'pause') + ('&prm=' + prm)),
+        this.http.post<any>('/api/recorder/controls/', 'verb=' + ((e.checked ? 'resume' : 'pause') + ('&prm=' + prm)),
             {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
@@ -272,26 +272,24 @@ export class ConfigurationComponent implements OnInit {
     }
     ngOnInit() {
         const self = this;
-        this.http.get('/recorder/controls'+'?'+Math.random())
+        this.http.get('/api/recorder/controls/'+'?'+Math.random())
             .subscribe(
                 data => {
                     const t = data as { control: { name: string, state: boolean }[] };
-                    t.control.forEach(c => {
-                        if ('autoprocess' === c.name) {
-                            self.controls.autoprocess = c.state;
-                        } else if ('autorecordAudio' === c.name) {
-                            self.controls.autorecordAudio = c.state;
-                        } else if ('autorecordVideo' === c.name) {
-                            self.controls.autorecordVideo = c.state;
-                        } else if ('nightModeRecord' === c.name) {
-                            self.controls.nightModeRecord = c.state;
-                        }
-                    });
+
+
+                            self.controls.autoprocess = t['autoprocess'];
+                      
+                            self.controls.autorecordAudio = t['autorecordAudio'];
+                       
+                            self.controls.autorecordVideo = t['autorecordVideo'];
+                        
+
                     self.isLoadingControls = false;
                 },
                 err => this.logError(err),
             );
-        this.http.get('/recorder/parameters'+'?'+Math.random())
+        this.http.get('/api/parameters/'+'?'+Math.random())
             .subscribe(
                 data => {
                     const configurations = data as Configuration[];

@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    this.http.get('/recorder/processStates'+'?'+Math.random())
+    this.http.get('/api/services/states/'+'?'+Math.random())
       .subscribe(
         data => {
           self.tasks = data['ProgressStatus'] as ITask[];

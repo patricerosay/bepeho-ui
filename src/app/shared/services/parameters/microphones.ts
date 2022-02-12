@@ -5,7 +5,7 @@ declare var document: any;
 
 @Injectable()
 export class Microphones {
-    private url = '/recorder/mics';
+    private url = '/api/devices/microphones/';
 
 
     constructor(public http: HttpClient) { }

@@ -1,10 +1,10 @@
 {
-    "/recorder/*": {
+    "/api/*": {
         "target": "http://localhost:8080",
         "secure": false
     },
     "/media/*": {
-        "target": "http://localhost:8080/assets/images/",
+        "target": "http://localhost:8080",
         "secure": false
     }
 }

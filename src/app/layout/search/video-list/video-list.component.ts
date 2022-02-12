@@ -26,7 +26,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     searchDatabase: SearchDatabase | null;
     data: IGroup[] = [];
     resultsLength = 0;
-
+    private mediaroot = '/media/master_records/oceanrecorder/';
     posterIndex = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
@@ -132,22 +132,22 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         } else if ( 'audio/mpeg' === col ['mime']) {
             rowImg =  'assets/images/white-noise.jpg';
         } else {
-            rowImg =  '/media/' + col ['filename_i_file'];
+            rowImg =  this.mediaroot + col ['filename_i_file'];
         }
         return rowImg;
     }
     public getUrl(row): string {
         if ( 'audio/mpeg' === row['mime']) {
-            return   '/media/' + row['filename_m_file'];
+            return   this.mediaroot + row['filename_m_file'];
         } else {
-        return  '/media/' + row ['filename_p_file'];
+        return  this.mediaroot + row ['filename_p_file'];
         }
     }
     public getID(row): string {
         return  row['GroupID'];
     }
     public getSubtitle(row: any []): string {
-        const  rowUrl = '/media/subtitles/' + row[0]['GroupID'] + '.vtt';
+        const  rowUrl = this.mediaroot+'subtitles/' + row[0]['GroupID'] + '.vtt';
         return rowUrl;
     }
     public getProperty(row: any [], prop: string ): string {
@@ -317,7 +317,7 @@ export class SearchDatabase {
         // searchPrms.count = this.elementPerPage;
         const params: URLSearchParams = this.serialize(searchPrms);
 
-        const requestUrl = '/recorder/search?' + params;
+        const requestUrl = '/api/records/search/?' + params;
         return this._httpClient.get<SearchAPI>(requestUrl);
     }
 }
