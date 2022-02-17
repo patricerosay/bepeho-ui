@@ -59,13 +59,27 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         start: new FormControl(new Date().toISOString()),
         end: new FormControl(new Date().toISOString()),
       });
-      timeRange = [
-        {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
-        {'name': 'last 6 hours' , 'value' : ['0', '360']},
-        {'name': 'last 24 hours', 'value': ['0', '1440']},
-        {'name': 'last 7 days', 'value': ['0', '10080']},
-        {'name': 'last 30 days',  'value': ['0', '302400']},
+    //   timeRange = [
+    //     {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
+    //     {'name': 'last 6 hours' , 'value' : ['0', '360']},
+    //     {'name': 'last 24 hours', 'value': ['0', '1440']},
+    //     {'name': 'last 7 days', 'value': ['0', '10080']},
+    //     {'name': 'last 30 days',  'value': ['0', '302400']},
 
+    //   ];
+      timeRange = [
+        {'name': '01:00' , 'value' : 60},
+        {'name': '02:00' , 'value' : 120},
+        {'name': '03:00' , 'value' : 180},
+        {'name': '04:00' , 'value' : 240},
+        {'name': '05:00' , 'value' : 300},
+        {'name': '06:00' , 'value' : 360},
+        {'name': '07:00' , 'value' : 420},
+        {'name': '08:00' , 'value' : 480},
+        {'name': '09:00' , 'value' : 540},
+        {'name': '10:00' , 'value' : 600},
+        {'name': '11:00' , 'value' : 660},
+        {'name': '12:00' , 'value' : 720},
       ];
       hourRange = [
         {'name': 'early morning', 'value': ['0', '6']},
@@ -195,22 +209,46 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         this.searchPrms.type = 'autorecord';
         this.loadData(this);
       }
- 
-    public onSearchOnTime(range) {
-        if ( 'whatever the recording time' !== range.name) {
-          this.searchPrms.start_time = range.value;
-        } else {
-          this.searchPrms.start_time = undefined;
+      computeTimeRange() {
+        const storedDate = localStorage.getItem('date');
+        var datetime = new Date().getTime()
+        if( storedDate ) {
+            datetime= Number(storedDate)
         }
-        localStorage.setItem('timeRange', range.name);
+        var ampm=1;
+        const AMPM =localStorage.getItem('AMPM');
+        if( AMPM){
+            ampm = Number(AMPM);
+        }
+        const storedHour= localStorage.getItem('hour');
+        if( storedHour){
+            datetime=datetime + Math.trunc(Number(storedHour)/60000)*ampm;
+        }
+        const now = Math.trunc(new Date().getTime() /60000);
+        
+        const numberIfMillsecondsToGoBackInTime=  now-datetime;
+        
+        this.searchPrms.start_time= [0, numberIfMillsecondsToGoBackInTime];
+      }
+      public onClickAMPM(ampm){
+        localStorage.setItem('AMPM', ampm);
+        this.loadData(this);
+      }
+    public onSearchOnTime(range) {
+
+        localStorage.setItem('hour', range.value);
 
         this.loadData(this);
       }
-      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-        console.log("hello ", event)
-        const numberIfMillsecondsToGoBackInTime=  (new Date(event.value).getTime()/1000 - new Date(event.value).getTime()/1000); //to get answer in seconds
 
+      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        const date=Math.trunc(event.value.getTime()/60000);
+        localStorage.setItem('date', date.toString());
+       
+        this.loadData(this);
       }
+
+
       public onSearchOnHeelAngle(range) {
 
         this.searchPrms.nmea_d_heel_d = range.value;
@@ -238,7 +276,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     loadData(_self: VideoListComponent) {
 
         clearTimeout(_self.searchTimer);
-
+        _self.computeTimeRange();
         _self.searchDatabase = new SearchDatabase(_self._httpClient, _self.pageSize);
 
         // If the user changes the sort order, reset back to the first page.
