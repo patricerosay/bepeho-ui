@@ -10,4 +10,5 @@ export class ISearchParams {
     start: number;
     count: number;
     type: string;
+    ascendant:string;
 }

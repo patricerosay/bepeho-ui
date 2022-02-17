@@ -78,9 +78,9 @@
 </div>
 
 <div class="row">
-  <table mat-table [dataSource]="data" matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+  <table mat-table [dataSource]="data" matSort matSortActive="created"  matSortDirection="desc">
     <ng-container matColumnDef="direction">
-      <th mat-header-cell *matHeaderCellDef>{{ "Direction" | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef >{{ "Direction" | translate }} </th>
       <td mat-cell *matCellDef="let row">
         {{ getProperty(row, "nmea_d_bgt_d") }}
       </td>
@@ -119,7 +119,7 @@
     </ng-container>
 
     <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
         {{ "Creation Date" | translate }}
       </th>
       <td mat-cell *matCellDef="let row">
