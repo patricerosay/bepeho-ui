@@ -44,6 +44,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 @NgModule({
     imports: [TranslateModule,
         CommonModule, VideoListRoutingModule, PageHeaderModule,
@@ -85,11 +86,11 @@ import { MatTreeModule } from '@angular/material/tree';
         MatTooltipModule,
         MatTreeModule,
         MatCheckboxModule,
-      
          SequenceModule,
-
-    NgbModule,
-        QviewModule,],
+        NgbModule,
+        QviewModule,
+        FormsModule, ReactiveFormsModule
+    ],
     declarations: [VideoListComponent],
     entryComponents: [VideoListComponent]
 

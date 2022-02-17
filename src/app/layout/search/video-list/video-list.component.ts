@@ -8,11 +8,11 @@ import { ISearchParams } from '../../../shared/interfaces/search.interface';
 import {saveAs as importedSaveAs} from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { ISearchStat } from '../map/map.component';
-// import {CookieService} from 'ngx-cookie-service';
 import { QviewComponent } from '../../../shared/modules/qview/qview.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { getUrlScheme } from '@angular/compiler';
 
+import {FormGroup, FormControl} from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-video-list',
@@ -55,16 +55,24 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         {'name': 'port', 'value':  [0, 90]}
 
       ];
-
+      range = new FormGroup({
+        start: new FormControl(new Date().toISOString()),
+        end: new FormControl(new Date().toISOString()),
+      });
       timeRange = [
         {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
-        {'name': 'last 6 hours' , 'value' : ['0', '260']},
+        {'name': 'last 6 hours' , 'value' : ['0', '360']},
         {'name': 'last 24 hours', 'value': ['0', '1440']},
         {'name': 'last 7 days', 'value': ['0', '10080']},
         {'name': 'last 30 days',  'value': ['0', '302400']},
 
       ];
-
+      hourRange = [
+        {'name': 'early morning', 'value': ['0', '6']},
+        {'name': 'morning' , 'value' : ['6', '12']},
+        {'name': 'afternoon', 'value': ['12', '18']},
+        {'name': 'night', 'value': ['18', '24']}
+      ];
       speedRange = [
       {'name': 'Whatever the boat speed' , 'value': [0, 100]},
       {'name': '0 to 5' , 'value' : [0, 5]},
@@ -160,20 +168,24 @@ export class VideoListComponent implements AfterViewInit, OnInit {
             backdropClass: 'light-blue-backdrop',
             centered: true
           });
-        //   modalRef.componentInstance.json =
-        //     e.target.options.jsonPayload;
-        //   modalRef.componentInstance.data = e.target.options.data;
-
     }
-    public downloadThisFile(rows) {
+    public downloadAll(rows) {
         rows.forEach(element => {
 
             const rootName= element['start_time']+'-'+element['Channel'] ;
             importedSaveAs(this.getUrl(element), rootName);
         });
 
-        this.resultMessage = 'downloaded';
-
+        this.resultMessage = 'Downloaded';
+    }
+    public downloadThisFile(rows) {
+        if(rows[this.posterIndex ])
+        {
+            const element=rows[this.posterIndex ];
+            const rootName= element['start_time']+'-'+element['Channel'] ;
+            importedSaveAs(this.getUrl(element), rootName);
+            this.resultMessage = 'Downloaded';
+        }
     }
     public uploadThisFile(url: string, msg: string) {
         this.resultMessage = msg;
@@ -183,18 +195,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         this.searchPrms.type = 'autorecord';
         this.loadData(this);
       }
-    //   public onSearchOnTime(from: string, to: string) {
-    //     this.searchPrms.start_time = [from, to];
-    //     this.loadData(this);
-    //   }
-    //   public onSearchOnHeelAngle(event) {
-    //     this.searchPrms.nmea_d_heel_d = event.value;
-    //     this.loadData(this);
-    //   }
-    //   public onSearchOnSpeed(event) {
-    //     this.searchPrms.nmea_d_bgs_d = event.value;
-    //     this.loadData(this);
-    //   }
+ 
     public onSearchOnTime(range) {
         if ( 'whatever the recording time' !== range.name) {
           this.searchPrms.start_time = range.value;
@@ -205,7 +206,11 @@ export class VideoListComponent implements AfterViewInit, OnInit {
 
         this.loadData(this);
       }
+      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        console.log("hello ", event)
+        const numberIfMillsecondsToGoBackInTime=  (new Date(event.value).getTime()/1000 - new Date(event.value).getTime()/1000); //to get answer in seconds
 
+      }
       public onSearchOnHeelAngle(range) {
 
         this.searchPrms.nmea_d_heel_d = range.value;
@@ -320,4 +325,5 @@ export class SearchDatabase {
         const requestUrl = '/recorder/search?' + params;
         return this._httpClient.get<SearchAPI>(requestUrl);
     }
+
 }

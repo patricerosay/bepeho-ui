@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
- import { VgAPI } from 'ngx-videogular';
-
+import { VgAPI } from 'ngx-videogular';
+import { TranslateService } from '@ngx-translate/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
@@ -127,12 +127,20 @@ export class QviewComponent implements OnInit {
   style: number;
   public nmea: NMEA [] ;
   displayedColumns = ['bgs', 'bgd'];
-
+  getlangage(): string {    
+    const langage = localStorage.getItem("langage");
+    if (! langage) return this.translate.getBrowserLang();
+    return langage;
+}
   constructor(public http: HttpClient,
     public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
-    // public dialog: MatDialog,
+    private translate: TranslateService, 
     private modalService: NgbModal) {
+      this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+      this.translate.setDefaultLang('en');
+      const browserLang = this.getlangage();
+      this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
   }
    @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
@@ -230,14 +238,12 @@ export class QviewComponent implements OnInit {
   }
 
   seekToCurrentTime(): void {
-    // console.log('seektocurrent time   ' + this.currentTime);
     this.videoApi.seekTime(this.currentTime);
     if (this.audioApi) {
     this.audioApi.seekTime(this.currentTime);
     }
   }
   playVideo() {
-    // console.log('playvideo');
     this.videoApi.play();
     if ( null !== this.audioApi) {
       this.audioApi.play();
@@ -246,17 +252,12 @@ export class QviewComponent implements OnInit {
   }
 
   onClickPlaylistItem(item: IVideo, index: number) {
-    // console.log('click item');
     this.currentIndex = index;
     this.currentVideo = item;
-    // this.seekToCurrentTime();
+
   }
 
-  // triggerResize() {
-  //   // Wait for changes to be applied, then trigger textarea resize.
-  //   this._ngZone.onStable.pipe(take(1))
-  //     .subscribe(() => this.autosize.resizeToFitContent(true));
-  // }
+ 
 
   onBuildClip() {
     const self = this;
@@ -369,19 +370,24 @@ export class QviewComponent implements OnInit {
   public downloadThisFile() {
     const self = this;
     const rootName= self.data['start_time']+'-';
+    if( self.segment.audios )
+      importedSaveAs('/media/'+self.segment.audios[0].src, rootName);
+    if (self.segment.videos && self.segment.videos[self.currentIndex ])
+      importedSaveAs('/media/' + self.segment.videos[self.currentIndex ].src, rootName+self.segment.videos[self.currentIndex ].channel);
+  
+    this.headerMessage = 'Downloaded';
+  }
+  public downloadAll() {
+    const self = this;
+    const rootName= self.data['start_time']+'-';
     self.segment.audios.forEach(audio => {
       importedSaveAs('/media/'+audio.src, rootName);
     });
     self.segment.videos.forEach(video => {
       importedSaveAs('/media/' + video.src, rootName+video.channel);
     });
-
-    // const vtt= '/media/subtitles/'+rootName+self.data['GroupID'];
-    // importedSaveAs(vtt, 'vtt');
-
-    this.headerMessage = 'downloaded';
-
-}
+    this.headerMessage = 'Downloaded';
+  }
 }
 
 

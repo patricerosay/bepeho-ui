@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { VgCoreModule, VgControlsModule,VgBufferingModule, VgOverlayPlayModule } from 'ngx-videogular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -84,7 +84,8 @@ import { MatTreeModule } from '@angular/material/tree';
          MatTooltipModule,
          MatTreeModule,
          MatCheckboxModule,
-        NgbModule, FormsModule],
+        NgbModule, FormsModule,
+        TranslateModule],
     declarations: [QviewComponent,  BuildSmartClipModal],
     entryComponents: [QviewComponent, BuildSmartClipModal],
     exports: [QviewComponent, BuildSmartClipModal]
