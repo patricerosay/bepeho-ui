@@ -62,27 +62,27 @@ export class MapComponent implements OnInit {
 
   searchPrms: ISearchParams = new ISearchParams();
   heelRange = [
-    {'name': 'Whatever the boat heeling', 'value': [-90, 90]},
-    {'name': 'starboard', 'value': [-90, 0]},
-    {'name': 'more than 45° starboard', 'value':  [-90, -45]},
-    {'name': 'less than 45° starboard', 'value':  [-45, 0]},
-    {'name': 'less than 45° port', 'value':  [0, 45]},
-    {'name': 'more than 45° port', 'value':  [45, 90]},
-    {'name': 'port', 'value':  [0, 90]}
+    { 'name': 'Whatever the boat heeling', 'value': [-90, 90] },
+    { 'name': 'starboard', 'value': [-90, 0] },
+    { 'name': 'more than 45° starboard', 'value': [-90, -45] },
+    { 'name': 'less than 45° starboard', 'value': [-45, 0] },
+    { 'name': 'less than 45° port', 'value': [0, 45] },
+    { 'name': 'more than 45° port', 'value': [45, 90] },
+    { 'name': 'port', 'value': [0, 90] }
 
   ];
 
 
   speedRange = [
-  {'name': 'Whatever the boat speed' , 'value': [0, 100]},
-  {'name': '0 to 5' , 'value' : [0, 5]},
-  {'name': '5 to 10', 'value' : [5, 10]},
-  {'name': '10 to 15', 'value' : [10, 15]},
-  {'name': '15 to 20', 'value' : [15, 20]},
-  {'name': '20 to 30', 'value' : [20, 30]},
-  {'name': '30 to 40', 'value' : [30, 40]},
-  {'name': '40 To More', 'value' : [40, 100]},
-];
+    { 'name': 'Whatever the boat speed', 'value': [0, 100] },
+    { 'name': '0 to 5', 'value': [0, 5] },
+    { 'name': '5 to 10', 'value': [5, 10] },
+    { 'name': '10 to 15', 'value': [10, 15] },
+    { 'name': '15 to 20', 'value': [15, 20] },
+    { 'name': '20 to 30', 'value': [20, 30] },
+    { 'name': '30 to 40', 'value': [30, 40] },
+    { 'name': '40 To More', 'value': [40, 100] },
+  ];
 
 
   iconTrace = L.icon({
@@ -112,15 +112,15 @@ export class MapComponent implements OnInit {
   currentTimeRangeName: string;
 
 
-  getlangage(): string {    
+  getlangage(): string {
     const langage = localStorage.getItem("langage");
-    if (! langage) return this.translate.getBrowserLang();
+    if (!langage) return this.translate.getBrowserLang();
     return langage;
-}
+  }
 
   constructor(public http: HttpClient, private modalService: NgbModal, private translate: TranslateService,
     // private cookieService: CookieService
-    ) {
+  ) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
     const browserLang = this.getlangage();
@@ -243,7 +243,7 @@ export class MapComponent implements OnInit {
   }
 
   serialize(obj: any) {
-    this.computeTimeRange() ;
+    this.computeTimeRange();
     const params: URLSearchParams = new URLSearchParams();
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -255,44 +255,8 @@ export class MapComponent implements OnInit {
 
     return params;
   }
-  computeTimeRange() {
-    const storedDate = localStorage.getItem('date');
-    var startDatetime ;
-    if( storedDate ) {
-        startDatetime= Number(storedDate)
-    }
-    else {
-        // startDatetime = new Date().getTime();
-        // startDatetime= Math.trunc(Number(startDatetime)/60000)
-        return;
-    }
 
 
-    const now = Math.trunc(new Date().getTime() /60000);
-    
-    
-    var storedHour= Number(localStorage.getItem('hour'));
-
-    var numberIfMillsecondsToGoBackInTime=  now - startDatetime - storedHour;
-    
-    if(0 < numberIfMillsecondsToGoBackInTime)
-        this.searchPrms.start_time= [0, numberIfMillsecondsToGoBackInTime];
-  }
-  public Reset() {
-    this.searchPrms = new ISearchParams();
-    this.searchPrms.type = 'autorecord';
-    localStorage.removeItem('hour');
-    localStorage.removeItem('date');
-    localStorage.removeItem('heelRange');
-    localStorage.removeItem('speedRange');
-    localStorage.removeItem('dateIso');
-    this.searchPrms.type = 'autorecord';
-    this.searchPrms.start = 0;
-    this.searchPrms.count = this.pageSize;
-    this.loadData(this);
-  }
-
-  
 
   public onSearchOnHeelAngle(range) {
 
@@ -316,31 +280,8 @@ export class MapComponent implements OnInit {
       }
     });
   }
-  public  getFromLocalStorage(key){
-    return localStorage.getItem(key);
-}
-public isSliderDisabled(){
-  return this.getFromLocalStorage('dateIso') === null;
-}
-addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-  if( type !== 'change') return;
-const date=Math.trunc(event.value.getTime()/60000);
-localStorage.setItem('date', date.toString());
-localStorage.setItem('dateIso', event.value.toISOString());
-this.loadData(this);
-}
-  formatSliderLabel(value: number) {
-    const hour =Math.round(value / 60);
-    const minutes= Math.round(value % 60)
-    return   ((hour <10)?"0":"")+hour+"H" + ((minutes <10)?"0":"")+minutes;
-  }
-  formatLabel() {
-     return this.formatSliderLabel(Number (this.getFromLocalStorage('hour'))) ;
-  }
-  updateHour(event) {
-   localStorage.setItem('hour', event.value );
-   this.loadData(this);
-  }
+
+
   public loadData(_self: MapComponent) {
     const self = _self;
 
@@ -353,7 +294,7 @@ this.loadData(this);
     self.searchStats[0].positionLess = 0;
     self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
-    self.isLoading=true;
+    self.isLoading = true;
     const requestUrl = '/recorder/search?' + params;
     console.log(requestUrl);
     self.http
@@ -410,8 +351,8 @@ this.loadData(this);
 
                   let marker = null;
                   let markerOptions: MyMarkerOptions;
-                  const date=new Date(firstSegment.end_time_data * 1000);
-                  const title=date.toLocaleString();
+                  const date = new Date(firstSegment.end_time_data * 1000);
+                  const title = date.toLocaleString();
                   if (undefined !== firstSegment['anomaly_score_d']) {
                     markerOptions = {
                       data: firstSegment,
@@ -456,13 +397,13 @@ this.loadData(this);
 
 
                   marker.on('click', function (e) {
-                    
+
                     const modalRef = who.modalService.open(QviewComponent, {
                       size: 'lg',
                       backdropClass: 'light-blue-backdrop',
                       centered: true
                     });
-                    
+
                     modalRef.componentInstance.json =
                       e.target.options.jsonPayload;
                     modalRef.componentInstance.data = e.target.options.data;
@@ -509,5 +450,65 @@ this.loadData(this);
   }
   logError(error: object): void {
     this.error = error;
+  }
+
+  getMillisecondsFromNow(localStorageDate, localStorageHour){
+    const storedStartIsoDate = localStorage.getItem(localStorageDate);
+    if (! storedStartIsoDate) return;
+    const startDatetime = Math.trunc(Number(new Date(storedStartIsoDate))/ 60000);
+    const now = Math.trunc(new Date().getTime() / 60000);
+    var storedHour = Number(localStorage.getItem(localStorageHour));
+    return now - startDatetime - storedHour;
+  }
+  computeTimeRange() {
+    const numberOfMillsecondsToGoBackInTimeStart= this.getMillisecondsFromNow('startDateIso', 'startHour');
+    if (0 < numberOfMillsecondsToGoBackInTimeStart)
+      this.searchPrms.start_time = [numberOfMillsecondsToGoBackInTimeStart, 0];
+
+    const numberOfMillsecondsToGoBackInTimeEnd= this.getMillisecondsFromNow('endDateIso', 'endHour');
+    if (0 < numberOfMillsecondsToGoBackInTimeEnd)
+        this.searchPrms.start_time = [numberOfMillsecondsToGoBackInTimeStart, numberOfMillsecondsToGoBackInTimeEnd];      
+  }
+
+  public Reset() {
+    this.searchPrms = new ISearchParams();
+    this.searchPrms.type = 'autorecord';
+    localStorage.removeItem('startDateIso');
+    localStorage.removeItem('startHour');
+    localStorage.removeItem('endDateIso');
+    localStorage.removeItem('endHour');
+    localStorage.removeItem('date');
+    localStorage.removeItem('heelRange');
+    localStorage.removeItem('speedRange');
+
+    this.searchPrms.type = 'autorecord';
+    this.searchPrms.start = 0;
+    this.searchPrms.count = this.pageSize;
+    this.loadData(this);
+  }
+  public getFromLocalStorage(key) {
+    return localStorage.getItem(key);
+  }
+  public isSliderDisabled(key) {
+    return this.getFromLocalStorage(key) === null;
+  }
+
+  addEvent(date, type: string, event: MatDatepickerInputEvent<Date>) {
+    if (type !== 'change') return;
+    localStorage.setItem(date, event.value.toISOString());
+    this.loadData(this);
+  }
+
+  formatSliderLabel(value: number) {
+    const startHour = Math.round(value / 60);
+    const minutes = Math.round(value % 60)
+    return ((startHour < 10) ? "0" : "") + startHour + "H" + ((minutes < 10) ? "0" : "") + minutes;
+  }
+  formatLabel(hour) {
+    return this.formatSliderLabel(Number(this.getFromLocalStorage(hour)));
+  }
+  updateHour(hour, event) {
+    localStorage.setItem(hour, event.value);
+    this.loadData(this);
   }
 }

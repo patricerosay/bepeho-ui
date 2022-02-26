@@ -1,16 +1,16 @@
-<div class="modal-header modal-xl">
+<div class="modal-header ">
 
 
   <h4 class="modal-title">
     <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
-    <div *ngIf="this.data['start_time']">{{this.data['start_time']| date: 'medium'}}</div>
+    <div *ngIf="this.data['start_time']">{{ "Recorded at: " | translate }} {{this.data['start_time']| date: 'medium'}}
+    </div>
   </h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
+
 </div>
 <div *ngIf="isLoading">loading ....</div>
 <div *ngIf="!isLoading">
+
   <table mat-table [dataSource]="nmea" class="mat-elevation-z8">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -31,34 +31,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <div class="row">
-    <div class="col-lg-2">
-      <button mat-raised-button color="primary" (click)="onBuildClip()">
-        <span>{{ "Build"| translate }} </span>
-      </button>
-    </div>
-    <div class="col-lg-2">
-      <button mat-raised-button color="primary" (click)="onExportSegment()">
-        <span>{{ "Export"| translate }} </span>
-      </button>
-    </div>
-    <div class="col-lg-2">
-      <button mat-raised-button color="primary" (click)="onSaveSegment()">
-        <span>{{ "Save"| translate }} </span>
-      </button>
-    </div>
-    <div class="col-lg-2">
-      <button mat-raised-button color="primary" (click)="downloadThisFile()">
-        <span>{{ "Download"| translate }} </span>
-      </button>
-    </div>
-    <div class="col-lg-2">
-      <button mat-raised-button color="primary" (click)="downloadAll()">
-        <span>{{ "Download All" | translate }} </span>
-      </button>
-    </div>
-  </div>
-  <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+
+
+  <nav>
     <div>
       <div class="videogular-container">
 
@@ -66,7 +41,7 @@
           <vg-buffering></vg-buffering>
           <vg-overlay-play></vg-overlay-play>
           <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
-            <!-- <vg-play-pause></vg-play-pause> -->
+            <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
 
             <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
@@ -96,12 +71,34 @@
 
       <div hidden *ngIf="currentAudio" class="videogular-container-audio">
         <vg-player (onPlayerReady)="onAudioPlayerReady($event)">
-
-
           <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="/media/{{ currentAudio.src }}" id="singleAudio"
             preload="auto" crossorigin></audio>
         </vg-player>
       </div>
     </div>
   </nav>
+  <div class="modal-footer">
+
+    <button mat-raised-button color="primary" (click)="onBuildClip()">
+      <span>{{ "Build"| translate }} </span>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="onExportSegment()">
+      <span>{{ "Export"| translate }} </span>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="onSaveSegment()">
+      <span>{{ "Save"| translate }} </span>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="downloadThisFile()">
+      <span>{{ "Download"| translate }} </span>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="downloadAll()">
+      <span>{{ "Download All" | translate }} </span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('')">{{ "Close" | translate }}
+    </button>
+  </div>
 </div>

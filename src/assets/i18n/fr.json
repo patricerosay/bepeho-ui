@@ -8,6 +8,7 @@
     "General Settings":"Configuration generale",
     "Cleanup":"Nettoyage",
     "Map": "Carte",
+    "List":"Liste",
     "Video Bank": "Banque d'images",
     "Mosaic": "Mosaïque",
     "System": "Sytème",
@@ -84,5 +85,13 @@
     "Log in": "Log in",
     "Download":"Télécharger",
     "Download All" :"Tout télécharger",
-    "Upload All On FTP Server":"Envoyer au serveur FTP"
+    "Upload All On FTP Server":"Envoyer au serveur FTP",
+    "Start Time: ":"Heure de début",
+    "Start Date: ":"Date de début",
+    "End Time: ":"Heure de fin",
+    "End Date: ":"Date de fin",
+    "Build":"Construire",
+    "Export":"Exporter",
+    "Close":"Fermer",
+    "Recorded at: ":"Enregistrement: "
 }

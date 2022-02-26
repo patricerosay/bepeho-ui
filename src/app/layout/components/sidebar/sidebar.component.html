@@ -2,36 +2,39 @@
 <nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
   <div class="list-group">
     <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw fa-dashboard"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-dashboard" title="Dashboard"></i>&nbsp;
       <span>{{ "Dashboard" | translate }}</span>
     </a>
     <a [routerLink]="['/search/map']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw fa-map-marker"></i>&nbsp;
-      <span>{{ "Records" | translate }} </span>
+      <i class="fa fa-2x fa-fw fa-map-marker" title="Map"></i>&nbsp;
+      <span>{{ "Map" | translate }} </span>
     </a>
-
-
-    <a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw fa-film"></i>&nbsp;
-      <span>{{ "Video Bank" | translate }}</span>
+    <a [routerLink]="['/search/video-list']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-2x fa-fw fa-list" title="List"></i>&nbsp;
+      <span>{{ "List" | translate }} </span>
     </a>
     <a [routerLink]="['/mosaic']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw  fa-television"></i>&nbsp;
+      <i class="fa fa-2x fa-fw  fa-television" title="Molsaic"></i>&nbsp;
       <span>{{ "Mosaic" | translate }}</span>
     </a>
+    <a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-2x fa-fw fa-film" title="Video Bank"></i>&nbsp;
+      <span>{{ "Video Bank" | translate }}</span>
+    </a>
+
     <a [routerLink]="['/configuration']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw fa-edit"></i>&nbsp;
+      <i class="fa fa-2x fa-fw fa-edit" title="Configuration"></i>&nbsp;
       <span>{{ "Configuration" | translate }}</span>
     </a>
 
     <a [routerLink]="['/task']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <div *ngIf="!recapProgressStatus">
-        <i  class="fa fa-2x fa-fw fa-bell "></i>
+        <i  class="fa fa-2x fa-fw fa-bell " title="Status"></i>
         <b class="caret"></b>
         <span>{{ "Status" | translate }}</span>
       </div>
       <div *ngIf="recapProgressStatus">
-        <i  class="fa fa-2x fa-fw fa-check "></i>
+        <i  class="fa fa-2x fa-fw fa-check "title="Status"></i>
         <b class="caret"></b>
         <span>{{ "Status" | translate }}</span>
       </div>

@@ -1,7 +1,7 @@
 <div *ngIf="error">Error while connecting to server</div>
-<div >
+<div>
   <div class="row">
-    <div class="col-lg-6">
+    <!-- <div class="col-md-6">
       <mat-button-toggle-group #group="matButtonToggleGroup" value="map">
         <mat-button-toggle routerLink="/search/map" value="map" aria-label="Map">
           <i class="fa fa-2x fa-fw fa-map-marker"></i>&nbsp;
@@ -12,8 +12,8 @@
           <span>{{ "List" | translate }} </span>
         </mat-button-toggle>
       </mat-button-toggle-group>
-    </div>
-    <div class="col-lg-6">
+    </div> -->
+    <div class="col">
       <mat-paginator [length]="searchStats[0].sequenceCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
         (page)="onPageEvent($event)">
       </mat-paginator>
@@ -21,56 +21,81 @@
   </div>
 
   <div class="row">
-    <mat-accordion class="col-lg-12">
+    <mat-accordion class="col-md-12">
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              ...
-            </mat-panel-title>
-            <mat-panel-description>
-              {{ "Search Criterias" | translate }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div>
-            <div class="row">
-              <button mat-raised-button (click)="Reset()"> {{ "Reset Search Criterias" | translate }} </button>
-            </div>
-
-            <div class="row">
-
-              <div class="col-lg-2">
-                <mat-form-field appearance="fill">
-                  <mat-label>Start date</mat-label>
-                  <input matInput [matDatepicker]="picker" (dateInput)="addEvent('input', $event)"
-                    (dateChange)="addEvent('change', $event)" [value]="getFromLocalStorage('dateIso')">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker touchUi #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
-
-              <div class="col-lg-9">
-                <mat-panel-description>
-                  <label> {{ "Start Time: " | translate }}</label>
-
-                  <label> &nbsp; {{formatLabel( ) }}</label>
-                </mat-panel-description>
-                <mat-slider disabled= "{{ isSliderDisabled()}}" thumbLabel [displayWith]="formatSliderLabel" (change)="updateHour($event)" tickInterval="60"
-                  step="1" min="0" max="1440" value="{{ getFromLocalStorage('hour') }}" aria-label="units">
-                </mat-slider>
-              </div>
-            </div>
-
-            <div class="row">
-              <mat-button-toggle-group name="speedSearch" aria-label="Font Style" value="{{ currentSpeedRangeName }}">
-                <mat-button-toggle *ngFor="let x of speedRange" value="{{ x.name }}" (click)="onSearchOnSpeed(x)">{{
-                  x.name
-                  }} </mat-button-toggle>
-              </mat-button-toggle-group>
-            </div>
-
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            ...
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ "Search Criterias" | translate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <div class="row">
+            <button mat-raised-button (click)="Reset()"> {{ "Reset Search Criterias" | translate }} </button>
           </div>
-        </mat-expansion-panel>
+
+          <div class="row">
+
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "Start Date: " | translate }}</mat-label>
+                <input matInput [matDatepicker]="pickerStart" (dateInput)="addEvent('startDateIso', 'input', $event)"
+                  (dateChange)="addEvent('startDateIso', 'change', $event)"
+                  [value]="getFromLocalStorage('startDateIso')">
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerStart></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-8">
+              <mat-panel-description>
+                <label> {{ "Start Time: " | translate }}</label>
+
+                <label> &nbsp; {{formatLabel( 'startHour') }}</label>
+              </mat-panel-description>
+              <mat-slider disabled="{{ isSliderDisabled('startDateIso')}}" thumbLabel [displayWith]="formatSliderLabel"
+                (change)="updateHour('startHour', $event)" tickInterval="60" step="1" min="0" max="1440"
+                value="{{ getFromLocalStorage('startHour') }}" aria-label="units">
+              </mat-slider>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "End Date: " | translate }}</mat-label>
+                <input matInput [matDatepicker]="pickerEnd" (dateInput)="addEvent('endDateIso', 'input', $event)"
+                  (dateChange)="addEvent('endDateIso', 'change', $event)" [value]="getFromLocalStorage('endDateIso')">
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerEnd></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-8">
+              <mat-panel-description>
+                <label> {{ "End Time: " | translate }}</label>
+
+                <label> &nbsp; {{formatLabel( 'endHour') }}</label>
+              </mat-panel-description>
+              <mat-slider disabled="{{ isSliderDisabled('endDateIso')}}" thumbLabel [displayWith]="formatSliderLabel"
+                (change)="updateHour('endHour', $event)" tickInterval="60" step="1" min="0" max="1440"
+                value="{{ getFromLocalStorage('endHour') }}" aria-label="units">
+              </mat-slider>
+            </div>
+          </div>
+          <div class="row">
+            <mat-button-toggle-group name="speedSearch" aria-label="Font Style" value="{{ currentSpeedRangeName }}">
+              <mat-button-toggle *ngFor="let x of speedRange" value="{{ x.name }}" (click)="onSearchOnSpeed(x)">{{
+                x.name
+                }} </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+
+        </div>
+      </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -110,7 +135,7 @@
             <!-- Symbol Column -->
             <ng-container matColumnDef="to">
               <th mat-header-cell *matHeaderCellDef>{{'To'|translate}}</th>
-              <td mat-cell *matCellDef="let element">{{ element.from*1000 |  date: 'medium'  }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.from*1000 | date: 'medium' }}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="statColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: statColumns"></tr>
@@ -119,12 +144,14 @@
 
       </mat-expansion-panel>
 
-     </mat-accordion> 
+    </mat-accordion>
   </div>
 
   <div class="row">
-   
-    <div id="map"> <div *ngIf="isLoading">
-      <mat-spinner style="margin:0 auto;" ></mat-spinner>
-    </div></div>
+
+    <div id="map">
+      <div *ngIf="isLoading">
+        <mat-spinner style="margin:0 auto;"></mat-spinner>
+      </div>
+    </div>
   </div>

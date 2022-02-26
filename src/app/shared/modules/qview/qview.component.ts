@@ -7,7 +7,6 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import {saveAs as importedSaveAs} from 'file-saver';
 
@@ -99,7 +98,6 @@ export class BuildSmartClipModal {
   selector: 'app-qview',
   templateUrl: './qview.component.html',
   styleUrls: ['./qview.component.scss',
-    // '../../../../../node_modules/videogular2/fonts/videogular.css',
   ]
 })
 
@@ -321,12 +319,12 @@ export class QviewComponent implements OnInit {
       }).subscribe(
         (res) => {
           // console.log(res);
-          self.headerMessage = 'Success';
+          self.errorMsg = 'Success';
 
         },
         (err) => {
           // console.log(err);
-          self.headerMessage = err.message;
+          self.errorMsg = err.message;
         });
   }
   onExportSegment() {
@@ -348,12 +346,12 @@ export class QviewComponent implements OnInit {
       }).subscribe(
         (res) => {
           // console.log(res);
-          self.headerMessage = 'Success';
+          self.errorMsg = 'Success';
 
         },
         (err) => {
           // console.log(err);
-          self.headerMessage = err.message;
+          self.errorMsg = err.message;
         });
   }
 
@@ -368,7 +366,7 @@ export class QviewComponent implements OnInit {
 
     const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
     importedSaveAs(subtitles, rootName);
-
+    this.errorMsg = 'Downloaded';
 
   }
   public downloadAll() {
@@ -382,8 +380,8 @@ export class QviewComponent implements OnInit {
     });
     const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
     importedSaveAs(subtitles, rootName);
-    this.headerMessage = 'Downloaded';
-    this.headerMessage = 'Downloaded';
+    this.errorMsg = 'Downloaded';
+
   }
 }
 
