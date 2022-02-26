@@ -7,7 +7,7 @@ import { QviewComponent } from '../../../shared/modules/qview/qview.component';
 import { ISearchParams } from '../../../shared/interfaces/search.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-// import { CookieService } from 'ngx-cookie-service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
@@ -72,14 +72,6 @@ export class MapComponent implements OnInit {
 
   ];
 
-  timeRange = [
-    {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
-    {'name': 'last 6 hours' , 'value' : ['0', '260']},
-    {'name': 'last 24 hours', 'value': ['0', '1440']},
-    {'name': 'last 7 days', 'value': ['0', '10080']},
-    {'name': 'last 30 days',  'value': ['0', '302400']},
-
-  ];
 
   speedRange = [
   {'name': 'Whatever the boat speed' , 'value': [0, 100]},
@@ -180,17 +172,8 @@ export class MapComponent implements OnInit {
   }
 
 
-  formatLabel(value: number | null) {
-    if (!value) {
-      return 0;
-    }
-    console.log(value);
-
-    return value;
-  }
 
   public getLatLon(o: any) {
-    // console.log(o);
     let res = null;
     const s = o['nmea_s_boatpos'];
     if (s) {
@@ -210,9 +193,7 @@ export class MapComponent implements OnInit {
         res = new L.LatLng(a[0], a[1]);
       }
     }
-    // if (null === res) {
-    //   console.log('null position' + o);
-    // }
+
     return res;
   }
   public computePayload(group: any[]) {
@@ -262,6 +243,7 @@ export class MapComponent implements OnInit {
   }
 
   serialize(obj: any) {
+    this.computeTimeRange() ;
     const params: URLSearchParams = new URLSearchParams();
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -273,25 +255,44 @@ export class MapComponent implements OnInit {
 
     return params;
   }
+  computeTimeRange() {
+    const storedDate = localStorage.getItem('date');
+    var startDatetime ;
+    if( storedDate ) {
+        startDatetime= Number(storedDate)
+    }
+    else {
+        // startDatetime = new Date().getTime();
+        // startDatetime= Math.trunc(Number(startDatetime)/60000)
+        return;
+    }
+
+
+    const now = Math.trunc(new Date().getTime() /60000);
+    
+    
+    var storedHour= Number(localStorage.getItem('hour'));
+
+    var numberIfMillsecondsToGoBackInTime=  now - startDatetime - storedHour;
+    
+    if(0 < numberIfMillsecondsToGoBackInTime)
+        this.searchPrms.start_time= [0, numberIfMillsecondsToGoBackInTime];
+  }
   public Reset() {
     this.searchPrms = new ISearchParams();
-    localStorage.removeItem('timeRange');
+    this.searchPrms.type = 'autorecord';
+    localStorage.removeItem('hour');
+    localStorage.removeItem('date');
     localStorage.removeItem('heelRange');
     localStorage.removeItem('speedRange');
-    // this.cookieService.deleteAll('bepeho');
+    localStorage.removeItem('dateIso');
     this.searchPrms.type = 'autorecord';
+    this.searchPrms.start = 0;
+    this.searchPrms.count = this.pageSize;
     this.loadData(this);
   }
-  public onSearchOnTime(range) {
-    if ( 'whatever the recording time' !== range.name) {
-      this.searchPrms.start_time = range.value;
-    } else {
-      this.searchPrms.start_time = undefined;
-    }
-    localStorage.setItem('timeRange', range.name);
 
-    this.loadData(this);
-  }
+  
 
   public onSearchOnHeelAngle(range) {
 
@@ -315,7 +316,31 @@ export class MapComponent implements OnInit {
       }
     });
   }
-
+  public  getFromLocalStorage(key){
+    return localStorage.getItem(key);
+}
+public isSliderDisabled(){
+  return this.getFromLocalStorage('dateIso') === null;
+}
+addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  if( type !== 'change') return;
+const date=Math.trunc(event.value.getTime()/60000);
+localStorage.setItem('date', date.toString());
+localStorage.setItem('dateIso', event.value.toISOString());
+this.loadData(this);
+}
+  formatSliderLabel(value: number) {
+    const hour =Math.round(value / 60);
+    const minutes= Math.round(value % 60)
+    return   ((hour <10)?"0":"")+hour+"H" + ((minutes <10)?"0":"")+minutes;
+  }
+  formatLabel() {
+     return this.formatSliderLabel(Number (this.getFromLocalStorage('hour'))) ;
+  }
+  updateHour(event) {
+   localStorage.setItem('hour', event.value );
+   this.loadData(this);
+  }
   public loadData(_self: MapComponent) {
     const self = _self;
 
@@ -328,8 +353,11 @@ export class MapComponent implements OnInit {
     self.searchStats[0].positionLess = 0;
     self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
+    self.isLoading=true;
+    const requestUrl = '/recorder/search?' + params;
+    console.log(requestUrl);
     self.http
-      .get('/recorder/search?' + params)
+      .get(requestUrl)
       .toPromise()
       .then(
         data => {
@@ -382,13 +410,15 @@ export class MapComponent implements OnInit {
 
                   let marker = null;
                   let markerOptions: MyMarkerOptions;
+                  const date=new Date(firstSegment.end_time_data * 1000);
+                  const title=date.toLocaleString();
                   if (undefined !== firstSegment['anomaly_score_d']) {
                     markerOptions = {
                       data: firstSegment,
                       jsonPayload: jsonPayload,
                       icon: self.iconDetect,
                       //title: firstSegment.anomaly_score_d
-                      title: new Date(firstSegment.end_time_data * 1000).toUTCString()
+                      title: title
                     };
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
@@ -409,7 +439,7 @@ export class MapComponent implements OnInit {
                         data: firstSegment,
                         jsonPayload: jsonPayload,
                         icon: self.iconTrace,
-                        title: new Date(firstSegment.end_time_data * 1000).toUTCString()
+                        title: title
                       };
                     }
 
@@ -440,12 +470,10 @@ export class MapComponent implements OnInit {
                 } else {
                   self.searchStats[0].error++;
                   self.searchStats[0].videoLess++;
-                  console.log('videoless');
                 }
               } else {
                 self.searchStats[0].error++;
                 self.searchStats[0].positionLess++;
-                console.log('positionless');
               }
             });
 

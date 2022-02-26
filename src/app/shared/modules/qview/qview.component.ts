@@ -153,9 +153,9 @@ export class QviewComponent implements OnInit {
     this.segment = JSON.parse(this.json).segments[0] as ISegment;
     this.currentVideo = this.segment.videos[this.currentIndex];
     this.currentAudio = this.segment.audios[0];
-    this.headerMessage = 'Recorded ' + this.data['start_time'];
+    const recordedDate= new Date(this.data['start_time']);
     this.nmea = [
-        {date: formatDate(this.data['start_time'], 'MM/dd/yyyy hh:mm', 'en'),
+        {date: this.data['start_time'],
         name: this.data['GroupID'],
         bgs: this.data['nmea_d_bgs_d'],
         bgd: this.data['nmea_d_bgt_d']}];
@@ -164,7 +164,6 @@ export class QviewComponent implements OnInit {
   }
 
   onPlayedVideo(event: any) {
-    // console.log("on played video");
     if (this.audioApi) {
     this.audioApi.play();
     }
@@ -176,12 +175,10 @@ export class QviewComponent implements OnInit {
   }
   onUpdateVideoState(event: any) {
     if (this.audioApi) {
-    // console.log("on ended");
     this.videoApi.play();
     }
   }
   onSeeked(event: any) {
-    // console.log("on seeked");
     if (this.audioApi) {
     this.audioApi.seekTime(this.currentTime);
     }
@@ -189,11 +186,9 @@ export class QviewComponent implements OnInit {
   onEnded(event: any) {
     if (this.audioApi) {
     this.audioApi.pause();
-    // console.log("on ended");
     }
   }
   onRateChaged(event: any) {
-    // console.log(event.type);
     if (this.audioApi) {
     this.audioApi.playbackRate = this.videoApi.playbackRate;
     }
@@ -211,16 +206,12 @@ export class QviewComponent implements OnInit {
     this.videoApi.subscriptions.rateChange.subscribe(this.onRateChaged.bind(this));
     this.videoApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
     this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-    // this.videoApi.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
     this.videoApi.subscriptions.timeUpdate.subscribe(data => {
       if (0 !== data.srcElement.currentTime ) {
       if ( self.currentSrc === data.srcElement.currentSrc ) {
         self.currentTime = data.srcElement.currentTime;
-        // console.log('assigning currentime to ' + self.currentTime);
       } else {
-        // console.log('changing video');
         self.currentSrc = data.srcElement.currentSrc;
-        // self.seekToCurrentTime();
       }
     }
 
@@ -374,8 +365,11 @@ export class QviewComponent implements OnInit {
       importedSaveAs('/media/'+self.segment.audios[0].src, rootName);
     if (self.segment.videos && self.segment.videos[self.currentIndex ])
       importedSaveAs('/media/' + self.segment.videos[self.currentIndex ].src, rootName+self.segment.videos[self.currentIndex ].channel);
-  
-    this.headerMessage = 'Downloaded';
+
+    const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
+    importedSaveAs(subtitles, rootName);
+
+
   }
   public downloadAll() {
     const self = this;
@@ -386,6 +380,9 @@ export class QviewComponent implements OnInit {
     self.segment.videos.forEach(video => {
       importedSaveAs('/media/' + video.src, rootName+video.channel);
     });
+    const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
+    importedSaveAs(subtitles, rootName);
+    this.headerMessage = 'Downloaded';
     this.headerMessage = 'Downloaded';
   }
 }

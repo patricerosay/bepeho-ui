@@ -81,5 +81,8 @@
     "Password": "Password",
     "Repeat Password": "Repeat Password",
     "Register": "Register",
-    "Log in": "Log in"
+    "Log in": "Log in",
+    "Download":"Télécharger",
+    "Download All" :"Tout télécharger",
+    "Upload All On FTP Server":"Envoyer au serveur FTP"
 }

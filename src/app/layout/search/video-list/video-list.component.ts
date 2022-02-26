@@ -59,34 +59,8 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         start: new FormControl(new Date().toISOString()),
         end: new FormControl(new Date().toISOString()),
       });
-    //   timeRange = [
-    //     {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
-    //     {'name': 'last 6 hours' , 'value' : ['0', '360']},
-    //     {'name': 'last 24 hours', 'value': ['0', '1440']},
-    //     {'name': 'last 7 days', 'value': ['0', '10080']},
-    //     {'name': 'last 30 days',  'value': ['0', '302400']},
 
-    //   ];
-      timeRange = [
-        {'name': '01:00' , 'value' : 60},
-        {'name': '02:00' , 'value' : 120},
-        {'name': '03:00' , 'value' : 180},
-        {'name': '04:00' , 'value' : 240},
-        {'name': '05:00' , 'value' : 300},
-        {'name': '06:00' , 'value' : 360},
-        {'name': '07:00' , 'value' : 420},
-        {'name': '08:00' , 'value' : 480},
-        {'name': '09:00' , 'value' : 540},
-        {'name': '10:00' , 'value' : 600},
-        {'name': '11:00' , 'value' : 660},
-        {'name': '12:00' , 'value' : 720},
-      ];
-      hourRange = [
-        {'name': 'early morning', 'value': ['0', '6']},
-        {'name': 'morning' , 'value' : ['6', '12']},
-        {'name': 'afternoon', 'value': ['12', '18']},
-        {'name': 'night', 'value': ['18', '24']}
-      ];
+
       speedRange = [
       {'name': 'Whatever the boat speed' , 'value': [0, 100]},
       {'name': '0 to 5' , 'value' : [0, 5]},
@@ -97,21 +71,32 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       {'name': '30 to 40', 'value' : [30, 40]},
       {'name': '40 To More', 'value' : [40, 100]},
     ];
-
+    public isSliderDisabled(){
+        return this.getFromLocalStorage('dateIso') === null;
+      }
     currentSpeedRangeName: string;
     currentHeelRangeName: string;
-    currentTimeRangeName: string;
-    
     getlangage(): string {    
         const langage = localStorage.getItem("langage");
         if (! langage) return this.translate.getBrowserLang();
         return langage;
     }
     
+    formatSliderLabel(value: number) {
+        const hour =Math.round(value / 60);
+        const minutes= Math.round(value % 60)
+        return   ((hour <10)?"0":"")+hour+"H" + ((minutes <10)?"0":"")+minutes;
+      }
+      formatLabel() {
+         return this.formatSliderLabel(Number (this.getFromLocalStorage('hour'))) ;
+      }
+      updateHour(event) {
+       localStorage.setItem('hour', event.value );
+       this.loadData(this);
+      }
     constructor(private _httpClient: HttpClient,
         private modalService: NgbModal,
          private translate: TranslateService,
-        // private cookieService: CookieService
         ) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
@@ -125,7 +110,6 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       ngOnInit() {
         this.currentSpeedRangeName = this.getCookieInfo('speedRange', 'Whatever the recording time');
         this.currentHeelRangeName = this.getCookieInfo('heelRange', 'Whatever the boat heeling');
-        this.currentTimeRangeName = this.getCookieInfo('timeRange', 'Whenever it was recorded');
 
     }
     public onsearchValueMode(mode: string) {
@@ -133,14 +117,10 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       }
     public nextPoster() {
         this.posterIndex ++;
-        console.log('change poster ' + this.posterIndex );
-
         this.loadData(this);
     }
     public previousPoster() {
         this.posterIndex --;
-        console.log('change poster ' + this.posterIndex );
-
         this.loadData(this);
     }
     public getImg(row: any[]): string {
@@ -176,7 +156,6 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         return  row [0][prop];
     }
     public edit(url: string) {
-        console.log(url);
         const modalRef = this.modalService.open(QviewComponent, {
             size: 'lg',
             backdropClass: 'light-blue-backdrop',
@@ -189,15 +168,21 @@ export class VideoListComponent implements AfterViewInit, OnInit {
             const rootName= element['start_time']+'-'+element['Channel'] ;
             importedSaveAs(this.getUrl(element), rootName);
         });
-
+        const subtitles= "/media/subtitles/"+rows[0]['GroupID']+ ".vtt";
+        const rootName= rows[0]['start_time']+'-'+rows[0]['GroupID'] ;
+        importedSaveAs(subtitles, rootName);
         this.resultMessage = 'Downloaded';
     }
     public downloadThisFile(rows) {
-        if(rows[this.posterIndex ])
+        var index= this.posterIndex;
+        if(rows[index].mime ==='audio/mpeg')index++;
+        if(rows[index])
         {
-            const element=rows[this.posterIndex ];
+            const element=rows[index];
             const rootName= element['start_time']+'-'+element['Channel'] ;
             importedSaveAs(this.getUrl(element), rootName);
+            const subtitles= "/media/subtitles/"+element.GroupID+ ".vtt";
+            importedSaveAs(subtitles, rootName);
             this.resultMessage = 'Downloaded';
         }
     }
@@ -207,33 +192,42 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     public Reset() {
         this.searchPrms = new ISearchParams();
         this.searchPrms.type = 'autorecord';
+        localStorage.removeItem('hour');
+        localStorage.removeItem('date');
+        localStorage.removeItem('heelRange');
+        localStorage.removeItem('speedRange');
+        localStorage.removeItem('dateIso');
+        this.searchPrms.start = 0;
+        this.searchPrms.count = this.pageSize;
+        this.searchPrms.type = 'autorecord';
         this.loadData(this);
+      }
+      public  getFromLocalStorage(key){
+          return localStorage.getItem(key);
       }
       computeTimeRange() {
         const storedDate = localStorage.getItem('date');
-        var datetime = new Date().getTime()
+        var startDatetime ;
         if( storedDate ) {
-            datetime= Number(storedDate)
+            startDatetime= Number(storedDate)
         }
-        var ampm=1;
-        const AMPM =localStorage.getItem('AMPM');
-        if( AMPM){
-            ampm = Number(AMPM);
+        else {
+            startDatetime = new Date().getTime();
+            startDatetime= Math.trunc(Number(startDatetime)/60000)
         }
-        const storedHour= localStorage.getItem('hour');
-        if( storedHour){
-            datetime=datetime + Math.trunc(Number(storedHour)/60000)*ampm;
-        }
+  
+
         const now = Math.trunc(new Date().getTime() /60000);
         
-        const numberIfMillsecondsToGoBackInTime=  now-datetime;
         
-        this.searchPrms.start_time= [0, numberIfMillsecondsToGoBackInTime];
+        var storedHour= Number(localStorage.getItem('hour'));
+
+        var numberIfMillsecondsToGoBackInTime=  now - startDatetime - storedHour;
+        
+        if(0 < numberIfMillsecondsToGoBackInTime)
+            this.searchPrms.start_time= [0, numberIfMillsecondsToGoBackInTime];
       }
-      public onClickAMPM(ampm){
-        localStorage.setItem('AMPM', ampm);
-        this.loadData(this);
-      }
+
     public onSearchOnTime(range) {
 
         localStorage.setItem('hour', range.value);
@@ -242,9 +236,10 @@ export class VideoListComponent implements AfterViewInit, OnInit {
       }
 
       addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+          if( type !== 'change') return;
         const date=Math.trunc(event.value.getTime()/60000);
         localStorage.setItem('date', date.toString());
-       
+        localStorage.setItem('dateIso', event.value.toISOString());
         this.loadData(this);
       }
 
@@ -356,11 +351,13 @@ export class SearchDatabase {
     }
     getGroups(sort: string, order: string, page: number, searchPrms: ISearchParams): Observable<SearchAPI> {
         searchPrms.start = page * this.elementPerPage;
+        searchPrms.ascendant = (order ==='asc')?"True":"False";
 //        searchPrms.count = (page + 1) * this.elementPerPage;
         // searchPrms.count = this.elementPerPage;
         const params: URLSearchParams = this.serialize(searchPrms);
 
         const requestUrl = '/recorder/search?' + params;
+        console.log(requestUrl);
         return this._httpClient.get<SearchAPI>(requestUrl);
     }
 

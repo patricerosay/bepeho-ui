@@ -3,7 +3,7 @@
 
   <h4 class="modal-title">
     <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
-    <div *ngIf="headerMessage">{{headerMessage}}</div>
+    <div *ngIf="this.data['start_time']">{{this.data['start_time']| date: 'medium'}}</div>
   </h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
@@ -31,23 +31,33 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
-  <button mat-raised-button color="primary" (click)="onBuildClip()">
-    <span>{{ "Build"| translate }} </span>
-  </button>
-  <button mat-raised-button color="primary" (click)="onExportSegment()">
-    <span>{{ "Export"| translate }} </span>
-  </button>
-  <button mat-raised-button color="primary" (click)="onSaveSegment()">
-    <span>{{ "Save"| translate }} </span>
-  </button>
-  <button mat-raised-button color="primary" (click)="downloadThisFile()">
-    <span>{{ "Download Current "| translate }} </span>
-  </button>
-  <button mat-raised-button color="primary" (click)="downloadAll()">
-    <span>{{ "Download All" | translate }} </span>
-  </button>
-  
+  <div class="row">
+    <div class="col-lg-2">
+      <button mat-raised-button color="primary" (click)="onBuildClip()">
+        <span>{{ "Build"| translate }} </span>
+      </button>
+    </div>
+    <div class="col-lg-2">
+      <button mat-raised-button color="primary" (click)="onExportSegment()">
+        <span>{{ "Export"| translate }} </span>
+      </button>
+    </div>
+    <div class="col-lg-2">
+      <button mat-raised-button color="primary" (click)="onSaveSegment()">
+        <span>{{ "Save"| translate }} </span>
+      </button>
+    </div>
+    <div class="col-lg-2">
+      <button mat-raised-button color="primary" (click)="downloadThisFile()">
+        <span>{{ "Download"| translate }} </span>
+      </button>
+    </div>
+    <div class="col-lg-2">
+      <button mat-raised-button color="primary" (click)="downloadAll()">
+        <span>{{ "Download All" | translate }} </span>
+      </button>
+    </div>
+  </div>
   <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
     <div>
       <div class="videogular-container">
