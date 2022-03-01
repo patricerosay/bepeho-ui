@@ -39,7 +39,7 @@ export class SequenceComponent implements OnInit {
     newClipNamePlaceHolder: string;
     newClipName: string;
     style: number;
-
+    preloadDirective="none" ; //none
     constructor(private _ngZone: NgZone) {  }
 
     @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;

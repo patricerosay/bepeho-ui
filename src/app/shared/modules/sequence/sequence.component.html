@@ -19,16 +19,20 @@
             </vg-scrub-bar>
             <vg-fullscreen></vg-fullscreen>
 
-            <button *ngFor="let item of this.segment.videos; let $index = index" mat-raised-button color="primary"
+            <!-- <button *ngFor="let item of this.segment.videos; let $index = index" mat-raised-button color="primary"
               (click)="onClickPlaylistItem(item, $index)" [class.selected]="item === currentVideo">
               {{ item.Channel }}
-            </button>
+            </button> -->
           </vg-controls>
 
-          <video #mediaV [vgMedia]="mediaV" src="{{ getCurrentVideoSrc() }}" [poster]="getCurrentPoster()"
+          <!-- <video #mediaV [vgMedia]="mediaV" src="{{ getCurrentVideoSrc() }}" [poster]="getCurrentPoster()"
             id="singleVideo" preload="metadata" crossorigin>
             <track kind="subtitles" label="Data" src="/media/subtitles/{{ groupID }}.vtt" srclang="en" default />
-          </video>
+          </video> -->
+          <video #mediaV [vgMedia]="mediaV" src="{{ getCurrentVideoSrc() }}" [poster]="getCurrentPoster()"
+          id="singleVideo" preload="{{ preloadDirective }}" crossorigin>
+          <track kind="subtitles" label="Data" src="/media/subtitles/{{ groupID }}.vtt" srclang="en" default />
+        </video>
         </vg-player>
       </div>
 
@@ -39,7 +43,7 @@
       <div hidden *ngIf="currentAudio" class="videogular-container-audio">
         <vg-player (onPlayerReady)="onAudioPlayerReady($event)">
           <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="{{getCurrentAudioSrc()}}" id="singleAudio"
-            preload="metadata" crossorigin></audio>
+          preload="{{ preloadDirective }}" crossorigin></audio>
         </vg-player>
       </div>
     </div>
