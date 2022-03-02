@@ -148,7 +148,8 @@ export class QviewComponent implements OnInit {
     if (!this.json) {
       return;
     }
-    this.segment = JSON.parse(this.json).segments[0] as ISegment;
+    const o=JSON.parse(this.json);
+    this.segment = o.segments[0] as ISegment;
     this.currentVideo = this.segment.videos[this.currentIndex];
     this.currentAudio = this.segment.audios[0];
     const recordedDate= new Date(this.data['start_time']);

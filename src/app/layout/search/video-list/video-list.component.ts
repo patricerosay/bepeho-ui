@@ -22,7 +22,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export class VideoListComponent implements AfterViewInit, OnInit {
     public searchViewMode = 'video-list';
-    displayedColumns: string[] = ['created', 'speed', 'direction', 'state', 'img'];
+    displayedColumns: string[] = ['created', 'speed', 'direction',  'img'];
     searchDatabase: SearchDatabase | null;
     data: IGroup[] = [];
     resultsLength = 0;
