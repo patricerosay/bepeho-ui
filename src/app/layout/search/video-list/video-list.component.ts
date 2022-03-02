@@ -322,6 +322,31 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     localStorage.setItem(hour, event.value);
     this.loadData(this);
   }
+  onExportSegment(segment) {
+    const ids = [];
+    const self = this;
+    segment.forEach(element => {
+      ids.push (element.id);
+    });
+
+    ids.push (segment[0]['GroupID']);
+
+    self._httpClient.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      }).subscribe(
+        (res) => {
+          // console.log(res);
+          self.resultMessage = 'Success';
+
+        },
+        (err) => {
+          // console.log(err);
+          self.resultMessage = err.message;
+        });
+  }
 }
 
 export interface SearchAPI {

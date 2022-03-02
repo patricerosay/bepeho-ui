@@ -122,7 +122,10 @@
           <button mat-button [matMenuTriggerFor]="menu">>></button>
 
           <mat-menu #menu="matMenu">
-
+            <button mat-menu-item (click)="onExportSegment(row)">
+              <i class="fa fa-2x fa-usb"></i>&nbsp;
+              <span>{{ "Export" | translate }} </span>
+            </button>
             <button mat-menu-item (click)="downloadThisFile(row)">
               <i class="fa fa-2x fa-download"></i>&nbsp;
               <span>{{ "Download" | translate }} </span>
@@ -131,12 +134,12 @@
               <i class="fa fa-2x fa-download"></i>&nbsp;
               <span>{{ "Download All" | translate }} </span>
             </button>
-            <button mat-menu-item (click)="
+            <!-- <button mat-menu-item (click)="
           uploadThisFile(getUrl(row[0]), getID(row[0]) + ' was uploaded')
         ">
               <i class="fa fa-2x fa-upload"></i>&nbsp;
               <span> {{ "Upload All On FTP Server" | translate }}</span>
-            </button>
+            </button> -->
           </mat-menu>
         </td>
       </ng-container>
