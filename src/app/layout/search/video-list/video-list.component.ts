@@ -144,7 +144,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     }
     public edit(url: string) {
         const modalRef = this.modalService.open(QviewComponent, {
-            size: 'lg',
+            // size: 'lg',
             backdropClass: 'light-blue-backdrop',
             centered: true
         });

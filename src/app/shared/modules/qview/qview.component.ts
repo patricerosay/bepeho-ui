@@ -125,6 +125,7 @@ export class QviewComponent implements OnInit {
   style: number;
   public nmea: NMEA [] ;
   displayedColumns = ['bgs', 'bgd'];
+  public isButtonDisabled=false;
   getlangage(): string {    
     const langage = localStorage.getItem("langage");
     if (! langage) return this.translate.getBrowserLang();
@@ -251,6 +252,7 @@ export class QviewComponent implements OnInit {
 
   onBuildClip() {
     const self = this;
+    
     this.modalService.open(BuildSmartClipModal, { centered: true }).result.then((result) => {
       if ('' !== result) {
         [self.newClipName, self.style] = result.split('|');
@@ -279,6 +281,7 @@ export class QviewComponent implements OnInit {
             inc = inc + 1;
           });
         }
+        self.isButtonDisabled=true;
         self.http.post<any>('/recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
           {
             headers: {
@@ -288,11 +291,13 @@ export class QviewComponent implements OnInit {
             (res) => {
               console.log(res);
               self.errorMsg = 'Success';
+              self.isButtonDisabled=false;
 
             },
             (err) => {
               console.log(err);
               self.errorMsg = err.message;
+              self.isButtonDisabled=false;
             });
       }
     }, (reason) => {
@@ -311,7 +316,7 @@ export class QviewComponent implements OnInit {
       ids.push (video.id);
     });
     ids.push (this.data['GroupID']);
-
+    self.isButtonDisabled=true;
     this.http.post<any>('/recorder', 'action=FileSystem&verb=keep&prm=' + ids.join(','),
       {
         headers: {
@@ -321,11 +326,13 @@ export class QviewComponent implements OnInit {
         (res) => {
           // console.log(res);
           self.errorMsg = 'Success';
+          self.isButtonDisabled=false;
 
         },
         (err) => {
           // console.log(err);
           self.errorMsg = err.message;
+          self.isButtonDisabled=false;
         });
   }
   onExportSegment() {
@@ -338,7 +345,7 @@ export class QviewComponent implements OnInit {
       ids.push (video.id);
     });
     ids.push (this.data['GroupID']);
-
+    self.isButtonDisabled=true;
     this.http.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
       {
         headers: {
@@ -348,11 +355,13 @@ export class QviewComponent implements OnInit {
         (res) => {
           // console.log(res);
           self.errorMsg = 'Success';
+          self.isButtonDisabled=false;
 
         },
         (err) => {
           // console.log(err);
           self.errorMsg = err.message;
+          self.isButtonDisabled=false;
         });
   }
 

@@ -399,7 +399,7 @@ export class MapComponent implements OnInit {
                   marker.on('click', function (e) {
 
                     const modalRef = who.modalService.open(QviewComponent, {
-                      size: 'lg',
+                      //size: 'lg',
                       backdropClass: 'light-blue-backdrop',
                       centered: true
                     });
