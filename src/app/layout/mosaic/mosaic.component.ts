@@ -52,6 +52,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   public microphones: Microphones = null;
   public selectedCamera=0;
   public group=0;
+  isFullScreen=false;
   getlangage(): string {
     const langage = localStorage.getItem("langage");
     if (!langage) return this.translate.getBrowserLang();
@@ -206,10 +207,22 @@ export class MosaicComponent implements OnInit, OnDestroy {
 
   onClickVideo(index)
   {
-    this.group=1;
-    this.selectedCamera=index;
-  }
+     this.group=1;
+     this.selectedCamera=index;
 
+  }
+  onFullPage(index)
+  {
+    if(this.isFullScreen){
+      document.exitFullscreen();
+      this.isFullScreen=false;
+    }else
+    var elem = document.getElementById(index);
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+      this.isFullScreen = true;
+    }
+  }
   getPreviewUrl(cam: Camera): string {
     if (cam) {
       return '/' + cam.id;
@@ -220,3 +233,4 @@ export class MosaicComponent implements OnInit, OnDestroy {
 
 
 }
+

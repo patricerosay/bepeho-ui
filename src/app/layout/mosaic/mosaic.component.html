@@ -5,13 +5,16 @@
 		<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 		<mat-tab label="Mosaic">
 			<ng-container *ngFor="let cam of mosaic; let index = index">
-				<img class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
-					[defaultImage]='"assets/images/mire.jpg"' (click)="onClickVideo( 1+ index)">
+				<!-- <div id={{cam.name}}> -->
+				<img id={{cam.name}} class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
+					[defaultImage]='"assets/images/mire.jpg"' (click)="onFullPage( cam.name)">
+					
+				<!-- </div> -->
 			</ng-container>
-			<mat-tab *ngFor="let cam of cams " label="{{cam.name}}">
-				<img class="cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
-					[defaultImage]='"assets/images/mire.jpg"' (click)="onClickVideo( 0)">
-			</mat-tab>
+		</mat-tab>
+		<mat-tab *ngFor="let cam of cams " label="{{cam.name}}">
+			<img id={{cam.name}}  class="cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
+				[defaultImage]='"assets/images/mire.jpg"' (click)="onFullPage( cam.name)">
 		</mat-tab>
 		<mat-tab label="Instruments">
 			<div class="configuration-container ">
