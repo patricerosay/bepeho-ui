@@ -9,92 +9,66 @@
 				{{'Run'|translate}}
 
 			</ng-template>
-				<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
-				<div class="configuration-container ">
-					{{'Everything is Running'|translate}}
-					<mat-slide-toggle 
-						id = "autoprocess"
-						[checked]="controls.autoprocess"
-						(change)="setStartProcess( $event )">
-					</mat-slide-toggle>
-				</div>
-				<div class="configuration-container ">
-						{{'Record Microphones'|translate}}
-						<mat-slide-toggle 
-							id = "autorecordAudio"
-							[checked]="controls.autorecordAudio"
-							(change)="setRecordDevices('audio', $event )">
-						</mat-slide-toggle>
-					</div>
-					<div class="configuration-container ">
-							{{'Record Cameras'|translate}}
-							<mat-slide-toggle 
-								id = "autorecordVideo"
-								[checked]="controls.autorecordVideo"
-								(change)="setRecordDevices('video', $event )">
-							</mat-slide-toggle>
-						</div>
+			<div class="configuration-container ">
+				{{'Everything is Running'|translate}}
+				<mat-slide-toggle id="autoprocess" [checked]="controls.autoprocess"
+					(change)="setStartProcess( $event )">
+				</mat-slide-toggle>
+			</div>
+			<div class="configuration-container ">
+				{{'Record Microphones'|translate}}
+				<mat-slide-toggle id="autorecordAudio" [checked]="controls.autorecordAudio"
+					(change)="setRecordDevices('audio', $event )">
+				</mat-slide-toggle>
+			</div>
+			<div class="configuration-container ">
+				{{'Record Cameras'|translate}}
+				<mat-slide-toggle id="autorecordVideo" [checked]="controls.autorecordVideo"
+					(change)="setRecordDevices('video', $event )">
+				</mat-slide-toggle>
+			</div>
 		</mat-tab>
-		
+
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-video-camera"></i>&nbsp;
 				<i class="fa fa-microphone"></i> &nbsp; {{'Devices'|translate}}
 			</ng-template>
 			<mat-accordion>
-				
-					<mat-tab-group>
-						<div>
-							<mat-tab>
-								<ng-template mat-tab-label>
-									<i class="fa fa-video-camera"></i>&nbsp;
-									IP Cameras
-								</ng-template>
-								<div class="configuration-container ">
-									<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
-									<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-									<app-property [id]="cameras" [properties]="cameras"></app-property>
-								</div>
-							</mat-tab>
-							<mat-tab>
-									<div class="configuration-container ">
-										<ng-template mat-tab-label>
-											<i class="fa fa-microphone"></i>&nbsp;
-											IP Microphones
-										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
-										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-										<app-property [id]="microphones" [properties]="microphones">
-										</app-property>
-									</div>
-							</mat-tab>
-							<!-- <mat-tab>
-									<div class="configuration-container ">
-										<ng-template mat-tab-label>
-											<i class="fa fa-video-camera"></i>&nbsp;
-											Integrated Cameras
-										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
-										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-										<app-property [id]="webCameras" [properties]="webCameras"></app-property>
-									</div>
-							</mat-tab>
 
-							<mat-tab>
-									<div class="configuration-container ">
-										<ng-template mat-tab-label>
-											<i class="fa fa-microphone"></i>&nbsp;
-											Integrated Microphones
-										</ng-template>
-										<button mat-stroked-button color="accent" (click)="saveProperties()">{{'Save'|translate}}</button>
-										<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-										<app-property [id]="webMicrophones" [properties]="webMicrophones"> </app-property>
-								</div>
-							</mat-tab> -->
+				<mat-tab-group>
+					<div>
+						<mat-tab>
+							<ng-template mat-tab-label>
+								<i class="fa fa-video-camera"></i>&nbsp;
+								IP Cameras
+							</ng-template>
+							<div class="configuration-container ">
+								<button mat-stroked-button color="accent"
+									(click)="saveProperties()">{{'Save'|translate}}</button>
+								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+								<app-property [id]="cameras" [properties]="cameras"></app-property>
 							</div>
-					</mat-tab-group>
-				
+						</mat-tab>
+						<mat-tab>
+							<div class="configuration-container ">
+								<ng-template mat-tab-label>
+									<i class="fa fa-microphone"></i>&nbsp;
+									IP Microphones
+								</ng-template>
+								<button mat-stroked-button color="accent"
+									(click)="saveProperties()">{{'Save'|translate}}</button>
+								<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+								<app-property [id]="microphones" [properties]="microphones">
+								</app-property>
+							</div>
+						</mat-tab>
+
+					</div>
+				</mat-tab-group>
+
 			</mat-accordion>
 		</mat-tab>
 
@@ -110,6 +84,19 @@
 					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
 					<mat-accordion>
+						<mat-expansion-panel>
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									Display
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<div class="configuration-container ">
+								Show Data Bank:
+								<mat-slide-toggle checked="{{showDataBank()}}" (change)="toggleShowDataBank($event)">
+								</mat-slide-toggle>
+							</div>
+						</mat-expansion-panel>
+
 						<mat-expansion-panel *ngFor="let configuration of general">
 							<mat-expansion-panel-header>
 								<mat-panel-title>
@@ -132,69 +119,28 @@
 									</div>
 								</div>
 							</div>
-
 						</mat-expansion-panel>
 					</mat-accordion>
 				</div>
 			</mat-accordion>
 		</mat-tab>
-		<!-- <mat-tab>
-			<ng-template mat-tab-label>
-				<i class="fa fa-user-plus"></i>&nbsp;
-				{{'Advanced Settings'|translate}}
 
-			</ng-template>
-			<mat-accordion>
-				<div class="configuration-container">
-					<button mat-stroked-button color="accent" (click)="saveProperties(advanced)">{{'Save'|translate}}</button>
-					<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
-
-					<mat-accordion>
-						<mat-expansion-panel *ngFor="let configuration of advanced">
-							<mat-expansion-panel-header>
-								<mat-panel-title>
-									{{configuration.displayGroup}}
-								</mat-panel-title>
-							</mat-expansion-panel-header>
-							<div id="advanced" class="configuration-container "
-								*ngFor="let property of configuration.props.advanced">
-								{{property.displayName}} :
-								<div [ngSwitch]="property.type">
-									<div *ngSwitchCase="'boolean'">
-										<mat-slide-toggle id="{{property.name}}" checked="{{property.value}}">
-										</mat-slide-toggle>
-									</div>
-									<div *ngSwitchCase="'java.lang.String'">
-										<mat-form-field>
-											<input [(ngModel)]="property.value" id="{{property.name}}" matInput
-												value="{{property.value}}">
-										</mat-form-field>
-									</div>
-								</div>
-							</div>
-
-						</mat-expansion-panel>
-					</mat-accordion>
-				</div>
-			</mat-accordion>
-			
-		</mat-tab> -->
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<i class="fa fa-eraser"></i>&nbsp;
 				{{'Cleanup'|translate}}
 
 			</ng-template>
-				<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+			<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 
-				<div class="configuration-container">
-					<button mat-stroked-button	 (click)="deleteAll(cameras)">{{'Delete all records'|translate}}</button>
+			<div class="configuration-container">
+				<button mat-stroked-button (click)="deleteAll()">{{'Delete all records'|translate}}</button>
 
-				</div>
-				<div class="configuration-container">
-					<button mat-stroked-button (click)="cleanup(cameras)">{{'Cleanup export folder'|translate}}</button>
+			</div>
+			<div class="configuration-container">
+				<button mat-stroked-button (click)="cleanup()">{{'Cleanup export folder'|translate}}</button>
 
-					</div>
-					
+			</div>
+
 		</mat-tab>
 	</mat-tab-group>

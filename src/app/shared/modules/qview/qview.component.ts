@@ -162,7 +162,9 @@ export class QviewComponent implements OnInit {
     this.isLoading = false;
 
   }
-
+  showDataBank(){
+    return localStorage.getItem('show_video_bank');
+}
   onPlayedVideo(event: any) {
     if (this.audioApi) {
     this.audioApi.play();

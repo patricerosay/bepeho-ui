@@ -56,7 +56,9 @@ export class DashboardComponent implements OnInit {
     public chartHovered(e: any): void {
         // console.log(e);
     }
-
+    showDataBank(){
+        return localStorage.getItem('show_video_bank');
+    }
     getStats(_self: DashboardComponent) {
         _self.http.get(_self.url)
         .subscribe(

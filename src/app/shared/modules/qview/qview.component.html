@@ -79,29 +79,26 @@
     </div>
   </nav>
   <div class="modal-footer">
+    <div *ngIf="showDataBank()">
     <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
     <button mat-raised-button color="primary" (click)="onBuildClip()" [disabled]="isButtonDisabled">
-      <!-- <span>{{ "Build"| translate }} </span> -->
       <i class="fa fa-2x fa-fw  fa-cogs" title="Build clip"></i> 
     </button>
-
+  </div>
     <button mat-raised-button color="primary" (click)="onExportSegment()" [disabled]="isButtonDisabled">
-      <!-- <span>{{ "Export"| translate }} </span> -->
       <i class="fa fa-2x fa-fw  fa-folder-open " title="Export"></i> 
     </button>
 
     <button mat-raised-button color="primary" (click)="onSaveSegment()" [disabled]="isButtonDisabled">
-      <!-- <span>{{ "Save"| translate }} </span> -->
       <i class="fa fa-2x fa-fw  fa-bookmark" title="Bookmark"></i> 
     </button>
 
     <button mat-raised-button color="primary" (click)="downloadThisFile()"[disabled]="isButtonDisabled">
-      <i class="fa fa-2x fa-fw fa-angle-down" title="Download"></i>     <!-- <span>{{ "Download"| translate }} </span> -->
+      <i class="fa fa-2x fa-fw fa-angle-down" title="Download"></i>   
     </button>
 
     <button mat-raised-button color="primary" (click)="downloadAll()" [disabled]="isButtonDisabled">
       <i class="fa fa-2x fa-fw fa-angle-double-down" title="Download"></i>  
-      <!-- <span>{{ "Download All" | translate }} </span> -->
     </button>
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('')">{{ "Close" | translate }}
     </button>

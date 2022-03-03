@@ -17,10 +17,11 @@
       <i class="fa fa-2x fa-fw  fa-television" title="Molsaic"></i>&nbsp;
       <span>{{ "Mosaic" | translate }}</span>
     </a>
-    <a [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-2x fa-fw fa-film" title="Video Bank"></i>&nbsp;
-      <span>{{ "Video Bank" | translate }}</span>
-    </a>
+
+      <a *ngIf="showDataBank()" [routerLink]="['/video-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <i class="fa fa-2x fa-fw fa-film" title="Video Bank"></i>&nbsp;
+        <span>{{ "Video Bank" | translate }}</span>
+      </a>
 
     <a [routerLink]="['/configuration']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-2x fa-fw fa-edit" title="Configuration"></i>&nbsp;

@@ -119,52 +119,16 @@ export class ConfigurationComponent implements OnInit {
     getProperties(m: Map<string, Property[]>, key: string): Property[] {
         return m.get(key);
     }
-    // saveDevice(device: Map<string, Property[]>) {
-    //     const params: URLSearchParams = new URLSearchParams();
-    // this.cameras.forEach((conf: Property[], key: string) => {
-    //         if (null !== conf) {
-    //             conf.forEach(prop => {
-    //                 params.set(prop.name, prop.value);
-    //             });
-    //         }
-    //     });
-    //     this.webCameras.forEach((conf: Property[], key: string) => {
-    //         if (null !== conf) {
-    //             conf.forEach(prop => {
-    //                 params.set(prop.name, prop.value);
-    //             });
-    //         }
-    //     });
-    //     this.webMicrophones.forEach((conf: Property[], key: string) => {
-    //         if (null !== conf) {
-    //             conf.forEach(prop => {
-    //                 params.set(prop.name, prop.value);
-    //             });
-    //         }
-    //     });
-    //     this.microphones.forEach((conf: Property[], key: string) => {
-    //         if (null !== conf) {
-    //             conf.forEach(prop => {
-    //                 params.set(prop.name, prop.value);
-    //             });
-    //         }
-    //     });
-    //     this.http.post<any>('/recorder', 'action=Parameter&verb=save&' + params,
-    //         {
-    //             headers: {
-    //                 'content-type': 'application/x-www-form-urlencoded'
-    //             }
-    //         }).subscribe(
-    //             (res) => {
-    //                 console.log(res);
-    //                 this.errorMsg = 'Success';
-
-    //             },
-    //             (err) => {
-    //                 console.log(err);
-    //                 this.errorMsg = err.message;
-    //             });
-    // }
+    showDataBank(){
+        return localStorage.getItem('show_video_bank') === 'true';
+    }
+    toggleShowDataBank(event){
+        if (event.checked){
+            localStorage.setItem('show_video_bank', 'true');
+        }else{
+            localStorage.removeItem('show_video_bank');
+        }
+    }
     saveProperties() {
         const params: URLSearchParams = new URLSearchParams();
         this.cameras.forEach((conf: Property[], key: string) => {

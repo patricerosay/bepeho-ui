@@ -4,40 +4,28 @@
 <div *ngIf="!isLoading && ! error">
 
 
-        <div class="row">
+    <div class="row">
 
-            <div class="col-xl-3 col-lg-6 stat">
-                <app-stat [bgClass]="'warning'" [icon]="'fa-bolt'" [count]="stats.eventCount"
-                    [label]="'Events' | translate" [gotoUrl]="'search/map'"
-                    [viewName]="'View on the map'|translate"></app-stat>
-            </div>
-            <div class="col-xl-3 col-lg-6 stat">
-                <app-stat [bgClass]="'success'" [icon]="'fa-film'" [count]="stats.clipCount"
-                    [label]="'Clips'|translate" [gotoUrl]="'video-records'"
-                    [viewName]="'Share these videos'|translate">
-                </app-stat>
-            </div>
-            <div class="col-xl-3 col-lg-6 stat">
-                <app-stat [bgClass]="'success'" [icon]="'fa-cog'" [count]="stats.workerCount"
-                    [label]="'Tasks'|translate" [gotoUrl]="'worker'" [viewName]="'Look out'|translate">
-                </app-stat>
-            </div>
-           
+        <div class="col-xl-3 col-lg-6 stat">
+            <app-stat [bgClass]="'warning'" [icon]="'fa-bolt'" [count]="stats.eventCount" [label]="'Events' | translate"
+                [gotoUrl]="'search/map'" [viewName]="'View on the map'|translate"></app-stat>
         </div>
-        <br/>
-         <!-- <div class="row">
-            <div class="col-xl-3 col-lg-6 stat">
-                <app-stat [bgClass]="'primary'" [icon]="'fa-hdd-o'" [count]="stats.storageUsage"
-                    [label]="'% Disk Used'|translate" >
-                </app-stat>
-            </div>
-            <div class="col-xl-3 col-lg-6 stat">
-                <app-stat [bgClass]="'primary'" [icon]="'fa-hdd-o'" [count]="stats.storageLimit"
-                    [label]="'% Storage Limit'|translate" >
+
+            <div *ngIf="showDataBank()" class="col-xl-3 col-lg-6 stat">
+                <app-stat [bgClass]="'success'" [icon]="'fa-film'" [count]="stats.clipCount" [label]="'Clips'|translate"
+                    [gotoUrl]="'video-records'" [viewName]="'Share these videos'|translate">
                 </app-stat>
             </div>
 
 
-        </div>  -->
-  
+        <div class="col-xl-3 col-lg-6 stat">
+            <app-stat [bgClass]="'success'" [icon]="'fa-cog'" [count]="stats.workerCount" [label]="'Tasks'|translate"
+                [gotoUrl]="'worker'" [viewName]="'Look out'|translate">
+            </app-stat>
+        </div>
+
+    </div>
+    <br />
+
+
 </div>
