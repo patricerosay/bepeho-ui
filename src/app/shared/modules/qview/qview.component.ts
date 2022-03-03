@@ -238,7 +238,7 @@ export class QviewComponent implements OnInit {
   }
   playVideo() {
     this.videoApi.play();
-    if ( null !== this.audioApi) {
+    if ( this.audioApi) {
       this.audioApi.play();
     }
     this.seekToCurrentTime();
