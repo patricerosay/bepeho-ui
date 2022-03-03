@@ -119,6 +119,7 @@ export class ConfigurationComponent implements OnInit {
     getProperties(m: Map<string, Property[]>, key: string): Property[] {
         return m.get(key);
     }
+
     showDataBank(){
         return localStorage.getItem('show_video_bank') === 'true';
     }
@@ -127,6 +128,16 @@ export class ConfigurationComponent implements OnInit {
             localStorage.setItem('show_video_bank', 'true');
         }else{
             localStorage.removeItem('show_video_bank');
+        }
+    }
+    showDetailedMosaic(){
+        return localStorage.getItem('show_detailed_mosaic') === 'true';
+    }
+    toggleShowDetailedMosaic(event){
+        if (event.checked){
+            localStorage.setItem('show_detailed_mosaic', 'true');
+        }else{
+            localStorage.removeItem('show_detailed_mosaic');
         }
     }
     saveProperties() {

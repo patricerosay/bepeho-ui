@@ -10,5 +10,50 @@
     "/tile/*": {
         "target": "http://localhost",
         "secure": false
+    },
+    "/CAM0":{
+        "target": {
+            "host": "http://localhost",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM1":{
+        "target": {
+            "host": "http://192.168.1.54/CAM0",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM2":{
+        "target": {
+            "host": "http://192.168.1.54/CAM1",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM3":{
+        "target": {
+            "host": "http://192.168.1.54/CAM2",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
+    },
+    "/CAM4":{
+        "target": {
+            "host": "http://192.168.1.54/CAM3",
+            "protocol": "http:",
+            "port": 80
+        },
+        "secure": false,
+        "logLevel": "info"
     }
 }

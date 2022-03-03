@@ -224,6 +224,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
     }
   }
   getPreviewUrl(cam: Camera): string {
+    //return "http://admin:Bepeho31@192.168.1.35/cgi-bin/mjpg/video.cgi?channel=1&subtype=1"
     if (cam) {
       return '/' + cam.id;
     } else {
@@ -231,6 +232,8 @@ export class MosaicComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  showDetailedMosaic(){
+    return localStorage.getItem('show_detailed_mosaic') === 'true';
+}
 }
 

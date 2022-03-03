@@ -1,15 +1,12 @@
 <div *ngIf="isLoading"> loading .... </div>
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading && showDetailedMosaic() ">
 	<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 	<mat-tab-group [selectedIndex]="group" [selectedIndex]="selectedCamera" (selectedIndexChange)="group=($event)">
 		<mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
 		<mat-tab label="Mosaic">
 			<ng-container *ngFor="let cam of mosaic; let index = index">
-				<!-- <div id={{cam.name}}> -->
 				<img id={{cam.name}} class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
 					[defaultImage]='"assets/images/mire.jpg"' (click)="onFullPage( cam.name)">
-					
-				<!-- </div> -->
 			</ng-container>
 		</mat-tab>
 		<mat-tab *ngFor="let cam of cams " label="{{cam.name}}">
@@ -104,4 +101,10 @@
 			</div>
 		</mat-tab>
 	</mat-tab-group>
+</div>
+<div *ngIf="!isLoading && ! showDetailedMosaic() ">
+	<ng-container *ngFor="let cam of mosaic; let index = index">
+		<img id={{cam.name}} class="mosaic-cameo" [lazyLoad]="getPreviewUrl(cam)" [errorImage]='"assets/images/white-noise.jpg"'
+			[defaultImage]='"assets/images/mire.jpg"' (click)="onFullPage( cam.name)">
+	</ng-container>
 </div>
