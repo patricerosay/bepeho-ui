@@ -311,7 +311,7 @@ export class MapComponent implements OnInit {
             self.searchStats[0].sequenceCount = self.data['groupCount'];
             self.retrievedSequenceCount = self.data['groups'].length;
 
-            self.searchStats[0].to = Date.now();
+            self.searchStats[0].to = Date.now()/1000;
             self.searchStats[0].from = 0;
 
             let linePointsCounter = 0;
@@ -444,6 +444,9 @@ export class MapComponent implements OnInit {
       .finally(function () {
         self.isLoading = false;
         self.searchStats[0].sequenceDisplayed = self.retrievedSequenceCount - self.searchStats[0].error;
+        if (0 == self.searchStats[0].from ) {
+          self.searchStats[0].from =self.searchStats[0].to;
+         }
       });
 
     const who = self;

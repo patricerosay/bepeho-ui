@@ -124,7 +124,7 @@ export class QviewComponent implements OnInit {
   newClipName: string;
   style: number;
   public nmea: NMEA [] ;
-  displayedColumns = ['bgs', 'bgd'];
+  displayedColumns = ['date', 'bgs', 'bgd'];
   public isButtonDisabled=false;
   getlangage(): string {    
     const langage = localStorage.getItem("langage");
@@ -158,7 +158,9 @@ export class QviewComponent implements OnInit {
         {date: this.data['start_time'],
         name: this.data['GroupID'],
         bgs: this.data['nmea_d_bgs_d'],
-        bgd: this.data['nmea_d_bgt_d']}];
+        bgd: this.data['nmea_d_bgt_d']
+      }
+      ];
     this.isLoading = false;
 
   }
