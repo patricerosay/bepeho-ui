@@ -101,6 +101,12 @@
 								<mat-slide-toggle checked="{{showDetailedMosaic()}}" (change)="toggleShowDetailedMosaic($event)">
 								</mat-slide-toggle>
 							</div>
+							<div class="configuration-container ">
+								{{'Do Not Refresh Mosaic Periodically'|translate}}
+								
+								<mat-slide-toggle checked="{{mosaicDelay()}}" (change)="toggleMosaicDelay($event)">
+								</mat-slide-toggle>
+							</div>
 						</mat-expansion-panel>
 
 						<mat-expansion-panel *ngFor="let configuration of general">

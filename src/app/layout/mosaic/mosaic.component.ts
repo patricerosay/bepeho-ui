@@ -203,6 +203,19 @@ export class MosaicComponent implements OnInit, OnDestroy {
       console.log('ngOnInit', e.errorMsg);
     })
 
+    if('true' !== localStorage.getItem('dont_reload_mosaic') ){
+        
+        var period= Number(localStorage.getItem('reload_mosaic_period'));
+        if (!period) period= 3600*1000;
+        console.log('will reload mosaic every ms: ' + period);
+        this.worker = setInterval(() => {
+          location.reload();
+          console.log('reloading mosaic');
+      }, period);
+    }
+    else{
+      console.log('no mosaic peridodic refresh');
+    }
   }
 
   onClickVideo(index)

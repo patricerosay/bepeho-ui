@@ -140,6 +140,16 @@ export class ConfigurationComponent implements OnInit {
             localStorage.removeItem('show_detailed_mosaic');
         }
     }
+    mosaicDelay(){
+        return localStorage.getItem('dont_reload_mosaic') === 'true';
+    }
+    toggleMosaicDelay(event){
+        if (event.checked){
+            localStorage.setItem('dont_reload_mosaic', 'true');
+        }else{
+            localStorage.removeItem('dont_reload_mosaic');
+        }
+    }
     saveProperties() {
         const params: URLSearchParams = new URLSearchParams();
         this.cameras.forEach((conf: Property[], key: string) => {
