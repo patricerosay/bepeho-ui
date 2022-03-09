@@ -8,7 +8,7 @@ import { ISegment, IVideo, IAudio } from '../../interfaces/segment-interface';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { formatDate } from '@angular/common';
-import {saveAs as importedSaveAs} from 'file-saver';
+import { saveAs as importedSaveAs } from 'file-saver';
 
 export interface Video {
   position: number;
@@ -123,78 +123,79 @@ export class QviewComponent implements OnInit {
   newClipNamePlaceHolder: string;
   newClipName: string;
   style: number;
-  public nmea: NMEA [] ;
+  public nmea: NMEA[];
   displayedColumns = ['date', 'bgs', 'bgd'];
-  public isButtonDisabled=false;
-  getlangage(): string {    
+  public isButtonDisabled = false;
+  getlangage(): string {
     const langage = localStorage.getItem("langage");
-    if (! langage) return this.translate.getBrowserLang();
+    if (!langage) return this.translate.getBrowserLang();
     return langage;
-}
+  }
   constructor(public http: HttpClient,
     public activeModal: NgbActiveModal,
     private _ngZone: NgZone,
-    private translate: TranslateService, 
+    private translate: TranslateService,
     private modalService: NgbModal) {
-      this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-      this.translate.setDefaultLang('en');
-      const browserLang = this.getlangage();
-      this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+    this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
+    this.translate.setDefaultLang('en');
+    const browserLang = this.getlangage();
+    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
 
   }
-   @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
+  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
 
   ngOnInit() {
 
     if (!this.json) {
       return;
     }
-    const o=JSON.parse(this.json);
+    const o = JSON.parse(this.json);
     this.segment = o.segments[0] as ISegment;
     this.currentVideo = this.segment.videos[this.currentIndex];
     this.currentAudio = this.segment.audios[0];
-    const recordedDate= new Date(this.data['start_time']);
+    const recordedDate = new Date(this.data['start_time']);
     this.nmea = [
-        {date: this.data['start_time'],
+      {
+        date: this.data['start_time'],
         name: this.data['GroupID'],
         bgs: this.data['nmea_d_bgs_d'],
         bgd: this.data['nmea_d_bgt_d']
       }
-      ];
+    ];
     this.isLoading = false;
 
   }
-  showDataBank(){
+  showDataBank() {
     return localStorage.getItem('show_video_bank');
-}
+  }
   onPlayedVideo(event: any) {
     if (this.audioApi) {
-    this.audioApi.play();
+      this.audioApi.play();
     }
   }
   onPausedVideo(event: any) {
     if (this.audioApi) {
-    this.audioApi.pause();
+      this.audioApi.pause();
     }
   }
   onUpdateVideoState(event: any) {
     if (this.audioApi) {
-    this.videoApi.play();
+      this.videoApi.play();
     }
   }
   onSeeked(event: any) {
     if (this.audioApi) {
-    this.audioApi.seekTime(this.currentTime);
+      this.audioApi.seekTime(this.currentTime);
     }
   }
   onEnded(event: any) {
     if (this.audioApi) {
-    this.audioApi.pause();
+      this.audioApi.pause();
     }
   }
   onRateChaged(event: any) {
     if (this.audioApi) {
-    this.audioApi.playbackRate = this.videoApi.playbackRate;
+      this.audioApi.playbackRate = this.videoApi.playbackRate;
     }
   }
   onAudioPlayerReady(api: VgAPI) {
@@ -211,13 +212,13 @@ export class QviewComponent implements OnInit {
     this.videoApi.subscriptions.seeked.subscribe(this.onSeeked.bind(this));
     this.videoApi.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
     this.videoApi.subscriptions.timeUpdate.subscribe(data => {
-      if (0 !== data.srcElement.currentTime ) {
-      if ( self.currentSrc === data.srcElement.currentSrc ) {
-        self.currentTime = data.srcElement.currentTime;
-      } else {
-        self.currentSrc = data.srcElement.currentSrc;
+      if (0 !== data.srcElement.currentTime) {
+        if (self.currentSrc === data.srcElement.currentSrc) {
+          self.currentTime = data.srcElement.currentTime;
+        } else {
+          self.currentSrc = data.srcElement.currentSrc;
+        }
       }
-    }
 
     });
   }
@@ -235,12 +236,12 @@ export class QviewComponent implements OnInit {
   seekToCurrentTime(): void {
     this.videoApi.seekTime(this.currentTime);
     if (this.audioApi) {
-    this.audioApi.seekTime(this.currentTime);
+      this.audioApi.seekTime(this.currentTime);
     }
   }
   playVideo() {
     this.videoApi.play();
-    if ( this.audioApi) {
+    if (this.audioApi) {
       this.audioApi.play();
     }
     this.seekToCurrentTime();
@@ -252,11 +253,11 @@ export class QviewComponent implements OnInit {
 
   }
 
- 
+
 
   onBuildClip() {
     const self = this;
-    
+
     this.modalService.open(BuildSmartClipModal, { centered: true }).result.then((result) => {
       if ('' !== result) {
         [self.newClipName, self.style] = result.split('|');
@@ -269,11 +270,11 @@ export class QviewComponent implements OnInit {
           clipName: self.newClipName,
           clipDuration: clipDuration,
           videos: [],
-          audios:[]
-          
+          audios: []
+
         };
-        if (0 < self.segment.audios.length){
-          buildOrder.audios= [{
+        if (0 < self.segment.audios.length) {
+          buildOrder.audios = [{
             position: 0, segment: '', duration: clipDuration, id: self.segment.audios[0].id,
             url: self.segment.audios[0].src
           }]
@@ -285,7 +286,7 @@ export class QviewComponent implements OnInit {
             inc = inc + 1;
           });
         }
-        self.isButtonDisabled=true;
+        self.isButtonDisabled = true;
         self.http.post<any>('/recorder', 'action=FileSystem&verb=build&prm=' + JSON.stringify(buildOrder),
           {
             headers: {
@@ -295,13 +296,13 @@ export class QviewComponent implements OnInit {
             (res) => {
               console.log(res);
               self.errorMsg = 'Success';
-              self.isButtonDisabled=false;
+              self.isButtonDisabled = false;
 
             },
             (err) => {
               console.log(err);
               self.errorMsg = err.message;
-              self.isButtonDisabled=false;
+              self.isButtonDisabled = false;
             });
       }
     }, (reason) => {
@@ -314,13 +315,13 @@ export class QviewComponent implements OnInit {
     const ids = [];
     const self = this;
     this.segment.audios.forEach(audio => {
-      ids.push (audio.id);
+      ids.push(audio.id);
     });
     this.segment.videos.forEach(video => {
-      ids.push (video.id);
+      ids.push(video.id);
     });
-    ids.push (this.data['GroupID']);
-    self.isButtonDisabled=true;
+    ids.push(this.data['GroupID']);
+    self.isButtonDisabled = true;
     this.http.post<any>('/recorder', 'action=FileSystem&verb=keep&prm=' + ids.join(','),
       {
         headers: {
@@ -330,26 +331,26 @@ export class QviewComponent implements OnInit {
         (res) => {
           // console.log(res);
           self.errorMsg = 'Success';
-          self.isButtonDisabled=false;
+          self.isButtonDisabled = false;
 
         },
         (err) => {
           // console.log(err);
           self.errorMsg = err.message;
-          self.isButtonDisabled=false;
+          self.isButtonDisabled = false;
         });
   }
   onExportSegment() {
     const ids = [];
     const self = this;
     this.segment.audios.forEach(audio => {
-      ids.push (audio.id);
+      ids.push(audio.id);
     });
     this.segment.videos.forEach(video => {
-      ids.push (video.id);
+      ids.push(video.id);
     });
-    ids.push (this.data['GroupID']);
-    self.isButtonDisabled=true;
+    ids.push(this.data['GroupID']);
+    self.isButtonDisabled = true;
     this.http.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
       {
         headers: {
@@ -359,49 +360,65 @@ export class QviewComponent implements OnInit {
         (res) => {
           // console.log(res);
           self.errorMsg = 'Success';
-          self.isButtonDisabled=false;
+          self.isButtonDisabled = false;
 
         },
         (err) => {
           // console.log(err);
           self.errorMsg = err.message;
-          self.isButtonDisabled=false;
+          self.isButtonDisabled = false;
         });
   }
 
-  
+
   public downloadThisFile() {
+    const self = this;
     try {
       var isFileSaverSupported = !!new Blob;
-  } catch (e) {
-    this.errorMsg = 'not supported';
-  }
-    const self = this;
-    const rootName= self.data['start_time']+'-';
-    if( self.segment.audios  && 0 < self.segment.audios.length)
-      importedSaveAs('/media/'+self.segment.audios[0].src, rootName);
-    if (self.segment.videos && self.segment.videos[self.currentIndex ])
-      importedSaveAs('/media/' + self.segment.videos[self.currentIndex ].src, rootName+self.segment.videos[self.currentIndex ].channel);
 
-    const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
-    importedSaveAs(subtitles, rootName);
-    this.errorMsg = 'Downloaded';
 
+      self.isButtonDisabled = true;
+      const rootName = self.data['start_time'] + '-';
+      if (self.segment.audios && 0 < self.segment.audios.length)
+        importedSaveAs('/media/' + self.segment.audios[0].src, rootName);
+      if (self.segment.videos && self.segment.videos[self.currentIndex])
+        importedSaveAs('/media/' + self.segment.videos[self.currentIndex].src, rootName + self.segment.videos[self.currentIndex].channel);
+
+      const subtitles = "/media/subtitles/" + self.data['GroupID'] + ".vtt";
+      importedSaveAs(subtitles, rootName);
+      this.errorMsg = 'Downloaded';
+    } catch (e) {
+      this.errorMsg = 'not supported';
+    }
+    finally{
+      self.isButtonDisabled = false;
+
+    }
+    
   }
   public downloadAll() {
     const self = this;
-    const rootName= self.data['start_time']+'-';
-    self.segment.audios.forEach(audio => {
-      importedSaveAs('/media/'+audio.src, rootName);
-    });
-    self.segment.videos.forEach(video => {
-      importedSaveAs('/media/' + video.src, rootName+video.channel);
-    });
-    const subtitles= "/media/subtitles/"+self.data['GroupID']+ ".vtt";
-    importedSaveAs(subtitles, rootName);
-    this.errorMsg = 'Downloaded';
+    try {
+      var isFileSaverSupported = !!new Blob;
+      const rootName = self.data['start_time'] + '-';
+      self.segment.audios.forEach(audio => {
+        importedSaveAs('/media/' + audio.src, rootName);
+      });
+      self.segment.videos.forEach(video => {
+        importedSaveAs('/media/' + video.src, rootName + video.channel);
+      });
+      const subtitles = "/media/subtitles/" + self.data['GroupID'] + ".vtt";
+      importedSaveAs(subtitles, rootName);
+      this.errorMsg = 'Downloaded';
+    } catch (e) {
+      this.errorMsg = 'not supported';
+    }
+    finally{
+      self.isButtonDisabled = false;
 
+    }
   }
+
 }
 
 
