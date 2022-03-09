@@ -105,7 +105,7 @@ export class BuildSmartClipModal {
 
 export class QviewComponent implements OnInit {
   headerMessage: string;
-  errorMsg: string;
+  public errorMsg: string;
   json: string;
 
   route: ActivatedRoute;
@@ -371,6 +371,11 @@ export class QviewComponent implements OnInit {
 
   
   public downloadThisFile() {
+    try {
+      var isFileSaverSupported = !!new Blob;
+  } catch (e) {
+    this.errorMsg = 'not supported';
+  }
     const self = this;
     const rootName= self.data['start_time']+'-';
     if( self.segment.audios  && 0 < self.segment.audios.length)
