@@ -13,7 +13,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-
+import { Camera } from '../../../shared/interfaces/camera-interface';
+import { Cameras } from '../../../shared/services/parameters/cameras';
 @Component({
     selector: 'app-video-list',
     templateUrl: './video-list.component.html',
@@ -26,10 +27,11 @@ export class VideoListComponent implements AfterViewInit, OnInit {
     searchDatabase: SearchDatabase | null;
     data: IGroup[] = [];
     resultsLength = 0;
-
-    posterIndex = 0;
-    isLoadingResults = true;
-    isRateLimitReached = false;
+    public cameras: Cameras = null;
+    public posterIndex = 0;
+    public cams=[];
+    public isLoadingResults = true;
+    // isRateLimitReached = false;
     resultMessage: string;
     connexionError: string;
     private searchTimer = null;
@@ -89,24 +91,35 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         this.translate.setDefaultLang('en');
         const browserLang = this.getlangage();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+        this.cameras = new Cameras(_httpClient);
+
     }
     getCookieInfo(key: string, def: string): string {
         const val = localStorage.getItem(key);
         return (val) ? val : def;
     }
     ngOnInit() {
+        var self=this;
         this.currentSpeedRangeName = this.getCookieInfo('speedRange', 'Whatever the recording time');
         this.currentHeelRangeName = this.getCookieInfo('heelRange', 'Whatever the boat heeling');
-
+        this.cameras.getCameras().then(mos => {
+            self.cams= mos;
+           
+            
+          }).catch(e => {
+            console.log('ngOnInit', e.errorMsg);
+          })
     }
     public onsearchValueMode(mode: string) {
         localStorage.setItem('searchViewMode', mode);
     }
     public nextPoster() {
+        if (this.cams.length <= this.posterIndex)return;
         this.posterIndex++;
         this.loadData(this);
     }
     public previousPoster() {
+        if(0 >= this.posterIndex )return;
         this.posterIndex--;
         this.loadData(this);
     }
@@ -216,6 +229,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
         clearTimeout(_self.searchTimer);
         _self.computeTimeRange();
         _self.searchDatabase = new SearchDatabase(_self._httpClient, _self.pageSize);
+        _self.isLoadingResults = true;
 
         // If the user changes the sort order, reset back to the first page.
         _self.sort.sortChange.subscribe(() => _self.paginator.pageIndex = 0);
@@ -224,16 +238,13 @@ export class VideoListComponent implements AfterViewInit, OnInit {
             .pipe(
                 startWith({}),
                 switchMap(() => {
-                    _self.isLoadingResults = true;
                     return _self.searchDatabase.getGroups(
                         _self.sort.active, _self.sort.direction, _self.paginator.pageIndex, _self.searchPrms);
                 }),
                 map(data => {
                     _self.isLoadingResults = false;
-                    _self.isRateLimitReached = false;
                     _self.resultsLength = data.docCount;
                     _self.searchStats[0].sequenceCount = data.groupCount;
-                    // self.retrievedSequenceCount = self.data['groups'].length;
 
                     _self.searchStats[0].from = null;
                     data.groups.sort(function (a, b) {
@@ -257,7 +268,6 @@ export class VideoListComponent implements AfterViewInit, OnInit {
                 }),
                 catchError(() => {
                     _self.isLoadingResults = false;
-                    _self.isRateLimitReached = true;
                     return observableOf([]);
                 })
             ).subscribe(data => _self.data = data);

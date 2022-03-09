@@ -373,7 +373,7 @@ export class QviewComponent implements OnInit {
   public downloadThisFile() {
     const self = this;
     const rootName= self.data['start_time']+'-';
-    if( self.segment.audios )
+    if( self.segment.audios  && 0 < self.segment.audios.length)
       importedSaveAs('/media/'+self.segment.audios[0].src, rootName);
     if (self.segment.videos && self.segment.videos[self.currentIndex ])
       importedSaveAs('/media/' + self.segment.videos[self.currentIndex ].src, rootName+self.segment.videos[self.currentIndex ].channel);

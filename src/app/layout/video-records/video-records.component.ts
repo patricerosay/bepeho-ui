@@ -21,7 +21,7 @@ export class VideoRecordsComponent implements AfterViewInit {
     elementPerPage = 5;
     resultsLength = 0;
     isLoadingResults = true;
-    isRateLimitReached = false;
+    // isRateLimitReached = false;
     resultMessage: string;
     searchPrms: ISearchParams = new ISearchParams();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -103,7 +103,7 @@ export class VideoRecordsComponent implements AfterViewInit {
                 map(data => {
                     // Flip flag to show that loading has finished.
                     this.isLoadingResults = false;
-                    this.isRateLimitReached = false;
+                    // this.isRateLimitReached = false;
                     this.resultsLength = data.groupCount;
 
                     return data.groups;
@@ -111,7 +111,7 @@ export class VideoRecordsComponent implements AfterViewInit {
                 catchError(() => {
                     this.isLoadingResults = false;
                     // Catch if the GitHub API has reached its rate limit. Return empty data.
-                    this.isRateLimitReached = true;
+                    // this.isRateLimitReached = true;
                     return observableOf([]);
                 })
             ).subscribe(data => this.data = data);
