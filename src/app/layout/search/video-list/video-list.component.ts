@@ -321,8 +321,8 @@ export class VideoListComponent implements AfterViewInit, OnInit {
   }
 
   formatSliderLabel(value: number) {
-    const startHour = Math.round(value / 60);
-    const minutes = Math.round(value % 60)
+    const startHour = Math.trunc(value / 60);
+    const minutes = Math.trunc(value % 60)
     return ((startHour < 10) ? "0" : "") + startHour + "H" + ((minutes < 10) ? "0" : "") + minutes;
   }
   formatLabel(hour) {
