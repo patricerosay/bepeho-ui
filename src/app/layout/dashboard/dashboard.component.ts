@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
         return langage;
     }
     public doughnutChartData: number[] = [350, 450, 100];
-    private url = '/recorder/stats';
+    private url = '/api/records/stats/';
     isLoading = true;
     stats ={storageUsage: 0,
     documentCount:0,
@@ -75,21 +75,23 @@ export class DashboardComponent implements OnInit {
         );
     }
     getWorkers (_self: DashboardComponent) {
-        _self.http.get('/recorder/tasksTag')
+        _self.http.get('/api/services/states/')
         .subscribe(
           data => {
-            const workers = data['tasks'] as IWorker[];
+            const workers = data as IWorker[];
+            //const workers = data as { worker: { progress: string, lastmessage: number, state:number }[] };
             _self.stats.workerCount = workers.length;
-
+            //const workers = data;
             _self.isLoading = false;
 
           },
+          error => this.logError(error),
         );
     }
     ngOnInit() {
         
-        this.getWorkers (this);
-//this.getStats(this);
+      //  this.getWorkers (this);
+        this.getStats(this);
     }
     logError(error: object): void {
         this.error = 'error';

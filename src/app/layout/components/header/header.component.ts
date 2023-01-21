@@ -37,8 +37,8 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    private urlProcess = '/recorder/processStates';
-    private urlStatus = '/recorder/recapProcessStates ';
+    private urlProcess = '/api/services/states/';
+    private urlStatus = '/api/services/status/';
     isLoading = true;
     tasks: ITask[];
     taskInError = 0;

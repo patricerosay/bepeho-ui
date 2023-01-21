@@ -23,6 +23,7 @@ export class VideoRecordsComponent implements AfterViewInit {
     isLoadingResults = true;
     // isRateLimitReached = false;
     resultMessage: string;
+    private mediaroot = '/media/master_records/oceanrecorder/';
     searchPrms: ISearchParams = new ISearchParams();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -38,11 +39,11 @@ export class VideoRecordsComponent implements AfterViewInit {
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
       }
     public getImg(row: []): string {
-        const  rowUrl = '/media/' + row['filename_i_file'];
+        const  rowUrl = this.mediaroot+ row['filename_i_file'];
         return rowUrl;
     }
     public getUrl(row: []): string {
-        const  rowUrl = '/media/' + row['filename_p_file'];
+        const  rowUrl = this.mediaroot + row['filename_p_file'];
         return rowUrl;
     }
     public getID(row: []): string {
@@ -52,7 +53,7 @@ export class VideoRecordsComponent implements AfterViewInit {
         return  row['State'];
     }
     public getSubtitle(row: []): string {
-        const  rowUrl = '/media/subtitles/' + row['GroupID'] + '.vtt';
+        const  rowUrl = this.mediaroot+'subtitles/' + row['GroupID'] + '.vtt';
         return rowUrl;
     }
     public downloadThisFile(url: string, msg: string) {
@@ -151,7 +152,7 @@ export class SearchDatabase {
         searchPrms.count = (page + 1) * this.elementPerPage;
         const params: URLSearchParams = this.serialize(searchPrms);
 
-        const requestUrl = '/recorder/search?' + params;
+        const requestUrl = '/api/records/search/?' + params;
         return this._httpClient.get<SearchAPI>(requestUrl);
     }
 }

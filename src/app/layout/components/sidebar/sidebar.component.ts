@@ -43,8 +43,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
             }
         });
     }
-    private urlProcess = '/recorder/processStates';
-    private urlStatus = '/recorder/recapProcessStates';
+
+    private urlProcess = '/api/services/states/';
+    private urlStatus = '/api/services/status/';
     tasks: ITask[];
     taskInError = 0;
     isLoading = true;

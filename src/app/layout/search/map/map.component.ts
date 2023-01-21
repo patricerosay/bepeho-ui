@@ -177,8 +177,20 @@ export class MapComponent implements OnInit {
     let res = null;
     const s = o['nmea_s_boatpos'];
     if (s) {
-      const a = s.split(',');
-      res = new L.LatLng(a[0], a[1]);
+      try{
+        const a = s.split(',');
+        res = new L.LatLng(a[0], a[1], 0);
+      }
+      catch (e) {
+        console.log(e)
+      }
+      try{
+        const a = s.split(':');
+        res = new L.LatLng(a[0], a[1], 0);
+      }
+      catch (e) {
+        console.log(e)
+      }
     }
     const lat = null !== res ? Math.abs(parseFloat(res.lat)) : null;
     const lon = null !== res ? Math.abs(parseFloat(res.lng)) : null;
@@ -295,7 +307,7 @@ export class MapComponent implements OnInit {
     self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
     self.isLoading = true;
-    const requestUrl = '/recorder/search?' + params;
+    const requestUrl = '/api/records/search/?' + params;
     console.log(requestUrl);
     self.http
       .get(requestUrl)
@@ -320,7 +332,7 @@ export class MapComponent implements OnInit {
             groups.forEach(function (group) {
               const firstSegment = group[0];
 
-
+              
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
                 const payload = {

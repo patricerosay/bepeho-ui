@@ -341,7 +341,7 @@ export class VideoListComponent implements AfterViewInit, OnInit {
 
     ids.push (segment[0]['GroupID']);
 
-    self._httpClient.post<any>('/recorder', 'action=FileSystem&verb=get&prm=' + ids.join(','),
+    self._httpClient.post<any>('/api/records/search/', 'action=FileSystem&verb=get&prm=' + ids.join(','),
       {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -394,7 +394,7 @@ export class SearchDatabase {
         // searchPrms.count = this.elementPerPage;
         const params: URLSearchParams = this.serialize(searchPrms);
 
-        const requestUrl = '/recorder/search?' + params;
+        const requestUrl = '/api/records/search/?' + params;
         console.log(requestUrl);
         return this._httpClient.get<SearchAPI>(requestUrl);
     }

@@ -21,7 +21,7 @@ export class WorkerComponent implements OnInit {
 
   }
   getIcon(worker: IWorker): string{
-    switch (worker.group) {
+    switch (worker.name) {
       case 'Auto recording data':
           return 'fa-bar-chart';
       case 'Cleaning':
@@ -37,10 +37,10 @@ export class WorkerComponent implements OnInit {
   }
   ngOnInit() {
     const self = this;
-    this.http.get('/recorder/tasksTag'+'?'+Math.random())
+    this.http.get('/api/services/states/'+'?'+Math.random())
       .subscribe(
         data => {
-          self.workers = data['tasks'] as IWorker[];
+          self.workers = data as IWorker[];
         },
       );
       this.isLoading = false;
