@@ -4,8 +4,8 @@ import { VgAPI } from 'ngx-videogular';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { NgZone, ViewChild } from '@angular/core';
 import { take } from 'rxjs/operators';
-
-
+import { QviewComponent } from '../../../shared/modules/qview/qview.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-sequence',
@@ -39,8 +39,8 @@ export class SequenceComponent implements OnInit {
     newClipNamePlaceHolder: string;
     newClipName: string;
     style: number;
-
-    constructor(private _ngZone: NgZone) {  }
+    preloadDirective="none" ; //none
+    constructor(private _ngZone: NgZone, private modalService: NgbModal) {  }
 
     @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
 
@@ -71,16 +71,15 @@ export class SequenceComponent implements OnInit {
       this.isLoading = false;
 
     }
-    private mediaroot = '/media/master_records/oceanrecorder/';
     getCurrentVideoSrc(): string {
-        return this.mediaroot  + this.currentVideo['filename_p_file'];
+        return '/media/' + this.currentVideo['filename_p_file'];
     }
     getCurrentPoster(): string {
-        return this.mediaroot + this.currentVideo['filename_i_file'];
+        return '/media/' + this.currentVideo['filename_i_file'];
 
     }
     getCurrentAudioSrc(): string{
-        return this.mediaroot + this.currentAudio['filename_m_file'];
+        return '/media/' + this.currentAudio['filename_m_file'];
 
     }
     onPlayedVideo(event: any) {
@@ -185,7 +184,62 @@ export class SequenceComponent implements OnInit {
       this._ngZone.onStable.pipe(take(1))
         .subscribe(() => this.autosize.resizeToFitContent(true));
     }
+    onClick(){
+      const modalRef = this.modalService.open(QviewComponent, {
+        size: 'lg',
+        backdropClass: 'light-blue-backdrop',
+        centered: true
+      });
+      const payload = {
+        segments: this.computePayload(this.sequence)
+      };
+      modalRef.componentInstance.json = JSON.stringify(payload);
+      modalRef.componentInstance.data = this.sequence[0];
+    }
 
-
-
+    public computePayload(group: any[]) {
+      const segments = [];
+      const segment = {
+        id: group[0].id,
+        videos: [],
+        audios: []
+      };
+      group.sort(function (a, b) {
+        // videos on top of audios
+        if (a.mime < b.mime) {
+          return 1;
+        }
+        if (a.mime > b.mime) {
+          return 0;
+        }
+        if (a.Channel > b.Channel) {
+          return 1;
+        }
+        if (a.Channel < b.Channel) {
+          return -1;
+        }
+        // a doit être égale à b
+        return 0;
+      });
+      for (let g = 0; g < group.length; g++) {
+        if (group[g].mime === 'video/mp4') {
+          const video = {
+            id: group[g].id,
+            channel: group[g].Channel,
+            src: group[g].filename_p_file,
+            img: group[g].filename_i_file
+          };
+          segment.videos.push(video);
+        } else {
+          const audio = {
+            id: group[g].id,
+            channel: group[g].Channel,
+            src: group[g].filename_m_file
+          };
+          segment.audios.push(audio);
+        }
+      }
+      segments.push(segment);
+      return segments;
+    }
 }

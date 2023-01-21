@@ -76,12 +76,14 @@ export class DashboardComponent implements OnInit {
         _self.http.get('/api/services/states/')
         .subscribe(
           data => {
-            const workers = data['ProgressStatus'] as IWorker[];
+            const workers = data as IWorker[];
+            //const workers = data as { worker: { progress: string, lastmessage: number, state:number }[] };
             _self.stats.workerCount = workers.length;
-
+            //const workers = data;
             _self.isLoading = false;
 
           },
+          error => this.logError(error),
         );
     }
     ngOnInit() {

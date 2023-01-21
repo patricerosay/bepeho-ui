@@ -3,21 +3,15 @@
   <div *ngIf="!currentVideo">No Video</div>
   <div *ngIf="currentVideo">
     <div>
-      <div class="videogular-container">
-        <vg-player
-          (onPlayerReady)="onVideoPlayerReady($event)"
-          onUpdateState="onUpdateState($state)"
-        >
-        <vg-overlay-play></vg-overlay-play>
+      <!-- <div class="videogular-container">
+        <vg-player (onPlayerReady)="onVideoPlayerReady($event)" onUpdateState="onUpdateState($state)">
+          <vg-overlay-play></vg-overlay-play>
           <vg-buffering></vg-buffering>
           <vg-controls [vgAutohide]="true" vg-autoplay="false" [vgAutohideTime]="1.5">
-            <!-- <vg-play-pause></vg-play-pause> -->
+            <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
 
-            <vg-time-display
-              vgProperty="current"
-              vgFormat="mm:ss"
-            ></vg-time-display>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
             <vg-scrub-bar>
               <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
@@ -25,54 +19,27 @@
             </vg-scrub-bar>
             <vg-fullscreen></vg-fullscreen>
 
-            <button
-              *ngFor="let item of this.segment.videos; let $index = index"
-              mat-raised-button
-              color="primary"
-              (click)="onClickPlaylistItem(item, $index)"
-              [class.selected]="item === currentVideo"
-            >
-              {{ item.Channel }}
-            </button>
+           
           </vg-controls>
 
-          <video
-            #mediaV
-            [vgMedia]="mediaV"
-            src="{{ getCurrentVideoSrc() }}"
-            [poster]="getCurrentPoster()"
-            id="singleVideo"
-            preload="metadata"
-            crossorigin
-          >
-            <track
-              kind="subtitles"
-              label="Data"
-              src="{{mediaroot}}/subtitles/{{ groupID }}.vtt"
-              srclang="en"
-              default
-            />
-          </video>
+          <video #mediaV [vgMedia]="mediaV" src="{{ getCurrentVideoSrc() }}" [poster]="getCurrentPoster()"
+          id="singleVideo" preload="{{ preloadDirective }}" crossorigin>
+          <track kind="subtitles" label="Data" src="/media/subtitles/{{ groupID }}.vtt" srclang="en" default />
+        </video>
         </vg-player>
       </div>
 
       <div *ngIf="!currentAudio">
-        <i class="fa fa-microphone-slash"></i> No Audio
+        <i class="fa fa-microphone-slash" title="no audio "></i> No Audio
       </div>
 
       <div hidden *ngIf="currentAudio" class="videogular-container-audio">
         <vg-player (onPlayerReady)="onAudioPlayerReady($event)">
-          <audio
-            #mediaA
-            [vgMedia]="mediaA"
-            vg-type="audio"
-            src="{{getCurrentAudioSrc()}}"
-            id="singleAudio"
-            preload="metadata"
-            crossorigin
-          ></audio>
+          <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="{{getCurrentAudioSrc()}}" id="singleAudio"
+          preload="{{ preloadDirective }}" crossorigin></audio>
         </vg-player>
-      </div>
+      </div> -->
+      <img src="{{getCurrentPoster()}}" (click)="onClick()"/>
     </div>
   </div>
 </div>

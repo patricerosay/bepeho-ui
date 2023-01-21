@@ -7,7 +7,7 @@ import { QviewComponent } from '../../../shared/modules/qview/qview.component';
 import { ISearchParams } from '../../../shared/interfaces/search.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-// import { CookieService } from 'ngx-cookie-service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export interface MyMarkerOptions extends L.MarkerOptions {
   data: any;
@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
   public isLoading = true;
   public searchViewMode = '/map';
   public error: object = null;
-
+  private mediaroot = '/media/';
   private searchTimer = null;
   public data: any[] = [];
   public theMap: L.Map;
@@ -62,35 +62,27 @@ export class MapComponent implements OnInit {
 
   searchPrms: ISearchParams = new ISearchParams();
   heelRange = [
-    {'name': 'Whatever the boat heeling', 'value': [-90, 90]},
-    {'name': 'starboard', 'value': [-90, 0]},
-    {'name': 'more than 45° starboard', 'value':  [-90, -45]},
-    {'name': 'less than 45° starboard', 'value':  [-45, 0]},
-    {'name': 'less than 45° port', 'value':  [0, 45]},
-    {'name': 'more than 45° port', 'value':  [45, 90]},
-    {'name': 'port', 'value':  [0, 90]}
+    { 'name': 'Whatever the boat heeling', 'value': [-90, 90] },
+    { 'name': 'starboard', 'value': [-90, 0] },
+    { 'name': 'more than 45° starboard', 'value': [-90, -45] },
+    { 'name': 'less than 45° starboard', 'value': [-45, 0] },
+    { 'name': 'less than 45° port', 'value': [0, 45] },
+    { 'name': 'more than 45° port', 'value': [45, 90] },
+    { 'name': 'port', 'value': [0, 90] }
 
   ];
 
-  timeRange = [
-    {'name': 'Whenever it was recorded', 'value': ['0', '10000000']},
-    {'name': 'last 6 hours' , 'value' : ['0', '260']},
-    {'name': 'last 24 hours', 'value': ['0', '1440']},
-    {'name': 'last 7 days', 'value': ['0', '10080']},
-    {'name': 'last 30 days',  'value': ['0', '302400']},
-
-  ];
 
   speedRange = [
-  {'name': 'Whatever the boat speed' , 'value': [0, 100]},
-  {'name': '0 to 5' , 'value' : [0, 5]},
-  {'name': '5 to 10', 'value' : [5, 10]},
-  {'name': '10 to 15', 'value' : [10, 15]},
-  {'name': '15 to 20', 'value' : [15, 20]},
-  {'name': '20 to 30', 'value' : [20, 30]},
-  {'name': '30 to 40', 'value' : [30, 40]},
-  {'name': '40 To More', 'value' : [40, 100]},
-];
+    { 'name': 'Whatever the boat speed', 'value': [0, 100] },
+    { 'name': '0 to 5', 'value': [0, 5] },
+    { 'name': '5 to 10', 'value': [5, 10] },
+    { 'name': '10 to 15', 'value': [10, 15] },
+    { 'name': '15 to 20', 'value': [15, 20] },
+    { 'name': '20 to 30', 'value': [20, 30] },
+    { 'name': '30 to 40', 'value': [30, 40] },
+    { 'name': '40 To More', 'value': [40, 100] },
+  ];
 
 
   iconTrace = L.icon({
@@ -120,15 +112,15 @@ export class MapComponent implements OnInit {
   currentTimeRangeName: string;
 
 
-  getlangage(): string {    
+  getlangage(): string {
     const langage = localStorage.getItem("langage");
-    if (! langage) return this.translate.getBrowserLang();
+    if (!langage) return this.translate.getBrowserLang();
     return langage;
-}
+  }
 
   constructor(public http: HttpClient, private modalService: NgbModal, private translate: TranslateService,
     // private cookieService: CookieService
-    ) {
+  ) {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.setDefaultLang('en');
     const browserLang = this.getlangage();
@@ -180,23 +172,25 @@ export class MapComponent implements OnInit {
   }
 
 
-  formatLabel(value: number | null) {
-    if (!value) {
-      return 0;
-    }
-    console.log(value);
-
-    return value;
-  }
 
   public getLatLon(o: any) {
-    // console.log(o);
     let res = null;
-    //const s = o['nmea_s_boatpos'];
-    const s = o['nmea_loc_boatspatialpos'];
+    const s = o['nmea_s_boatpos'];
     if (s) {
-      const a = s.split(',');
-      res = new L.LatLng(a[0], a[1]);
+      try{
+        const a = s.split(',');
+        res = new L.LatLng(a[0], a[1], 0);
+      }
+      catch (e) {
+        console.log(e)
+      }
+      try{
+        const a = s.split(':');
+        res = new L.LatLng(a[0], a[1], 0);
+      }
+      catch (e) {
+        console.log(e)
+      }
     }
     const lat = null !== res ? Math.abs(parseFloat(res.lat)) : null;
     const lon = null !== res ? Math.abs(parseFloat(res.lng)) : null;
@@ -211,9 +205,7 @@ export class MapComponent implements OnInit {
         res = new L.LatLng(a[0], a[1]);
       }
     }
-    // if (null === res) {
-    //   console.log('null position' + o);
-    // }
+
     return res;
   }
   public computePayload(group: any[]) {
@@ -263,6 +255,7 @@ export class MapComponent implements OnInit {
   }
 
   serialize(obj: any) {
+    this.computeTimeRange();
     const params: URLSearchParams = new URLSearchParams();
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -274,25 +267,8 @@ export class MapComponent implements OnInit {
 
     return params;
   }
-  public Reset() {
-    this.searchPrms = new ISearchParams();
-    localStorage.removeItem('timeRange');
-    localStorage.removeItem('heelRange');
-    localStorage.removeItem('speedRange');
-    // this.cookieService.deleteAll('bepeho');
-    this.searchPrms.type = 'autorecord';
-    this.loadData(this);
-  }
-  public onSearchOnTime(range) {
-    if ( 'whatever the recording time' !== range.name) {
-      this.searchPrms.start_time = range.value;
-    } else {
-      this.searchPrms.start_time = undefined;
-    }
-    localStorage.setItem('timeRange', range.name);
 
-    this.loadData(this);
-  }
+
 
   public onSearchOnHeelAngle(range) {
 
@@ -317,6 +293,7 @@ export class MapComponent implements OnInit {
     });
   }
 
+
   public loadData(_self: MapComponent) {
     const self = _self;
 
@@ -329,8 +306,11 @@ export class MapComponent implements OnInit {
     self.searchStats[0].positionLess = 0;
     self.searchStats[0].positionLess = 0;
     const params: URLSearchParams = self.serialize(self.searchPrms);
+    self.isLoading = true;
+    const requestUrl = '/api/records/search/?' + params;
+    console.log(requestUrl);
     self.http
-      .get('/api/records/search/?' + params)
+      .get(requestUrl)
       .toPromise()
       .then(
         data => {
@@ -343,7 +323,7 @@ export class MapComponent implements OnInit {
             self.searchStats[0].sequenceCount = self.data['groupCount'];
             self.retrievedSequenceCount = self.data['groups'].length;
 
-            self.searchStats[0].to = Date.now();
+            self.searchStats[0].to = Date.now()/1000;
             self.searchStats[0].from = 0;
 
             let linePointsCounter = 0;
@@ -352,7 +332,7 @@ export class MapComponent implements OnInit {
             groups.forEach(function (group) {
               const firstSegment = group[0];
 
-
+              
               const latLon: L.LatLngExpression = self.getLatLon(firstSegment);
               if (null !== latLon) {
                 const payload = {
@@ -383,13 +363,15 @@ export class MapComponent implements OnInit {
 
                   let marker = null;
                   let markerOptions: MyMarkerOptions;
+                  const date = new Date(firstSegment.end_time_data * 1000);
+                  const title = date.toLocaleString();
                   if (undefined !== firstSegment['anomaly_score_d']) {
                     markerOptions = {
                       data: firstSegment,
                       jsonPayload: jsonPayload,
                       icon: self.iconDetect,
                       //title: firstSegment.anomaly_score_d
-                      title: new Date(firstSegment.end_time_data * 1000).toUTCString()
+                      title: title
                     };
                     marker = new L.Marker(latLon, markerOptions).addTo(
                       self.events
@@ -410,7 +392,7 @@ export class MapComponent implements OnInit {
                         data: firstSegment,
                         jsonPayload: jsonPayload,
                         icon: self.iconTrace,
-                        title: new Date(firstSegment.end_time_data * 1000).toUTCString()
+                        title: title
                       };
                     }
 
@@ -427,13 +409,13 @@ export class MapComponent implements OnInit {
 
 
                   marker.on('click', function (e) {
-                    
+
                     const modalRef = who.modalService.open(QviewComponent, {
                       size: 'lg',
                       backdropClass: 'light-blue-backdrop',
                       centered: true
                     });
-                    
+
                     modalRef.componentInstance.json =
                       e.target.options.jsonPayload;
                     modalRef.componentInstance.data = e.target.options.data;
@@ -441,12 +423,10 @@ export class MapComponent implements OnInit {
                 } else {
                   self.searchStats[0].error++;
                   self.searchStats[0].videoLess++;
-                  console.log('videoless');
                 }
               } else {
                 self.searchStats[0].error++;
                 self.searchStats[0].positionLess++;
-                console.log('positionless');
               }
             });
 
@@ -476,11 +456,74 @@ export class MapComponent implements OnInit {
       .finally(function () {
         self.isLoading = false;
         self.searchStats[0].sequenceDisplayed = self.retrievedSequenceCount - self.searchStats[0].error;
+        if (0 == self.searchStats[0].from ) {
+          self.searchStats[0].from =self.searchStats[0].to;
+         }
       });
 
     const who = self;
   }
   logError(error: object): void {
     this.error = error;
+  }
+
+  getMillisecondsFromNow(localStorageDate, localStorageHour){
+    const storedStartIsoDate = localStorage.getItem(localStorageDate);
+    if (! storedStartIsoDate) return;
+    const startDatetime = Math.trunc(Number(new Date(storedStartIsoDate))/ 60000);
+    const now = Math.trunc(new Date().getTime() / 60000);
+    var storedHour = Number(localStorage.getItem(localStorageHour));
+    return now - startDatetime - storedHour;
+  }
+  computeTimeRange() {
+    const numberOfMillsecondsToGoBackInTimeStart= this.getMillisecondsFromNow('startDateIso', 'startHour');
+    if (0 < numberOfMillsecondsToGoBackInTimeStart)
+      this.searchPrms.start_time = [numberOfMillsecondsToGoBackInTimeStart, 0];
+
+    const numberOfMillsecondsToGoBackInTimeEnd= this.getMillisecondsFromNow('endDateIso', 'endHour');
+    if (0 < numberOfMillsecondsToGoBackInTimeEnd)
+        this.searchPrms.start_time = [numberOfMillsecondsToGoBackInTimeStart, numberOfMillsecondsToGoBackInTimeEnd];      
+  }
+
+  public Reset() {
+    this.searchPrms = new ISearchParams();
+    this.searchPrms.type = 'autorecord';
+    localStorage.removeItem('startDateIso');
+    localStorage.removeItem('startHour');
+    localStorage.removeItem('endDateIso');
+    localStorage.removeItem('endHour');
+    localStorage.removeItem('date');
+    localStorage.removeItem('heelRange');
+    localStorage.removeItem('speedRange');
+
+    this.searchPrms.type = 'autorecord';
+    this.searchPrms.start = 0;
+    this.searchPrms.count = this.pageSize;
+    this.loadData(this);
+  }
+  public getFromLocalStorage(key) {
+    return localStorage.getItem(key);
+  }
+  public isSliderDisabled(key) {
+    return this.getFromLocalStorage(key) === null;
+  }
+
+  addEvent(date, type: string, event: MatDatepickerInputEvent<Date>) {
+    if (type !== 'change') return;
+    localStorage.setItem(date, event.value.toISOString());
+    this.loadData(this);
+  }
+
+  formatSliderLabel(value: number) {
+    const startHour = Math.round(value / 60);
+    const minutes = Math.round(value % 60)
+    return ((startHour < 10) ? "0" : "") + startHour + "H" + ((minutes < 10) ? "0" : "") + minutes;
+  }
+  formatLabel(hour) {
+    return this.formatSliderLabel(Number(this.getFromLocalStorage(hour)));
+  }
+  updateHour(hour, event) {
+    localStorage.setItem(hour, event.value);
+    this.loadData(this);
   }
 }

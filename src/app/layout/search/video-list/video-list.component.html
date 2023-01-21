@@ -1,141 +1,175 @@
-<div *ngIf="isLoadingResults">loading ....</div>
 <div *ngIf="connexionError">Error while connecting to server</div>
-<div class="col-lg-12">
+<div class="col-md-12">
   <div class="row">
-    <div class="col-lg-3">
-      <mat-button-toggle-group #group="matButtonToggleGroup" value="video-list">
-        <mat-button-toggle (click)="onsearchValueMode('map')" routerLink="/search/map" value="map" aria-label="Map">
-          <i class="fa fa-fw fa-map-marker"></i>&nbsp;
-          <span>{{ "Map" | translate }} </span>
+
+    <div class="col-md-6">
+      <!-- <mat-button-toggle-group #group="matButtonToggleGroup" value="poster"> -->
+        <mat-button-toggle color="normal" (click)="previousPoster()" disabled = "{{0 >= posterIndex }}">
+          <i class="fa fa-3x fa-caret-square-o-left" aria-hidden="true"></i>
         </mat-button-toggle>
-        <mat-button-toggle (click)="onsearchValueMode('video-list')" routerLink="/search/video-list" value="video-list"
-          aria-label="List">
-          <i class="fa fa-fw fa-list"></i>&nbsp;
-          <span>{{ "List" | translate }} </span>
+        <mat-button-toggle color="normal" (click)="nextPoster()" disabled = "{{cams.length  <= posterIndex }}">
+          <i class="fa fa-3x fa-caret-square-o-right" aria-hidden="true"></i>
         </mat-button-toggle>
-      </mat-button-toggle-group>
+      <!-- </mat-button-toggle-group> -->
+      
+        <mat-label>Camera {{posterIndex }} / {{cams.length }} </mat-label> 
+      
     </div>
-    <div class="col-lg-3">
-    <button color="normal" mat-fab (click)="previousPoster()">
-      <i class="fa fa-2x fa-caret-square-o-left" aria-hidden="true"></i>
-    </button>
-    <button color="normal" mat-fab (click)="nextPoster()">
-      <i class="fa fa-2x fa-caret-square-o-right" aria-hidden="true"></i>
-    </button>
+   
+    <div class="col-md-6">
+      <mat-paginator [length]="searchStats[0].sequenceCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageEvent($event)">
+      </mat-paginator>
+    </div>
   </div>
-  <div class="col-lg-6">
-    <mat-paginator [length]="searchStats[0].sequenceCount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageEvent($event)">
-    </mat-paginator>
-  </div>
-</div>
 
-<div class="row">
-  <mat-accordion class="col-lg-12">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          ...
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ "Search Criterias" | translate }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div>
-        <div class="row">
-          <button mat-raised-button (click)="Reset()"> {{ "Reset Search Criterias" | translate }} </button>
-        </div>
-        <div class="row">
-          <mat-button-toggle-group name="timeSearch" aria-label="Font Style" value="{{ currentTimeRangeName }}">
-            <mat-button-toggle *ngFor="let x of timeRange" value="{{ x.value }}" (click)="onSearchOnTime(x)">{{ x.name
-              }} </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
+  <div class="row">
+    <mat-accordion class="col-md-12">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            ...
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ "Search Criterias" | translate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <div class="row">
+            <button mat-raised-button (click)="Reset()"> {{ "Reset Search Criterias" | translate }} </button>
+          </div>
 
-        <div class="row">
-          <mat-button-toggle-group name="speedSearch" aria-label="Font Style" value="{{ currentSpeedRangeName }}">
-            <mat-button-toggle *ngFor="let x of speedRange" value="{{ x.name }}" (click)="onSearchOnSpeed(x)">{{ x.name
-              }} </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-        <!-- <div class="row">
-            <mat-button-toggle-group
-              name="heelSearch"
-              aria-label="Font Style"
-              value="{{ currentHeelRangeName }}"
-            >
-              <mat-button-toggle
-                *ngFor="let x of heelRange"
-                value="{{ x.name }}"
-                (click)="onSearchOnHeelAngle(x)"
-                >{{ x.name }}
-              </mat-button-toggle>
+          <div class="row">
+
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "Start Date: " | translate }} </mat-label>
+                <input matInput [matDatepicker]="pickerStart" (dateInput)="addEvent('startDateIso', 'input', $event)"
+                  (dateChange)="addEvent('startDateIso', 'change', $event)"
+                  [value]="getFromLocalStorage('startDateIso')">
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerStart></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-8">
+              <mat-panel-description>
+                <label> {{ "Start Time: " | translate }}</label>
+
+                <label> &nbsp; {{formatLabel( 'startHour') }}</label>
+              </mat-panel-description>
+              <mat-slider disabled="{{ isSliderDisabled('startDateIso')}}" thumbLabel [displayWith]="formatSliderLabel"
+                (change)="updateHour('startHour', $event)" tickInterval="60" step="1" min="0" max="1440"
+                value="{{ getFromLocalStorage('startHour') }}" aria-label="units">
+              </mat-slider>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "End Date: " | translate }}</mat-label>
+                <input matInput [matDatepicker]="pickerEnd" (dateInput)="addEvent('endDateIso', 'input', $event)"
+                  (dateChange)="addEvent('endDateIso', 'change', $event)" [value]="getFromLocalStorage('endDateIso')">
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerEnd></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-8">
+              <mat-panel-description>
+                <label> {{ "End Time: " | translate }}</label>
+
+                <label> &nbsp; {{formatLabel( 'endHour') }}</label>
+              </mat-panel-description>
+              <mat-slider disabled="{{ isSliderDisabled('endDateIso')}}" thumbLabel [displayWith]="formatSliderLabel"
+                (change)="updateHour('endHour', $event)" tickInterval="60" step="1" min="0" max="1440"
+                value="{{ getFromLocalStorage('endHour') }}" aria-label="units">
+              </mat-slider>
+            </div>
+          </div>
+
+          <div class="row">
+            <mat-button-toggle-group name="speedSearch" aria-label="Font Style" value="{{ currentSpeedRangeName }}">
+              <mat-button-toggle *ngFor="let x of speedRange" value="{{ x.name }}" (click)="onSearchOnSpeed(x)">{{
+                x.name
+                }} </mat-button-toggle>
             </mat-button-toggle-group>
-          </div> -->
+          </div>
+
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="row">
+    <table mat-table [dataSource]="data" matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+      <ng-container matColumnDef="direction">
+        <th mat-header-cell *matHeaderCellDef>{{ "Direction" | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          {{ getProperty(row, "nmea_d_bgt_d") }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="img">
+        <th mat-header-cell *matHeaderCellDef>{{ "Preview" | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <app-sequence [sequence]="row" [currentIndex]="posterIndex">
+          </app-sequence>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button [matMenuTriggerFor]="menu">>></button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onExportSegment(row)">
+              <i class="fa fa-2x fa-usb"></i>&nbsp;
+              <span>{{ "Export" | translate }} </span>
+            </button>
+            <button mat-menu-item (click)="downloadThisFile(row)">
+              <i class="fa fa-2x fa-download"></i>&nbsp;
+              <span>{{ "Download" | translate }} </span>
+            </button>
+            <button mat-menu-item (click)="downloadAll(row)">
+              <i class="fa fa-2x fa-download"></i>&nbsp;
+              <span>{{ "Download All" | translate }} </span>
+            </button>
+            <!-- <button mat-menu-item (click)="
+          uploadThisFile(getUrl(row[0]), getID(row[0]) + ' was uploaded')
+        ">
+              <i class="fa fa-2x fa-upload"></i>&nbsp;
+              <span> {{ "Upload All On FTP Server" | translate }}</span>
+            </button> -->
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+          {{ "Creation Date" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row[0]["start_time"] | date: 'medium' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="speed">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "Speed" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row[0]["nmea_d_bgs_d"] }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <div *ngIf="isLoadingResults">
+        <mat-spinner style="margin:0 auto;"></mat-spinner>
       </div>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>
-
-<div class="row">
-  <table mat-table [dataSource]="data" matSort matSortActive="created"  matSortDirection="desc">
-    <ng-container matColumnDef="direction">
-      <th mat-header-cell *matHeaderCellDef >{{ "Direction" | translate }} </th>
-      <td mat-cell *matCellDef="let row">
-        {{ getProperty(row, "nmea_d_bgt_d") }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="img">
-      <th mat-header-cell *matHeaderCellDef>{{ "Preview" | translate }}</th>
-      <td mat-cell *matCellDef="let row">
-        <app-sequence [sequence]="row" [currentIndex]="posterIndex">
-        </app-sequence>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="state">
-      <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-button [matMenuTriggerFor]="menu">>></button>
-
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="
-                uploadThisFile(getUrl(row[0]), getID(row[0]) + ' was uploaded')
-              ">
-            <i class="fa fa-upload"></i>&nbsp;
-            <span> {{ "Upload the clip on FTP server" | translate }}</span>
-          </button>
-          <button mat-menu-item (click)="downloadThisFile(row)">
-            <i class="fa fa-download"></i>&nbsp;
-            <span>{{ "Download the clip" | translate }} </span>
-          </button>
-          <!-- <button mat-menu-item (click)="edit(row)">
-              <i class="fa fa-edit"></i>&nbsp;
-              <span>{{ "Edit" | translate }} </span>
-            </button>-->
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-        {{ "Creation Date" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let row">
-        {{ row[0]["start_time"] | date: "MM/dd/yyyy hh:mm" }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="speed">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "Speed" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let row">
-        {{ row[0]["nmea_d_bgs_d"] }}
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</div>
+      <div *ngIf="!isLoadingResults">
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </div>
+    </table>
+  </div>
 </div>

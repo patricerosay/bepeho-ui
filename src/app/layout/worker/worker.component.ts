@@ -21,7 +21,7 @@ export class WorkerComponent implements OnInit {
 
   }
   getIcon(worker: IWorker): string{
-    switch (worker.group) {
+    switch (worker.name) {
       case 'Auto recording data':
           return 'fa-bar-chart';
       case 'Cleaning':
@@ -40,7 +40,7 @@ export class WorkerComponent implements OnInit {
     this.http.get('/api/services/states/'+'?'+Math.random())
       .subscribe(
         data => {
-          self.workers = data['ProgressStatus'] as IWorker[];
+          self.workers = data as IWorker[];
         },
       );
       this.isLoading = false;

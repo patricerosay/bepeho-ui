@@ -1,26 +1,18 @@
-<div class="modal-header modal-xl">
- 
+<!-- <div class="modal-header ">
+
 
   <h4 class="modal-title">
-      <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
-      <div *ngIf="headerMessage">{{headerMessage}}</div>
+    <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+    <div *ngIf="this.data['start_time']">{{ "Recorded at: " | translate }} {{this.data['start_time']| date: 'medium'}}
+    </div>
   </h4>
-  <button
-    type="button"
-    class="close"
-    aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+
+</div> -->
 <div *ngIf="isLoading">loading ....</div>
+
 <div *ngIf="!isLoading">
+
   <table mat-table [dataSource]="nmea" class="mat-elevation-z8">
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
-    </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>RecordedTime</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -33,98 +25,83 @@
       <th mat-header-cell *matHeaderCellDef>Max Ground Direction</th>
       <td mat-cell *matCellDef="let element">{{ element.bgd }}</td>
     </ng-container>
-
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{element.date| date: 'medium'}}</td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <button mat-raised-button color="primary" (click)="onBuildClip()">
-    Build
-  </button>
-  <button mat-raised-button color="primary" (click)="onExportSegment()">
-    Export
-  </button>
-  <button mat-raised-button color="primary" (click)="onSaveSegment()">
-    Save
-  </button>
-  <button mat-raised-button color="primary" (click)="downloadThisFile()">
-    Download This
-  </button>
-  <button mat-raised-button color="primary" (click)="downloadAll()">
-    Download All
-  </button>
-  <nav
-    class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top"
-  >
+
+  <nav>
     <div>
       <div class="videogular-container">
-        
-        <vg-player (onPlayerReady)="onVideoPlayerReady($event)"
-        onUpdateState="onUpdateState($state)">
+
+        <vg-player (onPlayerReady)="onVideoPlayerReady($event)" onUpdateState="onUpdateState($state)">
           <vg-buffering></vg-buffering>
           <vg-overlay-play></vg-overlay-play>
-          <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
-              <!-- <vg-play-pause></vg-play-pause> -->
-              <vg-playback-button></vg-playback-button>
+          <!-- <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5"> -->
+          <vg-controls >
+              <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
 
-              <vg-time-display
-                vgProperty="current"
-                vgFormat="mm:ss"
-              ></vg-time-display>
-  
-              <vg-scrub-bar>
-                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-              </vg-scrub-bar>
-              <vg-fullscreen></vg-fullscreen>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
-              <button *ngFor="let item of this.segment.videos; let $index = index"
-              mat-raised-button
-              color="primary"
-              (click)="onClickPlaylistItem(item, $index)"
-              [class.selected]="item === currentVideo"
-            >
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+            <vg-fullscreen></vg-fullscreen>
+
+            <button *ngFor="let item of this.segment.videos; let $index = index" mat-raised-button color="primary"
+              (click)="onClickPlaylistItem(item, $index)" [class.selected]="item === currentVideo">
               {{ item.channel }}
             </button>
-            
+
           </vg-controls>
-         
-          <video
-            #mediaV
-            [vgMedia]="mediaV"
-            src="{{ mediaroot }}/{{ currentVideo.src }}"
-            id="singleVideo"
-            preload="auto"
-            crossorigin
-          >
-            <track
-              kind="subtitles"
-              label="Data"
-              src="{{ mediaroot }}/subtitles/{{ data['GroupID'] }}.vtt"
-              srclang="en"
-              default
-            />
+
+          <video #mediaV [vgMedia]="mediaV" src="/media/{{ currentVideo.src }}" id="singleVideo" preload="auto"
+            crossorigin>
+            <track kind="subtitles" label="Data" src="/media/subtitles/{{ data['GroupID'] }}.vtt" srclang="en"
+              default />
           </video>
         </vg-player>
       </div>
-      
-      <div *ngIf=" !currentAudio"><i class="fa fa-microphone-slash" ></i> No Audio</div>
-      
+
+      <div *ngIf=" !currentAudio"><i class="fa fa-microphone-slash"></i> No Audio</div>
+
       <div hidden *ngIf="currentAudio" class="videogular-container-audio">
-          <vg-player (onPlayerReady)="onAudioPlayerReady($event)"  >
-            
-  
-            <audio
-              #mediaA
-              [vgMedia]="mediaA"
-              vg-type="audio"
-              src="/media/{{ currentAudio.src }}"
-              id="singleAudio"
-              preload="auto"
-              crossorigin
-            ></audio>
-          </vg-player>
-        </div>
+        <vg-player (onPlayerReady)="onAudioPlayerReady($event)">
+          <audio #mediaA [vgMedia]="mediaA" vg-type="audio" src="/media/{{ currentAudio.src }}" id="singleAudio"
+            preload="auto" crossorigin></audio>
+        </vg-player>
+      </div>
     </div>
   </nav>
+  <div class="modal-footer">
+    <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+    <div *ngIf="showDataBank()">
+    <button mat-raised-button color="primary" (click)="onBuildClip()" [disabled]="isButtonDisabled">
+      <i class="fa fa-2x fa-fw  fa-cogs" title="Build clip"></i> 
+    </button>
+    </div>
+    <button mat-raised-button color="primary" (click)="onExportSegment()" [disabled]="isButtonDisabled">
+      <i class="fa fa-2x fa-fw  fa-folder-open " title="Export"></i> 
+    </button>
+
+    <button mat-raised-button color="primary" (click)="onSaveSegment()" [disabled]="isButtonDisabled">
+      <i class="fa fa-2x fa-fw  fa-bookmark" title="Bookmark"></i> 
+    </button>
+
+    <button mat-raised-button color="primary" (click)="downloadThisFile()"[disabled]="isButtonDisabled">
+      <i class="fa fa-2x fa-fw fa-angle-down" title="Download"></i>   
+    </button>
+
+    <button mat-raised-button color="primary" (click)="downloadAll()" [disabled]="isButtonDisabled">
+      <i class="fa fa-2x fa-fw fa-angle-double-down" title="Download"></i>  
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('')">{{ "Close" | translate }}
+    </button>
+  </div>
 </div>

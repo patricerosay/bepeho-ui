@@ -52,6 +52,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   public microphones: Microphones = null;
   public selectedCamera=0;
   public group=0;
+  isFullScreen=false;
   getlangage(): string {
     const langage = localStorage.getItem("langage");
     if (!langage) return this.translate.getBrowserLang();
@@ -92,7 +93,7 @@ export class MosaicComponent implements OnInit, OnDestroy {
   }
   getInstruments() {
     const self = this;
-    self.http.get('/api/data/?' + Math.random()).subscribe(data => {
+    self.http.get('/api/data?' + Math.random()).subscribe(data => {
       const instruments = data as { id: string; value: string }[];
       if (null !== instruments) {
         instruments.forEach(function (ins) {
@@ -202,15 +203,41 @@ export class MosaicComponent implements OnInit, OnDestroy {
       console.log('ngOnInit', e.errorMsg);
     })
 
+    if('true' !== localStorage.getItem('dont_reload_mosaic') ){
+        
+        var period= Number(localStorage.getItem('reload_mosaic_period'));
+        if (!period) period= 3600*1000;
+        console.log('will reload mosaic every ms: ' + period);
+        this.worker = setInterval(() => {
+          location.reload();
+          console.log('reloading mosaic');
+      }, period);
+    }
+    else{
+      console.log('no mosaic peridodic refresh');
+    }
   }
 
   onClickVideo(index)
   {
-    this.group=1;
-    this.selectedCamera=index;
-  }
+     this.group=1;
+     this.selectedCamera=index;
 
+  }
+  onFullPage(index)
+  {
+    if(this.isFullScreen){
+      document.exitFullscreen();
+      this.isFullScreen=false;
+    }else
+    var elem = document.getElementById(index);
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+      this.isFullScreen = true;
+    }
+  }
   getPreviewUrl(cam: Camera): string {
+    //return "http://admin:Bepeho31@192.168.1.35/cgi-bin/mjpg/video.cgi?channel=1&subtype=1"
     if (cam) {
       return '/' + cam.id;
     } else {
@@ -218,5 +245,8 @@ export class MosaicComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  showDetailedMosaic(){
+    return localStorage.getItem('show_detailed_mosaic') === 'true';
 }
+}
+

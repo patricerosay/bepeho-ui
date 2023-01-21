@@ -1,6 +1,6 @@
 export class IWorker {
-    name: string;
-    group: string;
-    time: number;
+    name:string;
     progress: number;
+    lastmessage: string;
+    state: number;
   }

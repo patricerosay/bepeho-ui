@@ -26,7 +26,7 @@ export class TaskComponent implements OnInit {
     this.http.get('/api/services/states/'+'?'+Math.random())
       .subscribe(
         data => {
-          self.tasks = data['ProgressStatus'] as ITask[];
+          self.tasks = data as ITask[];
           self.tasks.forEach(task => {
             if (task.state === 1) {
               task.showAs = 'success';

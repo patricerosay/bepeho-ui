@@ -136,4 +136,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     onLoggedout() {
         sessionStorage.removeItem('isLoggedin');
     }
+    showDataBank(){
+        return localStorage.getItem('show_video_bank');
+    }
 }

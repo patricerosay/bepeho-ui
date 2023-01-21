@@ -119,6 +119,26 @@ export class ConfigurationComponent implements OnInit {
     getProperties(m: Map<string, Property[]>, key: string): Property[] {
         return m.get(key);
     }
+    showDetailedMosaic(){
+        return localStorage.getItem('show_detailed_mosaic') === 'true';
+    }
+    toggleShowDetailedMosaic(event){
+        if (event.checked){
+            localStorage.setItem('show_detailed_mosaic', 'true');
+        }else{
+            localStorage.removeItem('show_detailed_mosaic');
+        }
+    }
+    mosaicDelay(){
+        return localStorage.getItem('dont_reload_mosaic') === 'true';
+    }
+    toggleMosaicDelay(event){
+        if (event.checked){
+            localStorage.setItem('dont_reload_mosaic', 'true');
+        }else{
+            localStorage.removeItem('dont_reload_mosaic');
+        }
+    }
     // saveDevice(device: Map<string, Property[]>) {
     //     const params: URLSearchParams = new URLSearchParams();
     // this.cameras.forEach((conf: Property[], key: string) => {
@@ -278,7 +298,7 @@ export class ConfigurationComponent implements OnInit {
                     const t = data as { control: { name: string, state: boolean }[] };
 
 
-                            self.controls.autoprocess = t['autoprocess'];
+                            //self.controls.autoprocess = t['autoprocess'];
                       
                             self.controls.autorecordAudio = t['autorecordAudio'];
                        
@@ -289,6 +309,22 @@ export class ConfigurationComponent implements OnInit {
                 },
                 err => this.logError(err),
             );
+        this.http.get('api/services/status/'+'?'+Math.random())
+        .subscribe(
+            data => {
+                const t = data as { control: { name: string, state: boolean }[] };
+
+
+                        self.controls.autoprocess = t['autoprocess'];
+                    
+                        // self.controls.autorecordAudio = t['autorecordAudio'];
+                        // self.controls.autorecordVideo = t['autorecordVideo'];
+                    
+
+                self.isLoadingControls = false;
+            },
+            err => this.logError(err),
+        );            
         this.http.get('/api/parameters/'+'?'+Math.random())
             .subscribe(
                 data => {
